@@ -46,12 +46,12 @@ public class Procesar extends HttpServlet {
             
             
 
-            request.getRequestDispatcher("principal.jsp").forward(request, response);
+            request.getRequestDispatcher("bandeja.jsp").forward(request, response);
         }
 
     }
     
-    protected void logout(HttpServletRequest request, HttpServletResponse response) 
+    public void logout(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException{
         
         request.getSession().setAttribute("usuario1", null);        

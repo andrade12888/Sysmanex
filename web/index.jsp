@@ -10,11 +10,10 @@
     <head>
         <title>Sysmanex</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/bootstrap.js" type="text/javascript"></script>
         <link rel="stylesheet" href="css/bootstrap.css">
         <link rel="stylesheet" href="css/master.css">
-        
-        <script src="js/bootstrap.js"></script>
     </head>
     <body>
         <form action="procesar.do" method="post">

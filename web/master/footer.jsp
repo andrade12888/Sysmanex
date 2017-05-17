@@ -5,6 +5,12 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+
+<!--    --------------       Footer inicio       -------------    -->
 <div class="footer ">
     <div class="container">Footer de aplicacion de prueba</div>
 </div>
+<!--    --------------       Footer fin       -------------    -->
+</body>
+</html>
