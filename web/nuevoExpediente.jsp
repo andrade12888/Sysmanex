@@ -14,12 +14,11 @@
                         <option>Carta de servicio</option>
                         <option>Memorandum</option>
                     </select></div>
-                <div class="col-lg-3"><br>Se puede acceder desde la web?
-                    Si <input type="radio" name="publico" value="0" checked="checked" class="radio-inline" />
-                    No <input type="radio" name="publico" value="0" class="radio-inline"/>
+                <div class="col-lg-6"><br>Se puede acceder desde la web?
+                    No <input type="radio" name="publico" value="0" checked="checked" class="radio-inline" />
+                    Si <input type="radio" name="publico" value="1" class="radio-inline"/>
                 </div>
-                <div class="col-lg-3"></div>
-                <div class="col-lg-3"></div>
+                <div class="col-lg-3"></div>               
             </div>
             <div class="row">
                 <div class="col-lg-3">Posibles Destinatarios<select name="selDestinatario" class="form-control">
@@ -28,7 +27,7 @@
                     </select>
                 </div>
                 <div class="col-lg-1"><br><button class="btn-agregar">></button></div>
-                <div class="col-lg-8">Destinos<textarea name="Destinos" rows="4" cols="1" class="form-control">
+                <div class="col-lg-8">Destinos<textarea name="Destinos" class="form-control">
                     </textarea></div>        
             </div>
             <div class="row">
