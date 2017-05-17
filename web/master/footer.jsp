@@ -9,7 +9,7 @@
 
 <!--    --------------       Footer inicio       -------------    -->
 <div class="footer ">
-    <div class="container">Footer de aplicacion de prueba</div>
+    <div class="container">Proyecto Integrador - ATI - ORT</div>
 </div>
 <!--    --------------       Footer fin       -------------    -->
 </body>

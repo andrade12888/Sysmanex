@@ -35,7 +35,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Sistema de Expedientes</a>
+                        <a class="navbar-brand" href="bandeja.jsp">Sistema de Expedientes</a>
                     </div>        
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -53,14 +53,15 @@
                                     <li><a href="#">Separated link</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#">One more separated link</a></li>
+                               
                                 </ul>
                             </li>
-                            
+                                 <li class="ax"></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                     
                 </div><!-- /.container-fluid -->
                 
             </nav>
-            <div class="usuarioLogeado">Bienvenido! Usuario: <%= u1.getNombre()%>(<a href="logout.jsp">salir</a>)</div>
+            <div class="usuarioLogeado"><label class="lblUsuarioLogeado">Bienvenido! Usuario: <%= u1.getNombre()%></label>(<a href="logout.jsp">salir</a>)</div>
         </div>
