@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author andra
  */
 public class Sistema {
-    
+
     private ArrayList<Documento> listaDocumentos;
 
     public ArrayList<Documento> getListaDocumentos() {
@@ -22,14 +22,16 @@ public class Sistema {
     public void setListaDocumentos(ArrayList<Documento> listaDocumentos) {
         this.listaDocumentos = listaDocumentos;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    public boolean AgregarDocumento(String nombre, String plazo) {
+        Documento unDoc = new Documento(nombre, plazo, false);
+        if (unDoc.AgregarDocumento()) {
+            listaDocumentos.add(unDoc);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 }

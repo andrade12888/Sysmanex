@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Documento;
+import modelo.Sistema;
 
 /**
  *
@@ -34,13 +34,14 @@ public class CDocumentos extends HttpServlet {
             throws ServletException, IOException {
 
         response.setContentType("text/html;charset=UTF-8");
-        String btn = request.getParameter("button");
-
+        String btn = request.getParameter("input");
+        PrintWriter out = response.getWriter(  ); 
+        out.println(btn);
         String tipoDocumento = request.getParameter("txtDocumento");
         String plazoDocumento = request.getParameter("txtPlazo");
-        Documento unDoc = new Documento();
+        Sistema unSistema = new Sistema();
 
-        if (unDoc.AgregarDocumento(tipoDocumento, plazoDocumento)) {
+        if (unSistema.AgregarDocumento(tipoDocumento, plazoDocumento)) {
             request.setAttribute("errorMessage", "Se ingreso correctamente");
             request.setAttribute("colorError", "green");
             request.getRequestDispatcher("documentos.jsp").forward(request, response);

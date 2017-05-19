@@ -54,10 +54,9 @@ public class Documento {
         this.baja = baja;
     }
 
-    public boolean AgregarDocumento(String nombre, String plazo) {
-        if (nombre != "" && plazo != "") {
-            this.nombre = nombre;
-            this.plazo = plazo;
+    public boolean AgregarDocumento() {
+        if (!"".equals(this.nombre) && !"".equals(this.plazo)) {
+
             return true;
         } else {
             return false;
