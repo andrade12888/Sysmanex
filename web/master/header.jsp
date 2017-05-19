@@ -47,7 +47,7 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Agregar Datos<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Nuevo Tramite</a></li>
-                                    <li><a href="documentos.jsp">Nuevo Documento</a></li>
+                                    <li><a href="documentos.jsp">Documentos</a></li>
                                     <li><a href="#">Nueva Unidad</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#">Separated link</a></li>

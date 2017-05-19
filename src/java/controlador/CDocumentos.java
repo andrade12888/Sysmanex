@@ -12,13 +12,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.Documento;
 
 /**
  *
  * @author Nova
  */
 @WebServlet(name = "Documentos", urlPatterns = {"/documentos.do"})
-public class Documentos extends HttpServlet {
+public class CDocumentos extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,15 +32,25 @@ public class Documentos extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");      
-        
-        
+
+        response.setContentType("text/html;charset=UTF-8");
+        String btn = request.getParameter("button");
+
         String tipoDocumento = request.getParameter("txtDocumento");
-        PrintWriter out = response.getWriter();
-        out.println("Funciona");
-        
-        
-        
+        String plazoDocumento = request.getParameter("txtPlazo");
+        Documento unDoc = new Documento();
+
+        if (unDoc.AgregarDocumento(tipoDocumento, plazoDocumento)) {
+            request.setAttribute("errorMessage", "Se ingreso correctamente");
+            request.setAttribute("colorError", "green");
+            request.getRequestDispatcher("documentos.jsp").forward(request, response);
+        } else {
+            request.setAttribute("errorMessage", "Ocurrio un error");
+            request.setAttribute("colorError", "red");
+            request.getRequestDispatcher("documentos.jsp").forward(request, response);
+        }
+       
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -80,6 +91,5 @@ public class Documentos extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 
 }
