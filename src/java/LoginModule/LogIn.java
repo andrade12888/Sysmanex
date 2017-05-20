@@ -3,11 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controlador;
+package LoginModule;
 
+import accesoaDatos.ManejadorDeConecciones;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,10 +20,9 @@ import modelo.Usuario;
 
 /**
  *
- * @author Nova
+ * @author SG0891660
  */
-@WebServlet(name = "Procesar", urlPatterns = {"/procesar.do"})
-public class Procesar extends HttpServlet {
+public class LogIn extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -28,33 +32,34 @@ public class Procesar extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
+        
         String usu = request.getParameter("txtUsu");
         String pass = request.getParameter("pswUsu");
         
-
+        Usuario usr;
+        ResultSet rs = ManejadorDeConecciones.Autenticar(usu, pass);  //calling select to get list of users       
+            
         if (usu.equals("") || pass.equals("")) {
-            request.setAttribute("errorMessage", "Usuario o contraseña incorrectos.");
+            request.setAttribute("errorMessage", "Los campos Usuario y contraseña no puede ser vacios.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        } else {
-            Usuario u1 = new Usuario(usu, pass);
-            request.getSession().setAttribute("usuario1", u1);          
+        } else if (rs.next()) {
             
+            usr = new Usuario(rs.getString("personaUsr"), rs.getString("personaPsw"));// falta el rol{
             
-
+            ManejadorDeConecciones.CloseConnection();
+            request.getSession().setAttribute("usuario1", usr);                                  
             request.getRequestDispatcher("bandeja.jsp").forward(request, response);
+        } else{
+            request.setAttribute("errorMessage", "No se encuentra el usuario");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }
-
-    }
-    
-    public void logout(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException{
         
-        request.getSession().setAttribute("usuario1", null);        
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -68,7 +73,15 @@ public class Procesar extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            try {
+                processRequest(request, response);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -82,7 +95,15 @@ public class Procesar extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            try {
+                processRequest(request, response);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
