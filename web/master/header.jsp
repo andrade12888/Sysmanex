@@ -4,9 +4,9 @@
     Author     : Nova
 --%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="modelo.Entidad"%>
+<%@page import="modelo.Usuario"%>
 <%
-    Entidad u1 = (Entidad) request.getSession().getAttribute("usuarioLogeado");
+    Usuario u1 = (Usuario) request.getSession().getAttribute("usuario1");
 
 %>
 <!DOCTYPE html>
@@ -20,8 +20,7 @@
         <link href="css/master.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
         <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
-        <script src="js/bootstrap.js" type="text/javascript"></script>  
-        <script src="js/Master.js" type="text/javascript"></script>
+        <script src="js/bootstrap.js" type="text/javascript"></script>        
     </head>
     <body>
         <!--    --------------       Header inicio       -------------    -->

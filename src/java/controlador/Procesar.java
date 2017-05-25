@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Entidad;
+import modelo.Usuario;
 
 /**
  *
@@ -40,7 +40,7 @@ public class Procesar extends HttpServlet {
             request.setAttribute("errorMessage", "Usuario o contraseña incorrectos.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } else {
-            Entidad u1 = new Entidad(usu, pass);
+            Usuario u1 = new Usuario(usu, pass);
             request.getSession().setAttribute("usuario1", u1);          
             
             
