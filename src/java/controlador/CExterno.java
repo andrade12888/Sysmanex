@@ -6,19 +6,19 @@
 package controlador;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Entidad;
 
 /**
  *
  * @author Nova
  */
-@WebServlet(name = "Procesar", urlPatterns = {"/procesar.do"})
-public class Procesar extends HttpServlet {
+@WebServlet(name = "CExterno", urlPatterns = {"/CExterno.do"})
+public class CExterno extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,31 +31,21 @@ public class Procesar extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        String usu = request.getParameter("txtUsu");
-        String pass = request.getParameter("pswUsu");
-        
-
-        if (usu.equals("") || pass.equals("")) {
-            request.setAttribute("errorMessage", "Usuario o contraseña incorrectos.");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-        } else {
-            Entidad u1 = new Entidad(usu, pass);
-            request.getSession().setAttribute("usuario1", u1);          
-            
-            
-
-            request.getRequestDispatcher("bandeja.jsp").forward(request, response);
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet CExterno</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet CExterno at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
+    }
 
-    }
-    
-    public void logout(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException{
-        
-        request.getSession().setAttribute("usuario1", null);        
-        request.getRequestDispatcher("index.jsp").forward(request, response);
-    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

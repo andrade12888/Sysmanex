@@ -6,13 +6,12 @@
 package controlador;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Sistema;
+import modelo.Documento;
 
 /**
  *
@@ -32,25 +31,78 @@ public class CDocumentos extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String btn = "";
         response.setContentType("text/html;charset=UTF-8");
-        String btn = request.getParameter("input");
-        PrintWriter out = response.getWriter(  ); 
-        out.println(btn);
-        String tipoDocumento = request.getParameter("txtDocumento");
-        String plazoDocumento = request.getParameter("txtPlazo");
-        Sistema unSistema = new Sistema();
-
-        if (unSistema.AgregarDocumento(tipoDocumento, plazoDocumento)) {
-            request.setAttribute("errorMessage", "Se ingreso correctamente");
-            request.setAttribute("colorError", "green");
-            request.getRequestDispatcher("documentos.jsp").forward(request, response);
-        } else {
-            request.setAttribute("errorMessage", "Ocurrio un error");
-            request.setAttribute("colorError", "red");
-            request.getRequestDispatcher("documentos.jsp").forward(request, response);
+        if (request.getParameter("btnDocumento") != null) {
+            btn = request.getParameter("btnDocumento");
         }
-       
+        switch (btn) {
+            case "Guardar": {
+                String tipoDocumento = request.getParameter("txtDocumento");
+                String plazoDocumento = request.getParameter("txtPlazo");
+                Documento unDocu = new Documento(tipoDocumento, plazoDocumento);
+                int resultado = unDocu.AgregarDocumento();
+                switch (resultado) {
+                    case 1:
+                        request.setAttribute("errorMessage", "Se ingreso correctamente");
+                        request.setAttribute("colorError", "green");
+                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        break;
+                    case 0:
+                        request.setAttribute("errorMessage", "Ocurrio un error");
+                        request.setAttribute("colorError", "red");
+                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        break;
+                    case 2:
+                        request.setAttribute("errorMessage", "Nombre y plazo son campos requeridos.");
+                        request.setAttribute("colorError", "red");
+                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        break;
+                }
+                break;
+            }
+            case "Update": {
+                String tipoDocumento = request.getParameter("txtActualizarDocumento");
+                String plazoDocumento = request.getParameter("txtActualizarPlazo");
+                String idDocumento = request.getParameter("txtActualizarId");
+                Documento unDocu = new Documento(tipoDocumento, plazoDocumento);
+                int resultado = unDocu.ModificarDocumento(idDocumento);
+                switch (resultado) {
+                    case 1:
+                        request.setAttribute("errorMessage", "Se actualizo correctamente");
+                        request.setAttribute("colorError", "green");
+                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        break;
+                    case 0:
+                        request.setAttribute("errorMessage", "Ocurrio un error");
+                        request.setAttribute("colorError", "red");
+                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        break;
+                    case 2:
+                        request.setAttribute("errorMessage", "Nombre y plazo son campos requeridos.");
+                        request.setAttribute("colorError", "red");
+                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        break;
+                }
+                break;
+            }
+            default:
+                Documento unDocu = new Documento();
+                int resultado = unDocu.BorrarDocumento(btn);
+                switch (resultado) {
+                    case 1:
+                        request.setAttribute("errorMessage", "Se elimino correctamente");
+                        request.setAttribute("colorError", "green");
+                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        break;
+                    case 0:
+                        request.setAttribute("errorMessage", "Ocurrio un error");
+                        request.setAttribute("colorError", "red");
+                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        break;
+                }
+                break;
+        }
 
     }
 
