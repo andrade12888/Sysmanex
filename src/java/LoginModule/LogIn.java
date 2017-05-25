@@ -5,10 +5,7 @@
  */
 package LoginModule;
 
-import accesoaDatos.ManejadorDeConecciones;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +13,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Usuario;
+import modelo.Entidad;
+import modelo.Rol;
 
 /**
  *
@@ -37,30 +35,34 @@ public class LogIn extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException {
-        
+
         String usu = request.getParameter("txtUsu");
         String pass = request.getParameter("pswUsu");
-        
-        Usuario usr;
-        ResultSet rs = ManejadorDeConecciones.Autenticar(usu, pass);  //calling select to get list of users       
-            
+
         if (usu.equals("") || pass.equals("")) {
             request.setAttribute("errorMessage", "Los campos Usuario y contraseña no puede ser vacios.");
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        } else if (rs.next()) {
-            
-            usr = new Usuario(rs.getString("personaUsr"), rs.getString("personaPsw"));// falta el rol{
-            
-            ManejadorDeConecciones.CloseConnection();
-            request.getSession().setAttribute("usuario1", usr);                                  
-            request.getRequestDispatcher("bandeja.jsp").forward(request, response);
-        } else{
-            request.setAttribute("errorMessage", "No se encuentra el usuario");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-        }
-        
-
+        } else {
+            Entidad usr = new Entidad();
+            int resultado = usr.Autenticar(usu, pass);
+            switch(resultado){
+                case 1: Rol unRol = new Rol();
+                        unRol.getRolDB(resultado);
+                        usr.setNombre(usu);
+                        usr.setRol(unRol);
+                        request.getSession().setAttribute("usuarioLogeado", usr);
+                        request.getRequestDispatcher("bandeja.jsp").forward(request, response);
+                        break;
+                case 2: request.setAttribute("errorMessage", "El usuario no esta autorizado a ingresar al sistema. Consulte con el administrador");
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                        break;
+                case 0: request.setAttribute("errorMessage", "Usuario/Contraseña incorrecta.");
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                        break;
+            }
+        } 
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
