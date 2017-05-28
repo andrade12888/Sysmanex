@@ -7,6 +7,7 @@ package modelo;
 
 import accesoaDatos.Conecciones;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -20,18 +21,16 @@ import java.util.logging.Logger;
 public class Entidad {
 
     private int id;
-    private String nombre;
+    private String nombreEntidad;
     private String contrasenia;
     private Rol rol;
 
-    
-
-    public String getNombre() {
-        return nombre;
+    public String getNombreEntidad() {
+        return nombreEntidad;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreEntidad(String nombreEntidad) {
+        this.nombreEntidad = nombreEntidad;
     }
 
     public String getContrasenia() {
@@ -46,6 +45,10 @@ public class Entidad {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Rol getRol() {
         return rol;
     }
@@ -54,35 +57,42 @@ public class Entidad {
         this.rol = rol;
     }
 
-    
     public Entidad() {
-       
+
     }
-    
-    public Entidad(String nombre, String contrasenia) {
-        this.nombre = nombre;
+
+    public Entidad(String nombreEntidad, String contrasenia) {
+        this.nombreEntidad = nombreEntidad;
         this.contrasenia = contrasenia;
     }
 
-    public int Autenticar(String userId, String password) throws ClassNotFoundException {
+    public void Autenticar(String nombre, String pass) throws ClassNotFoundException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
-        int resultado = 0;
+        Rol unRol = new Rol();
 
         try {
-            String query = "Select \"entidadId\",\"entidadNombre\",\"rolId\" FROM \"SysmanexSch1\".\"Entidad\"\n"
-                    + "WHERE \"entidadNombre\" = '" + userId + "'\n AND\"entidadPassword\" = '" + password + "';";
-            rs = conDB.hacerConsulta(query);
+            Connection conect = conDB.getConnect();
+            PreparedStatement query = conect.prepareStatement("Select \"entidadId\",\"entidadNombre\",\"rolId\" FROM \"SysmanexSch1\".\"Entidad\""
+                    + " WHERE \"entidadNombre\" = ? AND \"entidadPassword\" = ?;");
+            query.setString(1, nombre);
+            query.setString(2, pass);
+            
+            rs = query.executeQuery();
+
             while (rs.next()) {
-                resultado = rs.getInt("rolId");
+                unRol.setDescripcion(unRol.getRolDB(rs.getInt(3)));
+                unRol.setId(rs.getInt(3));
+                this.setRol(unRol);
+                this.setId(rs.getInt("entidadId"));
+                this.setContrasenia(pass);
+                this.setNombreEntidad(rs.getString(2));
             }
             rs.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(Conecciones.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return resultado;
     }
 
 }

@@ -130,7 +130,7 @@ public class Documento {
     }
 
     public String TablaDocumentos(ResultSet rs) throws SQLException {
-        String tabla = "<form name=\"frmBorrar\" action=\"documentos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Documentos</th><th>Opciones</th>";
+        String tabla = "<form name=\"frmBorrar\" action=\"documentos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Documentos</th><th>Plazo en dias</th><th>Opciones</th>";
         while (rs.next()) {
             tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("documentoId") + "\" value=\"" + rs.getInt("documentoId") + "\">"
                     + " <span id=\"tdd" + rs.getInt("documentoId") + "\">" + rs.getString("documentoNombre") + "</span></td>"
@@ -147,7 +147,7 @@ public class Documento {
     public String TablaDocumentos() throws SQLException {
 
         ResultSet rs = this.documentosDB();
-        String tabla = "<form name=\"frmBorrar\" action=\"documentos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Documentos</th><th>Opciones</th>";
+        String tabla = "<form name=\"frmBorrar\" action=\"documentos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Documentos</th><th>Plazo en dias</th><th>Opciones</th>";
         while (rs.next()) {
             tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("documentoId") + "\" value=\"" + rs.getInt("documentoId") + "\">"
                     + " <span id=\"tdd" + rs.getInt("documentoId") + "\">" + rs.getString("documentoNombre") + "</span></td>"

@@ -44,13 +44,10 @@ public class LogIn extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } else {
             Entidad usr = new Entidad();
-            int resultado = usr.Autenticar(usu, pass);
+            usr.Autenticar(usu, pass);
+            int resultado = usr.getRol().getId();
             switch(resultado){
-                case 1: Rol unRol = new Rol();
-                        unRol.getRolDB(resultado);
-                        usr.setNombre(usu);
-                        usr.setRol(unRol);
-                        request.getSession().setAttribute("usuarioLogeado", usr);
+                case 1: request.getSession().setAttribute("usuarioLogeado", usr);
                         request.getRequestDispatcher("bandeja.jsp").forward(request, response);
                         break;
                 case 2: request.setAttribute("errorMessage", "El usuario no esta autorizado a ingresar al sistema. Consulte con el administrador");

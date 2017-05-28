@@ -64,5 +64,5 @@
                 </div><!-- /.container-fluid -->
                 
             </nav>
-            <div class="usuarioLogeado"><label class="lblUsuarioLogeado">Bienvenido! Usuario: <%= u1.getNombre()%></label>(<a href="logout.jsp">salir</a>)</div>
+            <div class="usuarioLogeado"><label class="lblUsuarioLogeado">Bienvenido! Usuario: <%= u1.getNombreEntidad() %></label>(<a href="logout.jsp">salir</a>)</div>
         </div>
