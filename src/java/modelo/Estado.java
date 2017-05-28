@@ -10,48 +10,54 @@ package modelo;
  * @author Nova
  */
 public class Estado {
-
-    private int id;
-    private String nombre;
-
-    public int getId() {
-        return id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Estado(String nombre) {
-        this.nombre = nombre;
-    }
-       
-
-    public int AgregarEstado(int id) {
-        return 0;
-    }
     
-    public int ActualizarEstado(int id){
-        return 0;
+    //<editor-fold defaultstate="collapsed" desc="Properties">
+    private int idEstado;
+    private String descripcionEstado;
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Getters y Setters">
+    /**
+     * Get the value of idEstado
+     *
+     * @return the value of idEstado
+     */
+    public int getIdEstado() {
+        return idEstado;
     }
 
-    public int EliminarEstado(int id) {
-        return 0;
-    }
-    
-    public void BuscarEstado(String nombre){}
-    
-    public void BuscarEstado(int id){}
+    /**
+     * Set the value of idEstado
+     *
+     * @param idEstado new value of idEstado
+     */
+    public void setIdEstado(int idEstado) {
+        this.idEstado = idEstado;
+    }   
 
-    @Override
-    public String toString() {
-        return nombre;
+    /**
+     * Get the value of descripcionEstado
+     *
+     * @return the value of descripcionEstado
+     */
+    public String getDescripcionEstado() {
+        return descripcionEstado;
     }
-    
-    
 
+    /**
+     * Set the value of descripcionEstado
+     *
+     * @param descripcionEstado new value of descripcionEstado
+     */
+    public void setDescripcionEstado(String descripcionEstado) {
+        this.descripcionEstado = descripcionEstado;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Constructores">
+    public Estado(String descripcionEstado) {
+        this.descripcionEstado = descripcionEstado;
+    }
+    //</editor-fold>
+    
 }
