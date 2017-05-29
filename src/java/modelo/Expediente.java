@@ -24,6 +24,7 @@ public class Expediente {
     private Estado estadoExpediente;
     private Motivo motivoExpediente;
     private ArrayList<Documento> listaDocumentosExpediente;
+    private Archivo archivo;
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Getters y Setters">
@@ -217,7 +218,36 @@ public class Expediente {
         this.listaDestinariosExpediente = listaDestinariosExpediente;
         this.entidadOrigien = entidadOrigien;
     }
-     //</editor-fold>
+
+    public Expediente(String fechaExpediente, String asuntoExpediente, boolean expedientePublico, ArrayList<Entidad> listaDestinariosExpediente, Entidad entidadOrigien, Entidad entidadDestino, Estado estadoExpediente, Motivo motivoExpediente, ArrayList<Documento> listaDocumentosExpediente, Archivo archivo) {
+        this.fechaExpediente = fechaExpediente;
+        this.asuntoExpediente = asuntoExpediente;
+        this.expedientePublico = expedientePublico;
+        this.listaDestinariosExpediente = listaDestinariosExpediente;
+        this.entidadOrigien = entidadOrigien;
+        this.entidadDestino = entidadDestino;
+        this.estadoExpediente = estadoExpediente;
+        this.motivoExpediente = motivoExpediente;
+        this.listaDocumentosExpediente = listaDocumentosExpediente;
+        this.archivo = archivo;
+    }
     
+    
+     //</editor-fold>
+
+    /**
+     * @return the archivo
+     */
+    public Archivo getArchivo() {
+        return archivo;
+    }
+
+    /**
+     * @param archivo the archivo to set
+     */
+    public void setArchivo(Archivo archivo) {
+        this.archivo = archivo;
+    }
+   
 }
 

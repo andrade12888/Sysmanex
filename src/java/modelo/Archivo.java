@@ -5,6 +5,10 @@
  */
 package modelo;
 
+import accesoaDatos.Conecciones;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author Nova
@@ -15,7 +19,8 @@ public class Archivo {
     
     private int idArchivo;
     private String nombreArchivo;
-    private byte tamanoArchivo;    
+    private int tamanoArchivo;   
+    private String rutaArchivo;
     
     //</editor-fold>
     
@@ -62,7 +67,7 @@ public class Archivo {
      *
      * @return the value of tamanoArchivo
      */
-    public byte getTamanoArchivo() {
+    public int getTamanoArchivo() {
         return tamanoArchivo;
     }
 
@@ -71,19 +76,79 @@ public class Archivo {
      *
      * @param tamanoArchivo new value of tamanoArchivo
      */
-    public void setTamanoArchivo(byte tamanoArchivo) {
+    public void setTamanoArchivo(int tamanoArchivo) {
         this.tamanoArchivo = tamanoArchivo;
     }
 
+    public String getRutaArchivo() {
+        return rutaArchivo;
+    }
+
+
+    public void setRutaArchivo(String rutaArchivo) {
+        this.rutaArchivo = rutaArchivo;
+    }
     //</editor-fold>
    
    //<editor-fold defaultstate="collapsed" desc="Constructor">
-    public Archivo(String nombreArchivo, byte tamanoArchivo) {
+    public Archivo(String nombreArchivo, int tamanoArchivo, String rutaArchivo) {
         this.nombreArchivo = nombreArchivo;
         this.tamanoArchivo = tamanoArchivo;
+        this.rutaArchivo = rutaArchivo;
     }
    //</editor-fold>
     
+    
+    //POST: Retorna 1 si se ejecuta con exito, 0 si no reotorna nada, 2 si alguna de las variables
+    //      es nula (Nombre o Ruta) o -1 si existe algun error en la secuancia SQL
+    protected int AgregarArchivo() {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+        if (!"".equals(this.nombreArchivo) || !"".equals(this.rutaArchivo)) {
+            String query = "INSERT INTO \"SysmanexSch1\".\"Archivo\"(\n"
+                    + "\"ArchivoRuta\", \"ArchivoNombre\", \"ArchivoTamano\")\n"
+                    + "   VALUES ('" + this.rutaArchivo + "', '" + this.nombreArchivo + "', " + this.tamanoArchivo + ");";
+            resultado = conDB.hacerConsultaIUD(query);
+        } else {
+            resultado = 2;
+        }
+
+        return resultado;
+    }
+    
+     protected static ResultSet BuscarArchivos() throws SQLException {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Archivo\" ORDER BY \"ArchivoNombre\" ASC;";
+        rs = conDB.hacerConsulta(query);
+
+        return rs;
+    }
+    
+     protected static ResultSet BuscarArchivoPorNombre(String nombre) throws SQLException {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Archivo\""
+                + " WHERE \"ArchivoNombre\" LIKE \'%" + nombre + "\'"
+                + " ORDER BY \"ArchivoNombre\" ASC;";
+        rs = conDB.hacerConsulta(query);
+
+        return rs;
+    }
+     
+     protected static ResultSet BuscarArchivoPorId(int idArchivo) throws SQLException {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Archivo\""
+                + " WHERE \"ArchivoId\" = "+idArchivo + ";";
+        rs = conDB.hacerConsulta(query);
+
+        return rs;
+    }
+          
     
 }
 

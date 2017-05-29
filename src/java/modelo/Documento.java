@@ -22,6 +22,7 @@ public class Documento {
     private String nombre;
     private String plazo;
     private boolean baja;
+    
 
     public Documento() {
     }
