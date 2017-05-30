@@ -85,25 +85,35 @@ public class Empresa {
     }
 
     //</editor-fold>
+    
     //POST: Retorna 1 si se ejecuta con exito, 0 si no reotorna nada, 2 si alguna de las variables
     //      es nula (Rut o persona autorizada) o -1 si existe algun error en la secuancia SQL
     protected int AgregarEmpresa() {
         Conecciones conDB = new Conecciones();
         int resultado = -1;
+        String queryInsertEmpresa;
+        String queryInsertPersona;
+        String queryInsertPersonaEnEmpresa;
         
         if (!"".equals(this.rutEmpresa) || !(this.listaPersonasAutorizadas.isEmpty())) {
 
-            String queryInsertEmpresa = "INSERT INTO \"SysmanexSch1\".\"Empresa\"(\n"
+             queryInsertEmpresa = "INSERT INTO \"SysmanexSch1\".\"Empresa\"(\n"
                     + "\"empresaRut\", \"empresaNombre\")\n"
                     + "   VALUES ('" + this.rutEmpresa + "', '" + this.nombreEmpresa + "');";
             try {
                 conDB.getConnect().setAutoCommit(false);
                 conDB.hacerConsultaIUD(queryInsertEmpresa);
                 for (Persona p : this.listaPersonasAutorizadas) {
-                    String queryInsertPersonEnEmpresa = "INSERT INTO \"SysmanexSch1\".\"EmpresaTienePersona\"(\n"
+                     queryInsertPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\n"
+                            + "\"personaCi\", \"personaNombre\")\n"
+                            + "\"personaApellido\", \"personaEntidadId\")\n"
+                            + "   VALUES ('" + p.getCiPersona() + "', '" + p.getPersonaNombre() + "','"+p.getApellidoPersona()+"');";
+                    conDB.hacerConsultaIUD(queryInsertPersona);
+                    
+                     queryInsertPersonaEnEmpresa = "INSERT INTO \"SysmanexSch1\".\"EmpresaTienePersona\"(\n"
                             + "\"personaCi\", \"empresaRut\")\n"
                             + "   VALUES ('" + p.getCiPersona() + "', '" + this.rutEmpresa + "');";
-                     conDB.hacerConsultaIUD(queryInsertPersonEnEmpresa);
+                     conDB.hacerConsultaIUD(queryInsertPersonaEnEmpresa);
                 }
                 
                 conDB.getConnect().commit();
@@ -157,15 +167,26 @@ public class Empresa {
         return rs;
     }
 
-    protected static ResultSet BuscarEmpresaPorId(int rutEmpresa) throws SQLException {
+    protected static ResultSet BuscarEmpresaPorRUT(int rutEmpresa) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\""
-                + " WHERE \"empresaRut\" = " + rutEmpresa + ";";
+                + " WHERE \"empresaRut\" = \'" + rutEmpresa + "\';";
         rs = conDB.hacerConsulta(query);
 
         return rs;
+    }
+    
+    protected static int BorrarEmpresa(String RUT) {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+
+        String query = "UPDATE \"SysmanexSch1\".\"Empresa\"\n"              
+                + "	WHERE \"empresaRut\"='" + RUT + "\';";
+        resultado = conDB.hacerConsultaIUD(query);
+
+        return resultado;
     }
 
 }

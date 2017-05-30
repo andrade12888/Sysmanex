@@ -12,6 +12,8 @@ package modelo;
 public class Persona extends Entidad {
        
     private String ciPersona;
+    private String personaNombre;
+    private String apellidoPersona;
 
     //<editor-fold defaultstate="collapsed" desc="Getters y Setters">
     /**
@@ -34,11 +36,47 @@ public class Persona extends Entidad {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Constructores">
-    public Persona(String ciPersona, String nombrePersona, String contrasenaPersona) 
-            { super(nombrePersona,contrasenaPersona);
+     public Persona(String ciPersona,String nombrePerona, String apellidoPersona) {
+        this.personaNombre=nombrePerona;
         this.ciPersona = ciPersona;
+        this.apellidoPersona = apellidoPersona;
     }
+      public Persona(String ciPersona, String apellidoPersona, String nombre, String contrasenia) {
+        super(nombre, contrasenia);
+        this.ciPersona = ciPersona;
+        this.apellidoPersona = apellidoPersona;
+    }    
+
+     
     //</editor-fold>
+
+    /**
+     * @return the apellidoPersona
+     */
+    public String getApellidoPersona() {
+        return apellidoPersona;
+    }
+
+    /**
+     * @param apellidoPersona the apellidoPersona to set
+     */
+    public void setApellidoPersona(String apellidoPersona) {
+        this.apellidoPersona = apellidoPersona;
+    }
+     
+    /**
+     * @return the personaNombre
+     */
+    public String getPersonaNombre() {
+        return personaNombre;
+    }
+
+    /**
+     * @param personaNombre the personaNombre to set
+     */
+    public void setPersonaNombre(String personaNombre) {
+        this.personaNombre = personaNombre;
+    }
     
 }
 

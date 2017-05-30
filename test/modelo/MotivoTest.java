@@ -5,6 +5,8 @@
  */
 package modelo;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -37,58 +39,45 @@ public class MotivoTest {
     public void tearDown() {
     }
 
+    
     /**
-     * Test of getMotivoId method, of class Motivo.
+     * Test of getMotivoDB method, of class Motivo.
      */
     @Test
-    public void testGetMotivoId() {
-        System.out.println("getMotivoId");
-        Motivo instance = null;
-        int expResult = 0;
-        int result = instance.getMotivoId();
+    public void testGetMotivoDB() {
+        System.out.println("getMotivoDB");
+        int motivoId = 1;
+        String expResult = "Conocimiento";
+        String result = Motivo.getMotivoDB(motivoId);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
-     * Test of setMotivoId method, of class Motivo.
+     * Test of BuscarMotivos method, of class Motivo.
      */
     @Test
-    public void testSetMotivoId() {
-        System.out.println("setMotivoId");
-        int motivoId = 0;
-        Motivo instance = null;
-        instance.setMotivoId(motivoId);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    public void testBuscarMotivos() throws SQLException {
+        System.out.println("BuscarMotivos");
+        String expResult = "Archivar";
+        ResultSet result = Motivo.BuscarMotivos();
+        result.next();
+        String motivo = result.getString("motivoDescripcion");
+        assertEquals(expResult, motivo);
+
     }
 
     /**
-     * Test of getMotivoDescripcion method, of class Motivo.
+     * Test of AgregarMotivo method, of class Motivo.
      */
     @Test
-    public void testGetMotivoDescripcion() {
-        System.out.println("getMotivoDescripcion");
-        Motivo instance = null;
-        String expResult = "";
-        String result = instance.getMotivoDescripcion();
+    public void testAgregarMotivo() {
+        System.out.println("AgregarMotivo");
+        Motivo instance = new Motivo("Vacaciones");
+        int expResult = 1;
+        int result = instance.AgregarMotivo();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of setMotivoDescripcion method, of class Motivo.
-     */
-    @Test
-    public void testSetMotivoDescripcion() {
-        System.out.println("setMotivoDescripcion");
-        String motivoDescripcion = "";
-        Motivo instance = null;
-        instance.setMotivoDescripcion(motivoDescripcion);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

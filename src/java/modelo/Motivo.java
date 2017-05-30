@@ -5,6 +5,12 @@
  */
 package modelo;
 
+import accesoaDatos.Conecciones;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Nova
@@ -59,5 +65,74 @@ public class Motivo {
         this.descripcionMotivo = descripcionMotivo;
     }   
     //</editor-fold> 
+     
+    protected static String getMotivoDB(int motivoId){
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+        String resultado = "";
+
+        try {
+            String query = "Select \"motivoDescripcion\" FROM \"SysmanexSch1\".\"Motivo\"\n"
+                    + "WHERE \"motivoId\" = " + motivoId + ";";
+            rs = conDB.hacerConsulta(query);
+            while (rs.next()) {
+                resultado = rs.getString("motivoDescripcion");
+            }
+            rs.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Conecciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return resultado;
+    }
+    
+     protected static ResultSet BuscarMotivos(){
+        Conecciones conDB = new Conecciones();
+        ResultSet rs = null;       
+
+        try {
+            String query = "Select * FROM \"SysmanexSch1\".\"Motivo\" ORDER BY \"motivoDescripcion\" ASC;";
+            rs = conDB.hacerConsulta(query);                       
+
+        } catch (Exception ex) {
+            Logger.getLogger(Conecciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return rs;
+    }
+    
+     protected int AgregarMotivo() {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+        if (!"".equals(this.descripcionMotivo)) {
+            String query = "INSERT INTO \"SysmanexSch1\".\"Motivo\"(\n"
+                    + "\"motivoDescripcion\")" + " VALUES ('" + this.descripcionMotivo + "');";
+            resultado = conDB.hacerConsultaIUD(query);
+        } else {
+            resultado = 2;
+        }
+
+        return resultado;
+    }
+     
+     // Modificar Expediente
+
+  /*  protected static int ModificarMotivo(int idMotivo, String motivoDescripcion) {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+
+        if (!"".equals(motivoDescripcion) || idMotivo>0) {
+            String query = "UPDATE \"SysmanexSch1\".\"Motivo\"\n"
+                    + "	SET \"motivoDescripcion\"=\'" + motivoDescripcion + "'\n"
+                    + "	WHERE \"motivoId\"=" + idMotivo + ";";
+            resultado = conDB.hacerConsultaIUD(query);
+        } else {
+            resultado = 2;
+        }
+
+        return resultado;
+    }*/
+
 }
 

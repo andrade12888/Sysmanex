@@ -43,16 +43,13 @@ public class Rol {
 
     public Rol() {
     }
-    
+        
     public String getRolDB(int rolId){
         Conecciones conDB = new Conecciones();
-
         ResultSet rs;
         String resultado = "";
 
         try {
-
-
             String query = "Select \"rolDescripcion\" FROM \"SysmanexSch1\".\"Rol\"\n"
                     + "WHERE \"rolId\" = " + rolId + ";";
             rs = conDB.hacerConsulta(query);
@@ -68,6 +65,35 @@ public class Rol {
         return resultado;
     }
     
-    
+     public int AgregarRol() {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+        if (!"".equals(this.descripcion)) {
+            String query = "INSERT INTO \"SysmanexSch1\".\"Rol\"(\n"
+                    + "\"rolDescripcion\")" + " VALUES ('" + this.descripcion + "');";
+            resultado = conDB.hacerConsultaIUD(query);
+        } else {
+            resultado = 2;
+        }
+
+        return resultado;
+    }
+
+    protected static int ModificarRol(int id, String descripcionRol) {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+
+        if (!"".equals(descripcionRol) || id>0) {
+            String query = "UPDATE \"SysmanexSch1\".\"Rol\"\n"
+                    + "	SET \"rolDescripcion\"=\'" + descripcionRol + "'\n"
+                    + "	WHERE \"rolId\"=" + id + ";";
+            resultado = conDB.hacerConsultaIUD(query);
+        } else {
+            resultado = 2;
+        }
+
+        return resultado;
+    }
+
     
 }
