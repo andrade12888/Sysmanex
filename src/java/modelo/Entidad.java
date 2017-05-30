@@ -83,4 +83,67 @@ public class Entidad {
         return resultado;
     }
 
+    //PRE: El rol debe existir en la base de datos
+     protected int AgregarEntidad() {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+        if (!"".equals(this.nombre) && !"".equals(this.contrasenia) && this.rol!=null) {
+            String query = "INSERT INTO \"SysmanexSch1\".\"Entidad\"(\n"
+                    + "\"entidadNombre\", \"entidadPassword\", \"rolId\")\n"
+                    + "   VALUES ('" + this.nombre + "', '" + this.contrasenia + "', " + this.rol.getId() + ");";
+            resultado = conDB.hacerConsultaIUD(query);
+        } else {
+            resultado = 2;
+        }
+
+        return resultado;
+    }
+
+     protected  int ModificarEntidad(String idEntidad) {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+
+          if (!"".equals(this.nombre) && !"".equals(this.contrasenia) && this.rol!=null) {
+            String query = "UPDATE \"SysmanexSch1\".\"Entidad\"\n"
+                    + "	SET \"entidadNombre\"=\'" + this.nombre + "\', \"entidadPassword\"='" + this.contrasenia +"\',\"rolId\"=" + this.rol.getId() +"\\n"
+                    + "	WHERE \"entidadId\"=" + Integer.parseInt(idEntidad) + ";";
+            resultado = conDB.hacerConsultaIUD(query);
+        } else {
+            resultado = 2;
+        }
+
+        return resultado;
+    }
+
+    public int BorrarEntidad(String id) {
+        Conecciones conDB = new Conecciones();
+        int resultado=0;
+        //TODO
+
+        return resultado;
+    }
+
+    protected static ResultSet BuscarEntidad(String nombre) throws SQLException {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Entidad\""
+                + " WHERE \"entidadNombre\" LIKE \'%" + nombre + "\'"
+                + " ORDER BY \"entidadNombre\" ASC;";
+        rs = conDB.hacerConsulta(query);
+
+        return rs;
+    }
+    
+    protected static ResultSet BuscarEntidades() throws SQLException {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Entidad\""               
+                + " ORDER BY \"entidadNombre\" ASC;";
+        rs = conDB.hacerConsulta(query);
+
+        return rs;
+    }
+
 }

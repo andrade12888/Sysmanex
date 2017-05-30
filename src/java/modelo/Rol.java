@@ -95,5 +95,19 @@ public class Rol {
         return resultado;
     }
 
+    protected static ResultSet BuscarRoles(){
+        Conecciones conDB = new Conecciones();
+        ResultSet rs = null;       
+
+        try {
+            String query = "Select * FROM \"SysmanexSch1\".\"Rol\" ORDER BY \"rolDescripcion\" ASC;";
+            rs = conDB.hacerConsulta(query);                       
+
+        } catch (Exception ex) {
+            Logger.getLogger(Conecciones.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return rs;
+    }
     
 }

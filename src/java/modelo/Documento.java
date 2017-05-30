@@ -60,8 +60,8 @@ public class Documento {
 
     public int AgregarDocumento() {
         Conecciones conDB = new Conecciones();
-        int resultado = 0;
-        if (!"".equals(this.nombre) || !"".equals(this.plazo)) {
+        int resultado;
+        if (!"".equals(this.nombre) && !"".equals(this.plazo)) {
             String query = "INSERT INTO \"SysmanexSch1\".\"Documento\"(\n"
                     + "\"documentoNombre\", \"documentoPlazo\", \"documentoBaja\")\n"
                     + "   VALUES ('" + this.nombre + "', '" + this.plazo + "', " + this.baja + ");";
@@ -75,9 +75,9 @@ public class Documento {
 
     public int ModificarDocumento(String id) {
         Conecciones conDB = new Conecciones();
-        int resultado = 0;
+        int resultado;
 
-        if (!"".equals(this.nombre) || !"".equals(this.plazo)) {
+        if (!"".equals(this.nombre) && !"".equals(this.plazo)) {
             String query = "UPDATE \"SysmanexSch1\".\"Documento\"\n"
                     + "	SET \"documentoNombre\"=\'" + nombre + "\', \"documentoPlazo\"=" + plazo + "\n"
                     + "	WHERE \"documentoId\"=" + Integer.parseInt(id) + ";";
@@ -118,7 +118,7 @@ public class Documento {
 
     private ResultSet documentosDB() {
         Conecciones conDB = new Conecciones();
-        ResultSet rs = null;
+        ResultSet rs;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Documento\""
                 + "WHERE \"documentoBaja\"=\'false\' ORDER BY \"documentoId\" ASC;";

@@ -86,29 +86,23 @@ public class Empresa {
 
     //</editor-fold>
     
+    //La persona ya debe existir en la base de datos
     //POST: Retorna 1 si se ejecuta con exito, 0 si no reotorna nada, 2 si alguna de las variables
     //      es nula (Rut o persona autorizada) o -1 si existe algun error en la secuancia SQL
     protected int AgregarEmpresa() {
         Conecciones conDB = new Conecciones();
         int resultado = -1;
-        String queryInsertEmpresa;
-        String queryInsertPersona;
-        String queryInsertPersonaEnEmpresa;
-        
-        if (!"".equals(this.rutEmpresa) || !(this.listaPersonasAutorizadas.isEmpty())) {
-
-             queryInsertEmpresa = "INSERT INTO \"SysmanexSch1\".\"Empresa\"(\n"
+        String queryInsertEmpresa = "INSERT INTO \"SysmanexSch1\".\"Empresa\"(\n"
                     + "\"empresaRut\", \"empresaNombre\")\n"
-                    + "   VALUES ('" + this.rutEmpresa + "', '" + this.nombreEmpresa + "');";
+                    + "   VALUES ('" + this.rutEmpresa + "', '" + this.nombreEmpresa + "');";;
+        String queryInsertPersonaEnEmpresa;
+
+        if (!"".equals(this.rutEmpresa) && !(this.listaPersonasAutorizadas.isEmpty())) {
+
             try {
                 conDB.getConnect().setAutoCommit(false);
                 conDB.hacerConsultaIUD(queryInsertEmpresa);
                 for (Persona p : this.listaPersonasAutorizadas) {
-                     queryInsertPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\n"
-                            + "\"personaCi\", \"personaNombre\")\n"
-                            + "\"personaApellido\", \"personaEntidadId\")\n"
-                            + "   VALUES ('" + p.getCiPersona() + "', '" + p.getPersonaNombre() + "','"+p.getApellidoPersona()+"');";
-                    conDB.hacerConsultaIUD(queryInsertPersona);
                     
                      queryInsertPersonaEnEmpresa = "INSERT INTO \"SysmanexSch1\".\"EmpresaTienePersona\"(\n"
                             + "\"personaCi\", \"empresaRut\")\n"
@@ -142,6 +136,8 @@ public class Empresa {
         }
     }
         } else {
+            System.err.print("El RUT no puede ser vacio.\n");
+            System.err.print("El RUT no puede ser vacio.");
             resultado = 2;
         }
         return resultado;
