@@ -115,7 +115,20 @@ public class Documento {
         return this.TablaDocumentos(rs);
     }
 
-    public void BuscarDocumento(int id) {
+    public void BuscarDocumento(int id) throws SQLException {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Documento\""
+                + "WHERE \"documentoBaja\"=\'false\' AND \"documentoId\"="+id
+        + " ORDER BY \"documentoId\" ASC;";
+        rs = conDB.hacerConsulta(query);
+        while(rs.next()){
+            this.id = id;
+            this.setNombre(rs.getString("documentoNombre"));
+            this.setPlazo(rs.getString("documentoPlazo"));
+            this.setBaja(rs.getBoolean("documentoBaja"));
+        }
     }
 
     private ResultSet documentosDB() {
@@ -126,7 +139,6 @@ public class Documento {
                 + "WHERE \"documentoBaja\"=\'false\' ORDER BY \"documentoId\" ASC;";
         rs = conDB.hacerConsulta(query);
         return rs;
-
     }
 
     public String TablaDocumentos(ResultSet rs) throws SQLException {

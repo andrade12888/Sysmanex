@@ -18,12 +18,12 @@ public class Expediente {
     private String fechaExpediente;
     private String asuntoExpediente;
     private boolean expedientePublico;
-    private ArrayList<Entidad> listaDestinariosExpediente;
+    private Documento documentoExpediente;
     private Entidad entidadOrigien;    
-    private Entidad entidadDestino;
     private Estado estadoExpediente;
     private Motivo motivoExpediente;
-    private ArrayList<Documento> listaDocumentosExpediente;
+    private ArrayList<String> listaArchivosExpediente;
+    private ArrayList<Entidad> listaDestinariosExpediente;
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Getters y Setters">
@@ -125,31 +125,25 @@ public class Expediente {
         this.entidadOrigien = entidadOrigien;
     }
 
-    /**
-     * Get the value of entidadDestino
-     *
-     * @return the value of entidadDestino
-     */
-    public Entidad getEntidadDestino() {
-        return entidadDestino;
+    public Documento getDocumentoExpediente() {
+        return documentoExpediente;
     }
 
-    /**
-     * Set the value of entidadDestino
-     *
-     * @param entidadDestino new value of entidadDestino
-     */
-    public void setEntidadDestino(Entidad entidadDestino) {
-        this.entidadDestino = entidadDestino;
-    }        
-    
-    public ArrayList<Documento> getListaDocumentosExpediente() {
-        return listaDocumentosExpediente;
+    public void setDocumentoExpediente(Documento documentoExpediente) {
+        this.documentoExpediente = documentoExpediente;
     }
+
+    public ArrayList<String> getListaArchivosExpediente() {
+        return listaArchivosExpediente;
+    }
+
+    public void setListaArchivosExpediente(ArrayList<String> listaArchivosExpediente) {
+        this.listaArchivosExpediente = listaArchivosExpediente;
+    }
+
+
     
-    public void setListaDocumentosExpediente(ArrayList<Documento> listaDocumentosExpediente) {
-        this.listaDocumentosExpediente = listaDocumentosExpediente;
-    }           
+        
 
     /**
      * Get the value of estadoExpediente
@@ -189,35 +183,17 @@ public class Expediente {
     //</editor-fold>
      
     //<editor-fold defaultstate="collapsed" desc="Constructores">
-    public Expediente(String fechaExpediente, String asuntoExpediente, boolean expedientePublico, ArrayList<Entidad> listaDestinariosExpediente, Entidad entidadOrigien, Entidad entidadDestino, Estado estadoExpediente, Motivo motivoExpediente, ArrayList<Documento> listaDocumentosExpediente) {
-        this.fechaExpediente = fechaExpediente;
-        this.asuntoExpediente = asuntoExpediente;
-        this.expedientePublico = expedientePublico;
-        this.listaDestinariosExpediente = listaDestinariosExpediente;
-        this.entidadOrigien = entidadOrigien;
-        this.entidadDestino = entidadDestino;
-        this.estadoExpediente = estadoExpediente;
-        this.motivoExpediente = motivoExpediente;
-        this.listaDocumentosExpediente = listaDocumentosExpediente;
-    }
-
-    public Expediente(String fechaExpediente, String asuntoExpediente, boolean expedientePublico, Entidad entidadOrigien, Estado estadoExpediente, Motivo motivoExpediente) {
-        this.fechaExpediente = fechaExpediente;
-        this.asuntoExpediente = asuntoExpediente;
-        this.expedientePublico = expedientePublico;
-        this.entidadOrigien = entidadOrigien;
-        this.estadoExpediente = estadoExpediente;
-        this.motivoExpediente = motivoExpediente;
-    }
-
-    public Expediente(String fechaExpediente, String asuntoExpediente, boolean expedientePublico, ArrayList<Entidad> listaDestinariosExpediente, Entidad entidadOrigien) {
-        this.fechaExpediente = fechaExpediente;
-        this.asuntoExpediente = asuntoExpediente;
-        this.expedientePublico = expedientePublico;
-        this.listaDestinariosExpediente = listaDestinariosExpediente;
-        this.entidadOrigien = entidadOrigien;
-    }
+   
      //</editor-fold>
+
+    public Expediente(String asuntoExpediente, boolean expedientePublico, Documento documentoExpediente, Entidad entidadOrigien) {
+        this.asuntoExpediente = asuntoExpediente;
+        this.expedientePublico = expedientePublico;
+        this.documentoExpediente = documentoExpediente;
+        this.entidadOrigien = entidadOrigien;
+    }
+    
+   
     
 }
 

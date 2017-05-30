@@ -46,21 +46,21 @@ public class LogIn extends HttpServlet {
             Entidad usr = new Entidad();
             usr.Autenticar(usu, pass);
             int resultado = usr.getRol().getId();
-            switch(resultado){
-                case 1: request.getSession().setAttribute("usuarioLogeado", usr);
-                        request.getRequestDispatcher("bandeja.jsp").forward(request, response);
-                        break;
-                case 2: request.setAttribute("errorMessage", "El usuario no esta autorizado a ingresar al sistema. Consulte con el administrador");
-                        request.getRequestDispatcher("index.jsp").forward(request, response);
-                        break;
-                case 0: request.setAttribute("errorMessage", "Usuario/Contraseña incorrecta.");
-                        request.getRequestDispatcher("index.jsp").forward(request, response);
-                        break;
+            if (resultado == 2) {
+                request.setAttribute("errorMessage", "El usuario no esta autorizado a ingresar al sistema. Consulte con el administrador");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            } else if (resultado == 0) {
+                request.setAttribute("errorMessage", "Usuario/Contraseña incorrecta.");
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            } else {
+                request.getSession().setAttribute("usuarioLogeado", usr);
+                request.getRequestDispatcher("bandeja.jsp").forward(request, response);
             }
-        } 
+
+        }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -75,11 +75,15 @@ public class LogIn extends HttpServlet {
         try {
             try {
                 processRequest(request, response);
+
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LogIn.class
+                        .getName()).log(Level.SEVERE, null, ex);
+
             }
         } catch (SQLException ex) {
-            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LogIn.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -97,11 +101,15 @@ public class LogIn extends HttpServlet {
         try {
             try {
                 processRequest(request, response);
+
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LogIn.class
+                        .getName()).log(Level.SEVERE, null, ex);
+
             }
         } catch (SQLException ex) {
-            Logger.getLogger(LogIn.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LogIn.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }
 
