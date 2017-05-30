@@ -43,7 +43,7 @@ public class EmpresaTest {
      */
     @Test
     public void testAgregarEmpresaSuccess() {
-        System.out.println("getRutEmpresaSuccess");
+        System.out.println("AgregarEmpresayPersonasSuccess");
         ArrayList<Persona> ap = new ArrayList<>();
         Persona p = new Persona("123456798", "", null);
         ap.add(p);
