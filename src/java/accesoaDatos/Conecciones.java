@@ -10,7 +10,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,9 +28,9 @@ import java.util.logging.Logger;
  */
 public class Conecciones {
 
-    private String server = "jdbc:postgresql://localhost:5432/SysmanexDB1";
-    private String user = "postgres";
-    private String pass = "gabrielsebastian";
+    private final String server = "jdbc:postgresql://localhost:5432/SysmanexDB2";
+    private final String user = "postgres";
+    private final String pass = "gabrielsebastian";
     private static Connection conn = null;
 
     private Connection PostgreJDBC() {
@@ -40,7 +39,6 @@ public class Conecciones {
             conn = DriverManager.getConnection(server, user, pass);
 
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (SQLException e) {
             System.out.println("ConnectDB " + e.getMessage());
         }
@@ -94,4 +92,5 @@ public class Conecciones {
         return resultado;
     }
 
+    
 }
