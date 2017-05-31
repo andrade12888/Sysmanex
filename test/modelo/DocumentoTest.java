@@ -39,113 +39,18 @@ public class DocumentoTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of getId method, of class Documento.
-     */
-    @Test
-    public void testGetId() {
-        System.out.println("getId");
-        Documento instance = new Documento();
-        int expResult = 0;
-        int result = instance.getId();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getNombre method, of class Documento.
-     */
-    @Test
-    public void testGetNombre() {
-        System.out.println("getNombre");
-        Documento instance = new Documento();
-        String expResult = "";
-        String result = instance.getNombre();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setNombre method, of class Documento.
-     */
-    @Test
-    public void testSetNombre() {
-        System.out.println("setNombre");
-        String nombre = "";
-        Documento instance = new Documento();
-        instance.setNombre(nombre);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getPlazo method, of class Documento.
-     */
-    @Test
-    public void testGetPlazo() {
-        System.out.println("getPlazo");
-        Documento instance = new Documento();
-        String expResult = "";
-        String result = instance.getPlazo();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setPlazo method, of class Documento.
-     */
-    @Test
-    public void testSetPlazo() {
-        System.out.println("setPlazo");
-        String plazo = "";
-        Documento instance = new Documento();
-        instance.setPlazo(plazo);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of isBaja method, of class Documento.
-     */
-    @Test
-    public void testIsBaja() {
-        System.out.println("isBaja");
-        Documento instance = new Documento();
-        boolean expResult = false;
-        boolean result = instance.isBaja();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setBaja method, of class Documento.
-     */
-    @Test
-    public void testSetBaja() {
-        System.out.println("setBaja");
-        boolean baja = false;
-        Documento instance = new Documento();
-        instance.setBaja(baja);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
+    
     /**
      * Test of AgregarDocumento method, of class Documento.
      */
     @Test
-    public void testAgregarDocumento() {
+    public void testAgregarDocumentoSuccess() {
         System.out.println("AgregarDocumento");
-        Documento instance = new Documento();
-        int expResult = 0;
+        Documento instance = new Documento("Licencia", 200);
+        int expResult = 1;
         int result = instance.AgregarDocumento();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -154,13 +59,13 @@ public class DocumentoTest {
     @Test
     public void testModificarDocumento() {
         System.out.println("ModificarDocumento");
-        String id = "";
-        Documento instance = new Documento();
-        int expResult = 0;
+        String id = "4";
+        Documento instance = new Documento("Documento notarial", 100);
+        instance.setBaja(false);
+        int expResult = 1;
         int result = instance.ModificarDocumento(id);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -169,11 +74,11 @@ public class DocumentoTest {
     @Test
     public void testBorrarDocumento() {
         System.out.println("BorrarDocumento");
-        String id = "";
-        Documento instance = new Documento();
-        int expResult = 0;
-        int result = instance.BorrarDocumento(id);
-        assertEquals(expResult, result);
+//        String id = "";
+//        Documento instance = new Documento();
+//        int expResult = 0;
+//        int result = instance.BorrarDocumento(id);
+//        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

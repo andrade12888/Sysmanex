@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,8 +20,9 @@ import java.util.logging.Logger;
  */
 public class Entidad {
 
-    private int id;
     private String nombreEntidad;
+    private int entidadId;
+
     private String contrasenia;
     private Rol rol;
     private ArrayList<Expediente> misExpedientes;
@@ -51,12 +51,15 @@ public class Entidad {
         this.contrasenia = contrasenia;
     }
 
-    public int getId() {
-        return id;
+    public int getEntidadId() {
+        return entidadId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    /**
+     * @param entidadId the entidadId to set
+     */
+    public void setEntidadId(int entidadId) {
+        this.entidadId = entidadId;
     }
 
     public Rol getRol() {
@@ -87,14 +90,14 @@ public class Entidad {
                     + " WHERE \"entidadNombre\" = ? AND \"entidadPassword\" = ?;");
             query.setString(1, nombre);
             query.setString(2, pass);
-            
+
             rs = query.executeQuery();
 
             while (rs.next()) {
                 unRol.setDescripcion(unRol.getRolDB(rs.getInt(3)));
                 unRol.setId(rs.getInt(3));
                 this.setRol(unRol);
-                this.setId(rs.getInt("entidadId"));
+                this.setEntidadId(rs.getInt("entidadId"));
                 this.setContrasenia(pass);
                 this.setNombreEntidad(rs.getString(2));
             }
@@ -105,18 +108,18 @@ public class Entidad {
         }
     }
 
-    public ResultSet ExpedientesDB(){
-    Conecciones conDB = new Conecciones();
+    public ResultSet ExpedientesDB() {
+        Conecciones conDB = new Conecciones();
         ResultSet rs = null;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Expediente\""
-                + " WHERE \"expedienteEntidadId\" = " + this.getId() + ""
+                + " WHERE \"expedienteEntidadId\" = " + this.getEntidadId() + ""
                 + " ORDER BY \"expedienteFecha\" ASC;";
         rs = conDB.hacerConsulta(query);
 
         return rs;
     }
-    
+
     public String TablaExpedientes(ResultSet rs) throws SQLException {
         String tabla = "<form name=\"frmMisExpedientes\" action=\"documentos.do\" "
                 + "method=\"POST\"><table class=\"table table-striped\"><th>"
@@ -135,7 +138,7 @@ public class Entidad {
 
         return tabla;
     }
-    
+
     public String TablaExpedientes() throws SQLException {
 
         ResultSet rs = this.ExpedientesDB();
@@ -159,5 +162,68 @@ public class Entidad {
 
         return tabla;
     }
-    
+
+    //PRE: El rol debe existir en la base de datos
+    protected int AgregarEntidad() {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+        if (!"".equals(this.nombreEntidad) && !"".equals(this.contrasenia) && this.rol != null) {
+            String query = "INSERT INTO \"SysmanexSch1\".\"Entidad\"(\n"
+                    + "\"entidadNombre\", \"entidadPassword\", \"rolId\")\n"
+                    + "   VALUES ('" + this.nombreEntidad + "', '" + this.contrasenia + "', " + this.rol.getId() + ");";
+            resultado = conDB.hacerConsultaIUD(query);
+        } else {
+            resultado = 2;
+        }
+
+        return resultado;
+    }
+
+    protected int ModificarEntidad(String idEntidad) {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+
+        if (!"".equals(this.nombreEntidad) && !"".equals(this.contrasenia) && this.rol != null) {
+            String query = "UPDATE \"SysmanexSch1\".\"Entidad\"\n"
+                    + "	SET \"entidadNombre\"=\'" + this.nombreEntidad + "\', \"entidadPassword\"='" + this.contrasenia + "\',\"rolId\"=" + this.rol.getId() + "\\n"
+                    + "	WHERE \"entidadId\"=" + Integer.parseInt(idEntidad) + ";";
+            resultado = conDB.hacerConsultaIUD(query);
+        } else {
+            resultado = 2;
+        }
+
+        return resultado;
+    }
+
+    public int BorrarEntidad(String id) {
+        Conecciones conDB = new Conecciones();
+        int resultado = 0;
+        //TODO
+
+        return resultado;
+    }
+
+    protected static ResultSet BuscarEntidad(String nombre) throws SQLException {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Entidad\""
+                + " WHERE \"entidadNombre\" LIKE \'%" + nombre + "\'"
+                + " ORDER BY \"entidadNombre\" ASC;";
+        rs = conDB.hacerConsulta(query);
+
+        return rs;
+    }
+
+    protected static ResultSet BuscarEntidades() throws SQLException {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Entidad\""
+                + " ORDER BY \"entidadNombre\" ASC;";
+        rs = conDB.hacerConsulta(query);
+
+        return rs;
+    }
+
 }
