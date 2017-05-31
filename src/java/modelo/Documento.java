@@ -91,7 +91,7 @@ public class Documento {
 
     public int BorrarDocumento(String id) {
         Conecciones conDB = new Conecciones();
-        int resultado = 0;
+        int resultado;
 
         String query = "UPDATE \"SysmanexSch1\".\"Documento\"\n"
                 + "	SET \"documentoBaja\"=\'true'"
@@ -103,7 +103,7 @@ public class Documento {
 
     public String BuscarDocumento(String nombre) throws SQLException {
         Conecciones conDB = new Conecciones();
-        ResultSet rs = null;
+        ResultSet rs;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Documento\""
                 + " WHERE \"documentoId\" LIKE \'%" + nombre + "\'"

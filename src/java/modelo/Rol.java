@@ -83,7 +83,7 @@ public class Rol {
         Conecciones conDB = new Conecciones();
         int resultado;
 
-        if (!"".equals(descripcionRol) || id>0) {
+        if (!"".equals(descripcionRol) && id>0) {
             String query = "UPDATE \"SysmanexSch1\".\"Rol\"\n"
                     + "	SET \"rolDescripcion\"=\'" + descripcionRol + "'\n"
                     + "	WHERE \"rolId\"=" + id + ";";

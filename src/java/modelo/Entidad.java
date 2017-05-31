@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class Entidad {
 
-    private int id;
+    private int entidadId;
     private String nombre;
     private String contrasenia;
     private Rol rol;
@@ -40,10 +40,17 @@ public class Entidad {
         this.contrasenia = contrasenia;
     }
 
-    public int getId() {
-        return id;
+    public int getEntidadId() {
+        return entidadId;
     }
 
+    /**
+     * @param entidadId the entidadId to set
+     */
+    public void setEntidadId(int entidadId) {
+        this.entidadId = entidadId;
+    }
+    
     public Rol getRol() {
         return rol;
     }
@@ -121,7 +128,7 @@ public class Entidad {
         //TODO
 
         return resultado;
-    }
+    }       
 
     protected static ResultSet BuscarEntidad(String nombre) throws SQLException {
         Conecciones conDB = new Conecciones();
@@ -145,5 +152,7 @@ public class Entidad {
 
         return rs;
     }
+
+    
 
 }

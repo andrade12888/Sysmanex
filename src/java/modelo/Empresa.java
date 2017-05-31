@@ -91,14 +91,14 @@ public class Empresa {
     //      es nula (Rut o persona autorizada) o -1 si existe algun error en la secuancia SQL
     protected int AgregarEmpresa() {
         Conecciones conDB = new Conecciones();
-        int resultado = -1;
-        String queryInsertEmpresa = "INSERT INTO \"SysmanexSch1\".\"Empresa\"(\n"
-                    + "\"empresaRut\", \"empresaNombre\")\n"
-                    + "   VALUES ('" + this.rutEmpresa + "', '" + this.nombreEmpresa + "');";;
+        int resultado = -1;        
         String queryInsertPersonaEnEmpresa;
 
         if (!"".equals(this.rutEmpresa) && !(this.listaPersonasAutorizadas.isEmpty())) {
-
+            
+            String queryInsertEmpresa = "INSERT INTO \"SysmanexSch1\".\"Empresa\"(\n"
+                    + "\"empresaRut\", \"empresaNombre\")\n"
+                    + "   VALUES ('" + this.rutEmpresa + "', '" + this.nombreEmpresa + "');";
             try {
                 conDB.getConnect().setAutoCommit(false);
                 conDB.hacerConsultaIUD(queryInsertEmpresa);
