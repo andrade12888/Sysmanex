@@ -17,14 +17,14 @@ public class Documento {
 
     private int id;
     private String nombre;
-    private String plazo;
+    private int plazo;
     private boolean baja;
     
 
     public Documento() {
     }
 
-    public Documento(String nombre, String plazo) {
+    public Documento(String nombre, int plazo) {
         this.nombre = nombre;
         this.plazo = plazo;
         this.baja = false;
@@ -42,11 +42,11 @@ public class Documento {
         this.nombre = nombre;
     }
 
-    public String getPlazo() {
+    public int getPlazo() {
         return plazo;
     }
 
-    public void setPlazo(String plazo) {
+    public void setPlazo(int plazo) {
         this.plazo = plazo;
     }
 
@@ -61,7 +61,7 @@ public class Documento {
     public int AgregarDocumento() {
         Conecciones conDB = new Conecciones();
         int resultado;
-        if (!"".equals(this.nombre) && !"".equals(this.plazo)) {
+        if (!"".equals(this.nombre) && this.plazo>=0) {
             String query = "INSERT INTO \"SysmanexSch1\".\"Documento\"(\n"
                     + "\"documentoNombre\", \"documentoPlazo\", \"documentoBaja\")\n"
                     + "   VALUES ('" + this.nombre + "', '" + this.plazo + "', " + this.baja + ");";
@@ -77,7 +77,7 @@ public class Documento {
         Conecciones conDB = new Conecciones();
         int resultado;
 
-        if (!"".equals(this.nombre) && !"".equals(this.plazo)) {
+        if (!"".equals(this.nombre) && this.plazo>=0) {
             String query = "UPDATE \"SysmanexSch1\".\"Documento\"\n"
                     + "	SET \"documentoNombre\"=\'" + nombre + "\', \"documentoPlazo\"=" + plazo + "\n"
                     + "	WHERE \"documentoId\"=" + Integer.parseInt(id) + ";";
@@ -114,6 +114,7 @@ public class Documento {
     }
 
     public void BuscarDocumento(int id) {
+        //TODO
     }
 
     private ResultSet documentosDB() {

@@ -6,6 +6,7 @@
 package controlador;
 
 import java.io.IOException;
+import static java.lang.Integer.parseInt;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,7 +40,7 @@ public class CDocumentos extends HttpServlet {
         switch (btn) {
             case "Guardar": {
                 String tipoDocumento = request.getParameter("txtDocumento");
-                String plazoDocumento = request.getParameter("txtPlazo");
+                int plazoDocumento = parseInt( request.getParameter("txtPlazo"));
                 Documento unDocu = new Documento(tipoDocumento, plazoDocumento);
                 int resultado = unDocu.AgregarDocumento();
                 switch (resultado) {
@@ -63,7 +64,7 @@ public class CDocumentos extends HttpServlet {
             }
             case "Update": {
                 String tipoDocumento = request.getParameter("txtActualizarDocumento");
-                String plazoDocumento = request.getParameter("txtActualizarPlazo");
+                int plazoDocumento = parseInt(request.getParameter("txtActualizarPlazo"));
                 String idDocumento = request.getParameter("txtActualizarId");
                 Documento unDocu = new Documento(tipoDocumento, plazoDocumento);
                 int resultado = unDocu.ModificarDocumento(idDocumento);
