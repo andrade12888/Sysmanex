@@ -5,6 +5,8 @@
  */
 package modelo;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -39,57 +41,51 @@ public class RolTest {
 
    
     /**
-     * Test of getRolDB method, of class Rol.
-     */
-    @Test
-    public void testGetRolDB() {
-        System.out.println("getRolDB");
-        int rolId = 1;
-        Rol instance = new Rol();
-        String expResult = "SysAdmin";
-        String result = instance.getRolDB(rolId);
-        assertEquals(expResult, result);
-
-    }
-
-    /**
      * Test of AgregarRol method, of class Rol.
      */
     @Test
     public void testAgregarRol() {
         System.out.println("AgregarRol");
-        Rol instance = new Rol("TestingRol2");
+        Rol instance = new Rol("UsuarioLimitado");
         int expResult = 1;
         int result = instance.AgregarRol();
         assertEquals(expResult, result);
-
-    }
-    
+    }    
     /**
      * Test of AgregarRol method, of class Rol. Check UNIQUE ID rolDescripcion
      */
     @Test
     public void testAgregarRolError() {
         System.out.println("AgregarRol");
-        Rol instance = new Rol("TestingRol");
+        Rol instance = new Rol("UsuarioLimitado");
         int expResult = -1;
         int result = instance.AgregarRol();
         assertEquals(expResult, result);
-
     }
-
     /**
      * Test of ModificarRol method, of class Rol.
      */
     @Test
     public void testModificarRol() {
         System.out.println("ModificarRol");
-        int id = 8;
-        String descripcionRol = "RolMod";
+        int id = 25;
+        String descripcionRol = "RolLimitado";
         int expResult = 1;
         int result = Rol.ModificarRol(id, descripcionRol);
         assertEquals(expResult, result);
        
+    }
+    /**
+     * Test of BuscarRoles method, of class Rol.
+     */
+    @Test
+    public void testBuscarRoles() throws SQLException {
+        System.out.println("BuscarRoles");
+        String expResult = "Bloqueado";
+        ResultSet result = Rol.BuscarRoles();
+        result.next();
+        String rs = result.getString("rolDescripcion");
+        assertEquals(expResult, rs);
     }
     
 }

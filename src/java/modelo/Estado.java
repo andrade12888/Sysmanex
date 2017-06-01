@@ -7,6 +7,7 @@ package modelo;
 
 import accesoaDatos.Conecciones;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -79,6 +80,7 @@ public class Estado {
     //<editor-fold defaultstate="collapsed" desc="Constructores">
     public Estado(String descripcionEstado) {
         this.descripcionEstado = descripcionEstado;
+        this.estadoBaja=false;
     }
     //</editor-fold>
     
@@ -88,12 +90,13 @@ public class Estado {
         String resultado = "";
 
         try {
-            String query = "Select \"estadoId\" FROM \"SysmanexSch1\".\"Estado\"\n"
+            String query = "Select \"estadoDescripcion\" FROM \"SysmanexSch1\".\"Estado\"\n"
                     + "WHERE \"estadoId\" = " + estadoId + ";";
             rs = conDB.hacerConsulta(query);
-            while (rs.next()) {
-                resultado = rs.getString("estadoDescripcion");
+            while (rs.next()) {       
+               resultado = rs.getString("estadoDescripcion");
             }
+             
             rs.close();
 
         } catch (SQLException ex) {
@@ -108,7 +111,7 @@ public class Estado {
         int resultado;
         if (!"".equals(this.descripcionEstado)) {
             String query = "INSERT INTO \"SysmanexSch1\".\"Estado\"(\n"
-                    + "\"estadoDescripcion\",\"\"estadoBaja\")" + " VALUES ('" + this.descripcionEstado + "',  '" + this.estadoBaja+"');";        
+                    + "\"estadoDescripcion\",\"estadoBaja\")" + " VALUES ('" + this.descripcionEstado + "',  '" + this.estadoBaja+"');";        
             resultado = conDB.hacerConsultaIUD(query);
         } else {
             resultado = 2;

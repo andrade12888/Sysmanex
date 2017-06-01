@@ -73,11 +73,13 @@ public class MotivoTest {
     @Test
     public void testAgregarMotivo() {
         System.out.println("AgregarMotivo");
-        Motivo instance = new Motivo("Vacaciones");
+        Motivo instance = new Motivo("Sancion");
         int expResult = 1;
         int result = instance.AgregarMotivo();
         assertEquals(expResult, result);
 
     }
+
+   
     
 }
