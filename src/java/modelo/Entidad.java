@@ -79,7 +79,7 @@ public class Entidad {
         this.contrasenia = contrasenia;
     }
      public Entidad(String nombre, String contrasenia, Rol rolEntidad) {
-        this.nombre = nombre;
+        this.nombreEntidad = nombre;
         this.contrasenia = contrasenia;
         this.rol=rolEntidad;
     }
@@ -190,8 +190,7 @@ public class Entidad {
 
         if (!"".equals(this.nombreEntidad) && !"".equals(this.contrasenia) && this.rol != null) {
             String query = "UPDATE \"SysmanexSch1\".\"Entidad\"\n"
-                    + "	SET \"entidadNombre\"=\'" + this.nombre + "\', \"entidadPassword\"='" + this.contrasenia +"',\"rolId\"=" + this.rol.getId() +"\n"
-                    + "	SET \"entidadNombre\"=\'" + this.nombreEntidad + "\', \"entidadPassword\"='" + this.contrasenia + "\',\"rolId\"=" + this.rol.getId() + "\\n"
+                    + "	SET \"entidadNombre\"=\'" + this.nombreEntidad + "\', \"entidadPassword\"='" + this.contrasenia +"',\"rolId\"=" + this.rol.getId() +"\n"       
                     + "	WHERE \"entidadId\"=" + Integer.parseInt(idEntidad) + ";";
             resultado = conDB.hacerConsultaIUD(query);
         } else {

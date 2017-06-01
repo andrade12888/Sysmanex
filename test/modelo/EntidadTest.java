@@ -37,20 +37,8 @@ public class EntidadTest {
     @After
     public void tearDown() {
     }
-    /**
-     * Test of Autenticar method, of class Entidad.
-     */
-    @Test
-    public void testAutenticar() throws Exception {
-        System.out.println("Autenticar");
-        String userId = "SEGIT";
-        String password = "segit";
-        Entidad instance = new Entidad();
-        int expResult = 3;
-        int result = instance.Autenticar(userId, password);
-        assertEquals(expResult, result);
-    }
-
+   
+   
     /**
      * Test of AgregarEntidad method, of class Entidad.
      */
@@ -120,5 +108,5 @@ public class EntidadTest {
         String rs = result.getString("entidadNombre");
         assertEquals(expResult, rs);
     }
-    
+  
 }

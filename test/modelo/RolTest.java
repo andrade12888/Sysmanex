@@ -39,7 +39,7 @@ public class RolTest {
     public void tearDown() {
     }
 
-   
+ 
     /**
      * Test of AgregarRol method, of class Rol.
      */
@@ -87,5 +87,4 @@ public class RolTest {
         String rs = result.getString("rolDescripcion");
         assertEquals(expResult, rs);
     }
-    
 }

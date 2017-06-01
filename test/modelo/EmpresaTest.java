@@ -39,7 +39,7 @@ public class EmpresaTest {
     public void tearDown() {
     }
 
-    /**
+     /**
      * Test of getRutEmpresa method, of class Empresa.
      PRE:La persona ya debe existir en la base de datos
      POST: Retorna 1 si se ejecuta con exito, 0 si no reotorna nada, 2 si alguna de las variables
@@ -47,16 +47,16 @@ public class EmpresaTest {
      */
     @Test
     public void testAgregarEmpresaSuccess() {
-//        System.out.println("AgregarEmpresayPersonasSuccess");
-//        ArrayList<Persona> ap = new ArrayList<>();
-//        Persona p = new Persona("11223344", "", null);
-//        ap.add(p);
-//        p = new Persona("321654987", "", null);
-//        ap.add(p);
-//        Empresa instance = new Empresa("9876654",ap ,"LUGRA");
-//        int expResult = 1;
-//        int result = instance.AgregarEmpresa();
-//        assertEquals(expResult, result);
+        System.out.println("AgregarEmpresayPersonasSuccess");
+        ArrayList<Persona> ap = new ArrayList<>();
+        Persona p = new Persona("11223344", "", null);
+        ap.add(p);
+        p = new Persona("321654987", "", null);
+        ap.add(p);
+        Empresa instance = new Empresa("9876654",ap ,"LUGRA");
+        int expResult = 1;
+        int result = instance.AgregarEmpresa();
+        assertEquals(expResult, result);
 
     }
 

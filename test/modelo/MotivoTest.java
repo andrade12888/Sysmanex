@@ -39,7 +39,7 @@ public class MotivoTest {
     public void tearDown() {
     }
 
-    
+     
     /**
      * Test of getMotivoDB method, of class Motivo.
      */
@@ -79,7 +79,6 @@ public class MotivoTest {
         assertEquals(expResult, result);
 
     }
-
    
     
 }

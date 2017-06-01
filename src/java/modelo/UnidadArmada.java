@@ -156,7 +156,7 @@ public class UnidadArmada extends Entidad {
         return rs;
     }
 
-    protected static int BorrarEmpresa(String RUT) {
+    protected static int BorrarUnidadArmada(String sigla) {
         Conecciones conDB = new Conecciones();
         int resultado = 0;
 //TODO
