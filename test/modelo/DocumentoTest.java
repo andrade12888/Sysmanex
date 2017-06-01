@@ -6,6 +6,7 @@
 package modelo;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -82,5 +83,61 @@ public class DocumentoTest {
         fail("The test case is a prototype.");
     }
 
-   
+    /**
+     * Test of BuscarDocumento method, of class Documento.
+     */
+    @Test
+    public void testBuscarDocumento_String() throws Exception {
+        System.out.println("BuscarDocumento");
+        String nombre = "";
+        Documento instance = new Documento();
+        String expResult = "";
+        String result = instance.BuscarDocumento(nombre);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of BuscarDocumento method, of class Documento.
+     */
+    @Test
+    public void testBuscarDocumento_int() throws SQLException {
+        System.out.println("BuscarDocumento");
+        int id = 0;
+        Documento instance = new Documento();
+        instance.BuscarDocumento(id);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of TablaDocumentos method, of class Documento.
+     */
+    @Test
+    public void testTablaDocumentos_ResultSet() throws Exception {
+        System.out.println("TablaDocumentos");
+        ResultSet rs = null;
+        Documento instance = new Documento();
+        String expResult = "";
+        String result = instance.TablaDocumentos(rs);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of TablaDocumentos method, of class Documento.
+     */
+    @Test
+    public void testTablaDocumentos_0args() throws Exception {
+        System.out.println("TablaDocumentos");
+        Documento instance = new Documento();
+        String expResult = "";
+        String result = instance.TablaDocumentos();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+    
 }

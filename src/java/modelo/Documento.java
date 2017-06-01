@@ -113,8 +113,20 @@ public class Documento {
         return this.TablaDocumentos(rs);
     }
 
-    public void BuscarDocumento(int id) {
-        //TODO
+    public void BuscarDocumento(int id) throws SQLException {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Documento\""
+                + "WHERE \"documentoBaja\"=\'false\' AND \"documentoId\"="+id
+        + " ORDER BY \"documentoId\" ASC;";
+        rs = conDB.hacerConsulta(query);
+        while(rs.next()){
+            this.id = id;
+            this.setNombre(rs.getString("documentoNombre"));
+            this.setPlazo(rs.getInt("documentoPlazo"));
+            this.setBaja(rs.getBoolean("documentoBaja"));
+        }
     }
 
     private ResultSet documentosDB() {
@@ -125,11 +137,10 @@ public class Documento {
                 + "WHERE \"documentoBaja\"=\'false\' ORDER BY \"documentoId\" ASC;";
         rs = conDB.hacerConsulta(query);
         return rs;
-
     }
 
     public String TablaDocumentos(ResultSet rs) throws SQLException {
-        String tabla = "<form name=\"frmBorrar\" action=\"documentos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Documentos</th><th>Opciones</th>";
+        String tabla = "<form name=\"frmBorrar\" action=\"documentos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Documentos</th><th>Plazo en dias</th><th>Opciones</th>";
         while (rs.next()) {
             tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("documentoId") + "\" value=\"" + rs.getInt("documentoId") + "\">"
                     + " <span id=\"tdd" + rs.getInt("documentoId") + "\">" + rs.getString("documentoNombre") + "</span></td>"
@@ -146,7 +157,7 @@ public class Documento {
     public String TablaDocumentos() throws SQLException {
 
         ResultSet rs = this.documentosDB();
-        String tabla = "<form name=\"frmBorrar\" action=\"documentos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Documentos</th><th>Opciones</th>";
+        String tabla = "<form name=\"frmBorrar\" action=\"documentos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Documentos</th><th>Plazo en dias</th><th>Opciones</th>";
         while (rs.next()) {
             tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("documentoId") + "\" value=\"" + rs.getInt("documentoId") + "\">"
                     + " <span id=\"tdd" + rs.getInt("documentoId") + "\">" + rs.getString("documentoNombre") + "</span></td>"
