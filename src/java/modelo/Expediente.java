@@ -198,14 +198,6 @@ public class Expediente {
     
      //</editor-fold>
 
-    /**
-     * @return the archivo
-     */
-
-
-    /**
-     * @param archivo the archivo to set
-     */
 
    
    

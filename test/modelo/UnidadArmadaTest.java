@@ -6,6 +6,7 @@
 package modelo;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -39,17 +40,23 @@ public class UnidadArmadaTest {
     }
 
     /**
-     * Test of AgregarUnidad method, of class UnidadArmada.
+     * Test of AgregarUnidad method, of class UnidadArmada Agrega solo la unidad.
      */
     @Test
     public void testAgregarUnidad() {
         System.out.println("AgregarUnidad");
-        UnidadArmada instance = null;
-        int expResult = 0;
+        UnidadArmada instance = new UnidadArmada("Artilleros",5);
+        Persona p = new Persona("11223344", null, null);
+        Persona p2 = new Persona("123456798", null, null);
+        ArrayList<Persona> pers = new ArrayList<>();
+        pers.add(p);
+        pers.add(p2);
+        instance.setPersonas(pers);
+        
+        int expResult = 1;
         int result = instance.AgregarUnidad();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**

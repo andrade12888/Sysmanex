@@ -41,7 +41,7 @@ public class PersonaTest {
     @Test
     public void testAgregarPersona() {
         System.out.println("AgregarPersona");
-        Persona instance = null;
+        Persona instance = new Persona("91827364", "Pablo", "Almeida");
         int expResult = 0;
         int result = instance.AgregarPersona();
         assertEquals(expResult, result);

@@ -20,6 +20,7 @@ public class UnidadArmada extends Entidad {
 
     private ArrayList<Persona> personas;
     private String sigla;
+    private int entidadId;
 
     /**
      * @return the personas
@@ -44,9 +45,11 @@ public class UnidadArmada extends Entidad {
 
     /**
      * @param sigla the sigla to set
+     *
      */
     public void setSigla(String sigla) {
         this.sigla = sigla;
+
     }
 
     public UnidadArmada(ArrayList<Persona> personas, String sigla) {
@@ -54,10 +57,9 @@ public class UnidadArmada extends Entidad {
         this.sigla = sigla;
     }
 
-    public UnidadArmada(ArrayList<Persona> personas, String sigla, String nombre, String contrasenia) {
-        super(nombre, contrasenia);
-        this.personas = personas;
+    public UnidadArmada(String sigla, int idEntidad) {
         this.sigla = sigla;
+        this.entidadId = idEntidad;
     }
 
     //PRE: La entidad debe existir
@@ -71,24 +73,30 @@ public class UnidadArmada extends Entidad {
 
         //PRE: solo se ingresa la Unidad sin personas
         //POST: Solo se agrega la Unidad
-        if (!"".equals(this.sigla) && (this.personas.isEmpty())) {
+        if (!"".equals(this.sigla) && (this.personas == null)) {
             resultado = conDB.hacerConsultaIUD(queryInsertUnidad);
 
-        } else if (!"".equals(this.sigla) && !(this.personas.isEmpty())) {
+         //PRE: se ingresa la Unidad con personas existentes
+            //POST: se agrega la Unidad y sus personas
+        } else if (!"".equals(this.sigla)) {
 
             try {
                 conDB.getConnect().setAutoCommit(false);
                 ResultSet rs = conDB.hacerConsulta(queryInsertUnidad);
-                rs.next();
 
-                for (Persona p : this.personas) {
+                if (rs != null) {
+                    while (rs.next()) {
+                        for (Persona p : this.personas) {
 
-                    queryInsertPersonaEnUnidad = "INSERT INTO \"SysmanexSch1\".\"UnidadTienePersona\"(\n"
-                            + "\"unidadId\", \"unidadEntidadId\")\n"
-                            + "   VALUES ('" + rs.getInt(1) + "', '" + p.getCiPersona() + "');";
-                    conDB.hacerConsultaIUD(queryInsertPersonaEnUnidad);
+                            queryInsertPersonaEnUnidad = "INSERT INTO \"SysmanexSch1\".\"UnidadTienePersona\"(\n"
+                                    + "\"unidadId\", \"personaCi\")\n"
+                                    + "   VALUES ('" + rs.getInt(1) + "', '" + p.getCiPersona() + "');";
+                            conDB.hacerConsultaIUD(queryInsertPersonaEnUnidad);
+                        }
+                    }
+                } else {
+                    return -1;
                 }
-
                 if (!rs.isClosed()) {
                     rs.close();
                 }
@@ -116,8 +124,7 @@ public class UnidadArmada extends Entidad {
                     }
                 }
             }
-        }
-        else{
+        } else {
             System.err.print("El RUT no puede ser vacio.\n");
             System.err.print("El RUT no puede ser vacio.");
             resultado = 2;
@@ -161,6 +168,20 @@ public class UnidadArmada extends Entidad {
         int resultado = 0;
 //TODO
         return resultado;
+    }
+
+    /**
+     * @return the entidadId
+     */
+    public int getEntidadId() {
+        return entidadId;
+    }
+
+    /**
+     * @param entidadId the entidadId to set
+     */
+    public void setEntidadId(int entidadId) {
+        this.entidadId = entidadId;
     }
 
 }
