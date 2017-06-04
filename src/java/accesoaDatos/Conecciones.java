@@ -13,19 +13,6 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * public ConnectDB() { server = "jdbc:postgresql://localhost:5432/db"; user =
- * "xxx"; pass = "xxx"; } public void connect() { try {
- * Class.forName("org.postgresql.Driver"); conn =
- * DriverManager.getConnection(server, user, pass); } catch
- * (ClassNotFoundException e) { e.printStackTrace(); } catch (SQLException e) {
- * System.out.println("ConnectDB " + e.getMessage()); } } public void
- * disconnet() { if (conn != null) { try { conn.close(); } catch (SQLException
- * ex) { System.out.println("ConnectDB " + ex.getMessage()); } } }
- *
- * public Connection getConnect() { return conn; }
- */
 public class Conecciones {
 
     private final String server = "jdbc:postgresql://localhost:5432/SysmanexDB1";

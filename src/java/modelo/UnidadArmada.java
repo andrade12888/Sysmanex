@@ -20,7 +20,7 @@ public class UnidadArmada extends Entidad {
 
     private ArrayList<Persona> personas;
     private String sigla;
-    private int entidadId;
+  
 
     /**
      * @return the personas
@@ -59,7 +59,7 @@ public class UnidadArmada extends Entidad {
 
     public UnidadArmada(String sigla, int idEntidad) {
         this.sigla = sigla;
-        this.entidadId = idEntidad;
+        super.setEntidadId(idEntidad);
     }
 
     //PRE: La entidad debe existir
@@ -170,18 +170,5 @@ public class UnidadArmada extends Entidad {
         return resultado;
     }
 
-    /**
-     * @return the entidadId
-     */
-    public int getEntidadId() {
-        return entidadId;
-    }
-
-    /**
-     * @param entidadId the entidadId to set
-     */
-    public void setEntidadId(int entidadId) {
-        this.entidadId = entidadId;
-    }
 
 }

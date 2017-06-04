@@ -178,7 +178,7 @@ public class Empresa {
         Conecciones conDB = new Conecciones();
         int resultado;
 
-        String query = "UPDATE \"SysmanexSch1\".\"Empresa\"\n"              
+        String query = "DELETE \"SysmanexSch1\".\"Empresa\"\n"              
                 + "	WHERE \"empresaRut\"='" + RUT + "\';";
         resultado = conDB.hacerConsultaIUD(query);
 
