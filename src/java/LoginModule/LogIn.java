@@ -45,16 +45,20 @@ public class LogIn extends HttpServlet {
         } else {
             Entidad usr = new Entidad();
             usr.Autenticar(usu, pass);
-            int resultado = usr.getRol().getId();
-            if (resultado == 2) {
-                request.setAttribute("errorMessage", "El usuario no esta autorizado a ingresar al sistema. Consulte con el administrador");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
-            } else if (resultado == 0) {
+
+            if (usr.getEntidadId() == 0) {
                 request.setAttribute("errorMessage", "Usuario/Contraseña incorrecta.");
                 request.getRequestDispatcher("index.jsp").forward(request, response);
+
             } else {
-                request.getSession().setAttribute("usuarioLogeado", usr);
-                request.getRequestDispatcher("bandeja.jsp").forward(request, response);
+                int resultado = usr.getRol().getId();
+                if (resultado == 2) {
+                    request.setAttribute("errorMessage", "El usuario no esta autorizado a ingresar al sistema. Consulte con el administrador");
+                    request.getRequestDispatcher("index.jsp").forward(request, response);
+                } else {
+                    request.getSession().setAttribute("usuarioLogeado", usr);
+                    request.getRequestDispatcher("bandeja.jsp").forward(request, response);
+                }
             }
 
         }

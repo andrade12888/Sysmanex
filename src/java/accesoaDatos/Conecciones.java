@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  */
 public class Conecciones {
 
-    private final String server = "jdbc:postgresql://localhost:5432/SysmanexDB2";
+    private final String server = "jdbc:postgresql://localhost:5432/SysmanexDB1";
     private final String user = "postgres";
     private final String pass = "gabrielsebastian";
     private static Connection conn = null;
@@ -59,7 +59,6 @@ public class Conecciones {
         if (conn != null) {
             return conn;
         } else {
-
             return PostgreJDBC();
         }
     }
