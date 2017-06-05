@@ -86,58 +86,23 @@ public class Empresa {
 
     //</editor-fold>
     
-    //La persona ya debe existir en la base de datos
+    //PRE: NA
     //POST: Retorna 1 si se ejecuta con exito, 0 si no reotorna nada, 2 si alguna de las variables
     //      es nula (Rut o persona autorizada) o -1 si existe algun error en la secuancia SQL
     protected int AgregarEmpresa() {
         Conecciones conDB = new Conecciones();
         int resultado = -1;        
-        String queryInsertPersonaEnEmpresa;
 
-        if (!"".equals(this.rutEmpresa) && !(this.listaPersonasAutorizadas.isEmpty())) {
+        if (!"".equals(this.rutEmpresa) && !"".equals(this.nombreEmpresa)) {
             
             String queryInsertEmpresa = "INSERT INTO \"SysmanexSch1\".\"Empresa\"(\n"
                     + "\"empresaRut\", \"empresaNombre\")\n"
                     + "   VALUES ('" + this.rutEmpresa + "', '" + this.nombreEmpresa + "');";
-            try {
-                conDB.getConnect().setAutoCommit(false);
-                conDB.hacerConsultaIUD(queryInsertEmpresa);
-                for (Persona p : this.listaPersonasAutorizadas) {
-                    
-                     queryInsertPersonaEnEmpresa = "INSERT INTO \"SysmanexSch1\".\"EmpresaTienePersona\"(\n"
-                            + "\"personaCi\", \"empresaRut\")\n"
-                            + "   VALUES ('" + p.getCiPersona() + "', '" + this.rutEmpresa + "');";
-                     conDB.hacerConsultaIUD(queryInsertPersonaEnEmpresa);
-                }
-                
-                conDB.getConnect().commit();
-                resultado = 1;
-                
-            } catch (SQLException e) {
-
-                if (conDB.getConnect() != null) {
-                    try {
-                        System.err.print("Ocurrio un error ingresando la empresa o sus autorizados");
-                        conDB.getConnect().rollback();
-                         return -1;
-                    } catch (SQLException excep) {
-                        return -1;
-                    }
-                }
-
-            }finally {
-        if(conDB.getConnect()!=null)
-        {
-            try {
-                conDB.getConnect().setAutoCommit(true);
-            } catch (SQLException ex) {
-                Logger.getLogger(Empresa.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
+            conDB.hacerConsultaIUD(queryInsertEmpresa);
+            resultado = 1;
         } else {
             System.err.print("El RUT no puede ser vacio.\n");
-            System.err.print("El RUT no puede ser vacio.");
+            System.err.print("El nombre de la empresa no puede ser vacio.");
             resultado = 2;
         }
         return resultado;

@@ -8,13 +8,15 @@ package modelo;
 import accesoaDatos.Conecciones;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Nova
  */
 public class Persona extends Entidad {
-       
+
     private String ciPersona;
     private String personaNombre;
     private String apellidoPersona;
@@ -40,20 +42,19 @@ public class Persona extends Entidad {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Constructores">
-     public Persona(String ciPersona,String nombrePerona, String apellidoPersona) {
-        this.personaNombre=nombrePerona;
+    public Persona(String ciPersona, String nombrePerona, String apellidoPersona) {
+        this.personaNombre = nombrePerona;
         this.ciPersona = ciPersona;
         this.apellidoPersona = apellidoPersona;
     }
-      public Persona(String ciPersona, String apellidoPersona, String nombre, String contrasenia) {
+
+    public Persona(String ciPersona, String apellidoPersona, String nombre, String contrasenia) {
         super(nombre, contrasenia);
         this.ciPersona = ciPersona;
         this.apellidoPersona = apellidoPersona;
-    }    
+    }
 
-     
     //</editor-fold>
-
     /**
      * @return the apellidoPersona
      */
@@ -67,7 +68,7 @@ public class Persona extends Entidad {
     public void setApellidoPersona(String apellidoPersona) {
         this.apellidoPersona = apellidoPersona;
     }
-     
+
     /**
      * @return the personaNombre
      */
@@ -81,30 +82,69 @@ public class Persona extends Entidad {
     public void setPersonaNombre(String personaNombre) {
         this.personaNombre = personaNombre;
     }
-    
-    //PRE: la entidad debe existir
-     protected int AgregarPersona() {
+
+    //Segun lo enviado desde el form, persona debe :
+    //1: Agregar entidad(user)
+    //2: Agregar persona con el id de Entiad que capturo del insert anterior
+    //3: Agregar en UnidadArmada o Empresa dicha persona 
+    protected int AgregarPersona() {
         Conecciones conDB = new Conecciones();
-        int resultado;
-        if (!"".equals(this.ciPersona) && !"".equals(this.getPersonaNombre()) && !"".equals(this.apellidoPersona) && this.getEntidadId() >0 ) {
+        int resultado =-1;
+
+        if (!"".equals(this.ciPersona) && !"".equals(this.getPersonaNombre()) && !"".equals(this.apellidoPersona) && this.getEntidadId() > 0) {
             String query = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\n"
                     + "\"personaCi\", \"personaNombre\", \"personaApellido\", \"personaEntidadId\")\n"
                     + "   VALUES ('" + this.ciPersona + "', '" + this.getPersonaNombre() + "', " + "', '" + this.apellidoPersona + "', " + this.getEntidadId() + ");";
-            resultado = conDB.hacerConsultaIUD(query);
+
+            try {
+                conDB.getConnect().setAutoCommit(false);
+                conDB.hacerConsultaIUD(query);
+//                for (String a : this.listaArchivosExpediente) {
+//
+//                    queryInsertArchivoExpediente = "INSERT INTO \"SysmanexSch1\".\"ExpedienteArchivo\"(\n"
+//                            + "\"ExpedienteId\", \"ArchivoId\")\n"
+//                            + " VALUES ('" + this.numeroExpediente + "', '" + a + "');";
+//                    conDB.hacerConsultaIUD(queryInsertArchivoExpediente);
+//                }
+
+                conDB.getConnect().commit();
+                resultado = 1;
+
+            } catch (SQLException e) {
+
+                if (conDB.getConnect() != null) {
+                    try {
+                        System.err.print("Ocurrio un error ingresando el expediente");
+                        conDB.getConnect().rollback();
+                        return -1;
+                    } catch (SQLException excep) {
+                        return -1;
+                    }
+                }
+
+            } finally {
+                if (conDB.getConnect() != null) {
+                    try {
+                        conDB.getConnect().setAutoCommit(true);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Empresa.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
         } else {
+            System.err.print("Asunto, Motivo no pueden ser vacio.\n");
             resultado = 2;
         }
-
         return resultado;
     }
 
-     protected  int ModificarPersona(String ciPersona) {
+    protected int ModificarPersona(String ciPersona) {
         Conecciones conDB = new Conecciones();
         int resultado;
 
-          if (!"".equals(this.getPersonaNombre()) && !"".equals(this.apellidoPersona) && this.getEntidadId()>0) {
+        if (!"".equals(this.getPersonaNombre()) && !"".equals(this.apellidoPersona) && this.getEntidadId() > 0) {
             String query = "UPDATE \"SysmanexSch1\".\"Persona\"\n"
-                    + "	SET \"personaNombre\"=\'" + this.getPersonaNombre() + "\', \"personaApellido\"='" + this.apellidoPersona +"\',\"personaEntidadId\"=" + this.getEntidadId() +"\\n"
+                    + "	SET \"personaNombre\"=\'" + this.getPersonaNombre() + "\', \"personaApellido\"='" + this.apellidoPersona + "\',\"personaEntidadId\"=" + this.getEntidadId() + "\\n"
                     + "	WHERE \"entidadId\"=" + Integer.parseInt(ciPersona) + ";";
             resultado = conDB.hacerConsultaIUD(query);
         } else {
@@ -116,7 +156,7 @@ public class Persona extends Entidad {
 
     protected static int BorrarPersona(String ci) {
         Conecciones conDB = new Conecciones();
-        int resultado=0;
+        int resultado = 0;
         //TODO
 
         return resultado;
@@ -133,18 +173,16 @@ public class Persona extends Entidad {
 
         return rs;
     }
-    
+
     protected static ResultSet BuscarPersonas() throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 
-        String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""               
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""
                 + " ORDER BY \"personaNombre\" ASC;";
         rs = conDB.hacerConsulta(query);
 
         return rs;
     }
 
-    
 }
-
