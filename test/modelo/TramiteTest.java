@@ -18,9 +18,9 @@ import static org.junit.Assert.*;
  *
  * @author SG0891660
  */
-public class DocumentoTest {
+public class TramiteTest {
     
-    public DocumentoTest() {
+    public TramiteTest() {
     }
     
     @BeforeClass
