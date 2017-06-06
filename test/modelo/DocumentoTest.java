@@ -41,12 +41,12 @@ public class DocumentoTest {
 
     
     /**
-     * Test of AgregarDocumento method, of class Documento.
+     * Test of AgregarDocumento method, of class Tramite.
      */
     @Test
     public void testAgregarDocumentoSuccess() {
         System.out.println("AgregarDocumento");
-        Documento instance = new Documento("Licencia", 200);
+        Tramite instance = new Tramite("Licencia", 200);
         int expResult = 1;
         int result = instance.AgregarDocumento();
         assertEquals(expResult, result);
@@ -54,13 +54,13 @@ public class DocumentoTest {
     }
 
     /**
-     * Test of ModificarDocumento method, of class Documento.
+     * Test of ModificarDocumento method, of class Tramite.
      */
     @Test
     public void testModificarDocumento() {
         System.out.println("ModificarDocumento");
         String id = "4";
-        Documento instance = new Documento("Documento notarial", 100);
+        Tramite instance = new Tramite("Documento notarial", 100);
         instance.setBaja(false);
         int expResult = 1;
         int result = instance.ModificarDocumento(id);
@@ -69,13 +69,13 @@ public class DocumentoTest {
     }
 
     /**
-     * Test of BorrarDocumento method, of class Documento.
+     * Test of BorrarDocumento method, of class Tramite.
      */
     @Test
     public void testBorrarDocumento() {
         System.out.println("BorrarDocumento");
 //        String id = "";
-//        Documento instance = new Documento();
+//        Tramite instance = new Tramite();
 //        int expResult = 0;
 //        int result = instance.BorrarDocumento(id);
 //        assertEquals(expResult, result);

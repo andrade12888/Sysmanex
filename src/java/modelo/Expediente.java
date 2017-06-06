@@ -23,7 +23,7 @@ public class Expediente {
     private String fechaExpediente;
     private String asuntoExpediente;
     private boolean expedientePublico;
-    private Documento documentoExpediente;
+    private Tramite documentoExpediente;
     private Entidad entidadOrigien;    
     private Estado estadoExpediente;
     private Motivo motivoExpediente;
@@ -131,11 +131,11 @@ public class Expediente {
         this.entidadOrigien = entidadOrigien;
     }
 
-    public Documento getDocumentoExpediente() {
+    public Tramite getDocumentoExpediente() {
         return documentoExpediente;
     }
 
-    public void setDocumentoExpediente(Documento documentoExpediente) {
+    public void setDocumentoExpediente(Tramite documentoExpediente) {
         this.documentoExpediente = documentoExpediente;
     }
 
@@ -192,7 +192,7 @@ public class Expediente {
    
      //</editor-fold>
 
-    public Expediente(String asuntoExpediente, boolean expedientePublico, Documento documentoExpediente, Entidad entidadOrigien) {
+    public Expediente(String asuntoExpediente, boolean expedientePublico, Tramite documentoExpediente, Entidad entidadOrigien) {
         this.asuntoExpediente = asuntoExpediente;
         this.expedientePublico = expedientePublico;
         this.documentoExpediente = documentoExpediente;

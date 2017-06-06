@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Documento;
+import modelo.Tramite;
 
 /**
  *
@@ -41,7 +41,7 @@ public class CDocumentos extends HttpServlet {
             case "Guardar": {
                 String tipoDocumento = request.getParameter("txtDocumento");
                 int plazoDocumento = parseInt( request.getParameter("txtPlazo"));
-                Documento unDocu = new Documento(tipoDocumento, plazoDocumento);
+                Tramite unDocu = new Tramite(tipoDocumento, plazoDocumento);
                 int resultado = unDocu.AgregarDocumento();
                 switch (resultado) {
                     case 1:
@@ -66,7 +66,7 @@ public class CDocumentos extends HttpServlet {
                 String tipoDocumento = request.getParameter("txtActualizarDocumento");
                 int plazoDocumento = parseInt(request.getParameter("txtActualizarPlazo"));
                 String idDocumento = request.getParameter("txtActualizarId");
-                Documento unDocu = new Documento(tipoDocumento, plazoDocumento);
+                Tramite unDocu = new Tramite(tipoDocumento, plazoDocumento);
                 int resultado = unDocu.ModificarDocumento(idDocumento);
                 switch (resultado) {
                     case 1:
@@ -88,7 +88,7 @@ public class CDocumentos extends HttpServlet {
                 break;
             }
             default:
-                Documento unDocu = new Documento();
+                Tramite unDocu = new Tramite();
                 int resultado = unDocu.BorrarDocumento(btn);
                 switch (resultado) {
                     case 1:

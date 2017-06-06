@@ -151,7 +151,7 @@ public class Entidad {
                 + "method=\"POST\"><table class=\"table table-striped\"><th>"
                 + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Documento</th><th>Estado</th><th>Opciones</th>";
         while (rs.next()) {
-            Documento unDoc = new Documento();
+            Tramite unDoc = new Tramite();
             unDoc.BuscarDocumento(rs.getInt("expedienteDocumentoId"));
             tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("expedienteNumero") + "\" value=\"" + rs.getInt("expedienteNumero") + "\">"
                     + " <span id=\"enum" + rs.getInt("expedienteNumero") + "\">" + rs.getInt("expedienteNumero") + "</span></td>"

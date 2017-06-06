@@ -13,7 +13,7 @@ import java.sql.SQLException;
  *
  * @author andra
  */
-public class Documento {
+public class Tramite {
 
     private int id;
     private String nombre;
@@ -21,10 +21,10 @@ public class Documento {
     private boolean baja;
     
 
-    public Documento() {
+    public Tramite() {
     }
 
-    public Documento(String nombre, int plazo) {
+    public Tramite(String nombre, int plazo) {
         this.nombre = nombre;
         this.plazo = plazo;
         this.baja = false;
