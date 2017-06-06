@@ -44,23 +44,28 @@ public class LogIn extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
         } else {
             Entidad usr = new Entidad();
-            usr.Autenticar(usu, pass);
 
-            if (usr.getEntidadId() == 0) {
-                request.setAttribute("errorMessage", "Usuario/Contraseña incorrecta.");
-                request.getRequestDispatcher("index.jsp").forward(request, response);
+            try {
+                usr.Autenticar(usu, pass);
 
-            } else {
-                int resultado = usr.getRol().getId();
-                if (resultado == 2) {
-                    request.setAttribute("errorMessage", "El usuario no esta autorizado a ingresar al sistema. Consulte con el administrador");
+                if (usr.getEntidadId() == 0) {
+                    request.setAttribute("errorMessage", "Usuario/Contraseña incorrecta.");
                     request.getRequestDispatcher("index.jsp").forward(request, response);
-                } else {
-                    request.getSession().setAttribute("usuarioLogeado", usr);
-                    request.getRequestDispatcher("bandeja.jsp").forward(request, response);
-                }
-            }
 
+                } else {
+                    int resultado = usr.getRol().getId();
+                    if (resultado == 2) {
+                        request.setAttribute("errorMessage", "El usuario no esta autorizado a ingresar al sistema. Consulte con el administrador");
+                        request.getRequestDispatcher("index.jsp").forward(request, response);
+                    } else {
+                        request.getSession().setAttribute("usuarioLogeado", usr);
+                        request.getRequestDispatcher("bandeja.jsp").forward(request, response);
+                    }
+                }
+            } catch (Exception e) {
+                request.setAttribute("errorMessage", "Error al connectarse a la base de datos.Por favor contactarse con el administrador.");                
+                request.getRequestDispatcher("index.jsp").forward(request, response);
+            }
         }
     }
 

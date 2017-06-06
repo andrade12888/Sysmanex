@@ -3,8 +3,8 @@
     Created on : 18-may-2017, 1:45:32
     Author     : Nova
 --%>
-<%@page import="modelo.Documento"  %>
-<% Documento doc = new Documento();
+<%@page import="modelo.Tramite"  %>
+<% Tramite doc = new Tramite();
 
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -26,7 +26,7 @@
     </form>
     <div class="row">
         <div class="col-lg-2"></div>
-        <div class="col-lg-8"><br> <%= doc.TablaDocumentos()%></div>
+        <div class="col-lg-8"><br> <%= doc.TablaTramites()%></div>
         <div class="col-lg-2"></div>
     </div>
 </div>

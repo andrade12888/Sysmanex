@@ -84,7 +84,7 @@ public class Entidad {
         this.rol=rolEntidad;
     }
 
-    public void Autenticar(String nombre, String pass) throws ClassNotFoundException {
+    public void Autenticar(String nombre, String pass) throws ClassNotFoundException, SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
         Rol unRol = new Rol();
@@ -109,7 +109,9 @@ public class Entidad {
             rs.close();
 
         } catch (SQLException ex) {
-            Logger.getLogger(Conecciones.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;            
+        }catch (Exception e) {
+            throw e;
         }
     }
 
@@ -152,7 +154,7 @@ public class Entidad {
                 + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Documento</th><th>Estado</th><th>Opciones</th>";
         while (rs.next()) {
             Tramite unDoc = new Tramite();
-            unDoc.BuscarDocumento(rs.getInt("expedienteDocumentoId"));
+            unDoc.BuscarTramite(rs.getInt("expedienteDocumentoId"));
             tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("expedienteNumero") + "\" value=\"" + rs.getInt("expedienteNumero") + "\">"
                     + " <span id=\"enum" + rs.getInt("expedienteNumero") + "\">" + rs.getInt("expedienteNumero") + "</span></td>"
                     + "<td><span id=\"easu" + rs.getString("expedienteAsunto") + "\">" + rs.getString("expedienteAsunto") + "</span></td>"

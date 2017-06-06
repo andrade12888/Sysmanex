@@ -48,7 +48,7 @@ public class TramiteTest {
         System.out.println("AgregarDocumento");
         Tramite instance = new Tramite("Licencia", 200);
         int expResult = 1;
-        int result = instance.AgregarDocumento();
+        int result = instance.AgregarTramite();
         assertEquals(expResult, result);
 
     }
@@ -63,7 +63,7 @@ public class TramiteTest {
         Tramite instance = new Tramite("Documento notarial", 100);
         instance.setBaja(false);
         int expResult = 1;
-        int result = instance.ModificarDocumento(id);
+        int result = instance.ModificarTramite(id);
         assertEquals(expResult, result);
         
     }

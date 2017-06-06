@@ -42,7 +42,7 @@ public class CDocumentos extends HttpServlet {
                 String tipoDocumento = request.getParameter("txtDocumento");
                 int plazoDocumento = parseInt( request.getParameter("txtPlazo"));
                 Tramite unDocu = new Tramite(tipoDocumento, plazoDocumento);
-                int resultado = unDocu.AgregarDocumento();
+                int resultado = unDocu.AgregarTramite();
                 switch (resultado) {
                     case 1:
                         request.setAttribute("errorMessage", "Se ingreso correctamente");
@@ -67,7 +67,7 @@ public class CDocumentos extends HttpServlet {
                 int plazoDocumento = parseInt(request.getParameter("txtActualizarPlazo"));
                 String idDocumento = request.getParameter("txtActualizarId");
                 Tramite unDocu = new Tramite(tipoDocumento, plazoDocumento);
-                int resultado = unDocu.ModificarDocumento(idDocumento);
+                int resultado = unDocu.ModificarTramite(idDocumento);
                 switch (resultado) {
                     case 1:
                         request.setAttribute("errorMessage", "Se actualizo correctamente");
@@ -89,7 +89,7 @@ public class CDocumentos extends HttpServlet {
             }
             default:
                 Tramite unDocu = new Tramite();
-                int resultado = unDocu.BorrarDocumento(btn);
+                int resultado = unDocu.BorrarTramite(btn);
                 switch (resultado) {
                     case 1:
                         request.setAttribute("errorMessage", "Se elimino correctamente");
