@@ -202,10 +202,10 @@ public class Entidad {
         return resultado;
     }
 
+    //TODO: Borrar entidad. Discutir si se da de baja o se agrega la baja Logica
     public int BorrarEntidad(String id) {
         Conecciones conDB = new Conecciones();
-        int resultado = 0;
-        //TODO
+        int resultado = 0;        
 
         return resultado;
     }

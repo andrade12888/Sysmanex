@@ -100,21 +100,22 @@ public class UnidadArmada extends Entidad {
         return rs;
     }
 
-    protected static ResultSet BuscarUnidadPorSigla(String sigla) throws SQLException {
+    protected static ResultSet BuscarUnidadPorEntidadId(int entidad) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\""
-                + " WHERE \"unidadSigla\" = \'" + sigla + "\';";
+                + " WHERE \"unidadEntidadId\" = " + entidad + ";";
         rs = conDB.hacerConsulta(query);
 
         return rs;
     }
 
+    //TODO: Delete o baja logica
     protected static int BorrarUnidadArmada(String sigla) {
         Conecciones conDB = new Conecciones();
         int resultado = 0;
-//TODO
+
         return resultado;
     }
 

@@ -108,14 +108,14 @@ public class EmpresaTest {
     /**
      * Test of BorrarEmpresa method, of class Empresa.
      */
+    // TODO: testBorrarEmpresa.
     @Test
     public void testBorrarEmpresa() {
 //        System.out.println("BorrarEmpresa");
 //        String RUT = "";
 //        int expResult = 0;
 //        int result = Empresa.BorrarEmpresa(RUT);
-//        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+//        assertEquals(expResult, result);        
         fail("The test case is a prototype.");
     }
 

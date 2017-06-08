@@ -154,10 +154,10 @@ public class Persona extends Entidad {
         return resultado;
     }
 
+    //TODO: Definir borrar persona. Otra vez, Delete o baja logica
     protected static int BorrarPersona(String ci) {
         Conecciones conDB = new Conecciones();
         int resultado = 0;
-        //TODO
 
         return resultado;
     }

@@ -203,7 +203,7 @@ public class Expediente {
         Conecciones conDB = new Conecciones();
         int resultado = -1;        
         String queryInsertArchivoExpediente;
-//TODO: Sacar la transaccion de agregar persona
+
         if (!"".equals(this.asuntoExpediente) && !"".equals(this.estadoExpediente) && !"".equals(this.numeroExpediente)) {
             
             String queryInsertArchivo = "INSERT INTO \"SysmanexSch1\".\"Expediente\"(\n"

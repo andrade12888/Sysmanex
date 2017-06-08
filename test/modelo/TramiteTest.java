@@ -69,7 +69,7 @@ public class TramiteTest {
     }
 
     /**
-     * Test of BorrarDocumento method, of class Tramite.
+     TODO: Test of BorrarDocumento method, of class Tramite.
      */
     @Test
     public void testBorrarDocumento() {
@@ -79,7 +79,7 @@ public class TramiteTest {
 //        int expResult = 0;
 //        int result = instance.BorrarDocumento(id);
 //        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        
         fail("The test case is a prototype.");
     }
 

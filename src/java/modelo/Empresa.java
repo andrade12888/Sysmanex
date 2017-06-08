@@ -139,6 +139,7 @@ public class Empresa {
         return rs;
     }
     
+    //TODO: Discutir sobre el borrado de empresas
     protected static int BorrarEmpresa(String RUT) {
         Conecciones conDB = new Conecciones();
         int resultado;
@@ -147,6 +148,7 @@ public class Empresa {
                 + "	WHERE \"empresaRut\"='" + RUT + "\';";
         resultado = conDB.hacerConsultaIUD(query);
 
+        
         return resultado;
     }
 

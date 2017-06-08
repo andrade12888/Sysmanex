@@ -38,19 +38,22 @@ public class PersonaTest {
     public void tearDown() {
     }
 
+    
+    /**
+     TODO: Test of testAgregarPersona method, of class Persona.
+     */
     @Test
     public void testAgregarPersona() {
         System.out.println("AgregarPersona");
         Persona instance = new Persona("91827364", "Pablo", "Almeida");
         int expResult = 0;
         int result = instance.AgregarPersona();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        assertEquals(expResult, result);        
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of ModificarPersona method, of class Persona.
+     TODO: Test of ModificarPersona method, of class Persona.
      */
     @Test
     public void testModificarPersona() {
@@ -60,12 +63,12 @@ public class PersonaTest {
         int expResult = 0;
         int result = instance.ModificarPersona(ciPersona);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of BorrarPersona method, of class Persona.
+     TODO: Test of BorrarPersona method, of class Persona.
      */
     @Test
     public void testBorrarPersona() {
@@ -74,12 +77,12 @@ public class PersonaTest {
         int expResult = 0;
         int result = Persona.BorrarPersona(ci);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of BuscarPersona method, of class Persona.
+     TODO: Test of BuscarPersona method, of class Persona.
      */
     @Test
     public void testBuscarPersona() throws Exception {
@@ -88,12 +91,12 @@ public class PersonaTest {
         ResultSet expResult = null;
         ResultSet result = Persona.BuscarPersona(nombre);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of BuscarPersonas method, of class Persona.
+     TODO: Test of BuscarPersonas method, of class Persona.
      */
     @Test
     public void testBuscarPersonas() throws Exception {
@@ -101,7 +104,7 @@ public class PersonaTest {
         ResultSet expResult = null;
         ResultSet result = Persona.BuscarPersonas();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        
         fail("The test case is a prototype.");
     }
     
