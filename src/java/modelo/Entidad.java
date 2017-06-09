@@ -159,7 +159,7 @@ public class Entidad {
                     + "<td><span id=\"efec" + rs.getString("expedienteFecha") + "\">" + rs.getString("expedienteFecha") + "</span></td>"
                     + "<td><span id=\"edoc" + unDoc.getId() + "\">" + unDoc.getNombre() + "</span></td>"
                     + "<td><span id=\"eest" + rs.getInt("expedienteEstadoId") + "\">" + rs.getInt("expedienteEstadoId") + "</span></td>"
-                    + "<td><button onclick=\"modalDocumento(" + rs.getInt("expedienteNumero") + ")\" id=\"" + rs.getInt("expedienteNumero") + "\" "
+                    + "<td><button onclick=\"modalDocumento("+ rs.getInt("expedienteNumero") + ")\" id=\"" + rs.getInt("expedienteNumero") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-send\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
                     + "</button><button name=\"btnDocumento\" value=\"" + rs.getInt("expedienteNumero") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }
