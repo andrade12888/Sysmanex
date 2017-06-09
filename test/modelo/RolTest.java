@@ -44,7 +44,7 @@ public class RolTest {
      * Test of AgregarRol method, of class Rol.
      */
     @Test
-    public void testAgregarRol() {
+    public void testAgregarRol() throws SQLException {
         System.out.println("AgregarRol");
         Rol instance = new Rol("UsuarioLimitado");
         int expResult = 1;
@@ -55,7 +55,7 @@ public class RolTest {
      * Test of AgregarRol method, of class Rol. Check UNIQUE ID rolDescripcion
      */
     @Test
-    public void testAgregarRolError() {
+    public void testAgregarRolError() throws SQLException {
         System.out.println("AgregarRol");
         Rol instance = new Rol("UsuarioLimitado");
         int expResult = -1;
@@ -66,7 +66,7 @@ public class RolTest {
      * Test of ModificarRol method, of class Rol.
      */
     @Test
-    public void testModificarRol() {
+    public void testModificarRol() throws SQLException {
         System.out.println("ModificarRol");
         int id = 25;
         String descripcionRol = "RolLimitado";

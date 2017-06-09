@@ -44,7 +44,7 @@ public class TramiteTest {
      * Test of AgregarDocumento method, of class Tramite.
      */
     @Test
-    public void testAgregarDocumentoSuccess() {
+    public void testAgregarDocumentoSuccess() throws SQLException {
         System.out.println("AgregarDocumento");
         Tramite instance = new Tramite("Licencia", 200);
         int expResult = 1;
@@ -57,7 +57,7 @@ public class TramiteTest {
      * Test of ModificarDocumento method, of class Tramite.
      */
     @Test
-    public void testModificarDocumento() {
+    public void testModificarDocumento() throws SQLException {
         System.out.println("ModificarDocumento");
         String id = "4";
         Tramite instance = new Tramite("Documento notarial", 100);

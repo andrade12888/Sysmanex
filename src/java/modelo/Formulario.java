@@ -140,7 +140,7 @@ public class Formulario {
         return rs;
     }
     
-     protected int AgregarFormulario() {
+     protected int AgregarFormulario() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.nombreFormulario) && !"".equals(this.rutaRormulario)) {

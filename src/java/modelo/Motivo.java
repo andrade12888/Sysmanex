@@ -102,7 +102,7 @@ public class Motivo {
         return rs;
     }
     
-     protected int AgregarMotivo() {
+     protected int AgregarMotivo() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.descripcionMotivo)) {

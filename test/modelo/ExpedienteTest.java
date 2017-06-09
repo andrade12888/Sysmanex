@@ -6,6 +6,7 @@
 package modelo;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -84,7 +85,7 @@ public class ExpedienteTest {
       TODO: Test of BorrarExpediente method, of class Expediente.
      */
     @Test
-    public void testBorrarExpediente() {
+    public void testBorrarExpediente() throws SQLException {
         System.out.println("BorrarExpediente");
         String numeroExpediente = "";
         int expResult = 0;

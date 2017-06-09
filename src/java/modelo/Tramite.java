@@ -8,6 +8,8 @@ package modelo;
 import accesoaDatos.Conecciones;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -58,14 +60,19 @@ public class Tramite {
         this.baja = baja;
     }
 
-    public int AgregarTramite() {
+    public int AgregarTramite(){
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.nombre) && this.plazo>=0) {
             String query = "INSERT INTO \"SysmanexSch1\".\"Tramite\"(\n"
                     + "\"documentoNombre\", \"documentoPlazo\", \"documentoBaja\")\n"
                     + "   VALUES ('" + this.nombre + "', '" + this.plazo + "', " + this.baja + ");";
-            resultado = conDB.hacerConsultaIUD(query);
+            try {
+                resultado = conDB.hacerConsultaIUD(query);
+            } catch (SQLException ex) {
+                resultado =-1;
+                Logger.getLogger(Tramite.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             resultado = 2;
         }
@@ -73,7 +80,7 @@ public class Tramite {
         return resultado;
     }
 
-    public int ModificarTramite(String id) {
+    public int ModificarTramite(String id){
         Conecciones conDB = new Conecciones();
         int resultado;
 
@@ -81,7 +88,12 @@ public class Tramite {
             String query = "UPDATE \"SysmanexSch1\".\"Tramite\"\n"
                     + "	SET \"documentoNombre\"=\'" + nombre + "\', \"documentoPlazo\"=" + plazo + "\n"
                     + "	WHERE \"documentoId\"=" + Integer.parseInt(id) + ";";
-            resultado = conDB.hacerConsultaIUD(query);
+            try {
+                resultado = conDB.hacerConsultaIUD(query);
+            } catch (SQLException ex) {
+                resultado = -1;
+                Logger.getLogger(Tramite.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             resultado = 2;
         }
@@ -96,7 +108,12 @@ public class Tramite {
         String query = "UPDATE \"SysmanexSch1\".\"Tramite\"\n"
                 + "	SET \"documentoBaja\"=\'true'"
                 + "	WHERE \"documentoId\"=" + Integer.parseInt(id) + ";";
-        resultado = conDB.hacerConsultaIUD(query);
+        try {
+            resultado = conDB.hacerConsultaIUD(query);
+        } catch (SQLException ex) {
+            resultado = -1;
+            Logger.getLogger(Tramite.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         return resultado;
     }
@@ -129,7 +146,7 @@ public class Tramite {
         }
     }
 
-    private ResultSet documentosDB() {
+    private ResultSet documentosDB() throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 

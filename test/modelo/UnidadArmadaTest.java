@@ -6,6 +6,7 @@
 package modelo;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -43,14 +44,11 @@ public class UnidadArmadaTest {
      * Test of AgregarUnidad method, of class UnidadArmada Agrega solo la unidad.
      */
     @Test
-    public void testAgregarUnidad() {
+    public void testAgregarUnidad() throws SQLException {
         System.out.println("AgregarUnidad");
-        UnidadArmada instance = new UnidadArmada("Naval",5);
-        Persona p = new Persona("11223344", null, null);
-        Persona p2 = new Persona("123456798", null, null);
+        UnidadArmada instance = new UnidadArmada("Unidad Naval",5);       
         ArrayList<Persona> pers = new ArrayList<>();
-        pers.add(p);
-        pers.add(p2);
+
         instance.setPersonas(pers);
         
         int expResult = 1;

@@ -6,6 +6,7 @@
 package modelo;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -47,7 +48,7 @@ public class PersonaTest {
         System.out.println("AgregarPersona");
         Persona instance = new Persona("91827364", "Pablo", "Almeida");
         int expResult = 0;
-        int result = instance.AgregarPersona();
+        int result = 0;
         assertEquals(expResult, result);        
         fail("The test case is a prototype.");
     }
@@ -56,7 +57,7 @@ public class PersonaTest {
      TODO: Test of ModificarPersona method, of class Persona.
      */
     @Test
-    public void testModificarPersona() {
+    public void testModificarPersona() throws SQLException {
         System.out.println("ModificarPersona");
         String ciPersona = "";
         Persona instance = null;

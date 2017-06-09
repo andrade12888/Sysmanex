@@ -105,7 +105,7 @@ public class Estado {
         return resultado;
     }
     
-     protected int AgregarEstado() {
+     protected int AgregarEstado() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.descripcionEstado)) {
@@ -119,7 +119,7 @@ public class Estado {
         return resultado;
     }
 
-    protected static int ModificarEstado(int idEstadi, String descripcionEstado, boolean nuevoEstadoBaja) {
+    protected static int ModificarEstado(int idEstadi, String descripcionEstado, boolean nuevoEstadoBaja) throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
 

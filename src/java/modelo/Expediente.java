@@ -278,7 +278,7 @@ public class Expediente {
         return rs;
     }
     
-    protected static int BorrarExpediente(String numeroExpediente) {
+    protected static int BorrarExpediente(String numeroExpediente) throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
 

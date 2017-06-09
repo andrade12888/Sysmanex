@@ -115,7 +115,8 @@ public class Entidad {
         }
     }
 
-    public ResultSet ExpedientesDB() {
+    //TODO: Por que estan estos metodos de Expedientes en Entidad?
+    public ResultSet ExpedientesDB() throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs = null;
 
@@ -170,15 +171,19 @@ public class Entidad {
         return tabla;
     }
 
+    //TODO: Resultado 2 podria dar error o conflicto si estoy inrgesando el segundo user
     //PRE: El rol debe existir en la base de datos
-    protected int AgregarEntidad() {
+    protected int AgregarEntidad() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.nombreEntidad) && !"".equals(this.contrasenia) && this.rol != null) {
             String query = "INSERT INTO \"SysmanexSch1\".\"Entidad\"(\n"
                     + "\"entidadNombre\", \"entidadPassword\", \"rolId\")\n"
-                    + "   VALUES ('" + this.nombreEntidad + "', '" + this.contrasenia + "', " + this.rol.getId() + ");";
-            resultado = conDB.hacerConsultaIUD(query);
+                    + "   VALUES ('" + this.nombreEntidad + "', '" + this.contrasenia + "',"
+                    + " " + this.rol.getId() + ") RETURNING \"entidadId\";";
+            ResultSet rs = conDB.hacerConsulta(query);
+            rs.next();
+            resultado= rs.getInt(1);
         } else {
             resultado = 2;
         }
@@ -186,7 +191,8 @@ public class Entidad {
         return resultado;
     }
 
-    protected int ModificarEntidad(String idEntidad) {
+    
+    protected int ModificarEntidad(String idEntidad) throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
 

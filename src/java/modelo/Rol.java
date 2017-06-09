@@ -63,7 +63,7 @@ public class Rol {
         return resultado;
     }
     
-     public int AgregarRol() {
+     public int AgregarRol() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.descripcion)) {
@@ -77,7 +77,7 @@ public class Rol {
         return resultado;
     }
 
-    protected static int ModificarRol(int id, String descripcionRol) {
+    protected static int ModificarRol(int id, String descripcionRol) throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
 

@@ -61,7 +61,7 @@ public class UnidadArmada extends Entidad {
     }
 
         //PRE: La entidad debe existir        
-        protected int AgregarUnidad() {
+        protected int AgregarUnidad() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado = -1;
         String queryInsertUnidad = "INSERT INTO \"SysmanexSch1\".\"Unidad\"(\n"

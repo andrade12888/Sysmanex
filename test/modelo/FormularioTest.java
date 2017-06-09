@@ -6,6 +6,7 @@
 package modelo;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -69,7 +70,7 @@ public class FormularioTest {
      TODO: Test of AgregarFormulario method, of class Formulario.
      */
     @Test
-    public void testAgregarFormulario() {
+    public void testAgregarFormulario() throws SQLException {
         System.out.println("AgregarFormulario");
         Formulario instance = null;
         int expResult = 0;
