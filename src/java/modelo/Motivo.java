@@ -64,6 +64,9 @@ public class Motivo {
      public Motivo(String descripcionMotivo) {
         this.descripcionMotivo = descripcionMotivo;
     }   
+      public Motivo() {
+        
+    }   
     //</editor-fold> 
      
     protected static String getMotivoDB(int motivoId){

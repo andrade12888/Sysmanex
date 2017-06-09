@@ -139,7 +139,7 @@ public class Tramite {
         + " ORDER BY \"documentoId\" ASC;";
         rs = conDB.hacerConsulta(query);
         while(rs.next()){
-            this.id = id;
+            this.setId(id);
             this.setNombre(rs.getString("documentoNombre"));
             this.setPlazo(rs.getInt("documentoPlazo"));
             this.setBaja(rs.getBoolean("documentoBaja"));
@@ -186,6 +186,13 @@ public class Tramite {
         tabla += "</table></form>";
 
         return tabla;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

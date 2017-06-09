@@ -81,6 +81,9 @@ public class Estado {
         this.descripcionEstado = descripcionEstado;
         this.estadoBaja=false;
     }
+     public Estado() {
+        
+    }
     //</editor-fold>
     
      protected static String getEstadoDB(int estadoId){
