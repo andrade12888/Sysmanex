@@ -42,62 +42,79 @@ public class UnidadArmadaTest {
     /**
      * Test of AgregarUnidad method, of class UnidadArmada Agrega solo la unidad.
      */
-    @Test
-    public void testAgregarUnidad() {
-        System.out.println("AgregarUnidad");
-        UnidadArmada instance = new UnidadArmada("Artilleros",5);
-        Persona p = new Persona("11223344", null, null);
-        Persona p2 = new Persona("123456798", null, null);
-        ArrayList<Persona> pers = new ArrayList<>();
-        pers.add(p);
-        pers.add(p2);
-        instance.setPersonas(pers);
-        
-        int expResult = 1;
-        int result = instance.AgregarUnidad();
-        assertEquals(expResult, result);
-
-    }
+//    @Test
+//    public void testAgregarUnidad() {
+//        System.out.println("AgregarUnidad");
+//        UnidadArmada instance = new UnidadArmada("Artilleros",5);
+//        Persona p = new Persona("11223344", null, null);
+//        Persona p2 = new Persona("123456798", null, null);
+//        ArrayList<Persona> pers = new ArrayList<>();
+//        pers.add(p);
+//        pers.add(p2);
+//        instance.setPersonas(pers);
+//        
+//        int expResult = 1;
+//        int result = instance.AgregarUnidad();
+//        assertEquals(expResult, result);
+//
+//    }
 
     /**
-     * Test of BuscarUnidades method, of class UnidadArmada.
+     Test of BuscarUnidades method, of class UnidadArmada.
+     * @throws java.lang.Exception
      */
     @Test
     public void testBuscarUnidades() throws Exception {
         System.out.println("BuscarUnidades");
-        ResultSet expResult = null;
+        String expResult = "SMA";
+        String unidad="";
         ResultSet result = UnidadArmada.BuscarUnidades();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        while(result.next())
+        {
+            if(result.getString("unidadSigla").equalsIgnoreCase("SMA"))                        
+            {
+                expResult=result.getString("unidadSigla");
+                unidad = result.getString("unidadSigla");            
+            }
+        }
+        
+        assertEquals(expResult,unidad);
+
     }
 
     /**
-     * Test of BuscarUnidadPorNombre method, of class UnidadArmada.
+     Test of BuscarUnidadPorNombre method, of class UnidadArmada.
      */
     @Test
     public void testBuscarUnidadPorNombre() throws Exception {
         System.out.println("BuscarUnidadPorNombre");
-        String nombre = "";
-        ResultSet expResult = null;
-        ResultSet result = UnidadArmada.BuscarUnidadPorNombre(nombre);
+        String nombre = "Artilleros";
+        int expResult = 5;
+        int result=-1;
+        ResultSet rs = UnidadArmada.BuscarUnidadPorNombre(nombre);
+         while(rs.next())
+        {
+            if(rs.getString("unidadSigla").equalsIgnoreCase(nombre))                        
+            {
+               result=rs.getInt("unidadEntidadId");                           
+            }
+        }
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
-     * Test of BuscarUnidadPorSigla method, of class UnidadArmada.
+     Test of BuscarUnidadPorSigla method, of class UnidadArmada.
      */
     @Test
     public void testBuscarUnidadPorSigla() throws Exception {
-        System.out.println("BuscarUnidadPorSigla");
-        String sigla = "";
-        ResultSet expResult = null;
-        ResultSet result = UnidadArmada.BuscarUnidadPorSigla(sigla);
+        System.out.println("BuscarUnidadPorNombre");
+        int entidad = 3;
+        String expResult = "Servicio de Gestion Informatica y Telecomunicaciones";
+        ResultSet rs = UnidadArmada.BuscarUnidadPorEntidadId(entidad);
+        rs.next();
+
+        String result=rs.getString(2);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
    

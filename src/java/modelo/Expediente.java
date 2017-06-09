@@ -5,7 +5,12 @@
  */
 package modelo;
 
+import accesoaDatos.Conecciones;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,16 +19,17 @@ import java.util.ArrayList;
 public class Expediente {
     
     //<editor-fold defaultstate="collapsed" desc="Properties">
-    private int numeroExpediente;
+    private String numeroExpediente;
     private String fechaExpediente;
     private String asuntoExpediente;
     private boolean expedientePublico;
-    private Documento documentoExpediente;
+    private Tramite documentoExpediente;
     private Entidad entidadOrigien;    
     private Estado estadoExpediente;
     private Motivo motivoExpediente;
     private ArrayList<String> listaArchivosExpediente;
     private ArrayList<Entidad> listaDestinariosExpediente;
+    private boolean expedienteBaja;
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Getters y Setters">
@@ -32,7 +38,7 @@ public class Expediente {
      *
      * @return the value of numeroExpediente
      */
-    public int getNumeroExpediente() {
+    public String getNumeroExpediente() {
         return numeroExpediente;
     }
 
@@ -41,7 +47,7 @@ public class Expediente {
      *
      * @param numeroExpediente new value of numeroExpediente
      */
-    public void setNumeroExpediente(int numeroExpediente) {
+    public void setNumeroExpediente(String numeroExpediente) {
         this.numeroExpediente = numeroExpediente;
     }
 
@@ -125,11 +131,11 @@ public class Expediente {
         this.entidadOrigien = entidadOrigien;
     }
 
-    public Documento getDocumentoExpediente() {
+    public Tramite getDocumentoExpediente() {
         return documentoExpediente;
     }
 
-    public void setDocumentoExpediente(Documento documentoExpediente) {
+    public void setDocumentoExpediente(Tramite documentoExpediente) {
         this.documentoExpediente = documentoExpediente;
     }
 
@@ -186,20 +192,118 @@ public class Expediente {
    
      //</editor-fold>
 
-    public Expediente(String asuntoExpediente, boolean expedientePublico, Documento documentoExpediente, Entidad entidadOrigien) {
+    public Expediente(String asuntoExpediente, boolean expedientePublico, Tramite documentoExpediente, Entidad entidadOrigien) {
         this.asuntoExpediente = asuntoExpediente;
         this.expedientePublico = expedientePublico;
         this.documentoExpediente = documentoExpediente;
         this.entidadOrigien = entidadOrigien;
     }
-    
    
-    
-    
-     //</editor-fold>
+     protected int AgregarExpediente() {
+        Conecciones conDB = new Conecciones();
+        int resultado = -1;        
+        String queryInsertArchivoExpediente;
 
+        if (!"".equals(this.asuntoExpediente) && !"".equals(this.estadoExpediente) && !"".equals(this.numeroExpediente)) {
+            
+            String queryInsertArchivo = "INSERT INTO \"SysmanexSch1\".\"Expediente\"(\n"
+                    + "\"expedienteNumero\", \"expedienteAsunto\", \"expedienteFecha\", "
+                    + "\"expedientePublico\", \"expedienteDocumentoId\", \"expedienteEstadoId\", "
+                    + "\"expedienteBaja\", \"expedienteMotivoId\", \"expedienteEntidadId\",)\n"
+                    + "   VALUES ('" + this.numeroExpediente + "', '" + this.asuntoExpediente +"',"
+                    + " '" + this.fechaExpediente +"', '" + this.expedientePublico + "', "
+                    + "'" + this.documentoExpediente +"', '" + this.estadoExpediente +"',"
+                    + " '" + this.expedienteBaja +"', '" + this.motivoExpediente +"', '" + this.entidadOrigien +"');";
+            try {
+                conDB.getConnect().setAutoCommit(false);
+                conDB.hacerConsultaIUD(queryInsertArchivo);
+                for (String a : this.listaArchivosExpediente) {
+                    
+                     queryInsertArchivoExpediente = "INSERT INTO \"SysmanexSch1\".\"ExpedienteArchivo\"(\n"
+                            + "\"ExpedienteId\", \"ArchivoId\")\n"
+                            + " VALUES ('" + this.numeroExpediente + "', '" +a+ "');";
+                     conDB.hacerConsultaIUD(queryInsertArchivoExpediente);
+                }
+                
+                conDB.getConnect().commit();
+                resultado = 1;
+                
+            } catch (SQLException e) {
 
-   
+                if (conDB.getConnect() != null) {
+                    try {
+                        System.err.print("Ocurrio un error ingresando el expediente");
+                        conDB.getConnect().rollback();
+                         return -1;
+                    } catch (SQLException excep) {
+                        return -1;
+                    }
+                }
+
+            }finally {
+        if(conDB.getConnect()!=null)
+        {
+            try {
+                conDB.getConnect().setAutoCommit(true);
+            } catch (SQLException ex) {
+                Logger.getLogger(Empresa.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+        } else {
+            System.err.print("Asunto, Motivo no pueden ser vacio.\n");            
+            resultado = 2;
+        }
+        return resultado;
+    }
+
+     //TODO: Definir los resultados de la busqueda
+    protected static ResultSet BuscarExpedientes() throws SQLException {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Expediente\" ORDER BY \"expedienteNumero\" ASC;";
+        rs = conDB.hacerConsulta(query);
+
+        return rs;
+    }
+
+    protected static ResultSet BuscarExpedientePorNumero(String numeroExpediente) throws SQLException {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Expediente\""
+                + " WHERE \"expedienteNumero\" LIKE \'%" + numeroExpediente + "\'"
+                + " ORDER BY \"expedienteNumero\" ASC;";
+        rs = conDB.hacerConsulta(query);
+
+        return rs;
+    }
+    
+    protected static int BorrarExpediente(String numeroExpediente) {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+
+        String query = "UPDATE \"SysmanexSch1\".\"Expediente\"\n"  
+                + "SET \"expedienteBaja\"=TRUE \n"
+                + "WHERE \"expedienteNumero\"='" + numeroExpediente + "\';";
+        resultado = conDB.hacerConsultaIUD(query);
+
+        return resultado;
+    }
+
+    /**
+     * @return the expedienteBaja
+     */
+    public boolean isExpedienteBaja() {
+        return expedienteBaja;
+    }
+
+    /**
+     * @param expedienteBaja the expedienteBaja to set
+     */
+    public void setExpedienteBaja(boolean expedienteBaja) {
+        this.expedienteBaja = expedienteBaja;
+    }
+
    
 }
 

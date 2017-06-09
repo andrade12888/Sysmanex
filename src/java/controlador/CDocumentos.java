@@ -12,7 +12,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Documento;
+import modelo.Tramite;
 
 /**
  *
@@ -41,8 +41,8 @@ public class CDocumentos extends HttpServlet {
             case "Guardar": {
                 String tipoDocumento = request.getParameter("txtDocumento");
                 int plazoDocumento = parseInt( request.getParameter("txtPlazo"));
-                Documento unDocu = new Documento(tipoDocumento, plazoDocumento);
-                int resultado = unDocu.AgregarDocumento();
+                Tramite unDocu = new Tramite(tipoDocumento, plazoDocumento);
+                int resultado = unDocu.AgregarTramite();
                 switch (resultado) {
                     case 1:
                         request.setAttribute("errorMessage", "Se ingreso correctamente");
@@ -66,8 +66,8 @@ public class CDocumentos extends HttpServlet {
                 String tipoDocumento = request.getParameter("txtActualizarDocumento");
                 int plazoDocumento = parseInt(request.getParameter("txtActualizarPlazo"));
                 String idDocumento = request.getParameter("txtActualizarId");
-                Documento unDocu = new Documento(tipoDocumento, plazoDocumento);
-                int resultado = unDocu.ModificarDocumento(idDocumento);
+                Tramite unDocu = new Tramite(tipoDocumento, plazoDocumento);
+                int resultado = unDocu.ModificarTramite(idDocumento);
                 switch (resultado) {
                     case 1:
                         request.setAttribute("errorMessage", "Se actualizo correctamente");
@@ -88,8 +88,8 @@ public class CDocumentos extends HttpServlet {
                 break;
             }
             default:
-                Documento unDocu = new Documento();
-                int resultado = unDocu.BorrarDocumento(btn);
+                Tramite unDocu = new Tramite();
+                int resultado = unDocu.BorrarTramite(btn);
                 switch (resultado) {
                     case 1:
                         request.setAttribute("errorMessage", "Se elimino correctamente");

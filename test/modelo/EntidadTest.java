@@ -71,6 +71,7 @@ public class EntidadTest {
     /**
      * Test of BorrarEntidad method, of class Entidad.
      */
+    // TODO:testBorrarEntidad()
     @Test
     public void testBorrarEntidad() {
 //        System.out.println("BorrarEntidad");
@@ -79,7 +80,7 @@ public class EntidadTest {
 //        int expResult = 0;
 //        int result = instance.BorrarEntidad(id);
 //        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        
         fail("The test case is a prototype.");
     }
 

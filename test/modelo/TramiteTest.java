@@ -18,9 +18,9 @@ import static org.junit.Assert.*;
  *
  * @author SG0891660
  */
-public class DocumentoTest {
+public class TramiteTest {
     
-    public DocumentoTest() {
+    public TramiteTest() {
     }
     
     @BeforeClass
@@ -41,45 +41,45 @@ public class DocumentoTest {
 
     
     /**
-     * Test of AgregarDocumento method, of class Documento.
+     * Test of AgregarDocumento method, of class Tramite.
      */
     @Test
     public void testAgregarDocumentoSuccess() {
         System.out.println("AgregarDocumento");
-        Documento instance = new Documento("Licencia", 200);
+        Tramite instance = new Tramite("Licencia", 200);
         int expResult = 1;
-        int result = instance.AgregarDocumento();
+        int result = instance.AgregarTramite();
         assertEquals(expResult, result);
 
     }
 
     /**
-     * Test of ModificarDocumento method, of class Documento.
+     * Test of ModificarDocumento method, of class Tramite.
      */
     @Test
     public void testModificarDocumento() {
         System.out.println("ModificarDocumento");
         String id = "4";
-        Documento instance = new Documento("Documento notarial", 100);
+        Tramite instance = new Tramite("Documento notarial", 100);
         instance.setBaja(false);
         int expResult = 1;
-        int result = instance.ModificarDocumento(id);
+        int result = instance.ModificarTramite(id);
         assertEquals(expResult, result);
         
     }
 
     /**
-     * Test of BorrarDocumento method, of class Documento.
+     TODO: Test of BorrarDocumento method, of class Tramite.
      */
     @Test
     public void testBorrarDocumento() {
         System.out.println("BorrarDocumento");
 //        String id = "";
-//        Documento instance = new Documento();
+//        Tramite instance = new Tramite();
 //        int expResult = 0;
 //        int result = instance.BorrarDocumento(id);
 //        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+        
         fail("The test case is a prototype.");
     }
 

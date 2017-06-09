@@ -9,8 +9,6 @@ import accesoaDatos.Conecciones;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -62,69 +60,19 @@ public class UnidadArmada extends Entidad {
         super.setEntidadId(idEntidad);
     }
 
-    //PRE: La entidad debe existir
-    protected int AgregarUnidad() {
+        //PRE: La entidad debe existir        
+        protected int AgregarUnidad() {
         Conecciones conDB = new Conecciones();
         int resultado = -1;
         String queryInsertUnidad = "INSERT INTO \"SysmanexSch1\".\"Unidad\"(\n"
                 + "\"unidadSigla\", \"unidadEntidadId\")\n"
                 + "   VALUES ('" + this.sigla + "', '" + this.getEntidadId() + "');";
-        String queryInsertPersonaEnUnidad;
 
-        //PRE: solo se ingresa la Unidad sin personas
-        //POST: Solo se agrega la Unidad
-        if (!"".equals(this.sigla) && (this.personas == null)) {
+        if (!"".equals(this.sigla) && !"".equals(this.getEntidadId())) {
             resultado = conDB.hacerConsultaIUD(queryInsertUnidad);
 
-         //PRE: se ingresa la Unidad con personas existentes
-            //POST: se agrega la Unidad y sus personas
-        } else if (!"".equals(this.sigla)) {
-
-            try {
-                conDB.getConnect().setAutoCommit(false);
-                ResultSet rs = conDB.hacerConsulta(queryInsertUnidad);
-
-                if (rs != null) {
-                    while (rs.next()) {
-                        for (Persona p : this.personas) {
-
-                            queryInsertPersonaEnUnidad = "INSERT INTO \"SysmanexSch1\".\"UnidadTienePersona\"(\n"
-                                    + "\"unidadId\", \"personaCi\")\n"
-                                    + "   VALUES ('" + rs.getInt(1) + "', '" + p.getCiPersona() + "');";
-                            conDB.hacerConsultaIUD(queryInsertPersonaEnUnidad);
-                        }
-                    }
-                } else {
-                    return -1;
-                }
-                if (!rs.isClosed()) {
-                    rs.close();
-                }
-                conDB.getConnect().commit();
-                resultado = 1;
-
-            } catch (SQLException e) {
-
-                if (conDB.getConnect() != null) {
-                    try {
-                        System.err.print("Ocurrio un error ingresando las personas a la empresa");
-                        conDB.getConnect().rollback();
-                        return -1;
-                    } catch (SQLException excep) {
-                        return -1;
-                    }
-                }
-
-            } finally {
-                if (conDB.getConnect() != null) {
-                    try {
-                        conDB.getConnect().setAutoCommit(true);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Empresa.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        } else {
+        
+        }  else {
             System.err.print("El RUT no puede ser vacio.\n");
             System.err.print("El RUT no puede ser vacio.");
             resultado = 2;
@@ -152,21 +100,22 @@ public class UnidadArmada extends Entidad {
         return rs;
     }
 
-    protected static ResultSet BuscarUnidadPorSigla(String sigla) throws SQLException {
+    protected static ResultSet BuscarUnidadPorEntidadId(int entidad) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\""
-                + " WHERE \"unidadSigla\" = \'" + sigla + "\';";
+                + " WHERE \"unidadEntidadId\" = " + entidad + ";";
         rs = conDB.hacerConsulta(query);
 
         return rs;
     }
 
+    //TODO: Delete o baja logica
     protected static int BorrarUnidadArmada(String sigla) {
         Conecciones conDB = new Conecciones();
         int resultado = 0;
-//TODO
+
         return resultado;
     }
 
