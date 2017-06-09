@@ -42,22 +42,22 @@ public class UnidadArmadaTest {
     /**
      * Test of AgregarUnidad method, of class UnidadArmada Agrega solo la unidad.
      */
-//    @Test
-//    public void testAgregarUnidad() {
-//        System.out.println("AgregarUnidad");
-//        UnidadArmada instance = new UnidadArmada("Artilleros",5);
-//        Persona p = new Persona("11223344", null, null);
-//        Persona p2 = new Persona("123456798", null, null);
-//        ArrayList<Persona> pers = new ArrayList<>();
-//        pers.add(p);
-//        pers.add(p2);
-//        instance.setPersonas(pers);
-//        
-//        int expResult = 1;
-//        int result = instance.AgregarUnidad();
-//        assertEquals(expResult, result);
-//
-//    }
+    @Test
+    public void testAgregarUnidad() {
+        System.out.println("AgregarUnidad");
+        UnidadArmada instance = new UnidadArmada("Naval",5);
+        Persona p = new Persona("11223344", null, null);
+        Persona p2 = new Persona("123456798", null, null);
+        ArrayList<Persona> pers = new ArrayList<>();
+        pers.add(p);
+        pers.add(p2);
+        instance.setPersonas(pers);
+        
+        int expResult = 1;
+        int result = instance.AgregarUnidad();
+        assertEquals(expResult, result);
+
+    }
 
     /**
      Test of BuscarUnidades method, of class UnidadArmada.

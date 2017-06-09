@@ -73,8 +73,8 @@ public class UnidadArmada extends Entidad {
 
         
         }  else {
-            System.err.print("El RUT no puede ser vacio.\n");
-            System.err.print("El RUT no puede ser vacio.");
+            System.err.print("El nombre de la unidad no puede ser vacio.\n");
+            System.err.print("La unidad no puede ser vacia.");
             resultado = 2;
         }
         return resultado;
