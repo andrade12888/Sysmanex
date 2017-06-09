@@ -8,8 +8,6 @@ package modelo;
 import accesoaDatos.Conecciones;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -48,9 +46,10 @@ public class Persona extends Entidad {
         this.apellidoPersona = apellidoPersona;
     }
 
-    public Persona(String ciPersona, String apellidoPersona, String nombre, String contrasenia) {
-        super(nombre, contrasenia);
-        this.ciPersona = ciPersona;
+    public Persona(String ciPersona, String personaNombre, String apellidoPersona, String userId, String contrasenia, Rol rol) {
+        super(userId, contrasenia, rol);
+        this.ciPersona = ciPersona; 
+        this.nombrePersona= personaNombre;
         this.apellidoPersona = apellidoPersona;
     }
 
@@ -68,7 +67,19 @@ public class Persona extends Entidad {
     public void setApellidoPersona(String apellidoPersona) {
         this.apellidoPersona = apellidoPersona;
     }
+    /**
+     * @return the nombrePersona
+     */
+    public String getNombrePersona() {
+        return nombrePersona;
+    }
 
+    /**
+     * @param nombrePersona the nombrePersona to set
+     */
+    public void setNombrePersona(String nombrePersona) {
+        this.nombrePersona = nombrePersona;
+    }
 
     //Segun lo enviado desde el form, persona debe :
     //1: Agregar entidad(user)
@@ -82,7 +93,7 @@ public class Persona extends Entidad {
         int resultado =-1;
 
         //Controlo que los valores necesario para inrgesar una persona no sean vacios
-        if (!"".equals(this.ciPersona) && !"".equals(super.getNombreEntidad()) && !"".equals(this.apellidoPersona)) 
+        if (!"".equals(this.ciPersona) && !"".equals(super.getNombreEntidad()) && !"".equals(this.apellidoPersona)&& !"".equals(super.getContrasenia()) ) 
         {                     
             try {
                 //Seteo autocommit false para que todo se ejecute como una transaccion
@@ -96,15 +107,15 @@ public class Persona extends Entidad {
                 //Si se agrego correctamente la entidad, agrego la persona con el id de entidad guardado
                   String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\n"
                     + "\"personaCi\", \"personaNombre\", \"personaApellido\", \"personaEntidadId\")\n"
-                    + "   VALUES ('" + this.ciPersona + "', '" + super.getNombreEntidad() + "', " + "',"
-                    + " '" + this.apellidoPersona + "', " + entidadId + ");";
+                    + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', " +
+                     " '" + this.apellidoPersona + "', " + entidadId + ");";
                 conDB.hacerConsultaIUD(queryPersona);
                 
                 //Ahora agrego la persona a la unidad en la tabla UnidadTienePersona con el valor 
                 // de entidadId que viene del form
                  String queryPersonaEnUnidad = "INSERT INTO \"SysmanexSch1\".\"UnidadTienePersona\"(\n"
                     + "\"unidadId\", \"personaCi\")\n"
-                    + "   VALUES ('" + this.ciPersona + "', '" +unidadId+");";
+                    + "   VALUES ('" + unidadId + "', " +this.ciPersona+");";
                 conDB.hacerConsultaIUD(queryPersonaEnUnidad);
                 
                 conDB.getConnect().commit();
@@ -144,9 +155,9 @@ public class Persona extends Entidad {
 
         if (!"".equals(super.getNombreEntidad()) && !"".equals(this.apellidoPersona) && this.getEntidadId() > 0) {
             String query = "UPDATE \"SysmanexSch1\".\"Persona\"\n"
-                    + "	SET \"personaNombre\"=\'" + super.getNombreEntidad()+ "\',"
+                    + "	SET \"personaNombre\"=\'" + this.nombrePersona+ "\',"
                     + " \"personaApellido\"='" + this.apellidoPersona + "\',\"personaEntidadId\"=" + this.getEntidadId() + "\\n"
-                    + "	WHERE \"entidadId\"=" + Integer.parseInt(ciPersona) + ";";
+                    + "	WHERE \"entidadId\"=" + this.getEntidadId() + ";";
             resultado = conDB.hacerConsultaIUD(query);
         } else {
             resultado = 2;
@@ -163,6 +174,7 @@ public class Persona extends Entidad {
         return resultado;
     }
 
+    //TODO:Definir que valores retorno
     protected static ResultSet BuscarPersona(String nombre) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
@@ -186,18 +198,6 @@ public class Persona extends Entidad {
         return rs;
     }
 
-    /**
-     * @return the nombrePersona
-     */
-    public String getNombrePersona() {
-        return nombrePersona;
-    }
 
-    /**
-     * @param nombrePersona the nombrePersona to set
-     */
-    public void setNombrePersona(String nombrePersona) {
-        this.nombrePersona = nombrePersona;
-    }
 
 }

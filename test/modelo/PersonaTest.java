@@ -41,17 +41,21 @@ public class PersonaTest {
 
     
     /**
-     TODO: Test of testAgregarPersona method, of class Persona.
+     Test of testAgregarPersona method, of class Persona.
      */
-    @Test
-    public void testAgregarPersona() {
-        System.out.println("AgregarPersona");
-        Persona instance = new Persona("91827364", "Pablo", "Almeida");
-        int expResult = 0;
-        int result = 0;
-        assertEquals(expResult, result);        
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testAgregarPersona() throws SQLException {
+//        System.out.println("AgregarPersona");       
+//        Rol r = new Rol();        
+//        r.setId(5);        
+//        Persona instance = new Persona("91827364", "Pablo", "Almeida","newUser","abc1234",r);
+//        Entidad e = new Entidad();
+//        e.setRol(r);
+//        int expResult = 1;
+//        int result = instance.AgregarPersonaEnUnidad(2);
+//        assertEquals(expResult, result);        
+//
+//    }
 
     /**
      TODO: Test of ModificarPersona method, of class Persona.
@@ -62,8 +66,8 @@ public class PersonaTest {
         String ciPersona = "";
         Persona instance = null;
         int expResult = 0;
-        int result = instance.ModificarPersona(ciPersona);
-        assertEquals(expResult, result);
+//        int result = instance.ModificarPersona(ciPersona);
+//        assertEquals(expResult, result);
         
         fail("The test case is a prototype.");
     }
@@ -76,37 +80,51 @@ public class PersonaTest {
         System.out.println("BorrarPersona");
         String ci = "";
         int expResult = 0;
-        int result = Persona.BorrarPersona(ci);
-        assertEquals(expResult, result);
-        
-        fail("The test case is a prototype.");
+//        int result = Persona.BorrarPersona(ci);
+//       assertEquals(expResult, result);
+       
+   fail("The test case is a prototype.");
     }
 
     /**
-     TODO: Test of BuscarPersona method, of class Persona.
+     Test of BuscarPersona method, of class Persona.
      */
     @Test
     public void testBuscarPersona() throws Exception {
         System.out.println("BuscarPersona");
-        String nombre = "";
-        ResultSet expResult = null;
+        String nombre = "Jorge";
+        String expResult ="123456798";
+        String rs="";
         ResultSet result = Persona.BuscarPersona(nombre);
-        assertEquals(expResult, result);
-        
-        fail("The test case is a prototype.");
+        while(result.next() && result.getString("personaNombre").equalsIgnoreCase(nombre))
+        {
+             rs= result.getString("personaCi");
+        }
+        assertEquals(expResult, rs);
+
     }
 
     /**
-     TODO: Test of BuscarPersonas method, of class Persona.
+     Test of BuscarPersonas method, of class Persona.
      */
     @Test
     public void testBuscarPersonas() throws Exception {
         System.out.println("BuscarPersonas");
-        ResultSet expResult = null;
-        ResultSet result = Persona.BuscarPersonas();
-        assertEquals(expResult, result);
+           
+        int c=0;
+        ResultSet result = Persona.BuscarPersonas();        
         
-        fail("The test case is a prototype.");
+        int expResult = result.getRow();
+
+        while(result.next())
+        {
+           c++;
+           expResult = result.getRow();
+        }
+  
+   
+        assertEquals(expResult, c);
+
     }
     
 }
