@@ -64,6 +64,9 @@ public class Motivo {
      public Motivo(String descripcionMotivo) {
         this.descripcionMotivo = descripcionMotivo;
     }   
+      public Motivo() {
+        
+    }   
     //</editor-fold> 
      
     protected static String getMotivoDB(int motivoId){
@@ -102,7 +105,7 @@ public class Motivo {
         return rs;
     }
     
-     protected int AgregarMotivo() {
+     protected int AgregarMotivo() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.descripcionMotivo)) {

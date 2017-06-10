@@ -1,14 +1,5 @@
 $(document).ready(function(){
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 });
 
 function modalDocumento(id){

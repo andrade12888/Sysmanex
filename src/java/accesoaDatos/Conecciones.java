@@ -10,8 +10,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Conecciones {
 
@@ -50,7 +48,7 @@ public class Conecciones {
         }
     }
 
-    public ResultSet hacerConsulta(String query) {
+    public ResultSet hacerConsulta(String query) throws SQLException {
         Connection con = this.getConnect();
         ResultSet rs = null;
         try {
@@ -58,13 +56,13 @@ public class Conecciones {
             rs = sta.executeQuery(query);
             
         } catch (SQLException ex) {
-            Logger.getLogger(Conecciones.class.getName()).log(Level.SEVERE, null, ex);
+          throw ex;
         }
 
         return rs;
     }
     
-    public int hacerConsultaIUD(String query) {
+    public int hacerConsultaIUD(String query) throws SQLException {
         Connection con = this.getConnect();
         int resultado = -1;
         try {
@@ -72,11 +70,10 @@ public class Conecciones {
             resultado = sta.executeUpdate(query);
             
         } catch (SQLException ex) {
-            Logger.getLogger(Conecciones.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
         }
 
         return resultado;
-    }
-
+    }        
     
 }

@@ -6,6 +6,7 @@
 package modelo;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -41,17 +42,49 @@ public class ExpedienteTest {
 
     
     /**
-     TODO: Test of AgregarExpediente method, of class Expediente.
+    Test of AgregarExpediente method, of class Expediente.
      */
     @Test
     public void testAgregarExpediente() {
         System.out.println("AgregarExpediente");
-        Expediente instance = null;
-        int expResult = 0;
+//        Entidad e = new Entidad();
+//        e.setEntidadId(3);
+//        Tramite t = new Tramite();
+//        t.setId(3);
+//        Estado est = new Estado();
+//        est.setIdEstado(2);
+//        Motivo m = new Motivo();
+//        m.setMotivoId(1);
+//        Expediente instance = new Expediente("unidad y numero", "23/mar/2020", "primer prueba", true, t, e, est, m);
+//        int expResult = 1;
+//        int result = instance.AgregarExpediente();
+//        assertEquals(expResult, result);
+    }
+    
+    /**
+    Test of AgregarExpediente method, of class Expediente con archivos
+     */
+    
+    @Test
+     public void testAgregarExpedienteConArchivos() {
+        System.out.println("AgregarExpediente");
+        Entidad e = new Entidad();
+        e.setEntidadId(3);
+        Tramite t = new Tramite();
+        t.setId(3);
+        Estado est = new Estado();
+        est.setIdEstado(2);
+        Motivo m = new Motivo();
+        m.setMotivoId(1);
+        Expediente instance = new Expediente("unidad 2 y numero 3", "23/mar/2020", "primer prueba", true, t, e, est, m);
+        ArrayList<String> archivos = new ArrayList<>();
+        archivos.add("archivo 1");
+        archivos.add("archivo 2");
+        archivos.add("archivo 3");
+        instance.setListaArchivosExpediente(archivos);
+        int expResult = 1;
         int result = instance.AgregarExpediente();
         assertEquals(expResult, result);
-    
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -60,10 +93,11 @@ public class ExpedienteTest {
     @Test
     public void testBuscarExpedientes() throws Exception {
         System.out.println("BuscarExpedientes");
-        ResultSet expResult = null;
+        String expResult = "primer prueba";
         ResultSet result = Expediente.BuscarExpedientes();
-        assertEquals(expResult, result);        
-        fail("The test case is a prototype.");
+        result.next();
+        String rs = result.getString(2);
+        assertEquals(expResult, rs);        
     }
 
     /**
@@ -72,25 +106,25 @@ public class ExpedienteTest {
     @Test
     public void testBuscarExpedientePorNumero() throws Exception {
         System.out.println("BuscarExpedientePorNumero");
-        String numeroExpediente = "";
-        ResultSet expResult = null;
-        ResultSet result = Expediente.BuscarExpedientePorNumero(numeroExpediente);
-        assertEquals(expResult, result);
-        
-        fail("The test case is a prototype.");
+        String nombreExp = "primer prueba";
+        ResultSet result = Expediente.BuscarExpedientePorNumero("unidad y numero");
+        result.next();
+        String rs = result.getString(2);
+        assertEquals(nombreExp, rs);
+
     }
 
     /**
       TODO: Test of BorrarExpediente method, of class Expediente.
      */
     @Test
-    public void testBorrarExpediente() {
+    public void testBorrarExpediente() throws SQLException {
         System.out.println("BorrarExpediente");
-        String numeroExpediente = "";
-        int expResult = 0;
-        int result = Expediente.BorrarExpediente(numeroExpediente);
-        assertEquals(expResult, result);
-     
+//        String numeroExpediente = "";
+//        int expResult = 0;
+//        int result = Expediente.BorrarExpediente(numeroExpediente);
+//        assertEquals(expResult, result);
+//     
         fail("The test case is a prototype.");
     }
     

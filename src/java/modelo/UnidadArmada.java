@@ -61,7 +61,7 @@ public class UnidadArmada extends Entidad {
     }
 
         //PRE: La entidad debe existir        
-        protected int AgregarUnidad() {
+        protected int AgregarUnidad() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado = -1;
         String queryInsertUnidad = "INSERT INTO \"SysmanexSch1\".\"Unidad\"(\n"
@@ -73,8 +73,8 @@ public class UnidadArmada extends Entidad {
 
         
         }  else {
-            System.err.print("El RUT no puede ser vacio.\n");
-            System.err.print("El RUT no puede ser vacio.");
+            System.err.print("El nombre de la unidad no puede ser vacio.\n");
+            System.err.print("La unidad no puede ser vacia.");
             resultado = 2;
         }
         return resultado;

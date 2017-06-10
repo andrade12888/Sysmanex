@@ -98,7 +98,11 @@ public class Empresa {
             String queryInsertEmpresa = "INSERT INTO \"SysmanexSch1\".\"Empresa\"(\n"
                     + "\"empresaRut\", \"empresaNombre\")\n"
                     + "   VALUES ('" + this.rutEmpresa + "', '" + this.nombreEmpresa + "');";
-            conDB.hacerConsultaIUD(queryInsertEmpresa);
+            try {
+                conDB.hacerConsultaIUD(queryInsertEmpresa);
+            } catch (SQLException ex) {
+                Logger.getLogger(Empresa.class.getName()).log(Level.SEVERE, null, ex);
+            }
             resultado = 1;
         } else {
             System.err.print("El RUT no puede ser vacio.\n");
@@ -140,13 +144,17 @@ public class Empresa {
     }
     
     //TODO: Discutir sobre el borrado de empresas
-    protected static int BorrarEmpresa(String RUT) {
+    protected static int BorrarEmpresa(String RUT) throws SQLException {
         Conecciones conDB = new Conecciones();
-        int resultado;
+        int resultado=-1;
 
         String query = "DELETE \"SysmanexSch1\".\"Empresa\"\n"              
                 + "	WHERE \"empresaRut\"='" + RUT + "\';";
-        resultado = conDB.hacerConsultaIUD(query);
+        try {
+            resultado = conDB.hacerConsultaIUD(query);
+        } catch (SQLException ex) {
+            throw ex;
+        }
 
         
         return resultado;

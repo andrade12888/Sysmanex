@@ -55,7 +55,7 @@ public class EstadoTest {
      * Test of AgregarEstado method, of class Estado.
      */
     @Test
-    public void testAgregarEstado() {
+    public void testAgregarEstado() throws SQLException {
         System.out.println("AgregarEstado");
         Estado instance = new Estado("Negado");
         int expResult = 1;

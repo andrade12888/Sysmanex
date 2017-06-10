@@ -71,7 +71,7 @@ public class MotivoTest {
      * Test of AgregarMotivo method, of class Motivo.
      */
     @Test
-    public void testAgregarMotivo() {
+    public void testAgregarMotivo() throws SQLException {
         System.out.println("AgregarMotivo");
         Motivo instance = new Motivo("Sancion");
         int expResult = 1;

@@ -6,6 +6,7 @@
 package modelo;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -43,25 +44,28 @@ public class EntidadTest {
      * Test of AgregarEntidad method, of class Entidad.
      */
     @Test
-    public void testAgregarEntidad() {
+    public void testAgregarEntidad() throws SQLException {
         System.out.println("AgregarEntidad");
         Rol r = new Rol();
         r.setId(3);
-        Entidad instance = new Entidad("usr","pass",r);
-        int expResult = 1;
+        Entidad instance = new Entidad("usr","usr",r);        
         int result = instance.AgregarEntidad();
+        ResultSet rs = Entidad.BuscarEntidad("usr");;
+        rs.next();
+        int expResult = rs.getInt("entidadId");
         assertEquals(expResult, result);
     }
 
     /**
      * Test of ModificarEntidad method, of class Entidad.
      */
+    //PRE: La entidad tiene que existir para que el test sea correcto
     @Test
-    public void testModificarEntidad() {
+    public void testModificarEntidad() throws SQLException {
         System.out.println("ModificarEntidad");
         Rol r = new Rol();
         r.setId(3);
-        String idEntidad = "5";
+        String idEntidad = "15";
         Entidad instance = new Entidad("user","user",r);
         int expResult = 1;
         int result = instance.ModificarEntidad(idEntidad);
