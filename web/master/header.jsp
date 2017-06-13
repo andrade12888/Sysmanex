@@ -14,8 +14,7 @@
     <head>
         <title>Sysmanex</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">        
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/> 
         <link href="css/master.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
@@ -54,10 +53,10 @@
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#">Empresa</a></li>
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#">One more separated link</a></li>
-                               
+                                    <li><a href="#">One more separated link</a></li>                               
                                 </ul>
                             </li>
+                            <li><a href="gestionUsuarios.jsp">Gestion Usuarios</a></li>
                                  <li class="ax"></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
@@ -65,5 +64,5 @@
                 </div><!-- /.container-fluid -->
                 
             </nav>
-            <div class="usuarioLogeado"><label class="lblUsuarioLogeado">Bienvenido! Usuario: <%= u1.getNombreEntidad() %></label>(<a href="logout.jsp">salir</a>)</div>
+            <div class="usuarioLogeado"><label class="lblUsuarioLogeado">Bienvenido! <%= u1.getNombreEntidad() %></label>(<a href="logout.jsp">salir</a>)</div>
         </div>

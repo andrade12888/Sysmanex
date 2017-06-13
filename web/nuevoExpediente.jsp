@@ -10,7 +10,7 @@
                 <div class="col-lg-9">Asunto <input type="text" name="txtAsunto" class="form-control"></div>
             </div>
             <div class="row">
-                <div class="col-lg-3">Tipo de documento<select name="selDestinatario" class="form-control">
+                <div class="col-lg-3">Tipo de tramite<select name="selTramite" class="form-control">
                         <option>Seleccione documento</option>
                         <option>Carta de servicio</option>
                         <option>Memorandum</option>
@@ -28,8 +28,9 @@
                     </select>
                 </div>
                 <div class="col-lg-1"><br><button class="btn-agregar">></button></div>
-                <div class="col-lg-8">Destinos<textarea name="Destinos" class="form-control">
-                    </textarea></div>        
+                <div class="col-lg-8">Destinos
+                    <select name="Destinos" class="form-control" multiple="true"></select>
+                </div>        
             </div>
             <div class="row">
                 <div class="col-lg-3">Adjuntar Archivo<input type="file" name="upArchivo" value="" /></div>

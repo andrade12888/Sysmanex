@@ -18,7 +18,8 @@ public class UnidadArmada extends Entidad {
 
     private ArrayList<Persona> personas;
     private String sigla;
-  
+
+    public UnidadArmada() { }
 
     /**
      * @return the personas
@@ -60,8 +61,8 @@ public class UnidadArmada extends Entidad {
         super.setEntidadId(idEntidad);
     }
 
-        //PRE: La entidad debe existir        
-        protected int AgregarUnidad() throws SQLException {
+    //PRE: La entidad debe existir        
+    public int AgregarUnidad() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado = -1;
         String queryInsertUnidad = "INSERT INTO \"SysmanexSch1\".\"Unidad\"(\n"
@@ -71,8 +72,7 @@ public class UnidadArmada extends Entidad {
         if (!"".equals(this.sigla) && !"".equals(this.getEntidadId())) {
             resultado = conDB.hacerConsultaIUD(queryInsertUnidad);
 
-        
-        }  else {
+        } else {
             System.err.print("El nombre de la unidad no puede ser vacio.\n");
             System.err.print("La unidad no puede ser vacia.");
             resultado = 2;
@@ -80,7 +80,7 @@ public class UnidadArmada extends Entidad {
         return resultado;
     }
 
-    protected static ResultSet BuscarUnidades() throws SQLException {
+    public ResultSet BuscarUnidades() throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
         String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\" ORDER BY \"unidadSigla\" ASC;";
@@ -89,7 +89,7 @@ public class UnidadArmada extends Entidad {
         return rs;
     }
 
-    protected static ResultSet BuscarUnidadPorNombre(String nombre) throws SQLException {
+    public ResultSet BuscarUnidadPorNombre(String nombre) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
         String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\""
@@ -100,7 +100,7 @@ public class UnidadArmada extends Entidad {
         return rs;
     }
 
-    protected static ResultSet BuscarUnidadPorEntidadId(int entidad) throws SQLException {
+    public ResultSet BuscarUnidadPorEntidadId(int entidad) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 
@@ -112,12 +112,11 @@ public class UnidadArmada extends Entidad {
     }
 
     //TODO: Delete o baja logica
-    protected static int BorrarUnidadArmada(String sigla) {
+    public int BorrarUnidadArmada(String sigla) {
         Conecciones conDB = new Conecciones();
         int resultado = 0;
 
         return resultado;
     }
-
 
 }

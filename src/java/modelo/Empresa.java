@@ -83,13 +83,15 @@ public class Empresa {
         this.listaPersonasAutorizadas = listaPersonasAutorizadas;
         this.nombreEmpresa = nombreEmpresa;
     }
+    
+    public Empresa(){}
 
     //</editor-fold>
     
     //PRE: NA
     //POST: Retorna 1 si se ejecuta con exito, 0 si no reotorna nada, 2 si alguna de las variables
     //      es nula (Rut o persona autorizada) o -1 si existe algun error en la secuancia SQL
-    protected int AgregarEmpresa() {
+    public int AgregarEmpresa() {
         Conecciones conDB = new Conecciones();
         int resultado;        
 
@@ -112,7 +114,7 @@ public class Empresa {
         return resultado;
     }
 
-    protected static ResultSet BuscarEmpresas() throws SQLException {
+    public ResultSet BuscarEmpresas() throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
         String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\" ORDER BY \"empresaNombre\" ASC;";
@@ -121,7 +123,7 @@ public class Empresa {
         return rs;
     }
 
-    protected static ResultSet BuscarEmpresaPorNombre(String nombre) throws SQLException {
+    public ResultSet BuscarEmpresaPorNombre(String nombre) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
         String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\""
@@ -132,7 +134,7 @@ public class Empresa {
         return rs;
     }
 
-    protected static ResultSet BuscarEmpresaPorRUT(String rutEmpresa) throws SQLException {
+    public ResultSet BuscarEmpresaPorRUT(String rutEmpresa) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 
@@ -144,7 +146,7 @@ public class Empresa {
     }
     
     //TODO: Discutir sobre el borrado de empresas
-    protected static int BorrarEmpresa(String RUT) throws SQLException {
+    public int BorrarEmpresa(String RUT) throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado=-1;
 

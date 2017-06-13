@@ -67,9 +67,10 @@ public class EmpresaTest {
     public void testBuscarEmpresas() throws Exception {
         System.out.println("BuscarEmpresas");
         String expResult = "CYMACO";
-        ResultSet result = Empresa.BuscarEmpresas();
+        Empresa unaEmpresa = new Empresa();
+        ResultSet result = unaEmpresa.BuscarEmpresas();
         result.next();
-        String rs =result.getString("empresaNombre");      
+        String rs = result.getString("empresaNombre");      
         
         assertEquals(expResult, rs);
 
@@ -83,7 +84,8 @@ public class EmpresaTest {
         System.out.println("BuscarEmpresaPorNombre");
         String nombre = "CYMACO";
         String expResult = "5678";
-        ResultSet result = Empresa.BuscarEmpresaPorNombre(nombre);
+        Empresa unaEmpresa = new Empresa();
+        ResultSet result = unaEmpresa.BuscarEmpresaPorNombre(nombre);
         result.next();
         String rs = result.getString("empresaRut");
         assertEquals(expResult, rs);
@@ -98,7 +100,8 @@ public class EmpresaTest {
         System.out.println("BuscarEmpresaPorRUT");
         String rutEmpresa = "12345678";
         String expResult = "Primer Empresa";
-        ResultSet result = Empresa.BuscarEmpresaPorRUT(rutEmpresa);
+        Empresa unaEmpresa = new Empresa();
+        ResultSet result = unaEmpresa.BuscarEmpresaPorRUT(rutEmpresa);
          result.next();
         String rs = result.getString("empresaNombre");
         assertEquals(expResult, rs);
