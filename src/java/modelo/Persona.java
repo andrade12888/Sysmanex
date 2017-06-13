@@ -67,6 +67,21 @@ public class Persona extends Entidad {
     public void setNombrePersona(String nombrePersona) {
         this.nombrePersona = nombrePersona;
     }
+    
+        /**
+     * @return the emailPersona
+     */
+    public String getEmailPersona() {
+        return emailPersona;
+    }
+
+    /**
+     * @param emailPersona the emailPersona to set
+     */
+    public void setEmailPersona(String emailPersona) {
+        this.emailPersona = emailPersona;
+    }
+
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Constructores">
@@ -289,21 +304,6 @@ public class Persona extends Entidad {
 
         return rs;
     }
-
-    /**
-     * @return the emailPersona
-     */
-    public String getEmailPersona() {
-        return emailPersona;
-    }
-
-    /**
-     * @param emailPersona the emailPersona to set
-     */
-    public void setEmailPersona(String emailPersona) {
-        this.emailPersona = emailPersona;
-    }
-
 
 
 }
