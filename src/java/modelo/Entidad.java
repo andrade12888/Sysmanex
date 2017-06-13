@@ -128,16 +128,16 @@ public class Entidad {
     public String TablaExpedientes(ResultSet rs) throws SQLException {
         String tabla = "<form name=\"frmMisExpedientes\" action=\"documentos.do\" "
                 + "method=\"POST\"><table class=\"table table-striped\"><th>"
-                + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Documento</th><th>Estado</th>";
+                + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Tramite</th><th>Estado</th>";
         while (rs.next()) {
-            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("documentoId") + "\" value=\"" + rs.getInt("documentoId") + "\">"
-                    + " <span id=\"tdd" + rs.getInt("documentoId") + "\">" + rs.getString("documentoNombre") + "</span></td>"
-                    + "<td><span id=\"tdp" + rs.getInt("documentoId") + "\">" + rs.getInt("documentoPlazo") + "</span></td>"
-                    + "<td><span id=\"tdp" + rs.getInt("documentoId") + "\">" + rs.getInt("documentoPlazo") + "</span></td>"
-                    + "<td><span id=\"tdp" + rs.getInt("documentoId") + "\">" + rs.getInt("documentoPlazo") + "</span></td>"
-                    + "<td><button onclick=\"modalDocumento(" + rs.getInt("documentoId") + ")\" id=\"" + rs.getInt("documentoId") + "\" "
+            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("tramiteId") + "\" value=\"" + rs.getInt("tramiteId") + "\">"
+                    + " <span id=\"tdd" + rs.getInt("tramiteId") + "\">" + rs.getString("tramiteNombre") + "</span></td>"
+                    + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
+                    + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
+                    + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
+                    + "<td><button onclick=\"modalDocumento(" + rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnDocumento\" value=\"" + rs.getInt("documentoId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                    + "</button><button name=\"btnDocumento\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }
         tabla += "</table></form>";
 
@@ -152,16 +152,16 @@ public class Entidad {
                 + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Documento</th><th>Estado</th><th>Opciones</th>";
         while (rs.next()) {
             Tramite unDoc = new Tramite();
-            unDoc.BuscarTramite(rs.getInt("expedienteDocumentoId"));
-            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("expedienteNumero") + "\" value=\"" + rs.getInt("expedienteNumero") + "\">"
-                    + " <span id=\"enum" + rs.getInt("expedienteNumero") + "\">" + rs.getInt("expedienteNumero") + "</span></td>"
+            unDoc.BuscarTramite(rs.getInt("expedienteTramiteId"));
+            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("expedienteNumero") + "\" value=\"" + rs.getString("expedienteNumero") + "\">"
+                    + " <span id=\"enum" + rs.getString("expedienteNumero") + "\">" + rs.getString("expedienteNumero") + "</span></td>"
                     + "<td><span id=\"easu" + rs.getString("expedienteAsunto") + "\">" + rs.getString("expedienteAsunto") + "</span></td>"
-                    + "<td><span id=\"efec" + rs.getString("expedienteFecha") + "\">" + rs.getString("expedienteFecha") + "</span></td>"
+                    + "<td><span id=\"efec" + rs.getDate("expedienteFecha") + "\">" + rs.getDate("expedienteFecha") + "</span></td>"
                     + "<td><span id=\"edoc" + unDoc.getId() + "\">" + unDoc.getNombre() + "</span></td>"
                     + "<td><span id=\"eest" + rs.getInt("expedienteEstadoId") + "\">" + rs.getInt("expedienteEstadoId") + "</span></td>"
-                    + "<td><button onclick=\"modalDocumento("+ rs.getInt("expedienteNumero") + ")\" id=\"" + rs.getInt("expedienteNumero") + "\" "
+                    + "<td><button onclick=\"modalDocumento("+ rs.getString("expedienteNumero") + ")\" id=\"" + rs.getString("expedienteNumero") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-send\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnDocumento\" value=\"" + rs.getInt("expedienteNumero") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                    + "</button><button name=\"btnDocumento\" value=\"" + rs.getString("expedienteNumero") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }
         tabla += "</table></form>";
 

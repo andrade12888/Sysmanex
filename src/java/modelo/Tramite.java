@@ -65,7 +65,7 @@ public class Tramite {
         int resultado;
         if (!"".equals(this.nombre) && this.plazo>=0) {
             String query = "INSERT INTO \"SysmanexSch1\".\"Tramite\"(\n"
-                    + "\"documentoNombre\", \"documentoPlazo\", \"documentoBaja\")\n"
+                    + "\"tramiteNombre\", \"tramitePlazo\", \"tramiteBaja\")\n"
                     + "   VALUES ('" + this.nombre + "', '" + this.plazo + "', " + this.baja + ");";
             try {
                 resultado = conDB.hacerConsultaIUD(query);
@@ -86,8 +86,8 @@ public class Tramite {
 
         if (!"".equals(this.nombre) && this.plazo>=0) {
             String query = "UPDATE \"SysmanexSch1\".\"Tramite\"\n"
-                    + "	SET \"documentoNombre\"=\'" + nombre + "\', \"documentoPlazo\"=" + plazo + "\n"
-                    + "	WHERE \"documentoId\"=" + Integer.parseInt(id) + ";";
+                    + "	SET \"tramiteNombre\"=\'" + nombre + "\', \"tramitePlazo\"=" + plazo + "\n"
+                    + "	WHERE \"tramiteId\"=" + Integer.parseInt(id) + ";";
             try {
                 resultado = conDB.hacerConsultaIUD(query);
             } catch (SQLException ex) {
@@ -101,13 +101,13 @@ public class Tramite {
         return resultado;
     }
 
-    public int BorrarTramite(String id) {
+    public static int BorrarTramite(String id) {
         Conecciones conDB = new Conecciones();
         int resultado;
 
         String query = "UPDATE \"SysmanexSch1\".\"Tramite\"\n"
-                + "	SET \"documentoBaja\"=\'true'"
-                + "	WHERE \"documentoId\"=" + Integer.parseInt(id) + ";";
+                + "	SET \"tramiteBaja\"=\'true'"
+                + "	WHERE \"tramiteId\"=" + id + ";";
         try {
             resultado = conDB.hacerConsultaIUD(query);
         } catch (SQLException ex) {
@@ -123,8 +123,8 @@ public class Tramite {
         ResultSet rs;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Tramite\""
-                + " WHERE \"documentoId\" LIKE \'%" + nombre + "\'"
-                + " ORDER BY \"documentoId\" ASC;";
+                + " WHERE \"tramiteId\" LIKE \'%" + nombre + "\'"
+                + " ORDER BY \"tramiteId\" ASC;";
         rs = conDB.hacerConsulta(query);
 
         return this.TablaTramites(rs);
@@ -135,14 +135,14 @@ public class Tramite {
         ResultSet rs = null;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Tramite\""
-                + "WHERE \"documentoBaja\"=\'false\' AND \"documentoId\"="+id
-        + " ORDER BY \"documentoId\" ASC;";
+                + "WHERE \"tramiteBaja\"=\'false\' AND \"tramiteId\"="+id
+        + " ORDER BY \"tramiteId\" ASC;";
         rs = conDB.hacerConsulta(query);
         while(rs.next()){
             this.setId(id);
-            this.setNombre(rs.getString("documentoNombre"));
-            this.setPlazo(rs.getInt("documentoPlazo"));
-            this.setBaja(rs.getBoolean("documentoBaja"));
+            this.setNombre(rs.getString("tramiteNombre"));
+            this.setPlazo(rs.getInt("tramitePlazo"));
+            this.setBaja(rs.getBoolean("tramiteBaja"));
         }
     }
 
@@ -151,7 +151,7 @@ public class Tramite {
         ResultSet rs;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Tramite\""
-                + "WHERE \"documentoBaja\"=\'false\' ORDER BY \"documentoId\" ASC;";
+                + "WHERE \"tramiteBaja\"=\'false\' ORDER BY \"tramiteId\" ASC;";
         rs = conDB.hacerConsulta(query);
         return rs;
     }
@@ -159,12 +159,12 @@ public class Tramite {
     public String TablaTramites(ResultSet rs) throws SQLException {
         String tabla = "<form name=\"frmBorrar\" action=\"documentos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Tramites</th><th>Plazo en dias</th><th>Opciones</th>";
         while (rs.next()) {
-            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("documentoId") + "\" value=\"" + rs.getInt("documentoId") + "\">"
-                    + " <span id=\"tdd" + rs.getInt("documentoId") + "\">" + rs.getString("documentoNombre") + "</span></td>"
-                    + "<td><span id=\"tdp" + rs.getInt("documentoId") + "\">" + rs.getInt("documentoPlazo") + "</span></td>"
-                    + "<td><button onclick=\"modalDocumento("+ rs.getInt("documentoId") + ")\" id=\"" + rs.getInt("documentoId") + "\" "
+            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("tramiteId") + "\" value=\"" + rs.getInt("tramiteId") + "\">"
+                    + " <span id=\"tdd" + rs.getInt("tramiteId") + "\">" + rs.getString("tramiteNombre") + "</span></td>"
+                    + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
+                    + "<td><button onclick=\"modalDocumento("+ rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnDocumento\" value=\"" + rs.getInt("documentoId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                    + "</button><button name=\"btnDocumento\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }
         tabla += "</table></form>";
 
@@ -176,12 +176,12 @@ public class Tramite {
         ResultSet rs = this.documentosDB();
         String tabla = "<form name=\"frmBorrar\" action=\"documentos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Tramites</th><th>Plazo en dias</th><th>Opciones</th>";
         while (rs.next()) {
-            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("documentoId") + "\" value=\"" + rs.getInt("documentoId") + "\">"
-                    + " <span id=\"tdd" + rs.getInt("documentoId") + "\">" + rs.getString("documentoNombre") + "</span></td>"
-                    + "<td><span id=\"tdp" + rs.getInt("documentoId") + "\">" + rs.getInt("documentoPlazo") + "</span></td>"
-                    + "<td><button onclick=\"modalDocumento("+ rs.getInt("documentoId") + ")\" id=\"" + rs.getInt("documentoId") + "\" "
+            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("tramiteId") + "\" value=\"" + rs.getInt("tramiteId") + "\">"
+                    + " <span id=\"tdd" + rs.getInt("tramiteId") + "\">" + rs.getString("tramiteNombre") + "</span></td>"
+                    + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
+                    + "<td><button onclick=\"modalDocumento("+ rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnDocumento\" value=\"" + rs.getInt("documentoId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                    + "</button><button name=\"btnDocumento\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }
         tabla += "</table></form>";
 

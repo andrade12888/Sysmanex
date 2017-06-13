@@ -87,9 +87,8 @@ public class CDocumentos extends HttpServlet {
                 }
                 break;
             }
-            default:
-                Tramite unDocu = new Tramite();
-                int resultado = unDocu.BorrarTramite(btn);
+            default:                
+                int resultado = Tramite.BorrarTramite(btn);
                 switch (resultado) {
                     case 1:
                         request.setAttribute("errorMessage", "Se elimino correctamente");
