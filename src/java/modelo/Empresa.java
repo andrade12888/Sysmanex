@@ -114,7 +114,7 @@ public class Empresa {
         return resultado;
     }
 
-    public ResultSet BuscarEmpresas() throws SQLException {
+    public static ResultSet BuscarEmpresas() throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
         String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\" ORDER BY \"empresaNombre\" ASC;";
@@ -123,7 +123,7 @@ public class Empresa {
         return rs;
     }
 
-    public ResultSet BuscarEmpresaPorNombre(String nombre) throws SQLException {
+    public static ResultSet BuscarEmpresaPorNombre(String nombre) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
         String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\""
@@ -134,7 +134,7 @@ public class Empresa {
         return rs;
     }
 
-    public ResultSet BuscarEmpresaPorRUT(String rutEmpresa) throws SQLException {
+    public static ResultSet  BuscarEmpresaPorRUT(String rutEmpresa) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 
@@ -146,7 +146,7 @@ public class Empresa {
     }
     
     //TODO: Discutir sobre el borrado de empresas
-    public int BorrarEmpresa(String RUT) throws SQLException {
+    public static int BorrarEmpresa(String RUT) throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado=-1;
 
