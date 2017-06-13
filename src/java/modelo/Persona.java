@@ -18,6 +18,8 @@ public class Persona extends Entidad {
     private String ciPersona;
     private String nombrePersona;
     private String apellidoPersona;
+    private String emailPersona;
+    
 
     //<editor-fold defaultstate="collapsed" desc="Getters y Setters">
     /**
@@ -37,24 +39,8 @@ public class Persona extends Entidad {
     public void setCiPersona(String ciPersona) {
         this.ciPersona = ciPersona;
     }
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Constructores">
-    public Persona(String ciPersona, String nombrePerona, String apellidoPersona) {
-        this.nombrePersona = nombrePerona;
-        this.ciPersona = ciPersona;
-        this.apellidoPersona = apellidoPersona;
-    }
-
-    public Persona(String ciPersona, String personaNombre, String apellidoPersona, String userId, String contrasenia, Rol rol) {
-        super(userId, contrasenia, rol);
-        this.ciPersona = ciPersona; 
-        this.nombrePersona= personaNombre;
-        this.apellidoPersona = apellidoPersona;
-    }
-
-    //</editor-fold>
-    /**
+    
+     /**
      * @return the apellidoPersona
      */
     public String getApellidoPersona() {
@@ -80,6 +66,25 @@ public class Persona extends Entidad {
     public void setNombrePersona(String nombrePersona) {
         this.nombrePersona = nombrePersona;
     }
+    //</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructores">
+    public Persona(String ciPersona, String nombrePerona, String apellidoPersona) {
+        this.nombrePersona = nombrePerona;
+        this.ciPersona = ciPersona;
+        this.apellidoPersona = apellidoPersona;
+    }
+
+    public Persona(String ciPersona, String personaNombre, String apellidoPersona, String userId, String contrasenia, Rol rol, String personaEmail) {
+        super(userId, contrasenia, rol);
+        this.ciPersona = ciPersona; 
+        this.nombrePersona= personaNombre;
+        this.apellidoPersona = apellidoPersona;
+        this.emailPersona=personaEmail;
+    }
+
+    //</editor-fold>
+   
 
     //Segun lo enviado desde el form, persona debe :
     //1: Agregar entidad(user)
@@ -196,6 +201,20 @@ public class Persona extends Entidad {
         rs = conDB.hacerConsulta(query);
 
         return rs;
+    }
+
+    /**
+     * @return the emailPersona
+     */
+    public String getEmailPersona() {
+        return emailPersona;
+    }
+
+    /**
+     * @param emailPersona the emailPersona to set
+     */
+    public void setEmailPersona(String emailPersona) {
+        this.emailPersona = emailPersona;
     }
 
 

@@ -62,7 +62,7 @@ public class UnidadArmada extends Entidad {
     }
 
     //PRE: La entidad debe existir        
-    public int AgregarUnidad() throws SQLException {
+    protected int AgregarUnidad() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado = -1;
         String queryInsertUnidad = "INSERT INTO \"SysmanexSch1\".\"Unidad\"(\n"
@@ -80,7 +80,7 @@ public class UnidadArmada extends Entidad {
         return resultado;
     }
 
-    public ResultSet BuscarUnidades() throws SQLException {
+    public static ResultSet BuscarUnidades() throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
         String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\" ORDER BY \"unidadSigla\" ASC;";
@@ -89,7 +89,7 @@ public class UnidadArmada extends Entidad {
         return rs;
     }
 
-    public ResultSet BuscarUnidadPorNombre(String nombre) throws SQLException {
+    public static ResultSet BuscarUnidadPorNombre(String nombre) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
         String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\""
@@ -100,7 +100,7 @@ public class UnidadArmada extends Entidad {
         return rs;
     }
 
-    public ResultSet BuscarUnidadPorEntidadId(int entidad) throws SQLException {
+    public static ResultSet BuscarUnidadPorEntidadId(int entidad) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 
@@ -112,7 +112,7 @@ public class UnidadArmada extends Entidad {
     }
 
     //TODO: Delete o baja logica
-    public int BorrarUnidadArmada(String sigla) {
+    public static int BorrarUnidadArmada(String sigla) {
         Conecciones conDB = new Conecciones();
         int resultado = 0;
 

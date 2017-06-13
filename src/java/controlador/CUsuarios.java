@@ -47,15 +47,13 @@ public class CUsuarios extends HttpServlet {
         
         request.getSession().setAttribute("lstEmpresa", null); 
         request.getSession().setAttribute("lstUnidades", null);
-        Empresa emp = new Empresa();
-        ResultSet rs = emp.BuscarEmpresas();
+        ResultSet rs = Empresa.BuscarEmpresas();
         String empresaOpt = "";
         while (rs.next()) {
             empresaOpt += "<option value=\"" + rs.getString("empresaRut") + "\">"+ rs.getString("empresaNombre")+ " </option>";
         }
-        
-        UnidadArmada ua = new UnidadArmada();
-        ResultSet rsu = ua.BuscarUnidades();
+
+        ResultSet rsu = UnidadArmada.BuscarUnidades();
         String unidadesOpt = "";
         while (rsu.next()) {
             unidadesOpt += "<option value=\"" + rsu.getInt("unidadId") + "\">"+ rsu.getString("unidadSigla")+ " </option>";
