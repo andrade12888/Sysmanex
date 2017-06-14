@@ -19,21 +19,12 @@ import java.util.logging.Logger;
 public class Expediente {
 
     //<editor-fold defaultstate="collapsed" desc="Properties">
-    public Expediente(String numeroExpediente, String fechaExpediente, String asuntoExpediente, boolean expedientePublico, Tramite documentoExpediente, Entidad entidadOrigien, Estado estadoExpediente, Motivo motivoExpediente) {
-        this.numeroExpediente = numeroExpediente;
-        this.fechaExpediente = fechaExpediente;
-        this.asuntoExpediente = asuntoExpediente;
-        this.expedientePublico = expedientePublico;
-        this.documentoExpediente = documentoExpediente;
-        this.entidadOrigien = entidadOrigien;
-        this.estadoExpediente = estadoExpediente;
-        this.motivoExpediente = motivoExpediente;
-    }
+
     private String numeroExpediente;
     private String fechaExpediente;
     private String asuntoExpediente;
     private boolean expedientePublico;
-    private Tramite documentoExpediente;
+    private Tramite tramiteExpediente;
     private Entidad entidadOrigien;
     private Estado estadoExpediente;
     private Motivo motivoExpediente;
@@ -142,11 +133,11 @@ public class Expediente {
     }
 
     public Tramite getDocumentoExpediente() {
-        return documentoExpediente;
+        return tramiteExpediente;
     }
 
     public void setDocumentoExpediente(Tramite documentoExpediente) {
-        this.documentoExpediente = documentoExpediente;
+        this.tramiteExpediente = documentoExpediente;
     }
 
     public ArrayList<String> getListaArchivosExpediente() {
@@ -208,12 +199,23 @@ public class Expediente {
     }
 
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Constructores">
     public Expediente(String asuntoExpediente, boolean expedientePublico, Tramite documentoExpediente, Entidad entidadOrigien) {
         this.asuntoExpediente = asuntoExpediente;
         this.expedientePublico = expedientePublico;
-        this.documentoExpediente = documentoExpediente;
+        this.tramiteExpediente = documentoExpediente;
         this.entidadOrigien = entidadOrigien;
+    }
+        public Expediente(String numeroExpediente, String fechaExpediente, String asuntoExpediente, boolean expedientePublico, Tramite documentoExpediente, Entidad entidadOrigien, Estado estadoExpediente, Motivo motivoExpediente) {
+        this.numeroExpediente = numeroExpediente;
+        this.fechaExpediente = fechaExpediente;
+        this.asuntoExpediente = asuntoExpediente;
+        this.expedientePublico = expedientePublico;
+        this.tramiteExpediente = documentoExpediente;
+        this.entidadOrigien = entidadOrigien;
+        this.estadoExpediente = estadoExpediente;
+        this.motivoExpediente = motivoExpediente;
     }
     //</editor-fold>
 
@@ -228,7 +230,7 @@ public class Expediente {
                 + "\"expedienteBaja\", \"expedienteMotivoId\", \"expedienteEntidadId\")\n"
                 + "   VALUES ('" + this.getNumeroExpediente() + "', '" + this.asuntoExpediente + "',"
                 + " '" + this.fechaExpediente + "', '" + this.expedientePublico + "', "
-                + "'" + this.documentoExpediente.getId() + "', '" + this.estadoExpediente.getIdEstado() + "',"
+                + "'" + this.tramiteExpediente.getId() + "', '" + this.estadoExpediente.getIdEstado() + "',"
                 + " '" + this.expedienteBaja + "', '" + this.motivoExpediente.getMotivoId() + "',"
                 + " '" + this.entidadOrigien.getEntidadId() + "' );";
 
@@ -242,7 +244,7 @@ public class Expediente {
                     + "\"expedienteBaja\", \"expedienteMotivoId\", \"expedienteEntidadId\")\n"
                     + "   VALUES ('" + this.getNumeroExpediente() + "', '" + this.asuntoExpediente + "',"
                     + " '" + this.fechaExpediente + "', '" + this.expedientePublico + "', "
-                    + "'" + this.documentoExpediente.getId() + "', '" + this.estadoExpediente.getIdEstado() + "',"
+                    + "'" + this.tramiteExpediente.getId() + "', '" + this.estadoExpediente.getIdEstado() + "',"
                     + " '" + this.expedienteBaja + "', '" + this.motivoExpediente.getMotivoId() + "',"
                     + " '" + this.entidadOrigien.getEntidadId() + returnIdString;
 

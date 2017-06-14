@@ -134,7 +134,7 @@ public class Empresa {
         return rs;
     }
 
-    public static ResultSet  BuscarEmpresaPorRUT(String rutEmpresa) throws SQLException {
+    public static ResultSet BuscarEmpresaPorRUT(String rutEmpresa) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 
