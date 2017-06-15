@@ -7,6 +7,8 @@ package controlador;
 
 import java.io.IOException;
 import static java.lang.Integer.parseInt;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,12 +16,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Tramite;
 
+
 /**
  *
  * @author Nova
  */
-@WebServlet(name = "Documentos", urlPatterns = {"/documentos.do"})
-public class CDocumentos extends HttpServlet {
+@WebServlet(name = "Tramites", urlPatterns = {"/tramites.do"})
+public class CTramites extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,55 +37,55 @@ public class CDocumentos extends HttpServlet {
             throws ServletException, IOException {
         String btn = "";
         response.setContentType("text/html;charset=UTF-8");
-        if (request.getParameter("btnDocumento") != null) {
-            btn = request.getParameter("btnDocumento");
+        if (request.getParameter("btnTramite") != null) {
+            btn = request.getParameter("btnTramite");
         }
         switch (btn) {
             case "Guardar": {
-                String tipoDocumento = request.getParameter("txtDocumento");
-                int plazoDocumento = parseInt( request.getParameter("txtPlazo"));
-                Tramite unDocu = new Tramite(tipoDocumento, plazoDocumento);
+                String tipoTramite = request.getParameter("txtTramite");
+                int plazoTramite = parseInt( request.getParameter("txtPlazo"));
+                Tramite unDocu = new Tramite(tipoTramite, plazoTramite);
                 int resultado = unDocu.AgregarTramite();
                 switch (resultado) {
                     case 1:
                         request.setAttribute("errorMessage", "Se ingreso correctamente");
                         request.setAttribute("colorError", "green");
-                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        request.getRequestDispatcher("tramites.jsp").forward(request, response);
                         break;
                     case 0:
                         request.setAttribute("errorMessage", "Ocurrio un error");
                         request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        request.getRequestDispatcher("tramites.jsp").forward(request, response);
                         break;
                     case 2:
                         request.setAttribute("errorMessage", "Nombre y plazo son campos requeridos.");
                         request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        request.getRequestDispatcher("tramites.jsp").forward(request, response);
                         break;
                 }
                 break;
             }
             case "Update": {
-                String tipoDocumento = request.getParameter("txtActualizarDocumento");
-                int plazoDocumento = parseInt(request.getParameter("txtActualizarPlazo"));
-                String idDocumento = request.getParameter("txtActualizarId");
-                Tramite unDocu = new Tramite(tipoDocumento, plazoDocumento);
-                int resultado = unDocu.ModificarTramite(idDocumento);
+                String tipoTramite = request.getParameter("txtActualizarTramite");
+                int plazoTramite = parseInt(request.getParameter("txtActualizarPlazo"));
+                String idTramite = request.getParameter("txtActualizarId");
+                Tramite unDocu = new Tramite(tipoTramite, plazoTramite);
+                int resultado = unDocu.ModificarTramite(idTramite);
                 switch (resultado) {
                     case 1:
                         request.setAttribute("errorMessage", "Se actualizo correctamente");
                         request.setAttribute("colorError", "green");
-                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        request.getRequestDispatcher("tramites.jsp").forward(request, response);
                         break;
                     case 0:
                         request.setAttribute("errorMessage", "Ocurrio un error");
                         request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        request.getRequestDispatcher("tramites.jsp").forward(request, response);
                         break;
                     case 2:
                         request.setAttribute("errorMessage", "Nombre y plazo son campos requeridos.");
                         request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        request.getRequestDispatcher("tramites.jsp").forward(request, response);
                         break;
                 }
                 break;
@@ -93,17 +96,36 @@ public class CDocumentos extends HttpServlet {
                     case 1:
                         request.setAttribute("errorMessage", "Se elimino correctamente");
                         request.setAttribute("colorError", "green");
-                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        request.getRequestDispatcher("tramites.jsp").forward(request, response);
                         break;
                     case 0:
                         request.setAttribute("errorMessage", "Ocurrio un error");
                         request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("documentos.jsp").forward(request, response);
+                        request.getRequestDispatcher("tramites.jsp").forward(request, response);
                         break;
                 }
                 break;
         }
 
+    }
+    
+    public static void CargarDatos(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException, SQLException{
+        
+        
+        
+        ResultSet rst = Tramite.tramitesDB();
+        String tramiteOpt = "";
+        while (rst.next()) {
+            tramiteOpt += "<option value=\"selTra" + rst.getInt("tramiteId") + "\">"
+                    + rst.getString("tramiteNombre")+ " </option>";
+        }
+        
+       
+        request.getSession().setAttribute("lstTramites", tramiteOpt);
+    
+        
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

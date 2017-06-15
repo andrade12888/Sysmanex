@@ -132,12 +132,12 @@ public class Expediente {
         this.entidadOrigien = entidadOrigien;
     }
 
-    public Tramite getDocumentoExpediente() {
+    public Tramite getTramiteExpediente() {
         return tramiteExpediente;
     }
 
-    public void setDocumentoExpediente(Tramite documentoExpediente) {
-        this.tramiteExpediente = documentoExpediente;
+    public void setTramiteExpediente(Tramite TramiteExpediente) {
+        this.tramiteExpediente = TramiteExpediente;
     }
 
     public ArrayList<String> getListaArchivosExpediente() {
@@ -201,18 +201,18 @@ public class Expediente {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructores">
-    public Expediente(String asuntoExpediente, boolean expedientePublico, Tramite documentoExpediente, Entidad entidadOrigien) {
+    public Expediente(String asuntoExpediente, boolean expedientePublico, Tramite TramiteExpediente, Entidad entidadOrigien) {
         this.asuntoExpediente = asuntoExpediente;
         this.expedientePublico = expedientePublico;
-        this.tramiteExpediente = documentoExpediente;
+        this.tramiteExpediente = TramiteExpediente;
         this.entidadOrigien = entidadOrigien;
     }
-        public Expediente(String numeroExpediente, String fechaExpediente, String asuntoExpediente, boolean expedientePublico, Tramite documentoExpediente, Entidad entidadOrigien, Estado estadoExpediente, Motivo motivoExpediente) {
+        public Expediente(String numeroExpediente, String fechaExpediente, String asuntoExpediente, boolean expedientePublico, Tramite TramiteExpediente, Entidad entidadOrigien, Estado estadoExpediente, Motivo motivoExpediente) {
         this.numeroExpediente = numeroExpediente;
         this.fechaExpediente = fechaExpediente;
         this.asuntoExpediente = asuntoExpediente;
         this.expedientePublico = expedientePublico;
-        this.tramiteExpediente = documentoExpediente;
+        this.tramiteExpediente = TramiteExpediente;
         this.entidadOrigien = entidadOrigien;
         this.estadoExpediente = estadoExpediente;
         this.motivoExpediente = motivoExpediente;
@@ -226,7 +226,7 @@ public class Expediente {
         String returnIdString = "') RETURNING \"idExpediente\" ;";
         String queryInsertExpediente = "INSERT INTO \"SysmanexSch1\".\"Expediente\"(\n"
                 + "\"expedienteNumero\", \"expedienteAsunto\", \"expedienteFecha\", "
-                + "\"expedientePublico\", \"expedienteDocumentoId\", \"expedienteEstadoId\", "
+                + "\"expedientePublico\", \"expedienteTramiteId\", \"expedienteEstadoId\", "
                 + "\"expedienteBaja\", \"expedienteMotivoId\", \"expedienteEntidadId\")\n"
                 + "   VALUES ('" + this.getNumeroExpediente() + "', '" + this.asuntoExpediente + "',"
                 + " '" + this.fechaExpediente + "', '" + this.expedientePublico + "', "
@@ -240,7 +240,7 @@ public class Expediente {
                 && this.getListaArchivosExpediente() != null) {
             queryInsertExpediente = "INSERT INTO \"SysmanexSch1\".\"Expediente\"(\n"
                     + "\"expedienteNumero\", \"expedienteAsunto\", \"expedienteFecha\", "
-                    + "\"expedientePublico\", \"expedienteDocumentoId\", \"expedienteEstadoId\", "
+                    + "\"expedientePublico\", \"expedienteTramiteId\", \"expedienteEstadoId\", "
                     + "\"expedienteBaja\", \"expedienteMotivoId\", \"expedienteEntidadId\")\n"
                     + "   VALUES ('" + this.getNumeroExpediente() + "', '" + this.asuntoExpediente + "',"
                     + " '" + this.fechaExpediente + "', '" + this.expedientePublico + "', "

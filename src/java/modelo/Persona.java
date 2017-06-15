@@ -293,7 +293,7 @@ public class Persona extends Entidad {
         return rs;
     }
 
-    protected static ResultSet BuscarPersonas() throws SQLException {
+    public static ResultSet BuscarPersonas() throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 

@@ -126,7 +126,7 @@ public class Entidad {
     }
 
     public String TablaExpedientes(ResultSet rs) throws SQLException {
-        String tabla = "<form name=\"frmMisExpedientes\" action=\"documentos.do\" "
+        String tabla = "<form name=\"frmMisExpedientes\" action=\"Tramites.do\" "
                 + "method=\"POST\"><table class=\"table table-striped\"><th>"
                 + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Tramite</th><th>Estado</th>";
         while (rs.next()) {
@@ -135,9 +135,9 @@ public class Entidad {
                     + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
                     + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
                     + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
-                    + "<td><button onclick=\"modalDocumento(" + rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
+                    + "<td><button onclick=\"modalTramite(" + rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnDocumento\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                    + "</button><button name=\"btnTramite\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }
         tabla += "</table></form>";
 
@@ -147,9 +147,9 @@ public class Entidad {
     public String TablaExpedientes() throws SQLException {
 
         ResultSet rs = this.ExpedientesDB();
-        String tabla = "<form name=\"frmMisExpedientes\" action=\"documentos.do\" "
+        String tabla = "<form name=\"frmMisExpedientes\" action=\"Tramites.do\" "
                 + "method=\"POST\"><table class=\"table table-striped\"><th>"
-                + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Documento</th><th>Estado</th><th>Opciones</th>";
+                + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Tramite</th><th>Estado</th><th>Opciones</th>";
         while (rs.next()) {
             Tramite unDoc = new Tramite();
             unDoc.BuscarTramite(rs.getInt("expedienteTramiteId"));
@@ -157,11 +157,11 @@ public class Entidad {
                     + " <span id=\"enum" + rs.getString("expedienteNumero") + "\">" + rs.getString("expedienteNumero") + "</span></td>"
                     + "<td><span id=\"easu" + rs.getString("expedienteAsunto") + "\">" + rs.getString("expedienteAsunto") + "</span></td>"
                     + "<td><span id=\"efec" + rs.getDate("expedienteFecha") + "\">" + rs.getDate("expedienteFecha") + "</span></td>"
-                    + "<td><span id=\"edoc" + unDoc.getId() + "\">" + unDoc.getNombre() + "</span></td>"
+                    + "<td><span id=\"edoc" + unDoc.getId() + "\">" + unDoc.getNombre()+ "</span></td>"
                     + "<td><span id=\"eest" + rs.getInt("expedienteEstadoId") + "\">" + rs.getInt("expedienteEstadoId") + "</span></td>"
-                    + "<td><button onclick=\"modalDocumento("+ rs.getString("expedienteNumero") + ")\" id=\"" + rs.getString("expedienteNumero") + "\" "
+                    + "<td><button onclick=\"modalTramite("+ rs.getString("expedienteNumero") + ")\" id=\"" + rs.getString("expedienteNumero") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-send\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnDocumento\" value=\"" + rs.getString("expedienteNumero") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                    + "</button><button name=\"btnTramite\" value=\"" + rs.getString("expedienteNumero") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }
         tabla += "</table></form>";
 

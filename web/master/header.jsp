@@ -14,13 +14,19 @@
     <head>
         <title>Sysmanex</title>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css"/> 
         <link href="css/master.css" rel="stylesheet" type="text/css"/>
+        <link href="css/fileinput.css" rel="stylesheet" type="text/css"/>
         <script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
         <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>
         <script src="js/bootstrap.js" type="text/javascript"></script>  
         <script src="js/Master.js" type="text/javascript"></script>
+         
+        <script src="js/fileinput.js" type="text/javascript"></script>
+       <script src="js/locales/es.js" type="text/javascript"></script>
+        
+        
     </head>
     <body>
         <!--    --------------       Header inicio       -------------    -->
@@ -47,13 +53,12 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Agregar Datos<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a href="#">Personas</a></li>
-                                    <li><a href="#">Nuevo Tramite</a></li>
-                                    <li><a href="documentos.jsp">Documentos</a></li>
+                                
+                                    <li><a href="tramites.jsp">Tramites</a></li>
                                     <li><a href="#">Nueva Unidad</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#">Empresa</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#">One more separated link</a></li>                               
+                                                     
                                 </ul>
                             </li>
                             <li><a href="gestionUsuarios.jsp">Gestion Usuarios</a></li>

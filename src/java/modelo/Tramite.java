@@ -146,7 +146,7 @@ public class Tramite {
         }
     }
 
-    private ResultSet documentosDB() throws SQLException {
+    public static ResultSet tramitesDB() throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 
@@ -157,14 +157,14 @@ public class Tramite {
     }
 
     public String TablaTramites(ResultSet rs) throws SQLException {
-        String tabla = "<form name=\"frmBorrar\" action=\"documentos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Tramites</th><th>Plazo en dias</th><th>Opciones</th>";
+        String tabla = "<form name=\"frmBorrar\" action=\"tramites.do\" method=\"POST\"><table class=\"table table-striped\"><th>Tramites</th><th>Plazo en dias</th><th>Opciones</th>";
         while (rs.next()) {
             tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("tramiteId") + "\" value=\"" + rs.getInt("tramiteId") + "\">"
                     + " <span id=\"tdd" + rs.getInt("tramiteId") + "\">" + rs.getString("tramiteNombre") + "</span></td>"
                     + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
-                    + "<td><button onclick=\"modalDocumento("+ rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
+                    + "<td><button onclick=\"modalTramite("+ rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnDocumento\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                    + "</button><button name=\"btnTramite\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }
         tabla += "</table></form>";
 
@@ -173,15 +173,15 @@ public class Tramite {
 
     public String TablaTramites() throws SQLException {
 
-        ResultSet rs = this.documentosDB();
-        String tabla = "<form name=\"frmBorrar\" action=\"documentos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Tramites</th><th>Plazo en dias</th><th>Opciones</th>";
+        ResultSet rs = this.tramitesDB();
+        String tabla = "<form name=\"frmBorrar\" action=\"tramites.do\" method=\"POST\"><table class=\"table table-striped\"><th>Tramites</th><th>Plazo en dias</th><th>Opciones</th>";
         while (rs.next()) {
             tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("tramiteId") + "\" value=\"" + rs.getInt("tramiteId") + "\">"
                     + " <span id=\"tdd" + rs.getInt("tramiteId") + "\">" + rs.getString("tramiteNombre") + "</span></td>"
                     + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
-                    + "<td><button onclick=\"modalDocumento("+ rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
+                    + "<td><button onclick=\"modalTramite("+ rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnDocumento\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                    + "</button><button name=\"btnTramite\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }
         tabla += "</table></form>";
 

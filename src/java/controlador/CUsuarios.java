@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Empresa;
+import modelo.Persona;
 import modelo.UnidadArmada;
 
 /**
@@ -47,21 +48,33 @@ public class CUsuarios extends HttpServlet {
         
         request.getSession().setAttribute("lstEmpresa", null); 
         request.getSession().setAttribute("lstUnidades", null);
+        request.getSession().setAttribute("lstPersonas", null);
+        request.getSession().setAttribute("lstUnidadesPersonas", null);
         ResultSet rs = Empresa.BuscarEmpresas();
         String empresaOpt = "";
         while (rs.next()) {
-            empresaOpt += "<option value=\"" + rs.getString("empresaRut") + "\">"+ rs.getString("empresaNombre")+ " </option>";
+            empresaOpt += "<option value=\"selEmp" + rs.getString("empresaRut") + "\">"+ rs.getString("empresaNombre")+ " </option>";
         }
 
         ResultSet rsu = UnidadArmada.BuscarUnidades();
         String unidadesOpt = "";
         while (rsu.next()) {
-            unidadesOpt += "<option value=\"" + rsu.getInt("unidadId") + "\">"+ rsu.getString("unidadSigla")+ " </option>";
+            unidadesOpt += "<option value=\"selUni" + rsu.getInt("unidadId") + "\">"+ rsu.getString("unidadSigla")+ " </option>";
         }
+        
+        ResultSet rsp = Persona.BuscarPersonas();
+        String personasOpt = "";
+        while (rsp.next()) {
+            personasOpt += "<option value=\"selPer" + rsp.getInt("personaEntidadId") + "\">"
+                    + rsp.getString("personaNombre")+" "+rsp.getString("personaApellido")+ " </option>";
+        }
+        
         
         
         request.getSession().setAttribute("lstUnidades", unidadesOpt);
         request.getSession().setAttribute("lstEmpresa", empresaOpt);
+        request.getSession().setAttribute("lstPersonas", personasOpt);
+        request.getSession().setAttribute("lstUnidadesPersonas", unidadesOpt+personasOpt);
         
         
     }

@@ -18,8 +18,13 @@ $(document).ready(function () {
         }
     });
 });
-function modalDocumento(id) {
-    $("#txtActualizarDocumento").val($("#tdd" + id).text());
+function modalTramite(id) {
+    $("#txtActualizarTramite").val($("#tdd" + id).text());
     $("#txtActualizarPlazo").val($("#tdp" + id).text());
     $("#txtActualizarId").val($("#id" + id).val());
+}
+function agregarDestinatario(){
+    var id = $("#selDestinatario").val();
+    var destino = $("#selDestinatario option:selected").html();
+    $("#selDestinos").append("<option value=\""+id+"\">"+destino+"</option>");
 }

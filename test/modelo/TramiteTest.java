@@ -41,11 +41,11 @@ public class TramiteTest {
 
     
     /**
-     * Test of AgregarDocumento method, of class Tramite.
+     * Test of AgregarTramite method, of class Tramite.
      */
     @Test
-    public void testAgregarDocumentoSuccess() throws SQLException {
-        System.out.println("AgregarDocumento");
+    public void testAgregarTramiteSuccess() throws SQLException {
+        System.out.println("AgregarTramite");
         Tramite instance = new Tramite("Licencia", 200);
         int expResult = 1;
         int result = instance.AgregarTramite();
@@ -54,13 +54,13 @@ public class TramiteTest {
     }
 
     /**
-     * Test of ModificarDocumento method, of class Tramite.
+     * Test of ModificarTramite method, of class Tramite.
      */
     @Test
-    public void testModificarDocumento() throws SQLException {
-        System.out.println("ModificarDocumento");
+    public void testModificarTramite() throws SQLException {
+        System.out.println("ModificarTramite");
         String id = "4";
-        Tramite instance = new Tramite("Documento notarial", 100);
+        Tramite instance = new Tramite("Tramite notarial", 100);
         instance.setBaja(false);
         int expResult = 1;
         int result = instance.ModificarTramite(id);
@@ -69,15 +69,15 @@ public class TramiteTest {
     }
 
     /**
-     TODO: Test of BorrarDocumento method, of class Tramite.
+     TODO: Test of BorrarTramite method, of class Tramite.
      */
     @Test
-    public void testBorrarDocumento() {
-        System.out.println("BorrarDocumento");
+    public void testBorrarTramite() {
+        System.out.println("BorrarTramite");
 //        String id = "";
 //        Tramite instance = new Tramite();
 //        int expResult = 0;
-//        int result = instance.BorrarDocumento(id);
+//        int result = instance.BorrarTramite(id);
 //        assertEquals(expResult, result);
         
         fail("The test case is a prototype.");
