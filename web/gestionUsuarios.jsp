@@ -1,7 +1,6 @@
 <%@page import="controlador.CUsuarios"%>
-<%
-    CUsuarios CU = new CUsuarios();
-    CU.CargarDatos(request, response);
+<%    
+    CUsuarios.CargarDatos(request, response);
     String empresas = request.getSession().getAttribute("lstEmpresa").toString();
     String unidades = request.getSession().getAttribute("lstUnidades").toString();
 %>

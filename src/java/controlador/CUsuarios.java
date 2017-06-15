@@ -42,7 +42,7 @@ public class CUsuarios extends HttpServlet {
         }
     }
     
-    public void CargarDatos(HttpServletRequest request, HttpServletResponse response) 
+    public static void CargarDatos(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException, SQLException{
         
         request.getSession().setAttribute("lstEmpresa", null); 

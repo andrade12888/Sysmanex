@@ -256,7 +256,7 @@ public class Expediente {
 
                 for (String a : this.listaArchivosExpediente) {
 
-                    queryInsertArchivoExpediente = "INSERT INTO \"SysmanexSch1\".\"ExpedienteArchivo\"(\n"
+                    queryInsertArchivoExpediente = "INSERT INTO \"SysmanexSch1\".\"Archivo\"(\n"
                             + "\"ExpedienteId\", \"ArchivoURL\")\n"
                             + " VALUES ('" + idExpediente + "', '" + a + "');";
                     conDB.hacerConsultaIUD(queryInsertArchivoExpediente);
