@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author Nova
  */
 public class Estado {
-    
+
     //<editor-fold defaultstate="collapsed" desc="Properties">
     private int idEstado;
     private String descripcionEstado;
@@ -40,7 +40,7 @@ public class Estado {
      */
     public void setIdEstado(int idEstado) {
         this.idEstado = idEstado;
-    }   
+    }
 
     /**
      * Get the value of descripcionEstado
@@ -59,8 +59,7 @@ public class Estado {
     public void setDescripcionEstado(String descripcionEstado) {
         this.descripcionEstado = descripcionEstado;
     }
-    
-    
+
     /**
      * @return the estadoBaja
      */
@@ -75,18 +74,19 @@ public class Estado {
         this.estadoBaja = estadoBaja;
     }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Constructores">
     public Estado(String descripcionEstado) {
         this.descripcionEstado = descripcionEstado;
-        this.estadoBaja=false;
+        this.estadoBaja = false;
     }
-     public Estado() {
-        
+
+    public Estado() {
+
     }
     //</editor-fold>
-    
-     protected static String getEstadoDB(int estadoId){
+
+    protected static String getEstadoDB(int estadoId) {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
         String resultado = "";
@@ -95,10 +95,10 @@ public class Estado {
             String query = "Select \"estadoDescripcion\" FROM \"SysmanexSch1\".\"Estado\"\n"
                     + "WHERE \"estadoId\" = " + estadoId + ";";
             rs = conDB.hacerConsulta(query);
-            while (rs.next()) {       
-               resultado = rs.getString("estadoDescripcion");
+            while (rs.next()) {
+                resultado = rs.getString("estadoDescripcion");
             }
-             
+
             rs.close();
 
         } catch (SQLException ex) {
@@ -107,13 +107,13 @@ public class Estado {
 
         return resultado;
     }
-    
-     protected int AgregarEstado() throws SQLException {
+
+    protected int AgregarEstado() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.descripcionEstado)) {
             String query = "INSERT INTO \"SysmanexSch1\".\"Estado\"(\n"
-                    + "\"estadoDescripcion\",\"estadoBaja\")" + " VALUES ('" + this.descripcionEstado + "',  '" + this.estadoBaja+"');";        
+                    + "\"estadoDescripcion\",\"estadoBaja\")" + " VALUES ('" + this.descripcionEstado + "',  '" + this.estadoBaja + "');";
             resultado = conDB.hacerConsultaIUD(query);
         } else {
             resultado = 2;
@@ -126,7 +126,7 @@ public class Estado {
         Conecciones conDB = new Conecciones();
         int resultado;
 
-        if (!"".equals(descripcionEstado) || idEstadi>0) {
+        if (!"".equals(descripcionEstado) || idEstadi > 0) {
             String query = "UPDATE \"SysmanexSch1\".\"Estado\"\n"
                     + "	SET \"estadoDescripcion\"=\'" + descripcionEstado + "'\n"
                     + "	 \"estadoBaja\"=\'" + nuevoEstadoBaja + "'\n"
@@ -137,7 +137,8 @@ public class Estado {
         }
 
         return resultado;
-}
+    }
+
     protected static ResultSet BuscarEstados() {
         Conecciones conDB = new Conecciones();
         ResultSet rs = null;
@@ -149,7 +150,28 @@ public class Estado {
         } catch (Exception ex) {
             Logger.getLogger(Conecciones.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return rs;
+    }
+
+    public void BuscarEstado(int id) {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Estado\""
+                + "WHERE \"estadoBaja\"=\'false\' AND \"estadoId\"=" + id + ";";
+        try {
+            rs = conDB.hacerConsulta(query);
+            try {
+                while (rs.next()) {                   
+                    this.setIdEstado(id);
+                    this.setDescripcionEstado(rs.getString("estadoDescripcion"));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Estado.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Estado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }

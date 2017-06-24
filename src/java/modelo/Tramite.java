@@ -21,7 +21,6 @@ public class Tramite {
     private String nombre;
     private int plazo;
     private boolean baja;
-    
 
     public Tramite() {
     }
@@ -60,17 +59,17 @@ public class Tramite {
         this.baja = baja;
     }
 
-    public int AgregarTramite(){
+    public int AgregarTramite() {
         Conecciones conDB = new Conecciones();
         int resultado;
-        if (!"".equals(this.nombre) && this.plazo>=0) {
+        if (!"".equals(this.nombre) && this.plazo >= 0) {
             String query = "INSERT INTO \"SysmanexSch1\".\"Tramite\"(\n"
                     + "\"tramiteNombre\", \"tramitePlazo\", \"tramiteBaja\")\n"
                     + "   VALUES ('" + this.nombre + "', '" + this.plazo + "', " + this.baja + ");";
             try {
                 resultado = conDB.hacerConsultaIUD(query);
             } catch (SQLException ex) {
-                resultado =-1;
+                resultado = -1;
                 Logger.getLogger(Tramite.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
@@ -80,11 +79,11 @@ public class Tramite {
         return resultado;
     }
 
-    public int ModificarTramite(String id){
+    public int ModificarTramite(String id) {
         Conecciones conDB = new Conecciones();
         int resultado;
 
-        if (!"".equals(this.nombre) && this.plazo>=0) {
+        if (!"".equals(this.nombre) && this.plazo >= 0) {
             String query = "UPDATE \"SysmanexSch1\".\"Tramite\"\n"
                     + "	SET \"tramiteNombre\"=\'" + nombre + "\', \"tramitePlazo\"=" + plazo + "\n"
                     + "	WHERE \"tramiteId\"=" + Integer.parseInt(id) + ";";
@@ -130,20 +129,29 @@ public class Tramite {
         return this.TablaTramites(rs);
     }
 
-    public void BuscarTramite(int id) throws SQLException {
+    public void BuscarTramite(int id) {
         Conecciones conDB = new Conecciones();
         ResultSet rs = null;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Tramite\""
-                + "WHERE \"tramiteBaja\"=\'false\' AND \"tramiteId\"="+id
-        + " ORDER BY \"tramiteId\" ASC;";
-        rs = conDB.hacerConsulta(query);
-        while(rs.next()){
-            this.setId(id);
-            this.setNombre(rs.getString("tramiteNombre"));
-            this.setPlazo(rs.getInt("tramitePlazo"));
-            this.setBaja(rs.getBoolean("tramiteBaja"));
+                + "WHERE \"tramiteBaja\"=\'false\' AND \"tramiteId\"=" + id
+                + " ORDER BY \"tramiteId\" ASC;";
+        try {
+            rs = conDB.hacerConsulta(query);
+            try {
+                while (rs.next()) {
+                    this.setId(id);
+                    this.setNombre(rs.getString("tramiteNombre"));
+                    this.setPlazo(rs.getInt("tramitePlazo"));
+                    this.setBaja(rs.getBoolean("tramiteBaja"));
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(Tramite.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Tramite.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
     public static ResultSet tramitesDB() throws SQLException {
@@ -162,7 +170,7 @@ public class Tramite {
             tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("tramiteId") + "\" value=\"" + rs.getInt("tramiteId") + "\">"
                     + " <span id=\"tdd" + rs.getInt("tramiteId") + "\">" + rs.getString("tramiteNombre") + "</span></td>"
                     + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
-                    + "<td><button onclick=\"modalTramite("+ rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
+                    + "<td><button onclick=\"modalTramite(" + rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
                     + "</button><button name=\"btnTramite\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }
@@ -179,7 +187,7 @@ public class Tramite {
             tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("tramiteId") + "\" value=\"" + rs.getInt("tramiteId") + "\">"
                     + " <span id=\"tdd" + rs.getInt("tramiteId") + "\">" + rs.getString("tramiteNombre") + "</span></td>"
                     + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
-                    + "<td><button onclick=\"modalTramite("+ rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
+                    + "<td><button onclick=\"modalTramite(" + rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
                     + "</button><button name=\"btnTramite\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }

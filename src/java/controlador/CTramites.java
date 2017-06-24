@@ -117,7 +117,7 @@ public class CTramites extends HttpServlet {
         ResultSet rst = Tramite.tramitesDB();
         String tramiteOpt = "";
         while (rst.next()) {
-            tramiteOpt += "<option value=\"selTra" + rst.getInt("tramiteId") + "\">"
+            tramiteOpt += "<option value=\"" + rst.getInt("tramiteId") + "\">"
                     + rst.getString("tramiteNombre")+ " </option>";
         }
         

@@ -17,6 +17,7 @@ $(document).ready(function () {
             $('#divTipoUnidad').show();
         }
     });
+    $("#input-1a").fileinput({'showUpload':false, 'previewFileType':'any'});
 });
 function modalTramite(id) {
     $("#txtActualizarTramite").val($("#tdd" + id).text());
@@ -27,4 +28,17 @@ function agregarDestinatario(){
     var id = $("#selDestinatario").val();
     var destino = $("#selDestinatario option:selected").html();
     $("#selDestinos").append("<option value=\""+id+"\">"+destino+"</option>");
+}
+
+function ExpedSiguiente(){
+    $("#pnlExpediente").fadeOut(500, function(){
+        $("#pnlDestinatarios").fadeIn(300);
+    });    
+  return false;
+}
+function ExpedAtras(){
+    $("#pnlDestinatarios").fadeOut(500, function(){
+        $("#pnlExpediente").fadeIn(300);
+    });    
+  return false;
 }

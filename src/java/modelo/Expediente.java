@@ -6,6 +6,8 @@
 package modelo;
 
 import accesoaDatos.Conecciones;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -19,7 +21,6 @@ import java.util.logging.Logger;
 public class Expediente {
 
     //<editor-fold defaultstate="collapsed" desc="Properties">
-
     private String numeroExpediente;
     private String fechaExpediente;
     private String asuntoExpediente;
@@ -199,7 +200,6 @@ public class Expediente {
     }
 
     //</editor-fold>
-    
     //<editor-fold defaultstate="collapsed" desc="Constructores">
     public Expediente(String asuntoExpediente, boolean expedientePublico, Tramite TramiteExpediente, Entidad entidadOrigien) {
         this.asuntoExpediente = asuntoExpediente;
@@ -207,7 +207,10 @@ public class Expediente {
         this.tramiteExpediente = TramiteExpediente;
         this.entidadOrigien = entidadOrigien;
     }
-        public Expediente(String numeroExpediente, String fechaExpediente, String asuntoExpediente, boolean expedientePublico, Tramite TramiteExpediente, Entidad entidadOrigien, Estado estadoExpediente, Motivo motivoExpediente) {
+
+    public Expediente(){}
+    
+    public Expediente(String numeroExpediente, String fechaExpediente, String asuntoExpediente, boolean expedientePublico, Tramite TramiteExpediente, Entidad entidadOrigien, Estado estadoExpediente, Motivo motivoExpediente) {
         this.numeroExpediente = numeroExpediente;
         this.fechaExpediente = fechaExpediente;
         this.asuntoExpediente = asuntoExpediente;
@@ -217,13 +220,15 @@ public class Expediente {
         this.estadoExpediente = estadoExpediente;
         this.motivoExpediente = motivoExpediente;
     }
-    //</editor-fold>
-
+    
+  
+//</editor-fold>
+/*
     protected int AgregarExpediente() {
         Conecciones conDB = new Conecciones();
         int resultado = -1;
         String queryInsertArchivoExpediente;
-        String returnIdString = "') RETURNING \"idExpediente\" ;";
+        String returnIdString = "') RETURNING \"idExpediente\" ;"; //Para que definir esto como variable si se usa una vez sola??
         String queryInsertExpediente = "INSERT INTO \"SysmanexSch1\".\"Expediente\"(\n"
                 + "\"expedienteNumero\", \"expedienteAsunto\", \"expedienteFecha\", "
                 + "\"expedientePublico\", \"expedienteTramiteId\", \"expedienteEstadoId\", "
@@ -300,8 +305,54 @@ public class Expediente {
         }
         return resultado;
     }
+ */
+    
+    public int AgregarExpediente() {
+        Conecciones conDB = new Conecciones();
+        int resultado = -1;
+        Connection conect = conDB.getConnect();
+        ResultSet rs;
+        PreparedStatement queryInsertExpediente;
+        try {
+            queryInsertExpediente = conect.prepareStatement("INSERT INTO \"SysmanexSch1\".\"Expediente\"("
+                    + "\"expedienteNumero\", \"expedienteAsunto\", \"expedienteFecha\", "
+                    + "\"expedientePublico\", \"expedienteTramiteId\", \"expedienteEstadoId\", "
+                    + "\"expedienteBaja\", \"expedienteEntidadId\")"
+                    + " VALUES ('?', '?',CURRENT_DATE, '" + this.expedientePublico + "',"
+                    + " '" + this.tramiteExpediente.getId() + "', '" + this.estadoExpediente.getIdEstado() + "',"
+                    + " false," + this.entidadOrigien.getEntidadId() + ");");
+            queryInsertExpediente.setString(1, this.getNumeroExpediente());
+            queryInsertExpediente.setString(2, this.asuntoExpediente);
+            
+            rs = queryInsertExpediente.executeQuery();
 
-    //TODO: Definir los resultados de la busqueda
+            while (rs.next()) {
+                resultado = 1;
+            }
+            rs.close();  
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
+            resultado = 2;
+        }        
+        return resultado;
+    }
+    
+    public int AgregarArchivoExpediente(String url){
+        Conecciones conDB = new Conecciones();
+        int resultado = -1;
+        String query = "INSERT INTO \"SysmanexSch1\".\"Archivo\" VALUES ('"+this.getNumeroExpediente()+"','"+url+"');";
+        try {         
+            resultado = conDB.hacerConsultaIUD(query);            
+        } catch (SQLException ex) {
+            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
+            resultado = 2;
+        }
+        return resultado;
+    }
+
+    //TODO: Definir los resultados de la busqueda ?????????????????????????????????????????????????????
+    //Nunca se va a consultar toda la tabla de expedientes sin filtrar por numero o por originador
     protected static ResultSet BuscarExpedientes() throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
@@ -323,19 +374,22 @@ public class Expediente {
                 + "AND ex.\"expedienteEstadoId\" = es.\"estadoId\"\n"
                 + "AND ex.\"expedienteEntidadId\" = en.\"entidadId\"\n"
                 + "AND ex.\"expedientePublico\" = true\n"
+                + "AND ex.\"expedienteBaja\" = false\n" //le agrege esto xq todas las tablas que tengan baja logica deben consultar su estado antes de traer el resultado
                 + "AND ex.\"expedienteNumero\" LIKE '%" + numeroExpediente + "%'";
         rs = conDB.hacerConsulta(query);
 
         return rs;
     }
-    
+
+    //le saque el like porque los destinos siempre van a ser traidos con el numero de expediente..
+    // expediente tenia LIKE por las busquedas en ajax
     protected static ResultSet Destinos(String numeroExpediente) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
-        String query = "select en.\"entidadNombre\", ee.\"ExpedienteEntidadFechaRecibido\"\n" +
-"from \"SysmanexSch1\".\"ExpedienteEntidad\" ee, \"SysmanexSch1\".\"Entidad\" en\n" +
-"WHERE ee.\"idEntidad\" = en.\"entidadId\"\n" +
-"AND ee.\"ExpedienteNumero\" LIKE '%" + numeroExpediente + "%'";
+        String query = "select en.\"entidadNombre\", ee.\"ExpedienteEntidadFechaRecibido\"\n"
+                + "from \"SysmanexSch1\".\"ExpedienteEntidad\" ee, \"SysmanexSch1\".\"Entidad\" en\n"
+                + "WHERE ee.\"idEntidad\" = en.\"entidadId\"\n"
+                + "AND ee.\"ExpedienteNumero\" = '" + numeroExpediente + "'";
         rs = conDB.hacerConsulta(query);
 
         return rs;
