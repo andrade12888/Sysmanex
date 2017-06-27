@@ -119,7 +119,7 @@ public class Motivo {
         return resultado;
     }        
 
-  /*  protected static int ModificarMotivo(int idMotivo, String motivoDescripcion) {
+    public static int ModificarMotivo(int idMotivo, String motivoDescripcion) throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
 
@@ -133,7 +133,25 @@ public class Motivo {
         }
 
         return resultado;
-    }*/
+    }
+     
+      public String TablaMotivos() throws SQLException {
+
+        ResultSet rs = Motivo.BuscarMotivos();
+        String tabla = "<form name=\"frmBorrar\" action=\"motivos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Motivos</th><th>Opciones</th>";
+        while (rs.next()) {
+            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("motivoId") + "\" value=\"" + rs.getInt("motivoId") + "\">"
+                    + " <span id=\"tdd" + rs.getInt("motivoId") + "\">" + rs.getString("motivoDescripcion") + "</span></td>"                   
+                    + "<td><button onclick=\"modalMotivos(" + rs.getInt("motivoId") + ")\" id=\"" + rs.getInt("motivoId") + "\" "
+                    + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
+                    + "</button><button name=\"btnMotivos\" value=\"" + rs.getInt("motivoId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+        }
+        tabla += "</table></form>";
+
+        return tabla;
+    }
+      
+    public static int BorrarMotivo(){return 0;}
 
 }
 

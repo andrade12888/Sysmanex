@@ -18,10 +18,18 @@ $(document).ready(function () {
         }
     });
     $("#input-1a").fileinput({'showUpload':false, 'previewFileType':'any'});
+    
+    $("#errorMotivo").click(function(){
+        $("#errorMotivo").empty()
+    });
 });
 function modalTramite(id) {
     $("#txtActualizarTramite").val($("#tdd" + id).text());
     $("#txtActualizarPlazo").val($("#tdp" + id).text());
+    $("#txtActualizarId").val($("#id" + id).val());
+}
+function modalMotivos(id) {
+    $("#txtActualizarMotivo").val($("#tdd" + id).text());   
     $("#txtActualizarId").val($("#id" + id).val());
 }
 function modalDestinatarios(id) {
@@ -53,3 +61,4 @@ function ExpedAtras(){
     });    
   return false;
 }
+
