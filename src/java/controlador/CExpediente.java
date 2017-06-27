@@ -35,9 +35,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 public class CExpediente extends HttpServlet {
 
     private boolean isMultipart;
-    private String filePath = "C:\\upload\\";
-    private int maxFileSize = 50 * 1024;
-    private int maxMemSize = 4 * 1024;
+    private final String filePath = "C:\\upload\\";
+    private final int maxFileSize = 50 * 1024;
+    private final int maxMemSize = 4 * 1024;
     private File file;
 
     /**
