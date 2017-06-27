@@ -112,20 +112,15 @@ public class CTramites extends HttpServlet {
     public static void CargarDatos(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException, SQLException{
         
-        
-        
         ResultSet rst = Tramite.tramitesDB();
         String tramiteOpt = "";
         while (rst.next()) {
             tramiteOpt += "<option value=\"" + rst.getInt("tramiteId") + "\">"
                     + rst.getString("tramiteNombre")+ " </option>";
         }
-        
-       
+               
         request.getSession().setAttribute("lstTramites", tramiteOpt);
-    
-        
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

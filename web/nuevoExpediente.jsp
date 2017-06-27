@@ -1,10 +1,13 @@
 <%@page import="controlador.CUsuarios"%>
 <%@page import="controlador.CTramites"%>
+<%@page import="controlador.CMotivos"%>
 <%
     CUsuarios.CargarDatos(request, response);
     CTramites.CargarDatos(request, response);
+    CMotivos.CargarDatos(request, response);
     String lstTramites = request.getSession().getAttribute("lstTramites").toString();
     String lstUnidadesPersonas = request.getSession().getAttribute("lstUnidadesPersonas").toString();
+    String lstMotivos = request.getSession().getAttribute("lstMotivos").toString();
 %>
 <%@page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
@@ -89,9 +92,9 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-4">Motivo de pase
-                                <select name="selMotivo" id="selMotivo" class="form-control">
+                                <select name="selMotivos" id="selMotivos" class="form-control">
                                     <option value="0">Seleccione Motivo</option>
-                                    <%= lstUnidadesPersonas %>
+                                    <%= lstMotivos %>
                                 </select>
                             </div>
                             <div class="col-lg-8">

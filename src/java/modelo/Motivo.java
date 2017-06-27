@@ -90,7 +90,7 @@ public class Motivo {
         return resultado;
     }
     
-     protected static ResultSet BuscarMotivos(){
+     public static ResultSet BuscarMotivos(){
         Conecciones conDB = new Conecciones();
         ResultSet rs = null;       
 
@@ -105,7 +105,7 @@ public class Motivo {
         return rs;
     }
     
-     protected int AgregarMotivo() throws SQLException {
+     public int AgregarMotivo() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.descripcionMotivo)) {
@@ -117,9 +117,7 @@ public class Motivo {
         }
 
         return resultado;
-    }
-     
-     // Modificar Expediente
+    }        
 
   /*  protected static int ModificarMotivo(int idMotivo, String motivoDescripcion) {
         Conecciones conDB = new Conecciones();
