@@ -70,18 +70,20 @@ public class Entidad {
     }
 
     public Entidad() {
-
+        this.misExpedientes = new ArrayList<Expediente>();
     }
 
     public Entidad(String nombreEntidad, String contrasenia) {
         this.nombreEntidad = nombreEntidad;
         this.contrasenia = contrasenia;
+        this.misExpedientes = new ArrayList<Expediente>();
     }
 
     public Entidad(String nombre, String contrasenia, Rol rolEntidad) {
         this.nombreEntidad = nombre;
         this.contrasenia = contrasenia;
         this.rol = rolEntidad;
+        this.misExpedientes = new ArrayList<Expediente>();
     }
 
     public void Autenticar(String nombre, String pass) throws ClassNotFoundException, SQLException {
@@ -116,55 +118,68 @@ public class Entidad {
     }
 
     //TODO: Por que estan estos metodos de Expedientes en Entidad?
-    public ResultSet ExpedientesDB() throws SQLException {
+    // Que busque en la tabla de expedientes no siginifica que sean metodos de expediente.
+    
+    public ResultSet ExpedientesDB(){
         Conecciones conDB = new Conecciones();
-        ResultSet rs = null;
+        ResultSet rs;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Expediente\""
                 + " WHERE \"expedienteEntidadId\" = " + this.getEntidadId() + ""
                 + " ORDER BY \"expedienteFecha\" ASC;";
-        rs = conDB.hacerConsulta(query);
-
-        return rs;
+        try {
+            rs = conDB.hacerConsulta(query);
+            return rs;
+        } catch (SQLException ex) {
+            return null;
+        }       
     }
 
-    public String TablaExpedientes(ResultSet rs) throws SQLException {
+    public String TablaExpedientes(ResultSet rs) {
         String tabla = "<form name=\"frmMisExpedientes\" action=\"Tramites.do\" "
                 + "method=\"POST\"><table class=\"table table-striped\"><th>"
                 + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Tramite</th><th>Estado</th>";
-        while (rs.next()) {
-            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("tramiteId") + "\" value=\"" + rs.getInt("tramiteId") + "\">"
-                    + " <span id=\"tdd" + rs.getInt("tramiteId") + "\">" + rs.getString("tramiteNombre") + "</span></td>"
-                    + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
-                    + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
-                    + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
-                    + "<td><button onclick=\"modalTramite(" + rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
-                    + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnTramite\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+         try {
+            while (rs.next()) {
+                tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("tramiteId") + "\" value=\"" + rs.getInt("tramiteId") + "\">"
+                        + " <span id=\"tdd" + rs.getInt("tramiteId") + "\">" + rs.getString("tramiteNombre") + "</span></td>"
+                        + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
+                        + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
+                        + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
+                        + "<td><button onclick=\"modalTramite(" + rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
+                        + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
+                        + "</button><button name=\"btnTramite\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+            }
+        } catch (SQLException ex) {
+            tabla += "<tr><td> No se encontraron resultados o hubo un error. </td></tr>";
         }
         tabla += "</table></form>";
 
         return tabla;
     }
 
-    public String TablaExpedientes() throws SQLException {
+    public String TablaExpedientes() {
 
         ResultSet rs = this.ExpedientesDB();
         String tabla = "<form name=\"frmMisExpedientes\" action=\"Expedientes.do\" "
                 + "method=\"POST\"><table class=\"table table-striped\"><th>"
                 + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Tramite</th><th>Estado</th><th>Opciones</th>";
-        while (rs.next()) {
-            Tramite unDoc = new Tramite();
-            unDoc.BuscarTramite(rs.getInt("expedienteTramiteId"));
-            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("expedienteNumero") + "\" value=\"" + rs.getString("expedienteNumero") + "\">"
-                    + " <span id=\"enum" + rs.getString("expedienteNumero") + "\">" + rs.getString("expedienteNumero") + "</span></td>"
-                    + "<td><span id=\"easu" + rs.getString("expedienteAsunto") + "\">" + rs.getString("expedienteAsunto") + "</span></td>"
-                    + "<td><span id=\"efec" + rs.getDate("expedienteFecha") + "\">" + rs.getDate("expedienteFecha") + "</span></td>"
-                    + "<td><span id=\"edoc" + unDoc.getId() + "\">" + unDoc.getNombre() + "</span></td>"
-                    + "<td><span id=\"eest" + rs.getInt("expedienteEstadoId") + "\">" + rs.getInt("expedienteEstadoId") + "</span></td>"
-                    + "<td><button onclick=\"modalDestinatarios('" + rs.getString("expedienteNumero") + "')\" id=\"" + rs.getString("expedienteNumero") + "\" "
-                    + "type=\"button\" class=\"btn glyphicon glyphicon-send\" data-toggle=\"modal\" data-target=\"#modalExpediente\">\n"
-                    + "</button><button name=\"btnEliminarExpediente\" value=\"" + rs.getString("expedienteNumero") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+        try {
+            while (rs.next()) {
+                Tramite unDoc = new Tramite();
+                unDoc.BuscarTramite(rs.getInt("expedienteTramiteId"));
+                tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("expedienteNumero") + "\" value=\"" + rs.getString("expedienteNumero") + "\">"
+                        + " <span id=\"enum" + rs.getString("expedienteNumero") + "\">" + rs.getString("expedienteNumero") + "</span></td>"
+                        + "<td><span id=\"easu" + rs.getString("expedienteAsunto") + "\">" + rs.getString("expedienteAsunto") + "</span></td>"
+                        + "<td><span id=\"efec" + rs.getDate("expedienteFecha") + "\">" + rs.getDate("expedienteFecha") + "</span></td>"
+                        + "<td><span id=\"edoc" + unDoc.getId() + "\">" + unDoc.getNombre() + "</span></td>"
+                        + "<td><span id=\"eest" + rs.getInt("expedienteEstadoId") + "\">" + rs.getInt("expedienteEstadoId") + "</span></td>"
+                        + "<td><button onclick=\"modalDestinatarios('" + rs.getString("expedienteNumero") + "')\" id=\"" + rs.getString("expedienteNumero") + "\" "
+                        + "type=\"button\" class=\"btn glyphicon glyphicon-send\" data-toggle=\"modal\" data-target=\"#modalExpediente\">\n"
+                        + "</button><button name=\"btnEliminarExpediente\" value=\"" + rs.getString("expedienteNumero") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+            }
+        } catch (SQLException ex) {
+            tabla += "<tr><td> No se encontraron resultados o hubo un error. </td></tr>";
         }
         tabla += "</table></form>";
 
@@ -228,18 +243,37 @@ public class Entidad {
     }
 
     public void BuscarEntidadNombre(String nombre) {
+       
+        Rol unRol = new Rol();
+ 
+        try {
+             ResultSet rs = BuscarEntidad(nombre);
+            while (rs.next()) {
+                unRol.setDescripcion(unRol.getRolDB(rs.getInt("rolId")));
+                unRol.setId(rs.getInt(3));
+                this.setRol(unRol);
+                this.setEntidadId(rs.getInt("entidadId"));
+                this.setContrasenia(rs.getString(3));
+                this.setNombreEntidad(rs.getString(2));
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Entidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+     public void buscarEntidadId(int id) {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
         Rol unRol = new Rol();
         
         String query = "SELECT * FROM \"SysmanexSch1\".\"Entidad\""
-                + " WHERE \"entidadNombre\" LIKE \'%" + nombre + "\'"
-                + " ORDER BY \"entidadNombre\" ASC;";
+                + " WHERE \"entidadId\" = " + id;
         try {
             rs = conDB.hacerConsulta(query);
             while (rs.next()) {
-                unRol.setDescripcion(unRol.getRolDB(rs.getInt(3)));
-                unRol.setId(rs.getInt(3));
+                unRol.setDescripcion(unRol.getRolDB(rs.getInt("rolId")));
+                unRol.setId(rs.getInt("rolId"));
                 this.setRol(unRol);
                 this.setEntidadId(rs.getInt("entidadId"));
                 this.setContrasenia(rs.getString(3));

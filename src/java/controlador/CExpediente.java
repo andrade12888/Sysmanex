@@ -83,8 +83,9 @@ public class CExpediente extends HttpServlet {
                             unExpediente.setTramiteExpediente(unTramite);
                             break;
                         case "selDestinatario":
+                      
                             Entidad unDestinatario = new Entidad();
-                            unDestinatario.BuscarEntidadNombre(fieldvalue);
+                            unDestinatario.buscarEntidadId(Integer.parseInt(fieldvalue.substring(6)));
                             unExpediente.getListaDestinariosExpediente().add(unDestinatario);
                             break;
                         case "": 

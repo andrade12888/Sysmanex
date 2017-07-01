@@ -51,6 +51,8 @@ function quitarDestinatario(){
 
 function ExpedSiguiente(){
     $("#pnlExpediente").fadeOut(500, function(){
+        $("#txtExpedienteEnvio").val($("#txtExpediente").val());
+        $("#fromExpediente").submit();
         $("#pnlDestinatarios").fadeIn(300);
     });    
   return false;

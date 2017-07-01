@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
-            <form enctype="multipart/form-data" action="CExpediente.do" method="post">
+            <form enctype="multipart/form-data" action="CExpediente.do" method="post" id="fromExpediente">
                 <div class="panel panel-success" id="pnlExpediente">
                     <div class="panel-heading">
                         <h3 class="panel-title">Datos de Expediente</h3>
@@ -24,7 +24,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-3">
-                                Nº Expediente <input type="text" name="txtNroExpediente" class="form-control">
+                                Nº Expediente <input type="text" id="txtNroExpediente" name="txtNroExpediente" class="form-control" required="true">
                             </div>
                             <div class="col-lg-9">
                                 Asunto <input type="text" name="txtAsunto" class="form-control">
@@ -65,14 +65,15 @@
                     <div class="panel-footer text-right">
                         <input type="button" value="Siguiente" name="btnSiguiente" class="btn btn-default" onclick="ExpedSiguiente();"/>
                     </div>
-                </div>     
+                </div>  
+            </form>
                 <div class="panel panel-success" id="pnlDestinatarios" style="display: none;">
                     <div class="panel-heading">
                         <h3 class="panel-title">Datos de envio del expediente</h3>
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-lg-2"></div>
+                            <div class="col-lg-2"><input type="hidden" id="txtExpedienteEnvio" name="txtExpedienteEnvio"></div>
                             <div class="col-lg-3">Posibles Destinatarios
                                 <select name="selDestinatario" id="selDestinatario" class="form-control">
                                     <option value="0">Seleccione Destinatarios</option>
@@ -109,8 +110,6 @@
                         </div>
                     </div>
                 </div>
-
-            </form>
         </div>
         <div class="col-lg-2"></div>
     </div>    

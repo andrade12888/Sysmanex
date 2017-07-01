@@ -50,7 +50,7 @@ public class Conecciones {
 
     public ResultSet hacerConsulta(String query) throws SQLException {
         Connection con = this.getConnect();
-        ResultSet rs = null;
+        ResultSet rs;
         try {
             Statement sta = con.createStatement();
             rs = sta.executeQuery(query);

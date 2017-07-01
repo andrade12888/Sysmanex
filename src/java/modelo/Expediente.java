@@ -213,9 +213,13 @@ public class Expediente {
         this.expedientePublico = expedientePublico;
         this.tramiteExpediente = TramiteExpediente;
         this.entidadOrigien = entidadOrigien;
+        this.listaArchivosExpediente = new ArrayList<String>();
+        this.listaDestinariosExpediente = new ArrayList<Entidad>();
     }
 
     public Expediente() {
+        this.listaArchivosExpediente = new ArrayList<String>();
+        this.listaDestinariosExpediente = new ArrayList<Entidad>();
     }
 
     public Expediente(String numeroExpediente, String fechaExpediente, String asuntoExpediente, boolean expedientePublico, Tramite TramiteExpediente, Entidad entidadOrigien, Estado estadoExpediente, Motivo motivoExpediente) {
@@ -227,6 +231,8 @@ public class Expediente {
         this.entidadOrigien = entidadOrigien;
         this.estadoExpediente = estadoExpediente;
         this.motivoExpediente = motivoExpediente;
+        this.listaArchivosExpediente = new ArrayList<String>();
+        this.listaDestinariosExpediente = new ArrayList<Entidad>();
     }
 
 //</editor-fold>
@@ -276,8 +282,9 @@ public class Expediente {
         return resultado;
     }
 
-    protected static ResultSet BuscarExpedientePorNumero(String numeroExpediente) throws SQLException {
+    public ResultSet BuscarExpedientePorNumero(String numeroExpediente) {
         Conecciones conDB = new Conecciones();
+        
         ResultSet rs;
         String query = "SELECT ex.\"expedienteNumero\",tra.\"tramiteNombre\", ex.\"expedienteAsunto\",en.\"entidadNombre\", ex.\"expedienteFecha\",\n"
                 + "mo.\"motivoDescripcion\"\n"
@@ -290,9 +297,35 @@ public class Expediente {
                 + "AND ex.\"expedientePublico\" = true\n"
                 + "AND ex.\"expedienteBaja\" = false\n" //le agrege esto xq todas las tablas que tengan baja logica deben consultar su estado antes de traer el resultado
                 + "AND ex.\"expedienteNumero\" LIKE '%" + numeroExpediente + "%'";
-        rs = conDB.hacerConsulta(query);
-
-        return rs;
+        try {
+            rs = conDB.hacerConsulta(query);
+            return rs;
+        } catch (SQLException ex) {
+            return null;
+        } 
+    }
+    
+    public void traerExpediente(String numeroExpediente){
+        try {
+            ResultSet rs = BuscarExpedientePorNumero(numeroExpediente);
+            while(rs.next()){
+                Entidad originador = new Entidad();
+                originador.buscarEntidadId(rs.getInt("expedienteEntidadId"));
+                Estado unEstado = new Estado();
+                unEstado.BuscarEstado(rs.getInt("expedienteEstadoId"));                
+                
+                this.setEntidadOrigien(originador);
+                this.setNumeroExpediente(numeroExpediente, originador.getEntidadId());
+                this.setAsuntoExpediente(rs.getString("expedienteAsunto"));
+                this.setFechaExpediente(rs.getString("expedienteFecha"));
+                this.setExpedientePublico(rs.getBoolean("expedientePublico"));
+                this.setEstadoExpediente(unEstado);
+                
+            
+            }   
+        } catch (SQLException ex) {
+            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 
     //le saque el like porque los destinos siempre van a ser traidos con el numero de expediente..
