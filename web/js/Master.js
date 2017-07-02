@@ -19,9 +19,10 @@ $(document).ready(function () {
     });
     $("#input-1a").fileinput({'showUpload':false, 'previewFileType':'any'});
     
-    $("#errorMotivo").click(function(){
+    $(":text").click(function(){
         $("#errorMotivo").empty()
     });
+    
 });
 function modalTramite(id) {
     $("#txtActualizarTramite").val($("#tdd" + id).text());
@@ -50,12 +51,26 @@ function quitarDestinatario(){
 }
 
 function ExpedSiguiente(){
-    $("#pnlExpediente").fadeOut(500, function(){
+    
+    if(!$("#idExpediente").val())
+    {
+        $("#idExpediente").val("Campo Mandatorio");
+    } else if(!$("#idAsunto").val())
+    {
+        $("#idAsunto").val("Campo Mandatorio");
+        $('#idAsunto').css({'color':'red'});
+         $('#idAsunto').focusin(function(){
+             $('#idAsunto').val("");
+             $('#idAsunto').css({'color':'black'});
+         });
+        
+    } else{
+    $("#pnlExpediente").fadeOut(500, function(){        
         $("#txtExpedienteEnvio").val($("#txtExpediente").val());
         $("#fromExpediente").submit();
         $("#pnlDestinatarios").fadeIn(300);
     });    
-  return false;
+  return false;} 
 }
 function ExpedAtras(){
     $("#pnlDestinatarios").fadeOut(500, function(){
