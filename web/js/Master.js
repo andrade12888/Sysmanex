@@ -1,18 +1,18 @@
 $(document).ready(function () {
     $('input[type=radio][name=rdPetenece]').change(function () {
-        if (this.value == 'armada') {
+        if (this.value === 'armada') {
             $('#divUsuarioUnidad').show();
             $('#divUsuarioEmpresa').hide();
-        } else if (this.value == 'empresa') {
+        } else if (this.value === 'empresa') {
             $('#divUsuarioUnidad').hide();
             $('#divUsuarioEmpresa').show();
         }
     });
     $('input[type=radio][name=rdTipo]').change(function () {
-        if (this.value == 'persona') {
+        if (this.value === 'persona') {
             $('#divTipoPersona').show();
             $('#divTipoUnidad').hide();
-        } else if (this.value == 'unidad') {
+        } else if (this.value === 'unidad') {
             $('#divTipoPersona').hide();
             $('#divTipoUnidad').show();
         }
@@ -20,9 +20,13 @@ $(document).ready(function () {
     $("#input-1a").fileinput({'showUpload':false, 'previewFileType':'any'});
     
     $(":text").click(function(){
-        $("#errorMotivo").empty()
+        $("#errorMotivo").empty();
     });
     
+    $(".bodyContent").click(function(){
+        if(!$("#errorMotivo").empty())
+            $("#errorMotivo").empty();
+    });
 });
 function modalTramite(id) {
     $("#txtActualizarTramite").val($("#tdd" + id).text());
