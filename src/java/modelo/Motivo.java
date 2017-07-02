@@ -16,12 +16,12 @@ import java.util.logging.Logger;
  * @author Nova
  */
 public class Motivo {
-    
+
     //<editor-fold defaultstate="collapsed" desc="Properties">
     private int idMotivo;
     private String descripcionMotivo;
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Getters y Setters">
     /**
      * Get the value of idMotivo
@@ -39,8 +39,8 @@ public class Motivo {
      */
     public void setMotivoId(int motivoId) {
         this.idMotivo = motivoId;
-    }  
-    
+    }
+
     /**
      * Get the value of descripcionMotivo
      *
@@ -57,19 +57,20 @@ public class Motivo {
      */
     public void setMotivoDescripcion(String motivoDescripcion) {
         this.descripcionMotivo = motivoDescripcion;
-    }    
+    }
     //</editor-fold>
-    
+
     //<editor-fold defaultstate="collapsed" desc="Constructores">
-     public Motivo(String descripcionMotivo) {
+    public Motivo(String descripcionMotivo) {
         this.descripcionMotivo = descripcionMotivo;
-    }   
-      public Motivo() {
-        
-    }   
+    }
+
+    public Motivo() {
+
+    }
     //</editor-fold> 
-     
-    protected static String getMotivoDB(int motivoId){
+
+    protected static String getMotivoDB(int motivoId) {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
         String resultado = "";
@@ -89,14 +90,14 @@ public class Motivo {
 
         return resultado;
     }
-    
-     public static ResultSet BuscarMotivos(){
+
+    public static ResultSet BuscarMotivos() {
         Conecciones conDB = new Conecciones();
-        ResultSet rs = null;       
+        ResultSet rs = null;
 
         try {
             String query = "Select * FROM \"SysmanexSch1\".\"Motivo\" ORDER BY \"motivoDescripcion\" ASC;";
-            rs = conDB.hacerConsulta(query);                       
+            rs = conDB.hacerConsulta(query);
 
         } catch (Exception ex) {
             Logger.getLogger(Conecciones.class.getName()).log(Level.SEVERE, null, ex);
@@ -104,8 +105,8 @@ public class Motivo {
 
         return rs;
     }
-    
-     public int AgregarMotivo() throws SQLException {
+
+    public int AgregarMotivo() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.descripcionMotivo)) {
@@ -117,13 +118,13 @@ public class Motivo {
         }
 
         return resultado;
-    }        
+    }
 
     public static int ModificarMotivo(int idMotivo, String motivoDescripcion) throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
 
-        if (!"".equals(motivoDescripcion) || idMotivo>0) {
+        if (!"".equals(motivoDescripcion) || idMotivo > 0) {
             String query = "UPDATE \"SysmanexSch1\".\"Motivo\"\n"
                     + "	SET \"motivoDescripcion\"=\'" + motivoDescripcion + "'\n"
                     + "	WHERE \"motivoId\"=" + idMotivo + ";";
@@ -134,14 +135,14 @@ public class Motivo {
 
         return resultado;
     }
-     
-      public String TablaMotivos() throws SQLException {
+
+    public String TablaMotivos() throws SQLException {
 
         ResultSet rs = Motivo.BuscarMotivos();
         String tabla = "<form name=\"frmBorrar\" action=\"motivos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Motivos</th><th>Opciones</th>";
         while (rs.next()) {
             tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("motivoId") + "\" value=\"" + rs.getInt("motivoId") + "\">"
-                    + " <span id=\"tdd" + rs.getInt("motivoId") + "\">" + rs.getString("motivoDescripcion") + "</span></td>"                   
+                    + " <span id=\"tdd" + rs.getInt("motivoId") + "\">" + rs.getString("motivoDescripcion") + "</span></td>"
                     + "<td><button onclick=\"modalMotivos(" + rs.getInt("motivoId") + ")\" id=\"" + rs.getInt("motivoId") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
                     + "</button><button name=\"btnMotivos\" value=\"" + rs.getInt("motivoId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
@@ -150,8 +151,25 @@ public class Motivo {
 
         return tabla;
     }
-      
-    public static int BorrarMotivo(){return 0;}
+
+    public static int BorrarMotivo(int idMotivo) {
+        Conecciones conDB = new Conecciones();
+        int resultado=-1;
+
+        String query = "DELETE FROM \"SysmanexSch1\".\"Motivo\"\n"                
+                + "WHERE \"motivoId\"='" + idMotivo + "\';";
+        try {
+            resultado = conDB.hacerConsultaIUD(query);
+        } catch (SQLException ex) {
+            if(ex.getSQLState().contains("23503"))
+            {
+                System.out.println("Exiten tramites activos con el motivo utilizado");
+                return 23503;
+            } else return resultado;
+          
+        }
+
+        return resultado;
+    }
 
 }
-

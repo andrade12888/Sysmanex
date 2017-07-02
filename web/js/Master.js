@@ -54,7 +54,7 @@ function ExpedSiguiente(){
     
     if(!$("#idExpediente").val())
     {
-        $("#idExpediente").val("Campo Mandatorio");
+        $("#idExpediente").val("Campo Mandatorio"); 
     } else if(!$("#idAsunto").val())
     {
         $("#idAsunto").val("Campo Mandatorio");

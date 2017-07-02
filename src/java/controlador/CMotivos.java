@@ -90,19 +90,25 @@ public class CMotivos extends HttpServlet {
                 }
                 break;
             }
-            default:                
-                int resultado = Motivo.BorrarMotivo();//TODO: Hacer o evaluar metodo borrar
+            default:       
+                int idMotivo = parseInt(request.getParameter("btnMotivos"));                ; 
+                int resultado = Motivo.BorrarMotivo(idMotivo);
                 switch (resultado) {
                     case 1:
                         request.setAttribute("errorMessage", "Se elimino correctamente");
                         request.setAttribute("colorError", "green");
                         request.getRequestDispatcher("Motivos.jsp").forward(request, response);
                         break;
-                    case 0:
-                        request.setAttribute("errorMessage", "No se puede borrar todavia");
+                    case 23503:
+                        request.setAttribute("errorMessage", "No se puede borrar el motivo. Existe un Tramite con este motivo");
                         request.setAttribute("colorError", "red");
                         request.getRequestDispatcher("Motivos.jsp").forward(request, response);
                         break;
+                    case -1:
+                        request.setAttribute("errorMessage", "Error al borrar el motivo.");
+                        request.setAttribute("colorError", "red");
+                        request.getRequestDispatcher("Motivos.jsp").forward(request, response);
+                        break;    
                 }
                 break;
         }
