@@ -19,7 +19,7 @@
         <div class="login">
             <h1>Bienvenido a Sysmanex</h1>
             <div class="loginContent">
-                <!--form action="procesar.do" method="post"-->
+
                 <form action="LogIn" method="post">
                     <div class="row">
                         <div class="col-lg-4"></div>

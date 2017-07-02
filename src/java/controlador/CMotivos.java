@@ -22,7 +22,7 @@ import modelo.Motivo;
  *
  * @author SG0891660
  */
-@WebServlet(name= "Motivos", urlPatterns = {"/motivos.do"})
+@WebServlet(name= "CMotivos", urlPatterns = {"/motivos.do"})
 public class CMotivos extends HttpServlet {
 
     /**
@@ -75,17 +75,17 @@ public class CMotivos extends HttpServlet {
                     case 1:
                         request.setAttribute("errorMessage", "Se actualizo correctamente");
                         request.setAttribute("colorError", "green");
-                        request.getRequestDispatcher("Motivos.jsp").forward(request, response);
+                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
                         break;
                     case 0:
                         request.setAttribute("errorMessage", "Ocurrio un error");
                         request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("Motivos.jsp").forward(request, response);
+                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
                         break;
                     case 2:
                         request.setAttribute("errorMessage", "La descripcion del motivo no puede ser vacia.");
                         request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("Motivos.jsp").forward(request, response);
+                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
                         break;
                 }
                 break;
@@ -165,7 +165,7 @@ public class CMotivos extends HttpServlet {
             Logger.getLogger(CMotivos.class.getName()).log(Level.SEVERE, null, ex);
              request.setAttribute("errorMessage", "Ocurrio un error al ingresar el Motivo en la base de datos: <br>"+ ex.getMessage());           
              request.setAttribute("colorError", "red");
-             request.getRequestDispatcher("Motivos.jsp").forward(request, response);
+             request.getRequestDispatcher("motivos.jsp").forward(request, response);
         }
     }
 

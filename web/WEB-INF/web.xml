@@ -5,27 +5,20 @@
     <servlet>
         <servlet-name>LogIn</servlet-name>
         <servlet-class>LoginModule.LogIn</servlet-class>
-    </servlet>
-    <!--servlet>
-        <servlet-name>CMotivos</servlet-name>
-        <servlet-class>controlador.CMotivos</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>Motivos</servlet-name>
-        <servlet-class>controlador.CMotivos</servlet-class>
-    </servlet-->
+    </servlet>    
     <servlet-mapping>
         <servlet-name>LogIn</servlet-name>
         <url-pattern>/LogIn</url-pattern>
     </servlet-mapping>
-    <!--servlet-mapping>
+    <!--servlet>
         <servlet-name>CMotivos</servlet-name>
-        <url-pattern>/CMotivos</url-pattern>
-    </servlet-mapping>
+        <servlet-class>controlador.CMotivos</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>Motivos</servlet-name>
-        <url-pattern>/Motivos</url-pattern>
-    </servlet-mapping-->
+        <servlet-name>CMotivos</servlet-name>
+        <url-pattern>/motivos</url-pattern>
+    </servlet-mapping!-->
+
     <session-config>
         <session-timeout>
             0

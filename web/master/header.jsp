@@ -35,7 +35,7 @@
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                             <span class="sr-only">Toggle navigation</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -50,11 +50,11 @@
                             <li><a href="nuevoExpediente.jsp">Nuevo Expediente</a></li>
                             <li><a href="misExpedientes.jsp">Mis Expedientes</a></li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Agregar Datos<span class="caret"></span></a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" >Agregar Datos<span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="Motivos.jsp">Motivos</a></li>                                
+                                    <li><a href="motivos.jsp">Motivos</a></li>                                
                                     <li><a href="tramites.jsp">Tramites</a></li>
-                                    <li><a href="#">Nueva Unidad</a></li>
+                                    <li><a href="#">Formularios</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#">Empresa</a></li>
                                                      
