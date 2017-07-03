@@ -54,7 +54,7 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="motivos.jsp">Motivos</a></li>                                
                                     <li><a href="tramites.jsp">Tramites</a></li>
-                                    <li><a href="#">Formularios</a></li>
+                                    <li><a href="formularios.jsp">Formularios</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li><a href="#">Empresa</a></li>
                                                      

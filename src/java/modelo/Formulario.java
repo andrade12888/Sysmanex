@@ -103,6 +103,8 @@ public class Formulario {
         this.fechaCreacionFormulario = fechaCreacionFormulario;
         this.creadorFormulario = creadorFormulario;
     }
+    
+     public Formulario() {}
 
      protected static String getFormulario(String nombreFormulario){
         Conecciones conDB = new Conecciones();
@@ -130,7 +132,7 @@ public class Formulario {
         ResultSet rs = null;       
 
         try {
-            String query = "Select * FROM \"SysmanexSch1\".\"Formularios\" ORDER BY \"formularioNombre\" ASC;";
+            String query = "Select * FROM \"SysmanexSch1\".\"Formulario\" ORDER BY \"formularioNombre\" ASC;";
             rs = conDB.hacerConsulta(query);                       
 
         } catch (Exception ex) {
@@ -155,6 +157,24 @@ public class Formulario {
         }
 
         return resultado;
+    }
+     
+     public String TablaFormularios() throws SQLException {
+
+        ResultSet rs = Formulario.BuscarFormularios();
+        String tabla = "<form name=\"frmSubirFrm\" action=\"formulario.do\" method=\"POST\">"
+                + "<table class=\"table table-striped\"><th>Formualrios Disponibles</th><th>Fecha de Creacion</th>"
+                + "<th></th><th>Descarga</th>";
+        while (rs.next()) {
+           tabla += "<tr>" + "<td> <span id=\"tdd" + rs.getInt("formularioId") + "\">" + rs.getString("formularioNombre") + "</span>"
+                   + "</td>" + "<td><span id=\"tdp" + rs.getInt("formularioId") + "\">" + rs.getDate("formularioFechaCreacion") + "</span></td>"
+                    + "<td>&nbsp;</td><td><button type=\"submit\" id=\"btnBajarForm\" name=\"btnBajarFrm\" value=\"" + rs.getInt("formularioId") + "\"  class=\"glyphicon glyphicon-download\"></button></td>"
+                   + " <input type=\"hidden\" id=\"id" + rs.getInt("formularioId")+ "\" value=\""+ rs.getInt("formularioId") + "\" name=\"formularioId" + "\">\n" 
+                   + "<input type=\"hidden\"  id=\"id" + rs.getInt("formularioId") +"\" value=\""+ rs.getString("formularioRuta") +"\" name=\"formularioRuta" + "\">";
+        }
+        tabla += "</table></form>";
+
+        return tabla;
     }
      
 }
