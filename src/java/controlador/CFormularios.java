@@ -5,24 +5,35 @@
  */
 package controlador;
 
+import Utilidades.FileSettings;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import static java.lang.Integer.parseInt;
+import java.sql.SQLException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import modelo.Formulario;
 
 /**
  *
  * @author SG0891660
  */
 @WebServlet(name= "CFormularios", urlPatterns = {"/formulario.do"})
+@MultipartConfig(location = "/tmp", fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class CFormularios extends HttpServlet {
 
     /**
@@ -36,8 +47,21 @@ public class CFormularios extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-            // Leeo la ruta del archivo desde el form
-        String filePath = request.getParameter("formularioRuta");          
+
+        if(request.getParameter("btnBajarFrm")!=null)
+        {
+            BajarArchivo(request,response);
+             
+        } else SubirArchivo(request,response);                                             
+    }       
+    
+    private void BajarArchivo(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException       
+    {
+        try{
+             // Leeo la ruta del archivo desde el form
+        String filePath = request.getParameter("formularioRuta");
+          
         File downloadFile = new File(filePath);
         FileInputStream inStream = new FileInputStream(downloadFile);            
 
@@ -69,9 +93,65 @@ public class CFormularios extends HttpServlet {
          
         inStream.close();
         outStream.close();
-        
+        } catch (Exception ex) {
+                        request.setAttribute("errorMessage", "Ocurrio un error al bajar el archivo");
+                        request.setAttribute("colorError", "red");
+                        request.getRequestDispatcher("formularios.jsp").forward(request, response);                                                
+                    }
     }
 
+     private void SubirArchivo(HttpServletRequest request, HttpServletResponse response)//TODO: Control de errores
+            throws ServletException, IOException{  
+         
+         String fileName="";
+        try {
+            // Verify the content type
+            String contentType = request.getContentType();
+            
+            if ((contentType.contains("multipart/form-data"))) {
+                DiskFileItemFactory factory = new DiskFileItemFactory();
+                // maximum size that will be stored in memory
+                factory.setSizeThreshold(FileSettings.getMaxMemSize());                                
+                
+                // Create a new file upload handler
+                ServletFileUpload upload = new ServletFileUpload(factory);
+                
+                // maximum file size to be uploaded.
+                upload.setSizeMax( FileSettings.getMaxFileSize() );
+                
+                try {
+                    // Parse the request to get file items.
+                    List fileItems = upload.parseRequest(request);
+                    
+                    // Process the uploaded file items
+                    Iterator i = fileItems.iterator();
+                    fileName=FileSettings.GuardarArchivoEndDisco(i);
+                    
+                } catch(Exception ex) {
+                    System.out.println(ex);
+                }
+            }
+            
+            Formulario f = new Formulario();
+            
+            //Me quedo con el nobmre antes del punto
+            String[] parts = fileName.split("[.]");
+            String part1 = parts[0];
+            f.setNombreFormulario(part1);            
+            // constructs the directory path to store upload file
+            f.setRutaRormulario(FileSettings.getFilePathWeb()+fileName);
+            f.setFechaCreacionFormulario(Utilidades.ConvertionUtil.CurrentDate());
+            f.AgregarFormulario();
+            request.getRequestDispatcher("formularios.jsp").forward(request, response); 
+        } catch (SQLException ex) {
+            request.setAttribute("errorMessage", "Ocurrio un error al subir el archivo");
+            request.setAttribute("colorError", "red");
+            request.getRequestDispatcher("formularios.jsp").forward(request, response); 
+       
+        }
+     
+     }
+     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -98,7 +178,7 @@ public class CFormularios extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        processRequest(request, response);        
     }
 
     /**

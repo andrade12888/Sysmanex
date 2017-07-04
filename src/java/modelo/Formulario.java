@@ -142,15 +142,15 @@ public class Formulario {
         return rs;
     }
     
-     protected int AgregarFormulario() throws SQLException {
+     public int AgregarFormulario() throws SQLException {
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.nombreFormulario) && !"".equals(this.rutaRormulario)) {
             String query = "INSERT INTO \"SysmanexSch1\".\"Formulario\"(\n" +
                             "\"formularioNombre\", \"formularioRuta\","
-                    + " \"formularioFechaCreacion\", \"formularioCiCreador\")\n" +
+                    + " \"formularioFechaCreacion\")\n" +
                             "VALUES ('" + this.nombreFormulario+ "', '" + this.rutaRormulario + "',"
-                    + " '" + this.fechaCreacionFormulario + "', '" + this.creadorFormulario +"');";
+                    + " '" + this.fechaCreacionFormulario  +"');";
             resultado = conDB.hacerConsultaIUD(query);
         } else {
             resultado = 2;
@@ -168,7 +168,7 @@ public class Formulario {
         while (rs.next()) {
            tabla += "<tr>" + "<td> <span id=\"tdd" + rs.getInt("formularioId") + "\">" + rs.getString("formularioNombre") + "</span>"
                    + "</td>" + "<td><span id=\"tdp" + rs.getInt("formularioId") + "\">" + rs.getDate("formularioFechaCreacion") + "</span></td>"
-                    + "<td>&nbsp;</td><td><button type=\"submit\" id=\"btnBajarForm\" name=\"btnBajarFrm\" value=\"" + rs.getInt("formularioId") + "\"  class=\"glyphicon glyphicon-download\"></button></td>"
+                    + "<td>&nbsp;</td><td><a href=\""+ rs.getString("formularioRuta") +"\" download id=\"btnBajarForm\" name=\"btnBajarFrm\" value=\"" + rs.getInt("formularioId") + "\"  class=\"glyphicon glyphicon-download\"></a</td>"
                    + " <input type=\"hidden\" id=\"id" + rs.getInt("formularioId")+ "\" value=\""+ rs.getInt("formularioId") + "\" name=\"formularioId" + "\">\n" 
                    + "<input type=\"hidden\"  id=\"id" + rs.getInt("formularioId") +"\" value=\""+ rs.getString("formularioRuta") +"\" name=\"formularioRuta" + "\">";
         }

@@ -52,17 +52,17 @@ public class CMotivos extends HttpServlet {
                     case 1:
                         request.setAttribute("errorMessage", "Se ingreso correctamente");
                         request.setAttribute("colorError", "green");
-                        request.getRequestDispatcher("Motivos.jsp").forward(request, response);
+                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
                         break;
                     case 0:
                         request.setAttribute("errorMessage", "Ocurrio un error");
                         request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("Motivos.jsp").forward(request, response);
+                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
                         break;
                     case 2:
                         request.setAttribute("errorMessage", "La descripcion del motivo no puede ser vacia.");
                         request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("Motivos.jsp").forward(request, response);
+                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
                         break;
                 }
                 break;
@@ -97,17 +97,17 @@ public class CMotivos extends HttpServlet {
                     case 1:
                         request.setAttribute("errorMessage", "Se elimino correctamente");
                         request.setAttribute("colorError", "green");
-                        request.getRequestDispatcher("Motivos.jsp").forward(request, response);
+                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
                         break;
                     case 23503:
                         request.setAttribute("errorMessage", "No se puede borrar el motivo. Existe un Tramite con este motivo");
                         request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("Motivos.jsp").forward(request, response);
+                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
                         break;
                     case -1:
                         request.setAttribute("errorMessage", "Error al borrar el motivo.");
                         request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("Motivos.jsp").forward(request, response);
+                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
                         break;    
                 }
                 break;
