@@ -22,7 +22,7 @@ import modelo.Motivo;
  *
  * @author SG0891660
  */
-@WebServlet(name= "CMotivos", urlPatterns = {"/motivos.do"})
+@WebServlet(name = "CMotivos", urlPatterns = {"/motivos.do"})
 public class CMotivos extends HttpServlet {
 
     /**
@@ -37,15 +37,15 @@ public class CMotivos extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
-        String btn="";
-        
+        String btn = "";
+
         if (request.getParameter("btnMotivos") != null) {
             btn = request.getParameter("btnMotivos");
         }
-        
-         switch (btn) {
+
+        switch (btn) {
             case "Guardar": {
-                String tipoTramite = request.getParameter("txtMotivo");                
+                String tipoTramite = request.getParameter("txtMotivo");
                 Motivo unMotivo = new Motivo(tipoTramite);
                 int resultado = unMotivo.AgregarMotivo();
                 switch (resultado) {
@@ -68,63 +68,78 @@ public class CMotivos extends HttpServlet {
                 break;
             }
             case "Update": {
-                String descMotivo = request.getParameter("txtActualizarMotivo");               
-                 int idMotivo = parseInt(request.getParameter("txtActualizarId"));                
-                int resultado = Motivo.ModificarMotivo(idMotivo,descMotivo);
-                switch (resultado) {
-                    case 1:
-                        request.setAttribute("errorMessage", "Se actualizo correctamente");
-                        request.setAttribute("colorError", "green");
-                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
-                        break;
-                    case 0:
-                        request.setAttribute("errorMessage", "Ocurrio un error");
-                        request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
-                        break;
-                    case 2:
-                        request.setAttribute("errorMessage", "La descripcion del motivo no puede ser vacia.");
-                        request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
-                        break;
+
+                if (!"".equals(request.getParameter("txtActualizarMotivo"))) {
+                    String descMotivo = request.getParameter("txtActualizarMotivo");
+                    int idMotivo = parseInt(request.getParameter("txtActualizarId"));
+                    int resultado = Motivo.ModificarMotivo(idMotivo, descMotivo);
+                    switch (resultado) {
+                        case 1:
+                            request.setAttribute("errorMessage", "Se actualizo correctamente");
+                            request.setAttribute("colorError", "green");
+                            request.getRequestDispatcher("motivos.jsp").forward(request, response);
+                            break;
+                        case 0:
+                            request.setAttribute("errorMessage", "Ocurrio un error");
+                            request.setAttribute("colorError", "red");
+                            request.getRequestDispatcher("motivos.jsp").forward(request, response);
+                            break;
+                        case 2:
+                            request.setAttribute("errorMessage", "La descripcion del motivo no puede ser vacia.");
+                            request.setAttribute("colorError", "red");
+                            request.getRequestDispatcher("motivos.jsp").forward(request, response);
+                            break;
+                    }
+                } else {
+                    request.setAttribute("errorMessage", "La descripcion del motivo no puede ser vacia.");
+                    request.setAttribute("colorError", "red");
+                    request.getRequestDispatcher("motivos.jsp").forward(request, response);
                 }
                 break;
             }
-            default:       
-                int idMotivo = parseInt(request.getParameter("btnMotivos"));                ; 
-                int resultado = Motivo.BorrarMotivo(idMotivo);
-                switch (resultado) {
-                    case 1:
-                        request.setAttribute("errorMessage", "Se elimino correctamente");
-                        request.setAttribute("colorError", "green");
-                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
-                        break;
-                    case 23503:
-                        request.setAttribute("errorMessage", "No se puede borrar el motivo. Existe un Tramite con este motivo");
-                        request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
-                        break;
-                    case -1:
-                        request.setAttribute("errorMessage", "Error al borrar el motivo.");
-                        request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("motivos.jsp").forward(request, response);
-                        break;    
+            default:
+                if (!"".equals(btn)) {
+                    int idMotivo = parseInt(request.getParameter("btnMotivos"));;
+                    int resultado = Motivo.BorrarMotivo(idMotivo);
+                    switch (resultado) {
+                        case 1:
+                            request.setAttribute("errorMessage", "Se elimino correctamente");
+                            request.setAttribute("colorError", "green");
+                            request.getRequestDispatcher("motivos.jsp").forward(request, response);
+                            break;
+                        case 23503:
+                            request.setAttribute("errorMessage", "No se puede borrar el motivo. Existe un Tramite con este motivo");
+                            request.setAttribute("colorError", "red");
+                            request.getRequestDispatcher("motivos.jsp").forward(request, response);
+                            break;
+                        case -1:
+                            request.setAttribute("errorMessage", "Error al borrar el motivo.");
+                            request.setAttribute("colorError", "red");
+                            request.getRequestDispatcher("motivos.jsp").forward(request, response);
+                            break;
+                    }
+
+                } else {
+
+                    request.setAttribute("errorMessage", "Error al borrar el motivo.");
+                    request.setAttribute("colorError", "red");
+                    request.getRequestDispatcher("motivos.jsp").forward(request, response);
+                    break;
                 }
-                break;
         }
-       
+
     }
-    
-     public static void CargarDatos(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException, SQLException{
-        
+
+    public static void CargarDatos(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+
         ResultSet rst = Motivo.BuscarMotivos();
         String tramiteOpt = "";
         while (rst.next()) {
             tramiteOpt += "<option value=\"" + rst.getInt("motivoId") + "\">"
-                    + rst.getString("motivoDescripcion")+ " </option>";
+                    + rst.getString("motivoDescripcion") + " </option>";
         }
-               
+
         request.getSession().setAttribute("lstMotivos", tramiteOpt);
 
     }
@@ -163,9 +178,9 @@ public class CMotivos extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(CMotivos.class.getName()).log(Level.SEVERE, null, ex);
-             request.setAttribute("errorMessage", "Ocurrio un error al ingresar el Motivo en la base de datos: <br>"+ ex.getMessage());           
-             request.setAttribute("colorError", "red");
-             request.getRequestDispatcher("motivos.jsp").forward(request, response);
+            request.setAttribute("errorMessage", "Ocurrio un error al ingresar el Motivo en la base de datos: <br>" + ex.getMessage());
+            request.setAttribute("colorError", "red");
+            request.getRequestDispatcher("motivos.jsp").forward(request, response);
         }
     }
 
