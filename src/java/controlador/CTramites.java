@@ -90,8 +90,10 @@ public class CTramites extends HttpServlet {
                 }
                 break;
             }
-            default:                
+            default:           
+               
                 int resultado = Tramite.BorrarTramite(btn);
+                
                 switch (resultado) {
                     case 1:
                         request.setAttribute("errorMessage", "Se elimino correctamente");
@@ -103,8 +105,15 @@ public class CTramites extends HttpServlet {
                         request.setAttribute("colorError", "red");
                         request.getRequestDispatcher("tramites.jsp").forward(request, response);
                         break;
+                        
+                    case -1:
+                        request.setAttribute("errorMessage", "Ocurrio un error");
+                        request.setAttribute("colorError", "red");
+                        request.getRequestDispatcher("tramites.jsp").forward(request, response);
+                        break;
                 }
                 break;
+               
         }
 
     }

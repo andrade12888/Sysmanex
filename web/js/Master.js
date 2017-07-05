@@ -33,6 +33,41 @@ function modalTramite(id) {
     $("#txtActualizarPlazo").val($("#tdp" + id).text());
     $("#txtActualizarId").val($("#id" + id).val());
 }
+
+function controlTextoVacio(id)
+{    
+     $("#"+id).val("Campo Mandatorio"); 
+        $("#"+id).css({'color':'red'});
+        $("#"+id).focusin(function(){
+             $("#"+id).val("");
+             $("#"+id).css({'color':'black'});
+         });
+}
+
+function controlTramiteTextoVacio(){
+    
+    if($("#txtTipoTramite").val() && $("#txtPlazoTramite").val() )
+    {                                     
+       // $('#formTramites').append('<input type="hidden" name="btnTramite" value="Guardar" />');           
+        $("#formTramites").submit();
+    }
+        
+    if(!$("#txtTipoTramite").val())
+    {
+        controlTextoVacio("txtTipoTramite");
+    }
+    if(!$("#txtPlazoTramite").val())
+    {        
+        $(".spanTramite").append("<strong> * </strong>");
+        $(".spanTramite").css({'color':'red'});
+        $("#txtPlazoTramite").focusin(function(){       
+             $(".spanTramite").add("<span>").text("Plazo para tramitar");
+             $(".spanTramite").css({'color':'black'});
+         });
+    }        
+    
+}
+
 function modalMotivos(id) {
     $("#txtActualizarMotivo").val($("#tdd" + id).text());   
     $("#txtActualizarId").val($("#id" + id).val());
@@ -59,7 +94,9 @@ function ExpedSiguiente(){
     if(!$("#idExpediente").val())
     {
         $("#idExpediente").val("Campo Mandatorio"); 
-    } else if(!$("#idAsunto").val())
+    }
+    
+    if(!$("#idAsunto").val())
     {
         $("#idAsunto").val("Campo Mandatorio");
         $('#idAsunto').css({'color':'red'});
