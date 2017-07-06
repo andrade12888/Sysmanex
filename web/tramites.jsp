@@ -42,8 +42,8 @@
             <div class="modal-body">
                 <form name="frmActualizarTramite" action="tramites.do">
                     <div class="row">
-                        <div class="col-lg-5">Ingrese tipo de Tramite<input type="text" id="txtActualizarTramite" name="txtActualizarTramite" value="" class="form-control"/></div>
-                        <div class="col-lg-5">Plazo para tramitar<input type="text" id="txtActualizarPlazo" name="txtActualizarPlazo" class="form-control" /></div>                    
+                        <div class="col-lg-5">Ingrese tipo de Tramite<input type="text" id="txtActualizarTramite" required="required" name="txtActualizarTramite" value="" class="form-control"/></div>
+                        <div class="col-lg-5">Plazo para tramitar<input type="number" required="required" id="txtActualizarPlazo" name="txtActualizarPlazo" class="form-control" /></div>                    
                         <div class="col-lg-2"><input type="hidden" id="txtActualizarId" name="txtActualizarId"/></div>
                     </div>  
                     <br>
