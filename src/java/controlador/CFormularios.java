@@ -126,8 +126,8 @@ public class CFormularios extends HttpServlet {
                     fileName=FileSettings.GuardarArchivoEndDisco(i);
                     
                 } catch(SizeLimitExceededException fse) {
-                    
-                    request.setAttribute("errorMessage", "El tamano del archivo supera el tamaño permitido ("+FileSettings.getMaxFileSize()+")");
+                    int tamano =(FileSettings.getMaxFileSize()/1024)/1024;
+                    request.setAttribute("errorMessage", "El tamano del archivo supera el tamaño permitido ("+tamano+" MB)");
                     request.setAttribute("colorError", "red");
                     request.getRequestDispatcher("formularios.jsp").forward(request, response);    
                 } catch(Exception ex) {
