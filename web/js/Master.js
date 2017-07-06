@@ -29,7 +29,7 @@ $(document).ready(function () {
     });
 });
 
-function controlTextoVacio(id)
+function errorTextoVacio(id)
 {
     $("#" + id).val("Campo Mandatorio");
     $("#" + id).css({'color': 'red'});
@@ -54,7 +54,7 @@ function controlTextoVacio(idForm,idTxt1,idTxt2,spanClass) {
 
     if (!$("#" + idTxt1).val())
     {
-        controlTextoVacio(idTxt1);
+        errorTextoVacio(idTxt1);
     }
     if (!$("#"+idTxt2).val())
     {
