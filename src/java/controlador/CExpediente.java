@@ -67,23 +67,12 @@ public class CExpediente extends HttpServlet {
                         String fieldvalue = item.getString();
 
                         switch (fieldname) {
-                            case "txtNroExpediente":
-                                if("".equals(fieldvalue)){
-                               request.setAttribute("errorMessage", "El numero de Expediente no puede ser vacio");
-                               request.setAttribute("colorError", "red");
-                               request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);  
-                                break;}else{
-                                unExpediente.setNumeroExpediente(fieldvalue, logeado.getEntidadId());}
+                            case "txtNroExpediente":                                
+                                unExpediente.setNumeroExpediente(fieldvalue, logeado.getEntidadId());
                                 break;
                             case "txtAsunto":
-                               if("".equals(fieldvalue))
-                             {
-                               request.setAttribute("errorMessage", "El Asunto no puede ser vacio");
-                               request.setAttribute("colorError", "red");
-                               request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);  
-                                break;
-                             } else{
-                             unExpediente.setAsuntoExpediente(fieldvalue);}
+                              
+                             unExpediente.setAsuntoExpediente(fieldvalue);
                                 break;
                             case "publico":
                                 unExpediente.setExpedientePublico(Boolean.parseBoolean(fieldvalue));
@@ -101,7 +90,7 @@ public class CExpediente extends HttpServlet {
 
                     if (resultado == 1) {
                         for (FileItem item : items) {
-                            if (!item.isFormField()) {
+                            if (!item.isFormField() && !"".equals(item.getName())) {                                                                
                                 String fieldName = item.getFieldName();
                                 String fileName = item.getName();
                                 String contentType = item.getContentType();
@@ -119,7 +108,7 @@ public class CExpediente extends HttpServlet {
                                     item.write(file);
 
                                 } catch (Exception ex) {
-                                    errorMessage = "Error al subir archivo " + file.getName();
+                                    errorMessage = "Error al escribir el archivo "+ file.getName()+" en disco " ;
                                     request.setAttribute("errorMessage", errorMessage);
                                     request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);
                                 }
@@ -149,7 +138,7 @@ public class CExpediente extends HttpServlet {
                     }
                 }
             } catch (FileUploadException ex) {
-                errorMessage = "Huvo un error.";
+                errorMessage = "Hubo un error.";
                 request.setAttribute("errorMessage", errorMessage);
                 request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);
             }
