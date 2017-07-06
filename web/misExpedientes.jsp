@@ -42,7 +42,7 @@ function ocultar(id){
                 <h4 class="modal-title" id="modalExpedienteLabel">Enviar expediente N:</h4>
             </div>
             <div class="modal-body">
-                <form name="frmEnviarExpediente" action="/CEnvio.do">
+                <form name="frmEnviarExpediente" action="CEnvio.do">
                     <div class="row">
                         <div class="col-lg-5">Posibles Destinatarios
                             <select name="selDestinatario" id="selDestinatario" class="form-control">
