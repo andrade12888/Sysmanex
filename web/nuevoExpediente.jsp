@@ -24,10 +24,10 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-3">
-                                <span>Nº Expediente</span> <input required="required" type="number" id="idExpediente" name="txtNroExpediente" class="form-control">
+                                <span class="spanExpeditene">Nº Expediente</span> <input required="required" type="number" id="idExpediente" name="txtNroExpediente" class="form-control">
                             </div>
                             <div class="col-lg-9">
-                                Asunto <input type="text" name="txtAsunto" class="form-control" id="idAsunto">
+                                Asunto <input type="text" required="required" name="txtAsunto" class="form-control" id="idAsunto">
                             </div>
                         </div>
                         <div class="row">

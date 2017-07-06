@@ -69,10 +69,23 @@ public class CExpediente extends HttpServlet {
 
                     switch (fieldname) {
                         case "txtNroExpediente":
-                            unExpediente.setNumeroExpediente(fieldvalue, logeado.getEntidadId());
+                             if("".equals(fieldvalue))
+                            {
+                              request.setAttribute("errorMessage", "El numero de Expediente no puede ser vacio");
+                              request.setAttribute("colorError", "red");
+                              request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);  
+                               break;}else{
+                            unExpediente.setNumeroExpediente(fieldvalue, logeado.getEntidadId());}
                             break;
                         case "txtAsunto":
-                            unExpediente.setAsuntoExpediente(fieldvalue);
+                            if("".equals(fieldvalue))
+                            {
+                              request.setAttribute("errorMessage", "El Asunto no puede ser vacio");
+                              request.setAttribute("colorError", "red");
+                              request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);  
+                               break;
+                            } else{
+                            unExpediente.setAsuntoExpediente(fieldvalue);}
                             break;
                         case "publico":
                             unExpediente.setExpedientePublico(Boolean.parseBoolean(fieldvalue));

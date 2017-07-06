@@ -16,7 +16,7 @@
             <div class="col-lg-4">Ingrese tipo de tramite<input id="txtTipoTramite" type="text" name="txtTramite" value="" class="form-control"/></div>
             <div id="divTramitePlazo" class="col-lg-3"><span class="spanTramite">Plazo para tramitar</span><input id="txtPlazoTramite" required="required" type="number" name="txtPlazo" class="form-control" /></div>                                                     
             <div class="col-lg-2"></div>
-            <div class="col-lg-2"><br><input id="btnGuardar" type="button" value="Guardar" name="btnTramite" class="btn-agregar" onclick="controlTramiteTextoVacio('formTramites','txtTipoTramite','txtPlazoTramite','spanTramite');" /></div>
+            <div class="col-lg-2"><br><input id="btnGuardar" type="button" value="Guardar" name="btnTramite" class="btn-agregar" onclick="controlTextoVacio('formTramites','txtTipoTramite','txtPlazoTramite','spanTramite');" /></div>
             <input type="hidden" name="btnTramite" value="Guardar" />
         </div>
         <div class="row">
@@ -49,7 +49,7 @@
                     <br>
                     <div class="modal-footer">                    
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        <button type="button" name="btnTramite" value="Update" class="btn btn-primary" onclick="controlTramiteTextoVacio('frmActualizarTramite','txtActualizarTramite','txtActualizarPlazo','spanUpdTramite');">Guardar cambios</button>
+                        <button type="button" name="btnTramite" value="Update" class="btn btn-primary" onclick="controlTextoVacio('frmActualizarTramite','txtActualizarTramite','txtActualizarPlazo','spanUpdTramite');">Guardar cambios</button>
                         <input type="hidden" name="btnTramite" value="Update" />
                     </div>
                 </form>

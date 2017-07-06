@@ -45,7 +45,7 @@ function modalTramite(id) {
     $("#txtActualizarId").val($("#id" + id).val());
 }
 
-function controlTramiteTextoVacio(idForm,idTxt1,idTxt2,spanClass) {
+function controlTextoVacio(idForm,idTxt1,idTxt2,spanClass) {
 
     if ($("#" + idTxt1).val() && $("#" + idTxt2).val())
     {                  
@@ -58,7 +58,7 @@ function controlTramiteTextoVacio(idForm,idTxt1,idTxt2,spanClass) {
     }
     if (!$("#"+idTxt2).val())
     {
-       if($(".spanUpdTramite:contains('*')").length<=0)
+       if($("."+spanClass+":contains('*')").length<=0)
         {
             $("."+spanClass).append("<strong> * </strong>");
             $("."+spanClass).css({'color': 'red'});
@@ -96,10 +96,25 @@ function quitarDestinatario() {
 }
 
 function ExpedSiguiente() {
+    
+    if ($("#idExpediente").val()&&$("#idAsunto").val())
+    {
+        $("#pnlExpediente").fadeOut(500, function () {
+            $("#txtExpedienteEnvio").val($("#txtExpediente").val());
+            $("#fromExpediente").submit();
+            $("#pnlDestinatarios").fadeIn(300);
+        });
+    }
 
     if (!$("#idExpediente").val())
     {
-        $("#idExpediente").val("Campo Mandatorio");
+        $(".spanExpeditene").append("<strong> * </strong>");
+
+            $(".spanExpeditene").css({'color': 'red'});
+            $(".bodyContent").focusin(function () {
+                $(".spanExpeditene").add("<span>").text("Nº Expediente");
+                $(".spanExpeditene").css({'color': 'black'});
+            });
     }
 
     if (!$("#idAsunto").val())
@@ -111,14 +126,9 @@ function ExpedSiguiente() {
             $('#idAsunto').css({'color': 'black'});
         });
 
-    } else {
-        $("#pnlExpediente").fadeOut(500, function () {
-            $("#txtExpedienteEnvio").val($("#txtExpediente").val());
-            $("#fromExpediente").submit();
-            $("#pnlDestinatarios").fadeIn(300);
-        });
+    } 
         return false;
-    }
+    
 }
 
 function ExpedAtras() {
