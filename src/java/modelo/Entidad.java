@@ -316,5 +316,9 @@ public class Entidad {
 
         return rs;
     }
+    
+    public int enviarExpediente(String expedienteNumero, Entidad destino){
+    return 1;
+    }
 
 }

@@ -20,7 +20,7 @@ import modelo.Expediente;
  *
  * @author andra
  */
-@WebServlet(name = "CEnvio", urlPatterns = {"/CEnvio"})
+@WebServlet(name = "CEnvio", urlPatterns = {"/CEnvio.do"})
 public class CEnvio extends HttpServlet {
 
     /**
