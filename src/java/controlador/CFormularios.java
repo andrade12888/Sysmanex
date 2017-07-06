@@ -13,8 +13,6 @@ import java.io.OutputStream;
 import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -22,10 +20,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import modelo.Formulario;
+import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 
 /**
  *
@@ -127,8 +125,16 @@ public class CFormularios extends HttpServlet {
                     Iterator i = fileItems.iterator();
                     fileName=FileSettings.GuardarArchivoEndDisco(i);
                     
+                } catch(SizeLimitExceededException fse) {
+                    
+                    request.setAttribute("errorMessage", "El tamano del archivo supera el tamaño permitido ("+FileSettings.getMaxFileSize()+")");
+                    request.setAttribute("colorError", "red");
+                    request.getRequestDispatcher("formularios.jsp").forward(request, response);    
                 } catch(Exception ex) {
-                    System.out.println(ex);
+                    
+                    request.setAttribute("errorMessage", "Ocurrio un error al subir el archivo");
+                    request.setAttribute("colorError", "red");
+                    request.getRequestDispatcher("formularios.jsp").forward(request, response);    
                 }
             }
             
