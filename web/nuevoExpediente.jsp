@@ -26,7 +26,7 @@
                                 <span>Nº Expediente</span> <input required="required" type="number" id="idExpediente" name="txtNroExpediente" class="form-control">
                             </div>
                             <div class="col-lg-9">
-                                Asunto <input type="text" name="txtAsunto" class="form-control" id="idAsunto">
+                                Asunto <input required="required" type="text" name="txtAsunto" class="form-control" id="idAsunto">
                             </div>
                         </div>
                         <div class="row">
