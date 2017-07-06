@@ -16,7 +16,7 @@
             <div class="col-lg-4">Ingrese tipo de tramite<input id="txtTipoTramite" type="text" name="txtTramite" value="" class="form-control"/></div>
             <div id="divTramitePlazo" class="col-lg-3"><span class="spanTramite">Plazo para tramitar</span><input id="txtPlazoTramite" required="required" type="number" name="txtPlazo" class="form-control" /></div>                                                     
             <div class="col-lg-2"></div>
-            <div class="col-lg-2"><br><input id="btnGuardar" type="button" value="Guardar" name="btnTramite" class="btn-agregar" onclick="controlTramiteTextoVacio('formTramites', 'txtTipoTramite', 'txtPlazoTramite', 'spanTramite');" /></div>
+            <div class="col-lg-2"><br><input id="btnGuardar" type="button" value="Guardar" name="btnTramite" class="btn-agregar" onclick="controlTextoVacio('formTramites', 'txtTipoTramite', 'txtPlazoTramite', 'spanTramite');" /></div>
             <input type="hidden" name="btnTramite" value="Guardar" />
         </div>
         <div class="row">
