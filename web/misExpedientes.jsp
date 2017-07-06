@@ -9,6 +9,23 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="master/header.jsp"/>
+<script>
+$(document).ready(function(){
+$("td[name*='oculto']").hide();
+
+    
+});
+function ocultar(id){
+        $("#oculto"+id).slideUp();
+        $("#m"+id).show();
+        $("#o"+id).hide();
+}
+ function mostrar(id){
+        $("#oculto"+id).slideDown();
+        $("#o"+id).show();
+        $("#m"+id).hide();
+}
+</script>
 <div class="bodyContent">
     <h2 class="h2">Mis expedientes</h2>
     <div class="row">

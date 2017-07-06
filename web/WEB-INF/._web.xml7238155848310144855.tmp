@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    <servlet>
+        <servlet-name>LogIn</servlet-name>
+        <servlet-class>LoginModule.LogIn</servlet-class>
+    </servlet>
+    <!--servlet>
+        <servlet-name>CFormularios</servlet-name>
+        <servlet-class>controlador.CFormularios</servlet-class>
+    </servlet-->
+    <servlet-mapping>
+        <servlet-name>LogIn</servlet-name>
+        <url-pattern>/LogIn</url-pattern>
+    </servlet-mapping>
+    <!--servlet>
+        <servlet-name>CMotivos</servlet-name>
+        <servlet-class>controlador.CMotivos</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CMotivos</servlet-name>
+        <url-pattern>/motivos</url-pattern>
+    </servlet-mapping!-->
+    <!--servlet-mapping>
+        <servlet-name>CFormularios</servlet-name>
+        <url-pattern>/CFormularios</url-pattern>
+    </servlet-mapping-->
+    <session-config>
+        <session-timeout>
+            0
+        </session-timeout>
+    </session-config>
+    <multipart-config>
+        <location>/tmp</location>
+        <max-file-size>20848820</max-file-size>
+        <max-request-size>418018841</max-request-size>
+        <file-size-threshold>1048576</file-size-threshold>
+    </multipart-config>
+</web-app>
