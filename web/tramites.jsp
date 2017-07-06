@@ -11,12 +11,13 @@
 <!DOCTYPE html>
 <jsp:include page="master/header.jsp"/>
 <div class="bodyContent">
-    <form name="frmTramites" action="tramites.do" method="POST">
+    <form name="frmTramites" action="tramites.do" method="POST" id="formTramites">
         <div class="row">
-            <div class="col-lg-4">Ingrese tipo de tramite<input type="text" name="txtTramite" value="" class="form-control"/></div>
-            <div class="col-lg-3">Plazo para tramitar<input type="text" name="txtPlazo" class="form-control" /></div>
+            <div class="col-lg-4">Ingrese tipo de tramite<input id="txtTipoTramite" type="text" name="txtTramite" value="" class="form-control"/></div>
+            <div id="divTramitePlazo" class="col-lg-3"><span class="spanTramite">Plazo para tramitar</span><input id="txtPlazoTramite" required="required" type="number" name="txtPlazo" class="form-control" /></div>                                                     
             <div class="col-lg-2"></div>
-            <div class="col-lg-2"><br><input type="submit" value="Guardar" name="btnTramite" class="btn-agregar" /></div>
+            <div class="col-lg-2"><br><input id="btnGuardar" type="button" value="Guardar" name="btnTramite" class="btn-agregar" onclick="controlTramiteTextoVacio();" /></div>
+            <input type="hidden" name="btnTramite" value="Guardar" />
         </div>
         <div class="row">
             <div class="col-lg-4"></div>

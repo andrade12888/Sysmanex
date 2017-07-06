@@ -2,6 +2,7 @@ package Utilidades;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public abstract class ConvertionUtil {
@@ -26,5 +27,14 @@ public abstract class ConvertionUtil {
     {           
         Date fechaConvertida = new SimpleDateFormat("dd/mm/yyyy").parse(fecha);
         return fechaConvertida; 
+    }
+    
+    public static String CurrentDate() 
+   {    
+        Date today = Calendar.getInstance().getTime();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        String fechaConvertida = formatoFecha.format(today);                              
+
+        return fechaConvertida;
     }
 }

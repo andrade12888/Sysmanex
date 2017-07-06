@@ -17,69 +17,115 @@ $(document).ready(function () {
             $('#divTipoUnidad').show();
         }
     });
-    $("#input-1a").fileinput({'showUpload':false, 'previewFileType':'any'});
-    
-    $(":text").click(function(){
+    $("#input-1a").fileinput({'showUpload': false, 'previewFileType': 'any'});
+
+    $(":text").click(function () {
         $("#errorMotivo").empty();
     });
-    
-    $(".bodyContent").click(function(){
-        if(!$("#errorMotivo").empty())
+
+    $(".bodyContent").click(function () {
+        if (!$("#errorMotivo").empty())
             $("#errorMotivo").empty();
     });
 });
+
+function controlTextoVacio(id)
+{
+    $("#" + id).val("Campo Mandatorio");
+    $("#" + id).css({'color': 'red'});
+    $("#" + id).focusin(function () {
+        $("#" + id).val("");
+        $("#" + id).css({'color': 'black'});
+    });
+}
+
 function modalTramite(id) {
     $("#txtActualizarTramite").val($("#tdd" + id).text());
     $("#txtActualizarPlazo").val($("#tdp" + id).text());
     $("#txtActualizarId").val($("#id" + id).val());
 }
+
+function controlTramiteTextoVacio() {
+
+    if ($("#txtTipoTramite").val() && $("#txtPlazoTramite").val())
+    {
+        // $('#formTramites').append('<input type="hidden" name="btnTramite" value="Guardar" />');           
+        $("#formTramites").submit();
+    }
+
+    if (!$("#txtTipoTramite").val())
+    {
+        controlTextoVacio("txtTipoTramite");
+    }
+    if (!$("#txtPlazoTramite").val())
+    {
+       if($(".spanTramite:contains('*')").length<=0)
+        {
+            $(".spanTramite").append("<strong> * </strong>");
+            $(".spanTramite").css({'color': 'red'});
+            $("#txtPlazoTramite").focusin(function () {
+                $(".spanTramite").add("<span>").text("Plazo para tramitar");
+                $(".spanTramite").css({'color': 'black'});
+            });
+        }
+    }
+
+}
+
 function modalMotivos(id) {
-    $("#txtActualizarMotivo").val($("#tdd" + id).text());   
+    $("#txtActualizarMotivo").val($("#tdd" + id).text());
     $("#txtActualizarId").val($("#id" + id).val());
 }
+
 function modalDestinatarios(id) {
-    $("#modalExpedienteLabel").html("Enviar expediente N:"+id);
+    $("#modalExpedienteLabel").html("Enviar expediente N:" + id);
 }
-function agregarDestinatario(){
+
+function agregarDestinatario() {
     var id = $("#selDestinatario").val();
     var destino = $("#selDestinatario option:selected").html();
     $("#selDestinatario option:selected").hide();
     $("#selDestinatario").find('option:first').attr('selected', 'selected');
-    $("#selDestinos").append("<option value=\""+id+"\">"+destino+"</option>");
+    $("#selDestinos").append("<option value=\"" + id + "\">" + destino + "</option>");
 }
-function quitarDestinatario(){
+
+function quitarDestinatario() {
     var id = $("#selDestinos").val();
     $("#selDestinos option:selected").remove();
 
-    $("#"+id).show();
+    $("#" + id).show();
 }
 
-function ExpedSiguiente(){
-    
-    if(!$("#idExpediente").val())
+function ExpedSiguiente() {
+
+    if (!$("#idExpediente").val())
     {
-        $("#idExpediente").val("Campo Mandatorio"); 
-    } else if(!$("#idAsunto").val())
+        $("#idExpediente").val("Campo Mandatorio");
+    }
+
+    if (!$("#idAsunto").val())
     {
         $("#idAsunto").val("Campo Mandatorio");
-        $('#idAsunto').css({'color':'red'});
-         $('#idAsunto').focusin(function(){
-             $('#idAsunto').val("");
-             $('#idAsunto').css({'color':'black'});
-         });
-        
-    } else{
-    $("#pnlExpediente").fadeOut(500, function(){        
-        $("#txtExpedienteEnvio").val($("#txtExpediente").val());
-        $("#fromExpediente").submit();
-        $("#pnlDestinatarios").fadeIn(300);
-    });    
-  return false;} 
+        $('#idAsunto').css({'color': 'red'});
+        $('#idAsunto').focusin(function () {
+            $('#idAsunto').val("");
+            $('#idAsunto').css({'color': 'black'});
+        });
+
+    } else {
+        $("#pnlExpediente").fadeOut(500, function () {
+            $("#txtExpedienteEnvio").val($("#txtExpediente").val());
+            $("#fromExpediente").submit();
+            $("#pnlDestinatarios").fadeIn(300);
+        });
+        return false;
+    }
 }
-function ExpedAtras(){
-    $("#pnlDestinatarios").fadeOut(500, function(){
+
+function ExpedAtras() {
+    $("#pnlDestinatarios").fadeOut(500, function () {
         $("#pnlExpediente").fadeIn(300);
-    });    
-  return false;
+    });
+    return false;
 }
 
