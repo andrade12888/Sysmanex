@@ -56,7 +56,8 @@ public class Conecciones {
         Connection con = this.getConnect();
         ResultSet rs;
         try {
-            Statement sta = con.createStatement();
+            Statement sta = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                                      ResultSet.CONCUR_UPDATABLE);
             rs = sta.executeQuery(query);
             
         } catch (SQLException ex) {

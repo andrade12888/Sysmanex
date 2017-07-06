@@ -57,7 +57,7 @@ public class Expediente {
         String idUnidad = String.format("%04d", entidadId);
         String numero = String.format("%05d", Integer.parseInt(numeroExpediente));
 
-        this.numeroExpediente = String.valueOf(anio)+ idUnidad + numero;
+        this.numeroExpediente = String.valueOf(anio) + idUnidad + numero;
     }
 
     /**
@@ -236,7 +236,7 @@ public class Expediente {
     }
 
 //</editor-fold>
-    public int AgregarExpediente() {
+     public int AgregarExpediente() {
         Conecciones conDB = new Conecciones();
         int resultado = -1;
         Connection conect = conDB.getConnect();
@@ -245,10 +245,10 @@ public class Expediente {
         try {
             queryInsertExpediente = conect.prepareStatement("INSERT INTO \"SysmanexSch1\".\"Expediente\"("
                     + "\"expedienteNumero\", \"expedienteAsunto\", \"expedienteFecha\", "
-                    + "\"expedientePublico\", \"expedienteTramiteId\", \"expedienteEstadoId\", "
+                    + "\"expedientePublico\", \"expedienteTramiteId\","
                     + "\"expedienteBaja\", \"expedienteEntidadId\")"
                     + " VALUES (?, ?,CURRENT_DATE, '" + this.expedientePublico + "',"
-                    + " '" + this.tramiteExpediente.getId() + "', '" + this.estadoExpediente.getIdEstado() + "',"
+                    + " '" + this.tramiteExpediente.getId() + "', "
                     + " false," + this.entidadOrigien.getEntidadId() + ");", Statement.RETURN_GENERATED_KEYS);
             queryInsertExpediente.setString(1, this.numeroExpediente);
             queryInsertExpediente.setString(2, this.asuntoExpediente);
@@ -261,7 +261,7 @@ public class Expediente {
             rs.close();
 
         } catch (SQLException ex) {
-             System.out.println(ex.toString());
+            System.out.println(ex.toString());
             Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
             resultado = 2;
         }
@@ -275,8 +275,6 @@ public class Expediente {
         try {
             resultado = conDB.hacerConsultaIUD(query);
         } catch (SQLException ex) {
-            System.out.println(ex.toString());
-            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
             resultado = 2;
         }
         return resultado;
@@ -284,48 +282,48 @@ public class Expediente {
 
     public ResultSet BuscarExpedientePorNumero(String numeroExpediente) {
         Conecciones conDB = new Conecciones();
-        
+
         ResultSet rs;
-        String query = "SELECT ex.\"expedienteNumero\",tra.\"tramiteNombre\", ex.\"expedienteAsunto\",en.\"entidadNombre\", ex.\"expedienteFecha\",\n"
+        String query = "SELECT ex.\"expedienteEntidadId\",ex.\"expedienteNumero\",tra.\"tramiteNombre\", ex.\"expedienteAsunto\",en.\"entidadNombre\", ex.\"expedienteFecha\",\n"
                 + "mo.\"motivoDescripcion\"\n"
                 + "FROM \"SysmanexSch1\".\"Expediente\" as ex, \"SysmanexSch1\".\"Tramite\" as tra, \"SysmanexSch1\".\"Entidad\" as en, \n"
                 + "\"SysmanexSch1\".\"Motivo\" as mo, \"SysmanexSch1\".\"Estado\" as es\n"
                 + "WHERE tra.\"tramiteId\" = ex.\"expedienteTramiteId\"\n"
-                + "AND ex.\"expedienteMotivoId\" = mo.\"motivoId\"\n"
-                + "AND ex.\"expedienteEstadoId\" = es.\"estadoId\"\n"
                 + "AND ex.\"expedienteEntidadId\" = en.\"entidadId\"\n"
-                + "AND ex.\"expedientePublico\" = true\n"
-                + "AND ex.\"expedienteBaja\" = false\n" //le agrege esto xq todas las tablas que tengan baja logica deben consultar su estado antes de traer el resultado
+                + "AND ex.\"expedienteBaja\" = false\n" 
                 + "AND ex.\"expedienteNumero\" LIKE '%" + numeroExpediente + "%'";
         try {
             rs = conDB.hacerConsulta(query);
             return rs;
         } catch (SQLException ex) {
             return null;
-        } 
+        }
     }
-    
-    public void traerExpediente(String numeroExpediente){
+
+    public void traerExpediente(String numeroExpediente) {
         try {
-            ResultSet rs = BuscarExpedientePorNumero(numeroExpediente);
-            while(rs.next()){
-                Entidad originador = new Entidad();
-                originador.buscarEntidadId(rs.getInt("expedienteEntidadId"));
-                Estado unEstado = new Estado();
-                unEstado.BuscarEstado(rs.getInt("expedienteEstadoId"));                
-                
-                this.setEntidadOrigien(originador);
-                this.setNumeroExpediente(numeroExpediente, originador.getEntidadId());
-                this.setAsuntoExpediente(rs.getString("expedienteAsunto"));
-                this.setFechaExpediente(rs.getString("expedienteFecha"));
-                this.setExpedientePublico(rs.getBoolean("expedientePublico"));
-                this.setEstadoExpediente(unEstado);
-                
-            
-            }   
+            ResultSet rs;
+            if (BuscarExpedientePorNumero(numeroExpediente) != null) {
+                rs = BuscarExpedientePorNumero(numeroExpediente);
+                while (rs.next()) {
+                    Entidad originador = new Entidad();
+                    originador.buscarEntidadId(rs.getInt("expedienteEntidadId"));
+
+                    this.setEntidadOrigien(originador);
+                    if(numeroExpediente.length()>5){
+                        this.numeroExpediente = numeroExpediente;
+                    }else{
+                        this.setNumeroExpediente(numeroExpediente, originador.getEntidadId());
+                    }
+                    
+                    this.setAsuntoExpediente(rs.getString("expedienteAsunto"));
+                    this.setFechaExpediente(rs.getString("expedienteFecha"));
+                    this.setExpedientePublico(rs.getBoolean("expedientePublico"));
+                }
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+
+        }
     }
 
     //le saque el like porque los destinos siempre van a ser traidos con el numero de expediente..
@@ -342,16 +340,38 @@ public class Expediente {
         return rs;
     }
 
-    protected static int BorrarExpediente(String numeroExpediente) throws SQLException {
+    public int BorrarExpediente(String numeroExpediente) {
         Conecciones conDB = new Conecciones();
         int resultado;
 
         String query = "UPDATE \"SysmanexSch1\".\"Expediente\"\n"
                 + "SET \"expedienteBaja\"=TRUE \n"
                 + "WHERE \"expedienteNumero\"='" + numeroExpediente + "\';";
-        resultado = conDB.hacerConsultaIUD(query);
+        try {
+            resultado = conDB.hacerConsultaIUD(query);
+            return resultado;
+        } catch (SQLException ex) {
+            return 2;
+        }
 
-        return resultado;
+    }
+
+    public ResultSet ExpedienteTramitado() {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+
+        String query = "SELECT ee.\"idEntidad\", ee.\"ExpedienteEntidadFechaEnvio\", ee.\"ExpedienteEntidadFechaRecibido\",\n"
+                + "m.\"motivoDescripcion\",ee.\"ExpedienteEntidadObservacion\", e.\"estadoDescripcion\"\n"
+                + "FROM \"SysmanexSch1\".\"ExpedienteEntidad\" ee, \"SysmanexSch1\".\"Motivo\" m, \"SysmanexSch1\".\"Estado\" e\n"
+                + "WHERE ee.\"ExpedienteNumero\" = '" + this.getNumeroExpediente() + "'"
+                + "AND ee.\"ExpedienteMotivoId\" = m.\"motivoId\"\n"
+                + "AND ee.\"ExpedienteEstadoId\" = e.\"estadoId\"";
+        try {
+            rs = conDB.hacerConsulta(query);
+            return rs;
+        } catch (SQLException ex) {
+            return null;
+        }
     }
 
 }
