@@ -7,7 +7,6 @@ package Utilidades;
 
 
 import java.io.File;
-import static java.lang.System.out;
 import java.util.Iterator;
 import org.apache.commons.fileupload.FileItem;
 
@@ -19,9 +18,9 @@ public abstract class FileSettings {
 
     private static boolean isMultipart;
     private static final String filePathWeb = "\\Sysmanex\\upload\\";
-    private static final String filePathLocal = "C:\\Users\\sg0891660\\Documents\\ORT\\Proyecto Integrador\\BkupSysmanexx\\Sysmanex\\web\\upload\\";
-    private static final int maxFileSize = 50 * 1024;
-    private static final int maxMemSize = 4 * 1024;
+    private static final String filePathLocal = "C:\\Users\\sg0891660\\Documents\\ORT\\Proyecto Integrador\\BkupSysmanexx\\SysmanexUpdated\\web\\upload\\";
+    private static final int maxFileSize = 1 * 1024 * 1024; //1MB
+    private static final int maxMemSize = 4 * 1024 * 1024; //1MB
 
     private static final String MultipartConfiglocation = "/tmp";
     private static final int MultipartConfigfileSizeThreshold = 1024 * 1024;
