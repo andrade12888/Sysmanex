@@ -1,0 +1,76 @@
+PROGRAM START TIME = 01-23-15_14-27-39
+Parameters passed to program are as follows:
+MESSAGE:  The Cisco AnyConnect VPN client must be installed now, and current VPN connections will be FORCED closed. Exit any VPN sessions and click "Continue" now or "Postpone" to delay one hour.
+MAX WAIT:  3600
+RENOTIFY:  3600
+POSTPONES:  1
+BUTTON OPTION:  2
+REBOOT:  0
+
+01/23/15 14:27:39:  WAITING FOR USER INPUT OR FOR TIMER TO EXPIRE.
+01/23/15 14:27:44:  USER POSTPONED THE PROGRAM.
+01/23/15 14:27:44:  POSTPONES REMAINING NOW = 0.
+01/23/15 15:28:36:  TIMER EXPIRED, OR USER CLICKED TO CONTINUE.
+
+01/23/15 15:28:36:  EXECUTING ANYCONNECT CLIENT INSTALLATION BY CALLING SETUP.CMD.
+01/23/15 15:28:38:  ANYCONNECT CLIENT INSTALLATION FINISHED RUNNING WITH RETURN EXIT CODE OF 0.
+
+*****************************************************************************************************************************************************
+
+***  Installation Started 01/23/2015 14:27  ***
+Title: 
+Source: C:\Windows\ccmcache\2f\0311_AnyConnect_UserNotify.EXE | 10-24-2014 | 18:16:58 | 503997
+RegDB Key: SOFTWARE\HPES\UserNotifyFlg
+RegDB Val: 1
+RegDB Name: AttnColor
+RegDB Type: 3
+RegDB Root: 2
+RegDB Old: 1
+RegDB Key: SOFTWARE\HPES\UserNotifyFlg
+RegDB Val: 2
+RegDB Name: btnOptions
+RegDB Type: 3
+RegDB Root: 2
+RegDB Old: 0
+RegDB Key: SOFTWARE\HPES\UserNotifyFlg
+RegDB Val: 3600
+RegDB Name: MaxWait
+RegDB Type: 3
+RegDB Root: 2
+RegDB Old: 300
+RegDB Key: SOFTWARE\HPES\UserNotifyFlg
+RegDB Val: 1
+RegDB Name: PostPones
+RegDB Type: 3
+RegDB Root: 2
+RegDB Old: 0
+RegDB Key: SOFTWARE\HPES\UserNotifyFlg
+RegDB Val: 0
+RegDB Name: Reboot
+RegDB Type: 3
+RegDB Root: 2
+RegDB Old: 1
+RegDB Key: SOFTWARE\HPES\UserNotifyFlg
+RegDB Val: 1
+RegDB Name: ShowMessage
+RegDB Type: 3
+RegDB Root: 2
+RegDB Old: 0
+RegDB Key: SOFTWARE\HPES\UserNotifyFlg
+RegDB Val: The Cisco AnyConnect VPN client must be installed now, and current VPN connections will be FORCED closed. Exit any VPN sessions and click "Continue" now or "Postpone" to delay one hour.
+RegDB Name: Message
+RegDB Root: 2
+RegDB Old: There is a pending reboot required for an application installation.
+RegDB Key: SOFTWARE\HPES\UserNotifyFlg
+RegDB Val: 3600
+RegDB Name: ReNotify
+RegDB Type: 3
+RegDB Root: 2
+RegDB Old: 3600
+RegDB Key: SOFTWARE\HPES\UserNotifyFlg
+RegDB Val: 99
+RegDB Name: Response
+RegDB Type: 3
+RegDB Root: 2
+RegDB Old: 0
+0
