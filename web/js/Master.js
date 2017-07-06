@@ -45,27 +45,26 @@ function modalTramite(id) {
     $("#txtActualizarId").val($("#id" + id).val());
 }
 
-function controlTramiteTextoVacio() {
+function controlTextoVacio(idForm,idTxt1,idTxt2,spanClass) {
 
-    if ($("#txtTipoTramite").val() && $("#txtPlazoTramite").val())
-    {
-        // $('#formTramites').append('<input type="hidden" name="btnTramite" value="Guardar" />');           
-        $("#formTramites").submit();
-    }
+   if ($("#" + idTxt1).val() && $("#" + idTxt2).val())
+     {                  
+         $("#"+idForm).submit();
+      }
 
-    if (!$("#txtTipoTramite").val())
+    if (!$("#" + idTxt1).val())
     {
-        controlTextoVacio("txtTipoTramite");
+        controlTextoVacio(idTxt1);
     }
-    if (!$("#txtPlazoTramite").val())
+    if (!$("#"+idTxt2).val())
     {
-       if($(".spanTramite:contains('*')").length<=0)
+       if($("."+spanClass+":contains('*')").length<=0)
         {
-            $(".spanTramite").append("<strong> * </strong>");
-            $(".spanTramite").css({'color': 'red'});
-            $("#txtPlazoTramite").focusin(function () {
-                $(".spanTramite").add("<span>").text("Plazo para tramitar");
-                $(".spanTramite").css({'color': 'black'});
+            $("."+spanClass).append("<strong> * </strong>");
+             $("."+spanClass).css({'color': 'red'});
+             $("#"+idTxt2).focusin(function () {
+                 $("."+spanClass).add("<span>").text("Plazo para tramitar");
+                 $("."+spanClass).css({'color': 'black'});
             });
         }
     }

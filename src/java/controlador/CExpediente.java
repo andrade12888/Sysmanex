@@ -8,8 +8,6 @@ package controlador;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -17,7 +15,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Entidad;
-import modelo.Estado;
 import modelo.Expediente;
 import modelo.Tramite;
 import org.apache.commons.fileupload.FileItem;
@@ -35,7 +32,6 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 public class CExpediente extends HttpServlet {
 
     private boolean isMultipart;
-    private final String filePath = "C:\\upload\\";
     private final int maxFileSize = 50 * 1024;
     private final int maxMemSize = 4 * 1024;
     private File file;
@@ -51,85 +47,124 @@ public class CExpediente extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        String relativeWebPath = "/upload/";
+        String filePath = getServletContext().getRealPath(relativeWebPath);
         isMultipart = ServletFileUpload.isMultipartContent(request);
         response.setContentType("text/html;charset=UTF-8");
         Entidad logeado = (Entidad) request.getSession().getAttribute("usuarioLogeado");
+        String errorMessage = "";
         Expediente unExpediente = new Expediente();
         unExpediente.setEntidadOrigien(logeado);
+        int retorno = -1;
+        if (isMultipart) {
+            List<FileItem> items;
+            try {
+                items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+                for (FileItem item : items) {
+                    if (item.isFormField()) {
+                        // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
+                        String fieldname = item.getFieldName();
+                        String fieldvalue = item.getString();
 
-        List<FileItem> items;
-        try {
-            items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
-            for (FileItem item : items) {
-                if (item.isFormField()) {
-                    // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
-                    String fieldname = item.getFieldName();
-                    String fieldvalue = item.getString();
-
-                    switch (fieldname) {
-                        case "txtNroExpediente":
-                            unExpediente.setNumeroExpediente(fieldvalue, logeado.getEntidadId());
-                            break;
-                        case "txtAsunto":
-                            unExpediente.setAsuntoExpediente(fieldvalue);
-                            break;
-                        case "publico":
-                            unExpediente.setExpedientePublico(Boolean.parseBoolean(fieldvalue));
-                            break;
-                        case "selTramite":
-                            Tramite unTramite = new Tramite();
-                            unTramite.BuscarTramite(Integer.parseInt(fieldvalue));
-                            unExpediente.setTramiteExpediente(unTramite);
-                            break;
-                        case "selDestinatario":
-                      
-                            Entidad unDestinatario = new Entidad();
-                            unDestinatario.buscarEntidadId(Integer.parseInt(fieldvalue.substring(6)));
-                            unExpediente.getListaDestinariosExpediente().add(unDestinatario);
-                            break;
-                        case "": 
-                    }
-                } else {
-                    String fieldName = item.getFieldName();
-                    String fileName = item.getName();
-                    String contentType = item.getContentType();
-                    boolean isInMemory = item.isInMemory();
-                    long sizeInBytes = item.getSize();
-                    // Write the file
-                    if (fileName.lastIndexOf("\\") >= 0) {
-                        file = new File(filePath
-                                + fileName.substring(fileName.lastIndexOf("\\")));
-                    } else {
-                        file = new File(filePath
-                                + fileName.substring(fileName.lastIndexOf("\\") + 1));
-                    }
-                    try {
-                        item.write(file);
-                    } catch (Exception ex) {
-                        Logger.getLogger(CExpediente.class.getName()).log(Level.SEVERE, null, ex);
+                        switch (fieldname) {
+                            case "txtNroExpediente":
+                                if("".equals(fieldvalue)){
+                               request.setAttribute("errorMessage", "El numero de Expediente no puede ser vacio");
+                               request.setAttribute("colorError", "red");
+                               request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);  
+                                break;}else{
+                                unExpediente.setNumeroExpediente(fieldvalue, logeado.getEntidadId());}
+                                break;
+                            case "txtAsunto":
+                               if("".equals(fieldvalue))
+                             {
+                               request.setAttribute("errorMessage", "El Asunto no puede ser vacio");
+                               request.setAttribute("colorError", "red");
+                               request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);  
+                                break;
+                             } else{
+                             unExpediente.setAsuntoExpediente(fieldvalue);}
+                                break;
+                            case "publico":
+                                unExpediente.setExpedientePublico(Boolean.parseBoolean(fieldvalue));
+                                break;
+                            case "selTramite":
+                                Tramite unTramite = new Tramite();
+                                unTramite.BuscarTramite(Integer.parseInt(fieldvalue));
+                                unExpediente.setTramiteExpediente(unTramite);
+                                break;
+                        }
                     }
                 }
-            }
-        } catch (FileUploadException ex) {
-            Logger.getLogger(CExpediente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Estado unEstado = new Estado();
-        unEstado.BuscarEstado(5);
-        unExpediente.setEstadoExpediente(unEstado);
+                if (retorno == -1) {
+                    int resultado = unExpediente.AgregarExpediente();
 
-        int resultado = unExpediente.AgregarExpediente();
+                    if (resultado == 1) {
+                        for (FileItem item : items) {
+                            if (!item.isFormField()) {
+                                String fieldName = item.getFieldName();
+                                String fileName = item.getName();
+                                String contentType = item.getContentType();
+                                boolean isInMemory = item.isInMemory();
+                                long sizeInBytes = item.getSize();
+                                // Write the file
+                                if (fileName.lastIndexOf("\\") >= 0) {
+                                    file = new File(filePath
+                                            + fileName.substring(fileName.lastIndexOf("\\")));
+                                } else {
+                                    file = new File(filePath
+                                            + fileName.substring(fileName.lastIndexOf("\\") + 1));
+                                }
+                                try {
+                                    item.write(file);
 
-        if (resultado == 1) {
-            for(Entidad dest: unExpediente.getListaDestinariosExpediente()){
-            
-            
+                                } catch (Exception ex) {
+                                    errorMessage = "Error al subir archivo " + file.getName();
+                                    request.setAttribute("errorMessage", errorMessage);
+                                    request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);
+                                }
+                            }
+                        }
+                    } else {
+                        errorMessage = "Error al subir archivo " + file.getName();
+                        request.setAttribute("errorMessage", errorMessage);
+                        request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);
+                    }
+
+                    if (resultado == 1) {
+                        request.getSession().setAttribute("expedienteEnviar", unExpediente);
+                        errorMessage = "Expediente agregado correctamente.";
+                        request.setAttribute("errorMessage", errorMessage);
+                        request.getRequestDispatcher("envioExpediente.jsp").forward(request, response);
+                    }
+                } else {
+                    if (retorno == 1) {
+                        errorMessage = "Expediente  eliminado correctamente.";
+                        request.setAttribute("errorMessage", errorMessage);
+                        request.getRequestDispatcher("misExpedientes.jsp").forward(request, response);
+                    } else {
+                        errorMessage = "No se ha podido borrar el expediente.";
+                        request.setAttribute("errorMessage", errorMessage);
+                        request.getRequestDispatcher("misExpedientes.jsp").forward(request, response);
+                    }
+                }
+            } catch (FileUploadException ex) {
+                errorMessage = "Huvo un error.";
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);
             }
-            
-            
-            
-            java.io.PrintWriter out = response.getWriter();
-            request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);
+        } else {
+            String btn = request.getParameter("btnEliminarExpediente");
+            int result = unExpediente.BorrarExpediente(btn);
+            if(result == 1){
+                errorMessage = "Expediente borrado correctamente";
+            request.setAttribute("errorMessage", errorMessage);
+            request.getRequestDispatcher("misExpedientes.jsp").forward(request, response);
+            }else{            
+            errorMessage = "Error al borrar expediente";
+            request.setAttribute("errorMessage", errorMessage);
+            request.getRequestDispatcher("misExpedientes.jsp").forward(request, response);
+            }
         }
 
     }
