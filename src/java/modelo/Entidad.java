@@ -125,29 +125,6 @@ public class Entidad {
         }
     }
 
-    public String TablaExpedientes(ResultSet rs) {
-        String tabla = "<form name=\"frmMisExpedientes\" action=\"Tramites.do\" "
-                + "method=\"POST\"><table class=\"table table-striped\"><th>"
-                + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Tramite</th><th>Estado</th>";
-        try {
-            while (rs.next()) {
-                tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("tramiteId") + "\" value=\"" + rs.getInt("tramiteId") + "\">"
-                        + " <span id=\"tdd" + rs.getInt("tramiteId") + "\">" + rs.getString("tramiteNombre") + "</span></td>"
-                        + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
-                        + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
-                        + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
-                        + "<td><button onclick=\"modalTramite(" + rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
-                        + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                        + "</button><button name=\"btnTramite\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
-            }
-        } catch (SQLException ex) {
-            tabla += "<tr><td> No se encontraron resultados o hubo un error. </td></tr>";
-        }
-        tabla += "</table></form>";
-
-        return tabla;
-    }
-
     public String TablaExpedientes() {
 
         ResultSet rs = this.ExpedientesDB();
@@ -164,8 +141,8 @@ public class Entidad {
                         + "<td><span id=\"easu" + rs.getString("expedienteAsunto") + "\">" + rs.getString("expedienteAsunto") + "</span></td>"
                         + "<td><span id=\"efec" + rs.getDate("expedienteFecha") + "\">" + rs.getDate("expedienteFecha") + "</span></td>"
                         + "<td><span id=\"edoc" + unDoc.getId() + "\">" + unDoc.getNombre() + "</span></td>"
-                        + "<td><button onclick=\"modalDestinatarios('" + exp + "')\" id=\"" + exp + "\" "
-                        + "type=\"button\" class=\"btn glyphicon glyphicon-send\" data-toggle=\"modal\" data-target=\"#modalExpediente\">\n"
+                        + "<td><button onclick=\"modalEnvio('" + exp + "')\" id=\"" + exp + "\" "
+                        + "type=\"button\" class=\"btn glyphicon glyphicon-send\">"
                         + "</button><button name=\"btnEliminarExpediente\" value=\"" + exp + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
                 Expediente unExpediente = new Expediente();
                 unExpediente.traerExpediente(exp);
@@ -318,6 +295,9 @@ public class Entidad {
     }
     
     public int enviarExpediente(String expedienteNumero, Entidad destino){
+        
+        
+        
     return 1;
     }
 

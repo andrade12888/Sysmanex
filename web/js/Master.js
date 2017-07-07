@@ -45,6 +45,13 @@ function modalTramite(id) {
     $("#txtActualizarId").val($("#id" + id).val());
 }
 
+function modalEnvio(nroExp){
+    $("#txtExpedienteEnvio").val(nroExp);
+    $("#modalExpedienteLabel").html("Expediente N:"+nroExp);
+    $("#modalExpediente").modal("show");
+    
+}
+
 function controlTextoVacio(idForm,idTxt1,idTxt2,spanClass) {
 
    if ($("#" + idTxt1).val() && $("#" + idTxt2).val())
@@ -76,16 +83,12 @@ function modalMotivos(id) {
     $("#txtActualizarId").val($("#id" + id).val());
 }
 
-function modalDestinatarios(id) {
-    $("#modalExpedienteLabel").html("Enviar expediente N:" + id);
-}
-
 function agregarDestinatario() {
     var id = $("#selDestinatario").val();
     var destino = $("#selDestinatario option:selected").html();
     $("#selDestinatario option:selected").hide();
     $("#selDestinatario").find('option:first').attr('selected', 'selected');
-    $("#selDestinos").append("<option value=\"" + id + "\">" + destino + "</option>");
+    $("#selDestinos").append("<option value=\"" + id + "\" selected=\"selected\">" + destino + "</option>");
 }
 
 function quitarDestinatario() {

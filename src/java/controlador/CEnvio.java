@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Entidad;
 import modelo.Expediente;
+import modelo.UnidadArmada;
 
 /**
  *
@@ -36,11 +37,15 @@ public class CEnvio extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String nroExped = request.getParameter("txtExpedienteEnvio");
-        String[] destinos = request.getParameterValues("selDestinatario");
+        
+        String[] destinos = request.getParameterValues("selDestinos");
         Expediente unExpediente = new Expediente();
         unExpediente.traerExpediente(nroExped);
 
         for (String dest : destinos) {
+            int id = Integer.parseInt(dest.substring (6,7));
+            Entidad unaEntidad = new Entidad();
+            unaEntidad.buscarEntidadId(id);
             
             
 

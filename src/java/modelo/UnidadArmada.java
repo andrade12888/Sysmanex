@@ -9,6 +9,8 @@ import accesoaDatos.Conecciones;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -100,16 +102,20 @@ public class UnidadArmada extends Entidad {
         return rs;
     }
 
-    public static ResultSet BuscarUnidadPorEntidadId(int entidad) throws SQLException {
+    public static ResultSet BuscarUnidadPorEntidadId(int entidad) {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\""
                 + " WHERE \"unidadEntidadId\" = " + entidad + ";";
-        rs = conDB.hacerConsulta(query);
-
-        return rs;
+        try {
+            rs = conDB.hacerConsulta(query);
+            return rs;
+        } catch (SQLException ex) {
+            return null;
+        }       
     }
+    
 
     //TODO: Delete o baja logica
     public static int BorrarUnidadArmada(String sigla) {

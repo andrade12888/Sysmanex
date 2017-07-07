@@ -1,9 +1,12 @@
 <%@page import="modelo.Entidad"%>
 <%@page import="controlador.CUsuarios"%>
+<%@page import="controlador.CMotivos"%>
 <%
     Entidad u1 = (Entidad) request.getSession().getAttribute("usuarioLogeado");
     CUsuarios.CargarDatos(request, response);
+    CMotivos.CargarDatos(request, response);
     String lstUnidadesPersonas = request.getSession().getAttribute("lstUnidadesPersonas").toString();
+    String lstMotivos = request.getSession().getAttribute("lstMotivos").toString();
 
 %>
 
@@ -39,30 +42,55 @@ function ocultar(id){
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="modalExpedienteLabel">Enviar expediente N:</h4>
+                <h4 class="modal-title" id="modalExpedienteLabel"></h4>
             </div>
             <div class="modal-body">
-                <form name="frmEnviarExpediente" action="CEnvio.do">
-                    <div class="row">
-                        <div class="col-lg-5">Posibles Destinatarios
-                            <select name="selDestinatario" id="selDestinatario" class="form-control">
-                                <option value="0">Seleccione Destinatarios</option>
-                                <%= lstUnidadesPersonas%>
-                            </select>
-                        </div>
-                        <div class="col-lg-2">
-                            <br>
-                            <input type="button" class="btn-agregar" value=">" onclick="agregarDestinatario();">
-                            <input type="button" class="btn-agregar" value="<" onclick="quitarDestinatario();">
-                        </div>
-                        <div class="col-lg-5">Destinos
-                            <select name="selDestinos" id="selDestinos" class="form-control" multiple="true"></select>
-                        </div> 
+                <form action="CEnvio.do" method="post" name="formEnvio" id="fromEnvio">
+                <div class="panel panel-success" id="pnlDestinatarios">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Datos de envio del expediente</h3>
                     </div>
-                    <div class="modal-footer">
-                        <input type="submit" value="Enviar" name="btnFinalizar" class="btn btn-primary"/>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-2"><input type="hidden" id="txtExpedienteEnvio" name="txtExpedienteEnvio"></div>
+                            <div class="col-lg-3">Posibles Destinatarios
+                                <select name="selDestinatario" id="selDestinatario" class="form-control">
+                                    <option value="0">Seleccione Destinatarios</option>
+                                    <%= lstUnidadesPersonas%>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 text-center">
+                                <br>
+                                <button type="button" class="btn glyphicon glyphicon-chevron-right" onclick="agregarDestinatario();"></button>
+                                <br>
+                                <br>
+                                <button type="button" class="btn glyphicon glyphicon-chevron-left" onclick="quitarDestinatario();"></button>
+                            </div>
+                            <div class="col-lg-4">Destinos
+                                <select name="selDestinos" id="selDestinos" class="form-control" multiple="true">
+                                    
+                                </select>
+                            </div> 
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">Motivo de pase
+                                <select name="selMotivos" id="selMotivos" class="form-control">
+                                    <option value="0">Seleccione Motivo</option>
+                                    <%= lstMotivos%>
+                                </select>
+                            </div>
+                            <div class="col-lg-8">
+
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="panel-footer">
+                        <div>
+                            <input type="submit" value="Finalizar" name="btnFinalizar" class="btn btn-primary"/>
+                        </div>
                     </div>
-                </form>
+                </div>
+            </form>
             </div>
         </div>
     </div>
