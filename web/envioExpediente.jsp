@@ -36,7 +36,9 @@
                                 <button type="button" class="btn glyphicon glyphicon-chevron-left" onclick="quitarDestinatario();"></button>
                             </div>
                             <div class="col-lg-4">Destinos
-                                <select name="selDestinos" id="selDestinos" class="form-control" multiple="true"></select>
+                                <select name="selDestinos" id="selDestinos" class="form-control" multiple="true">
+
+                                </select>
                             </div> 
                         </div>
                         <div class="row">
@@ -47,7 +49,7 @@
                                 </select>
                             </div>
                             <div class="col-lg-8">
-
+                                Descripcion del motivo<input type="text" name="txtMotivoObs" class="form-control" id="txtMotivoObs">
                             </div>
                         </div>
                     </div> 

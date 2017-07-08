@@ -8,6 +8,8 @@ package modelo;
 import accesoaDatos.Conecciones;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,6 +21,8 @@ public class Persona extends Entidad {
     private String nombrePersona;
     private String apellidoPersona;
     private String emailPersona;
+
+    
     
 
     //<editor-fold defaultstate="collapsed" desc="Getters y Setters">
@@ -84,6 +88,8 @@ public class Persona extends Entidad {
     //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Constructores">
+    
+    public Persona() {}
     public Persona(String ciPersona, String nombrePerona, String apellidoPersona) {
         this.nombrePersona = nombrePerona;
         this.ciPersona = ciPersona;
@@ -304,5 +310,25 @@ public class Persona extends Entidad {
         return rs;
     }
 
+    public void BuscarPersonaPorId(int id) {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""
+                + " WHERE \"personaEntidadId\" = " + id + ";";
+        try {
+            rs = conDB.hacerConsulta(query);
+            while (rs.next()) {
+                this.setEntidadId(id);
+                this.setNombrePersona(rs.getString("personaNombre"));
+                this.setApellidoPersona(rs.getString("personaApellido"));
+                this.setCiPersona(rs.getString("personaCi"));
+                this.setEmailPersona(rs.getString("personaEmail"));
+            }
+            this.buscarEntidadId(this.getEntidadId());
+        } catch (SQLException ex) {
+            Logger.getLogger(UnidadArmada.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 }

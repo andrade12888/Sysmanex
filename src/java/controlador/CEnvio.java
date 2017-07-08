@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Entidad;
 import modelo.Expediente;
+import modelo.Persona;
 import modelo.UnidadArmada;
 
 /**
@@ -37,18 +38,25 @@ public class CEnvio extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String nroExped = request.getParameter("txtExpedienteEnvio");
-        
+        int motivo = Integer.parseInt(request.getParameter("selMotivos"));
+        String obser = request.getParameter("txtMotivoObs");
+        Entidad u1 = (Entidad) request.getSession().getAttribute("usuarioLogeado");
         String[] destinos = request.getParameterValues("selDestinos");
         Expediente unExpediente = new Expediente();
         unExpediente.traerExpediente(nroExped);
 
         for (String dest : destinos) {
+            String tipo = dest.substring(0,6);
             int id = Integer.parseInt(dest.substring (6,7));
-            Entidad unaEntidad = new Entidad();
-            unaEntidad.buscarEntidadId(id);
-            
-            
-
+            if(tipo.equalsIgnoreCase("selPer")){
+                Persona unaEntidad = new Persona();
+                unaEntidad.BuscarPersonaPorId(id);
+                u1.enviarExpediente(nroExped, unaEntidad, motivo, obser);
+            }else if(tipo.equalsIgnoreCase("selUni")){
+                UnidadArmada unaEntidad = new UnidadArmada();
+                unaEntidad.BuscarUnidadPorId(id);
+                u1.enviarExpediente(nroExped, unaEntidad, motivo, obser);
+            }
         }
 
 //        Entidad unDestinatario = new Entidad();

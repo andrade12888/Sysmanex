@@ -147,11 +147,11 @@ public class Entidad {
                 Expediente unExpediente = new Expediente();
                 unExpediente.traerExpediente(exp);
                 ResultSet rs2 = unExpediente.ExpedienteTramitado();
-                if (rs2 != null && rs2.next() ) {                    
-                    String tabla2 = "<td><input type=\"button\" id=\"m"+exp+"\"  onclick=\"mostrar("+exp+");\" value=\"+\"/>"
-                            + "<input type=\"button\" id=\"o"+exp+"\" style=\"display: none;\" onclick=\"ocultar("+exp+");\" value=\"-\"/></td></tr>"
-                            + "<tr><tr><td colspan=\"5\" id=\"oculto"+exp+"\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
-                            + "Origen</th><th>Enviado</th><th>Recivido</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>";
+                if (rs2 != null && rs2.next()) {
+                    String tabla2 = "<td><input type=\"button\" id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" value=\"+\"/>"
+                            + "<input type=\"button\" id=\"o" + exp + "\" style=\"display: none;\" onclick=\"ocultar(" + exp + ");\" value=\"-\"/></td></tr>"
+                            + "<tr><tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
+                            + "Destino Actual</th><th>Enviado</th><th>Recivido</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>";
                     rs2.beforeFirst();
                     while (rs2.next()) {
                         Entidad unaEntidad = new Entidad();
@@ -162,9 +162,9 @@ public class Entidad {
                                 + "</td></tr>";
                     }
                     rs2.close();
-                    if (tabla2 != "<td><button id=\"m"+exp+"\"  onclick=\"mostrar("+exp+");\" class=\"btn glyphicon glyphicon-triangle-bottom\"></button>"
-                            + "<button id=\"o"+exp+"\"  class=\" btn glyphicon glyphicon-triangle-top\" style=\"display: none;\" onclick=\"ocultar("+exp+");\"></button></td></tr>"
-                            + "<tr><tr><td colspan=\"5\" id=\"oculto"+exp+"\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
+                    if (tabla2 != "<td><button id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" class=\"btn glyphicon glyphicon-triangle-bottom\"></button>"
+                            + "<button id=\"o" + exp + "\"  class=\" btn glyphicon glyphicon-triangle-top\" style=\"display: none;\" onclick=\"ocultar(" + exp + ");\"></button></td></tr>"
+                            + "<tr><tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
                             + "Origen</th><th>Enviado</th><th>Recivido</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>") {
                         tabla2 += "</table>";
                         tabla += tabla2 + "</td></tr>";
@@ -293,12 +293,22 @@ public class Entidad {
 
         return rs;
     }
-    
-    public int enviarExpediente(String expedienteNumero, Entidad destino){
-        
-        
-        
-    return 1;
+
+    public int enviarExpediente(String expedienteNumero, Entidad destino, int idMotivo, String obs) {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+
+        String query = "INSERT INTO \"SysmanexSch1\".\"ExpedienteEntidad\""
+                + "(\"ExpedienteNumero\",\"idEntidad\", \"ExpedienteEntidadFechaEnvio\", \"ExpedienteEntidadFechaRecibido\", \"ExpedienteMotivoId\",\"ExpedienteEntidadObservacion\",\"ExpedienteEstadoId\")"
+                + "	VALUES"
+                + "('" + expedienteNumero + "'," + destino.getEntidadId() + ",null,CURRENT_DATE," + idMotivo + ",'" + obs + "',2)";
+        try {
+            resultado = conDB.hacerConsultaIUD(query);
+        } catch (SQLException ex) {
+            resultado = 2;
+        }
+        return resultado;
+
     }
 
 }

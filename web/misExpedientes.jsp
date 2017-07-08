@@ -80,7 +80,7 @@ function ocultar(id){
                                 </select>
                             </div>
                             <div class="col-lg-8">
-
+                                 Descripcion del motivo<input type="text" name="txtMotivoObs" class="form-control" id="txtMotivoObs">
                             </div>
                         </div>
                     </div> 

@@ -21,7 +21,8 @@ public class UnidadArmada extends Entidad {
     private ArrayList<Persona> personas;
     private String sigla;
 
-    public UnidadArmada() { }
+    public UnidadArmada() {
+    }
 
     /**
      * @return the personas
@@ -113,9 +114,26 @@ public class UnidadArmada extends Entidad {
             return rs;
         } catch (SQLException ex) {
             return null;
-        }       
+        }
     }
-    
+
+    public void BuscarUnidadPorId(int unidad) {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\""
+                + " WHERE \"unidadId\" = " + unidad + ";";
+        try {
+            rs = conDB.hacerConsulta(query);
+            while (rs.next()) {
+                this.setEntidadId(rs.getInt("unidadEntidadId"));
+                this.setSigla(rs.getString("unidadSigla"));
+            }
+            super.buscarEntidadId(this.getEntidadId());
+        } catch (SQLException ex) {
+            Logger.getLogger(UnidadArmada.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     //TODO: Delete o baja logica
     public static int BorrarUnidadArmada(String sigla) {
