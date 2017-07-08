@@ -1,3 +1,4 @@
+<%@page import="modelo.Expediente"%>
 <%@page import="controlador.CUsuarios"%>
 <%@page import="controlador.CMotivos"%>
 <%
@@ -5,6 +6,7 @@
     CMotivos.CargarDatos(request, response);
     String lstUnidadesPersonas = request.getSession().getAttribute("lstUnidadesPersonas").toString();
     String lstMotivos = request.getSession().getAttribute("lstMotivos").toString();
+    Expediente exp = (Expediente) request.getSession().getAttribute("expedienteEnviar");
 %>
 
 <%@page contentType="text/html; charset=UTF-8" %>
@@ -21,7 +23,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-lg-2"><input type="hidden" id="txtExpedienteEnvio" name="txtExpedienteEnvio"></div>
+                            <div class="col-lg-2"><input type="hidden" id="txtExpedienteEnvio" name="txtExpedienteEnvio" value="<% exp.getNumeroExpediente(); %>"></div>
                             <div class="col-lg-3">Posibles Destinatarios
                                 <select name="selDestinatario" id="selDestinatario" class="form-control">
                                     <option value="0">Seleccione Destinatarios</option>

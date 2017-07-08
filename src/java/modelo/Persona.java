@@ -310,9 +310,10 @@ public class Persona extends Entidad {
         return rs;
     }
 
-    public void BuscarPersonaPorId(int id) {
+    public int BuscarPersonaPorId(int id) {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
+        int resultado = 0;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""
                 + " WHERE \"personaEntidadId\" = " + id + ";";
@@ -324,11 +325,13 @@ public class Persona extends Entidad {
                 this.setApellidoPersona(rs.getString("personaApellido"));
                 this.setCiPersona(rs.getString("personaCi"));
                 this.setEmailPersona(rs.getString("personaEmail"));
+                resultado = 1;
             }
-            this.buscarEntidadId(this.getEntidadId());
+            
         } catch (SQLException ex) {
             Logger.getLogger(UnidadArmada.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return resultado;
     }
 
 }

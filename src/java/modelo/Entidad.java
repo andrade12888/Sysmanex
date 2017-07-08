@@ -154,9 +154,19 @@ public class Entidad {
                             + "Destino Actual</th><th>Enviado</th><th>Recivido</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>";
                     rs2.beforeFirst();
                     while (rs2.next()) {
+                        String destinatario = "";
                         Entidad unaEntidad = new Entidad();
                         unaEntidad.buscarEntidadId(rs2.getInt("idEntidad"));
-                        tabla2 += "<tr><td>" + unaEntidad.getNombreEntidad() + "</td><td>" + rs2.getString("ExpedienteEntidadFechaEnvio")
+                        if(unaEntidad.queSoy() == 2){
+                            Persona unaPersona = new Persona();
+                            unaPersona.BuscarPersonaPorId(unaEntidad.getEntidadId());
+                            destinatario = unaPersona.getNombrePersona() + " " + unaPersona.getApellidoPersona();
+                        }else{
+                            UnidadArmada unaUnidad = new UnidadArmada();
+                            unaUnidad.BuscarUnidadEntidadId(unaEntidad.getEntidadId());
+                            destinatario = unaUnidad.getSigla();
+                        }
+                        tabla2 += "<tr><td>" + destinatario + "</td><td>" + rs2.getString("ExpedienteEntidadFechaEnvio")
                                 + "</td><td>" + rs2.getString("ExpedienteEntidadFechaRecibido") + "</td><td>" + rs2.getString("motivoDescripcion")
                                 + "</td><td>" + rs2.getString("ExpedienteEntidadObservacion") + "</td><td>" + rs2.getString("estadoDescripcion")
                                 + "</td></tr>";
@@ -309,6 +319,17 @@ public class Entidad {
         }
         return resultado;
 
+    }
+    public int queSoy(){
+        UnidadArmada uni = new UnidadArmada();
+        int soyUni = uni.BuscarUnidadEntidadId(this.getEntidadId());
+        if(soyUni == 1){
+            return 1;
+        }else{
+            Persona per = new Persona();
+            per.BuscarPersonaPorId(this.getEntidadId());
+            return 2;
+        }    
     }
 
 }

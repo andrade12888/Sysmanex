@@ -117,10 +117,10 @@ public class UnidadArmada extends Entidad {
         }
     }
 
-    public void BuscarUnidadPorId(int unidad) {
+    public int BuscarUnidadPorId(int unidad) {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
-
+        int resultado = 0;
         String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\""
                 + " WHERE \"unidadId\" = " + unidad + ";";
         try {
@@ -128,11 +128,33 @@ public class UnidadArmada extends Entidad {
             while (rs.next()) {
                 this.setEntidadId(rs.getInt("unidadEntidadId"));
                 this.setSigla(rs.getString("unidadSigla"));
+                resultado = 1;
             }
-            super.buscarEntidadId(this.getEntidadId());
+            
         } catch (SQLException ex) {
             Logger.getLogger(UnidadArmada.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return resultado;
+    }
+    
+    public int BuscarUnidadEntidadId(int id) {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+        int resultado = 0;
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\""
+                + " WHERE \"unidadEntidadId\" = " + id + ";";
+        try {
+            rs = conDB.hacerConsulta(query);
+            while (rs.next()) {
+                this.setEntidadId(rs.getInt("unidadEntidadId"));
+                this.setSigla(rs.getString("unidadSigla"));
+                resultado = 1;
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UnidadArmada.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return resultado;
     }
 
     //TODO: Delete o baja logica
