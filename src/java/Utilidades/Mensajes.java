@@ -29,6 +29,8 @@ public abstract class Mensajes {
             Logger.getLogger(CEnvio.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(CEnvio.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } catch (Exception ex) {
+            Logger.getLogger(CEnvio.class.getName()).log(Level.SEVERE, null, ex);
+        } 
     }
 }
