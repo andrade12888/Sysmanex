@@ -31,8 +31,10 @@ function ocultar(id){
 </script>
 <div class="bodyContent">
     <h2 class="h2">Mis expedientes</h2>
-    <div class="row">
-        <div class="col-lg-2"></div>
+    <div class="row">        
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4"><br><div id="errorMotivo" style="color: ${colorError}; text-align: center;">${errorMessage}</div></div>
+            <div class="col-lg-4"></div>  
         <div class="col-lg-8"><br> <%= u1.TablaExpedientes()%></div>
         <div class="col-lg-2"></div>
     </div>
@@ -67,14 +69,14 @@ function ocultar(id){
                                 <button type="button" class="btn glyphicon glyphicon-chevron-left" onclick="quitarDestinatario();"></button>
                             </div>
                             <div class="col-lg-4">Destinos
-                                <select name="selDestinos" id="selDestinos" class="form-control" multiple="true">
+                                <select required="required" name="selDestinos" id="selDestinos" class="form-control" multiple>
                                     
                                 </select>
                             </div> 
                         </div>
                         <div class="row">
                             <div class="col-lg-4">Motivo de pase
-                                <select name="selMotivos" id="selMotivos" class="form-control">
+                                <select required="required" name="selMotivos" id="selMotivos" class="form-control">
                                     <option value="0">Seleccione Motivo</option>
                                     <%= lstMotivos%>
                                 </select>

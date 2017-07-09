@@ -5,6 +5,7 @@
  */
 package controlador;
 
+import Utilidades.Mensajes;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -67,8 +68,13 @@ public class CExpediente extends HttpServlet {
                         String fieldvalue = item.getString();
 
                         switch (fieldname) {
-                            case "txtNroExpediente":                                
+                            case "txtNroExpediente":    
+                                if(!"".equals(fieldvalue))
                                 unExpediente.setNumeroExpediente(fieldvalue, logeado.getEntidadId());
+                                else{
+                                    Mensajes.mensajeSuccessError("El Nro de expediente no puede ser vacie", "misExpedientes.jsp","red", request, response);
+                                    return;
+                                }
                                 break;
                             case "txtAsunto":
                               
@@ -87,6 +93,7 @@ public class CExpediente extends HttpServlet {
                 }
                 if (retorno == -1) {
                     int resultado = unExpediente.AgregarExpediente();
+                    request.getSession().setAttribute("expedienteEnviar", unExpediente.getNumeroExpediente());
 
                     if (resultado == 1) {
                         for (FileItem item : items) {
@@ -114,17 +121,18 @@ public class CExpediente extends HttpServlet {
                                 }
                             }
                         }
-                    } else {
-                        errorMessage = "Error al subir archivo " + file.getName();
+                    } else if(resultado ==23505)
+                        Mensajes.mensajeSuccessError("El expediente nro: "+unExpediente.getNumeroExpediente()+" ya fue ingresado", "nuevoExpediente.jsp", "red", request, response);
+                    else {
+                        errorMessage = "Error al subir archivo ";
                         request.setAttribute("errorMessage", errorMessage);
                         request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);
                     }
 
-                    if (resultado == 1) {
-                        request.getSession().setAttribute("expedienteEnviar", unExpediente);
+                    if (resultado == 1) {                        
                         errorMessage = "Expediente agregado correctamente.";
                         request.setAttribute("errorMessage", errorMessage);
-                        request.getRequestDispatcher("envioExpediente.jsp").forward(request, response);
+                        request.getRequestDispatcher("envioExpediente.jsp").forward(request, response);                        
                     }
                 } else {
                     if (retorno == 1) {

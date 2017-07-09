@@ -6,7 +6,7 @@
     CMotivos.CargarDatos(request, response);
     String lstUnidadesPersonas = request.getSession().getAttribute("lstUnidadesPersonas").toString();
     String lstMotivos = request.getSession().getAttribute("lstMotivos").toString();
-    Expediente exp = (Expediente) request.getSession().getAttribute("expedienteEnviar");
+    String exp = request.getSession().getAttribute("expedienteEnviar").toString();                          
 %>
 
 <%@page contentType="text/html; charset=UTF-8" %>
@@ -22,10 +22,10 @@
                         <h3 class="panel-title">Datos de envio del expediente</h3>
                     </div>
                     <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-2"><input type="hidden" id="txtExpedienteEnvio" name="txtExpedienteEnvio" value="<% exp.getNumeroExpediente(); %>"></div>
+                        <div class="row">                                                            
+                            <div class="col-lg-2"><input type="hidden" id="txtExpedienteEnvio" name="txtExpedienteEnvio" value="<%=exp%>"></div>
                             <div class="col-lg-3">Posibles Destinatarios
-                                <select name="selDestinatario" id="selDestinatario" class="form-control">
+                                <select required="required" name="selDestinatario" id="selDestinatario" class="form-control">
                                     <option value="0">Seleccione Destinatarios</option>
                                     <%= lstUnidadesPersonas%>
                                 </select>
@@ -38,14 +38,14 @@
                                 <button type="button" class="btn glyphicon glyphicon-chevron-left" onclick="quitarDestinatario();"></button>
                             </div>
                             <div class="col-lg-4">Destinos
-                                <select name="selDestinos" id="selDestinos" class="form-control" multiple="true">
+                                <select name="selDestinos" id="selDestinos" class="form-control" multiple>
 
                                 </select>
                             </div> 
                         </div>
                         <div class="row">
                             <div class="col-lg-4">Motivo de pase
-                                <select name="selMotivos" id="selMotivos" class="form-control">
+                                <select required="required" name="selMotivos" id="selMotivos" class="form-control">
                                     <option value="0">Seleccione Motivo</option>
                                     <%= lstMotivos%>
                                 </select>

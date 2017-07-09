@@ -55,6 +55,10 @@ public class Expediente {
         Calendar cal = Calendar.getInstance();
         int anio = cal.get(Calendar.YEAR);
         String idUnidad = String.format("%04d", entidadId);
+        if (numeroExpediente.length()>5)
+            numeroExpediente = numeroExpediente.substring(0, 5);
+        if ("".equals(numeroExpediente))
+            numeroExpediente = "00000";
         String numero = String.format("%05d", Integer.parseInt(numeroExpediente));
 
         this.numeroExpediente = String.valueOf(anio) + idUnidad + numero;
@@ -261,8 +265,12 @@ public class Expediente {
             rs.close();
 
         } catch (SQLException ex) {
-            System.out.println(ex.toString());
-            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
+
+          if("23505".equals(ex.getSQLState())) 
+          {            
+              resultado = Integer.parseInt(ex.getSQLState());
+              Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
+          } else
             resultado = 2;
         }
         return resultado;
@@ -270,7 +278,7 @@ public class Expediente {
 
     public int AgregarArchivoExpediente(String url) {
         Conecciones conDB = new Conecciones();
-        int resultado = -1;
+        int resultado;
         String query = "INSERT INTO \"SysmanexSch1\".\"Archivo\" VALUES ('" + this.getNumeroExpediente() + "','" + url + "');";
         try {
             resultado = conDB.hacerConsultaIUD(query);

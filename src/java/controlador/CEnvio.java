@@ -5,9 +5,12 @@
  */
 package controlador;
 
+import Utilidades.Mensajes;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,35 +39,69 @@ public class CEnvio extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
         String nroExped = request.getParameter("txtExpedienteEnvio");
+        
         int motivo = Integer.parseInt(request.getParameter("selMotivos"));
+        if(motivo<=0) 
+        {
+            Mensajes.mensajeSuccessError("Error al enviar el Expediente. El motivo es mandatorio","misExpedientes.jsp","red",request,response);                    
+            return;
+        }
+        
         String obser = request.getParameter("txtMotivoObs");
+        if("".equals(obser))
+            obser="Sin observaciones";
+        
         Entidad u1 = (Entidad) request.getSession().getAttribute("usuarioLogeado");
         String[] destinos = request.getParameterValues("selDestinos");
         Expediente unExpediente = new Expediente();
         unExpediente.traerExpediente(nroExped);
 
+        if(destinos!=null)
+        {
         for (String dest : destinos) {
-            String tipo = dest.substring(0,6);
-            int id = Integer.parseInt(dest.substring (6,7));
-            if(tipo.equalsIgnoreCase("selPer")){
-                Persona unaEntidad = new Persona();
-                unaEntidad.BuscarPersonaPorId(id);
-                u1.enviarExpediente(nroExped, unaEntidad, motivo, obser);
-            }else if(tipo.equalsIgnoreCase("selUni")){
-                UnidadArmada unaEntidad = new UnidadArmada();
-                unaEntidad.BuscarUnidadPorId(id);
-                u1.enviarExpediente(nroExped, unaEntidad, motivo, obser);
+            try {
+                String tipo = dest.substring(0, 6);
+                int id = Integer.parseInt(dest.substring(6, dest.length()));
+                if (tipo.equalsIgnoreCase("selPer")) {
+                    try {
+                        Persona unaEntidad = new Persona();
+                        int encontre=unaEntidad.BuscarPersonaPorId(id);
+                        if(encontre>0)
+                        {
+                            u1.enviarExpediente(nroExped, unaEntidad, motivo, obser);                            
+                        }
+                    } catch (Exception ex)
+                    {
+                        Mensajes.mensajeSuccessError("Error al agregar destinatarios","misExpedientes.jsp","red",request,response);                    
+                        return;
+                    }
+
+                } else if (tipo.equalsIgnoreCase("selUni")) {
+                    try {
+                        UnidadArmada unaEntidad = new UnidadArmada();
+                        unaEntidad.BuscarUnidadPorId(id);
+                        u1.enviarExpediente(nroExped, unaEntidad, motivo, obser);
+                       
+                    } catch (Exception ex) {
+                        Mensajes.mensajeSuccessError("Error al agregar unidades destinatarias","misExpedientes.jsp","red",request,response);   
+                        return;
+                    }
+                }
+            } catch (Exception ex) {
+                Mensajes.mensajeSuccessError("Ha ocurrido un error al ingresar los destinatarios. No se pudo enviar el expediente","misExpedientes.jsp","red",request,response);   
+                return;
+          
             }
-        }
-
-//        Entidad unDestinatario = new Entidad();
-//        unDestinatario.buscarEntidadId(Integer.parseInt(fieldvalue.substring(6)));
-//        unExpediente.getListaDestinariosExpediente().add(unDestinatario);
-
+        }Mensajes.mensajeSuccessError("Envio Exitoso","misExpedientes.jsp","green",request,response);                    
+    }else{
+           Mensajes.mensajeSuccessError("Error al enviar el Expediente.Elija destinatarios","misExpedientes.jsp","red",request,response);   
+     }
+Mensajes.mensajeSuccessError("Envio Exitoso","misExpedientes.jsp","green",request,response); 
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
