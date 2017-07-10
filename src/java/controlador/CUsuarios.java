@@ -22,7 +22,7 @@ import modelo.UnidadArmada;
  *
  * @author andra
  */
-@WebServlet(name = "CUsuarios", urlPatterns = {"/CUsuarios.do"})
+@WebServlet(name = "CUsuarios", urlPatterns = {"CUsuarios.do"})
 public class CUsuarios extends HttpServlet {
 
     /**
