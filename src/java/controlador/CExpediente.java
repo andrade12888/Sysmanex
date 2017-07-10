@@ -8,6 +8,8 @@ package controlador;
 import Utilidades.Mensajes;
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -15,9 +17,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.Empresa;
 import modelo.Entidad;
 import modelo.Expediente;
+import modelo.Persona;
 import modelo.Tramite;
+import modelo.UnidadArmada;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -204,5 +209,38 @@ public class CExpediente extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+    
+     public static void CargarDatos(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException, SQLException{
+        
+        request.getSession().setAttribute("lstRecibidos", null); 
+        Entidad u1 = (Entidad) request.getSession().getAttribute("usuarioLogeado");
+        ResultSet rs = u1.ExpedientesRecibidos();
+        String recibidos = "";
+        while (rs.next()) {
+            String nombre = "";
+            Persona unaPersona = new Persona();
+            int encontre = unaPersona.BuscarPersonaPorId(rs.getInt("expedienteEntidadId"));
+            if(encontre==1){
+                nombre = unaPersona.getNombrePersona() + " "+ unaPersona.getApellidoPersona();
+            }else{
+                UnidadArmada unaUnidad = new UnidadArmada();
+                unaUnidad.BuscarUnidadEntidadId(rs.getInt("expedienteEntidadId"));
+                nombre = unaUnidad.getSigla();
+            }
+            recibidos += "<tr>"
+                    + "<td>" + rs.getString("expedienteNumero")+ " </td>"
+                    + "<td>" + rs.getString("expedienteAsunto")+ " </td>"
+                    + "<td>" + rs.getString("tramiteNombre")+ " </td>"
+                    + "<td>" + nombre+ " </td>"
+                    + "<td>" + rs.getString("restante")+ " </td>"
+                    + "<td>" + rs.getString("estadoDescripcion")+ " </td>"
+                    + "</tr>";
+        }
+
+        
+        request.getSession().setAttribute("lstRecibidos", recibidos);      
+        
+    }
 
 }
