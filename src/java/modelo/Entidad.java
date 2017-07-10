@@ -157,11 +157,11 @@ public class Entidad {
                         String destinatario = "";
                         Entidad unaEntidad = new Entidad();
                         unaEntidad.buscarEntidadId(rs2.getInt("idEntidad"));
-                        if(unaEntidad.queSoy() == 2){
+                        if (unaEntidad.queSoy() == 2) {
                             Persona unaPersona = new Persona();
                             unaPersona.BuscarPersonaPorId(unaEntidad.getEntidadId());
                             destinatario = unaPersona.getNombrePersona() + " " + unaPersona.getApellidoPersona();
-                        }else{
+                        } else {
                             UnidadArmada unaUnidad = new UnidadArmada();
                             unaUnidad.BuscarUnidadEntidadId(unaEntidad.getEntidadId());
                             destinatario = unaUnidad.getSigla();
@@ -320,16 +320,30 @@ public class Entidad {
         return resultado;
 
     }
-    public int queSoy(){
+
+    public int queSoy() {
         UnidadArmada uni = new UnidadArmada();
         int soyUni = uni.BuscarUnidadEntidadId(this.getEntidadId());
-        if(soyUni == 1){
+        if (soyUni == 1) {
             return 1;
-        }else{
-            Persona per = new Persona();
-            per.BuscarPersonaPorId(this.getEntidadId());
+        } else {
             return 2;
-        }    
+        }
+    }
+
+    public ResultSet ExpedientesRecibidos() throws SQLException {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+
+        String query = "SELECT e.\"expedienteNumero\",e.\"expedienteAsunto\", t.\"tramiteNombre\", e.\"expedienteEntidadId\", t.\"tramitePlazo\"-(CURRENT_DATE - ee.\"ExpedienteEntidadFechaRecibido\") as restante, es.\"estadoDescripcion\"\n"
+                + "FROM \"SysmanexSch1\".\"Expediente\" e, \"SysmanexSch1\".\"Tramite\" t, \"SysmanexSch1\".\"ExpedienteEntidad\" ee, \"SysmanexSch1\".\"Estado\" es\n"
+                + "WHERE e.\"expedienteNumero\" = ee.\"ExpedienteNumero\"\n"
+                + "AND es.\"estadoId\" = ee.\"ExpedienteEstadoId\"\n"
+                + "AND e.\"expedienteTramiteId\" = t.\"tramiteId\"\n"
+                + "AND ee.\"idEntidad\" =" + this.getEntidadId();
+        rs = conDB.hacerConsulta(query);
+
+        return rs;
     }
 
 }
