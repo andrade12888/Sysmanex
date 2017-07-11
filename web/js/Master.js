@@ -3,18 +3,24 @@ $(document).ready(function () {
         if (this.value === 'armada') {
             $('#divUsuarioUnidad').show();
             $('#divUsuarioEmpresa').hide();
+            $('#divSigla').show();
+         
         } else if (this.value === 'empresa') {
             $('#divUsuarioUnidad').hide();
             $('#divUsuarioEmpresa').show();
+            $('#divSigla').hide();
+         
         }
     });
     $('input[type=radio][name=rdTipo]').change(function () {
         if (this.value === 'persona') {
             $('#divTipoPersona').show();
             $('#divTipoUnidad').hide();
+
         } else if (this.value === 'unidad') {
             $('#divTipoPersona').hide();
             $('#divTipoUnidad').show();
+
         }
     });
     $("#input-1a").fileinput({'showUpload': false, 'previewFileType': 'any'});
