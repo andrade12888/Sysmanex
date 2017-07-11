@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.Expediente;
 import modelo.Tramite;
 
 
@@ -92,7 +93,14 @@ public class CTramites extends HttpServlet {
             }
             default:           
                
-                int resultado = Tramite.BorrarTramite(btn);
+                int resultado = Expediente.BuscarExpedientePorTramite(Integer.parseInt(request.getParameter("btnTramite")));
+                /***
+                 * // 2 si existe un Expediente con el tipo de tramite que trato de eliminar
+                 *   -1 si ocurrion un error del tipo Sql 
+                 *    0 si se puede eliminar
+                 */
+                if(resultado ==0)
+                   resultado = Tramite.BorrarTramite(btn);
                 
                 switch (resultado) {
                     case 1:
@@ -100,8 +108,8 @@ public class CTramites extends HttpServlet {
                         request.setAttribute("colorError", "green");
                         request.getRequestDispatcher("tramites.jsp").forward(request, response);
                         break;
-                    case 0:
-                        request.setAttribute("errorMessage", "Ocurrio un error");
+                    case 02:case 0:
+                        request.setAttribute("errorMessage", "Existen tramites en curso con el tramite que intenta eliminar" );
                         request.setAttribute("colorError", "red");
                         request.getRequestDispatcher("tramites.jsp").forward(request, response);
                         break;

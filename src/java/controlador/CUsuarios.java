@@ -22,7 +22,7 @@ import modelo.UnidadArmada;
  *
  * @author andra
  */
-@WebServlet(name = "CUsuarios", urlPatterns = {"CUsuarios.do"})
+@WebServlet(name = "CUsuarios", urlPatterns = {"/CUsuarios.do"})
 public class CUsuarios extends HttpServlet {
 
     /**
@@ -52,6 +52,7 @@ public class CUsuarios extends HttpServlet {
         request.getSession().setAttribute("lstUnidadesPersonas", null);
         ResultSet rs = Empresa.BuscarEmpresas();
         String empresaOpt = "";
+       
         while (rs.next()) {
             empresaOpt += "<option value=\"selEmp" + rs.getString("empresaRut") 
                     + "\" id=\"selEmp" + rs.getString("empresaRut") + "\">" 
