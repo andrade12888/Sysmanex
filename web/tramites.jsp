@@ -27,7 +27,7 @@
     </form>
     <div class="row">
         <div class="col-lg-2"></div>
-        <div class="col-lg-8"><br> <%= doc.TablaTramites()%></div>
+        <div class="col-lg-8"><br> <%= doc.TablaTramites()%></div>       
         <div class="col-lg-2"></div>
     </div>
 </div>
