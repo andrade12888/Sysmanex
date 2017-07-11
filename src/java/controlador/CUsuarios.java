@@ -36,11 +36,47 @@ public class CUsuarios extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-//            String id = $("#selectId option:selected").attr("id");
+                
+        String usuario= request.getParameter("txtNombreUsuario");
+        String usrPass= request.getParameter("txtPass");
+        
+        String tipoUsuario = request.getParameter("rdTipo");
+                /***
+                 * // 2 si existe un Expediente con el tipo de tramite que trato de eliminar
+                 *   -1 si ocurrion un error del tipo Sql 
+                 *    0 si se puede eliminar
+                 */
+        if("persona".equalsIgnoreCase(tipoUsuario))
+        {
+            //Ingreso persona
+        } else if("unidad".equalsIgnoreCase(tipoUsuario))
+        {
+            String siglaUnidad = request.getParameter("txtUnidadSigla");
+            //ingreso unidad
         }
+                
+                switch (1) {
+                    case 1:
+                        request.setAttribute("errorMessage", "Se elimino correctamente");
+                        request.setAttribute("colorError", "green");
+                        request.getRequestDispatcher("gestionUsuarios.jsp").forward(request, response);
+                        break;
+                    case 02:case 0:
+                        request.setAttribute("errorMessage", "Existen tramites en curso con el tramite que intenta eliminar" );
+                        request.setAttribute("colorError", "red");
+                        request.getRequestDispatcher("tgestionUsuarios.jsp").forward(request, response);
+                        break;
+                        
+                    case -1:
+                        request.setAttribute("errorMessage", "Ocurrio un error");
+                        request.setAttribute("colorError", "red");
+                        request.getRequestDispatcher("gestionUsuarios.jsp").forward(request, response);
+                        break;
+                }
+              
+        
     }
     
     public static void CargarDatos(HttpServletRequest request, HttpServletResponse response) 
