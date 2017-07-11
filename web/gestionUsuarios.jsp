@@ -11,7 +11,8 @@
     <div class="row">
         <div class="col-lg-1 col-md-1 col-sm-1"></div>
         <div class="col-lg-11 col-md-11 col-sm-11">
-            <form action="/CUsuarios.do" method="POST" autocomplete="off">
+            <form action="CUsuarios.do" method="POST" name="formUsuarios" id="fromUsuarios" autocomplete="off">
+                  
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <div class="form-group">
