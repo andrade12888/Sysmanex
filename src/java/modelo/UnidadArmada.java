@@ -99,7 +99,7 @@ public class UnidadArmada extends Entidad {
 
                 if (entidadId >0 && entidadId <100)
                 {       
-                     conDB.getConnect().commit();
+                    // conDB.getConnect().commit();
                     //Si se agrego correctamente la entidad, agrego la persona con el id de entidad guardado
                       String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Unidad\"(\"unidadSigla\", \"unidadEntidadId\")" 
                         + "   VALUES ('" + this.getSigla() + "', " + entidadId +");";                   
