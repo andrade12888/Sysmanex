@@ -93,7 +93,7 @@ public class Rol {
         return resultado;
     }
 
-    protected static ResultSet BuscarRoles(){
+    public static ResultSet BuscarRoles(){
         Conecciones conDB = new Conecciones();
         ResultSet rs = null;       
 

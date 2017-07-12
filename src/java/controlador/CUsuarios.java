@@ -5,8 +5,8 @@
  */
 package controlador;
 
+import Utilidades.Mensajes;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Empresa;
 import modelo.Persona;
+import modelo.Rol;
 import modelo.UnidadArmada;
 
 /**
@@ -54,28 +55,23 @@ public class CUsuarios extends HttpServlet {
         } else if("unidad".equalsIgnoreCase(tipoUsuario))
         {
             String siglaUnidad = request.getParameter("txtUnidadSigla");
-            //ingreso unidad
-        }
+            int usrRol = Integer.parseInt(request.getParameter("lstRoles"));
+            String [] usrRoles = request.getParameterValues("lstRoles");
+            //ingreso unidad        
                 
                 switch (1) {
                     case 1:
-                        request.setAttribute("errorMessage", "Se elimino correctamente");
-                        request.setAttribute("colorError", "green");
-                        request.getRequestDispatcher("gestionUsuarios.jsp").forward(request, response);
+                        Mensajes.mensajeSuccessError("El usuario "+usuario+" ha sido ingresado con exito.", "gestionUsuarios.jsp","green", request, response);                                                                        
                         break;
-                    case 02:case 0:
-                        request.setAttribute("errorMessage", "Existen tramites en curso con el tramite que intenta eliminar" );
-                        request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("tgestionUsuarios.jsp").forward(request, response);
+                    case 0:                        
+                        Mensajes.mensajeSuccessError("El usuario "+usuario+" ya existe en la base de datos.", "gestionUsuarios.jsp","red", request, response);                                                                        
                         break;
                         
                     case -1:
-                        request.setAttribute("errorMessage", "Ocurrio un error");
-                        request.setAttribute("colorError", "red");
-                        request.getRequestDispatcher("gestionUsuarios.jsp").forward(request, response);
+                        Mensajes.mensajeSuccessError("Ha ocurrido un error al ingresar el usuario.", "gestionUsuarios.jsp","red", request, response);                                                                        
                         break;
                 }
-              
+              }
         
     }
     
@@ -111,12 +107,21 @@ public class CUsuarios extends HttpServlet {
                     + rsp.getString("personaNombre")+" "+rsp.getString("personaApellido")+ " </option>";
         }
         
+        ResultSet rsr = Rol.BuscarRoles();
+        String rolesOpt = "";
+        while (rsr.next()) {
+            rolesOpt += "<option value=\"" + rsr.getInt("rolId") 
+                    + "\" id=\"" + rsr.getInt("rolId") + "\">"
+                    + rsr.getString("rolDescripcion")+" </option>";
+        }
+        
         
         
         request.getSession().setAttribute("lstUnidades", unidadesOpt);
         request.getSession().setAttribute("lstEmpresa", empresaOpt);
         request.getSession().setAttribute("lstPersonas", personasOpt);
-        request.getSession().setAttribute("lstUnidadesPersonas", unidadesOpt+personasOpt);
+        //request.getSession().setAttribute("lstUnidadesPersonas", unidadesOpt+personasOpt);
+        request.getSession().setAttribute("lstRoles", rolesOpt);
         
         
     }

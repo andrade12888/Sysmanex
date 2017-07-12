@@ -3,6 +3,7 @@
     CUsuarios.CargarDatos(request, response);
     String empresas = request.getSession().getAttribute("lstEmpresa").toString();
     String unidades = request.getSession().getAttribute("lstUnidades").toString();
+    String roles = request.getSession().getAttribute("lstRoles").toString();
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -13,6 +14,11 @@
         <div class="col-lg-11 col-md-11 col-sm-11">
             <form action="CUsuarios.do" method="POST" name="formUsuarios" id="fromUsuarios" autocomplete="off">
 
+                <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4"><br><div id="errorMotivo" style="color: ${colorError}; text-align: center;">${errorMessage}</div></div>
+            <div class="col-lg-4"></div>
+        </div>
                 <div class="row">
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <div class="form-group">
@@ -90,17 +96,15 @@
                                     <%= empresas%>
                                 </select>
                             </div>
-                        </div>   
-
-                        <div class="col-lg-3 col-md-3 col-sm-3" id="divRoles">
+                                
                             <div class="form-group">
-                                <label for="lstUnidades">Roles</label>
-                                <select name="lstUnidades" class="form-control">
-                                    <option value="0">Seleccione un rol</option>
-                                    <%= unidades%>
+                                <label for="lstRoles">Roles</label>
+                                <select name="lstRoles" class="form-control" id="lstRolesId">
+                                    <option id="defaultVal" value="0">Seleccione un rol</option>
+                                    <%= roles%>
                                 </select>
                             </div>
-                        </div>    
+                        </div>                              
                     </div>
                 </div>
                 <div id="divTipoUnidad">
@@ -111,12 +115,12 @@
                                 <input type="text" name="txtUnidadSigla" placeholder="Sigla de la unidad" class="form-control"  autocomplete="off"/>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3" id="divRoles">
+                        <div class="col-lg-3 col-md-3 col-sm-3" id="divRolesUnidad">
                             <div class="form-group">
-                                <label for="lstUnidades">Roles</label>
-                                <select name="lstUnidades" class="form-control">
-                                    <option value="0">Seleccione un rol</option>
-                                    <%= unidades%>
+                                <label for="lstRoles">Roles</label>
+                                <select name="lstRoles" class="form-control" id="lstRolesId">
+                                    <option id="defaultVal" value="0">Seleccione un rol</option>
+                                    <%= roles%>
                                 </select>
                             </div>
                         </div>
