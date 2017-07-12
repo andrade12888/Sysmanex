@@ -84,7 +84,7 @@ public class Entidad {
         Rol unRol = new Rol();
 
         try {
-            Connection conect = conDB.getConnect();
+            Connection conect = conDB.getConnect();            
             PreparedStatement query = conect.prepareStatement("Select \"entidadId\",\"entidadNombre\",\"rolId\" FROM \"SysmanexSch1\".\"Entidad\""
                     + " WHERE \"entidadNombre\" = ? AND \"entidadPassword\" = ?;");
             query.setString(1, nombre);
@@ -191,7 +191,7 @@ public class Entidad {
         tabla += "</table></form>";
 
         return tabla;
-    }
+    }        
 
     //TODO: Resultado 2 podria dar error o conflicto si estoy inrgesando el segundo user
     //PRE: El rol debe existir en la base de datos
@@ -199,13 +199,24 @@ public class Entidad {
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.nombreEntidad) && !"".equals(this.contrasenia) && this.rol != null) {
-            String query = "INSERT INTO \"SysmanexSch1\".\"Entidad\"(\n"
-                    + "\"entidadNombre\", \"entidadPassword\", \"rolId\")\n"
-                    + "   VALUES ('" + this.nombreEntidad + "', '" + this.contrasenia + "',"
-                    + " " + this.rol.getId() + ") RETURNING \"entidadId\";";
-            ResultSet rs = conDB.hacerConsulta(query);
+            
+            try{
+            Connection conect = conDB.getConnect();
+            PreparedStatement query =conect.prepareStatement ("INSERT INTO \"SysmanexSch1\".\"Entidad\"(\n"
+                    + "\"entidadNombre\", \"entidadPassword\", \"rolId\") VALUES (?, ? ,? ) RETURNING \"entidadId\";");
+            
+            query.setString(1,  this.nombreEntidad);
+            query.setString(2, this.contrasenia);
+            query.setInt(3, this.rol.getId());
+            
+            ResultSet rs= query.executeQuery();
             rs.next();
             resultado = rs.getInt(1);
+            } catch(SQLException sqlex)
+            {
+                resultado = Integer.parseInt(sqlex.getSQLState());
+            } catch (Exception ex)
+            {return -1;}
         } else {
             resultado = 2;
         }

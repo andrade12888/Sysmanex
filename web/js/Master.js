@@ -1,5 +1,6 @@
 $(document).ready(function () {
       
+
    // $('#divRolesUnidad').hide();  
     
     $('input[type=radio][name=rdPetenece]').change(function () {
@@ -40,12 +41,11 @@ $(document).ready(function () {
             $("#errorMotivo").empty();
     });
     
-
-    $("#lstRolesId").on('change',function(){
+    $("select").on('change',function(){
     var getValue=$(this).val();
     $("#defaultVal").val(getValue);
-    alert(getValue);
   });
+  
 });
 
 function errorTextoVacio(id)

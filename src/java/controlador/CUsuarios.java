@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Empresa;
+import modelo.Entidad;
 import modelo.Persona;
 import modelo.Rol;
 import modelo.UnidadArmada;
@@ -41,25 +42,33 @@ public class CUsuarios extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
                 
         String usuario= request.getParameter("txtNombreUsuario");
-        String usrPass= request.getParameter("txtPass");
-        
+        String usrPass= request.getParameter("txtPass");        
         String tipoUsuario = request.getParameter("rdTipo");
+        int usrRol = Integer.parseInt(request.getParameter("lstRoles"));
+        
+        Rol r = new Rol();
+        r.setId(usrRol);
                 /***
                  * // 2 si existe un Expediente con el tipo de tramite que trato de eliminar
                  *   -1 si ocurrion un error del tipo Sql 
                  *    0 si se puede eliminar
                  */
+        Entidad e = new Entidad(usuario, usrPass,r);        
+        
         if("persona".equalsIgnoreCase(tipoUsuario))
         {
             //Ingreso persona
         } else if("unidad".equalsIgnoreCase(tipoUsuario))
         {
-            String siglaUnidad = request.getParameter("txtUnidadSigla");
-            int usrRol = Integer.parseInt(request.getParameter("lstRoles"));
-            String [] usrRoles = request.getParameterValues("lstRoles");
-            //ingreso unidad        
-                
-                switch (1) {
+            String siglaUnidad = request.getParameter("txtUnidadSigla");       
+            UnidadArmada ua = new UnidadArmada();
+            ua.setSigla(siglaUnidad);
+            ua.setContrasenia(usrPass);                        
+            
+            //ingreso unidad 
+            int resultadoIngresoUnidadUser = ua.AgregarUnidadUser(e);
+            
+                switch (resultadoIngresoUnidadUser) {
                     case 1:
                         Mensajes.mensajeSuccessError("El usuario "+usuario+" ha sido ingresado con exito.", "gestionUsuarios.jsp","green", request, response);                                                                        
                         break;
@@ -69,6 +78,11 @@ public class CUsuarios extends HttpServlet {
                         
                     case -1:
                         Mensajes.mensajeSuccessError("Ha ocurrido un error al ingresar el usuario.", "gestionUsuarios.jsp","red", request, response);                                                                        
+                        break;
+                    case 23503:
+                        Mensajes.mensajeSuccessError("Debe seleccionar un rol.", "gestionUsuarios.jsp","red", request, response);                                                                        
+                        break;
+                    default: Mensajes.mensajeSuccessError("Ha ocurrido un error al ingresar el usuario.", "gestionUsuarios.jsp","red", request, response);                                                                        
                         break;
                 }
               }
