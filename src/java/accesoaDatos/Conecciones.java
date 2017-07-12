@@ -13,13 +13,13 @@ import java.sql.Statement;
 
 public class Conecciones {
 
-    private final String server = "jdbc:postgresql://localhost:5432/SysmanexDB2";
-    private final String user = "postgres";
-    private final String pass = "gabrielsebastian";
+//    private final String server = "jdbc:postgresql://localhost:5432/SysmanexDB2";
+//    private final String user = "postgres";
+//    private final String pass = "gabrielsebastian";
     
-//    private final String server = "jdbc:postgresql://sysmanexdb2.ckaqxoyghbj6.us-west-2.rds.amazonaws.com:5400/SysmanexDB2";
-//    private final String user = "SebaGabo";
-//    private final String pass = "sebastiangabriel";  
+    private final String server = "jdbc:postgresql://sysmanexdb2.ckaqxoyghbj6.us-west-2.rds.amazonaws.com:5400/SysmanexDB2";
+    private final String user = "SebaGabo";
+    private final String pass = "sebastiangabriel";  
     private static Connection conn = null;
 
     private Connection PostgreJDBC() {
