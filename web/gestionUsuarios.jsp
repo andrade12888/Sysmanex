@@ -23,13 +23,13 @@
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <div class="form-group">
                             <label for="txtNombreUsuario">Usuario</label>
-                            <input type="text" name="txtNombreUsuario" placeholder="Usuario" class="form-control"  autocomplete="off"/>
+                            <input type="text" required="required" name="txtNombreUsuario" placeholder="Usuario" class="form-control"  autocomplete="off" />
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <div class="form-group">
                             <label for="txtPass">Contraseña</label>
-                            <input type="password" name="txtPass" class="form-control" autocomplete="off"/>
+                            <input required="required" type="password" name="txtPass" class="form-control" autocomplete="off" />
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
@@ -111,8 +111,8 @@
                     <div id="divSigla" class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
-                                <label for="txtUnidadSigla">Sigla</label>
-                                <input type="text" name="txtUnidadSigla" placeholder="Sigla de la unidad" class="form-control"  autocomplete="off"/>
+                                <label for="txtUnidadSigla">Sigla - Nombre de la unidad</label>
+                                <input type="text" required="required" name="txtUnidadSigla" placeholder="Sigla de la unidad" class="form-control"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3" id="divRolesUnidad">
