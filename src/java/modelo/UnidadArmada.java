@@ -85,19 +85,15 @@ public class UnidadArmada extends Entidad {
             try {
                 //Seteo autocommit false para que todo se ejecute como una transaccion
                 conDB.getConnect().setAutoCommit(false);
-
-                //Agrego la entidad con la contrasena, username (getNombreEntidad()) y rol que viene del form
-//                Entidad e = new Entidad(super.getNombreEntidad(),
-//                        super.getContrasenia(),
-//                        super.getRol());
+            
                 //Me quedo con el id de entidad si se ejecuto correctamente
                 int entidadId = e.AgregarEntidad();
-                
+                e.setEntidadId(entidadId);
                 
                 if(entidadId == 23503)
                     return entidadId;
 
-                if (entidadId >0 && entidadId <100)
+                if (entidadId >0)
                 {       
                     // conDB.getConnect().commit();
                     //Si se agrego correctamente la entidad, agrego la persona con el id de entidad guardado
@@ -147,9 +143,7 @@ public class UnidadArmada extends Entidad {
         if (!"".equals(this.sigla) && !"".equals(this.getEntidadId())) {
             resultado = conDB.hacerConsultaIUD(queryInsertUnidad);
 
-        } else {
-            System.err.print("El nombre de la unidad no puede ser vacio.\n");
-            System.err.print("La unidad no puede ser vacia.");
+        } else {            
             resultado = 2;
         }
         return resultado;
@@ -231,7 +225,7 @@ public class UnidadArmada extends Entidad {
 
     //TODO: Delete o baja logica
     public static int BorrarUnidadArmada(String sigla) {
-        Conecciones conDB = new Conecciones();
+//        Conecciones conDB = new Conecciones();
         int resultado = 0;
 
         return resultado;

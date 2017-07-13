@@ -33,6 +33,12 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="form-group">
+                            <label for="txtMail">E-mail</label>
+                            <input required="required" type="email" name="txtEmail" class="form-control" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
                         <label>Tipo de usuario</label><br>
                         <div class="btn-group" data-toggle="buttons">
                             <label class="btn btn-info active" id="lblTipo">
@@ -49,19 +55,19 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="txtPersonaCi">CI</label>
-                                <input type="text" name="txtPersonaCi" placeholder="Ci" class="form-control"  autocomplete="off"/>
+                                <input required="required" type="text" name="txtPersonaCi" placeholder="Ci" class="form-control"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="txtPersonaNombre">Nombre</label>
-                                <input type="text" name="txtPersonaNombre" placeholder="Nombre" class="form-control"  autocomplete="off"/>
+                                <input required="required" type="text" name="txtPersonaNombre" placeholder="Nombre" class="form-control"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="txtPersonaApellido">Apellido</label>
-                                <input type="text" name="txtPersonaApellido" placeholder="Apellido" class="form-control"  autocomplete="off"/>
+                                <input required="required" type="text" name="txtPersonaApellido" placeholder="Apellido" class="form-control"  autocomplete="off"/>
                             </div>                            
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3"></div>
@@ -112,7 +118,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="txtUnidadSigla">Sigla - Nombre de la unidad</label>
-                                <input type="text" required="required" name="txtUnidadSigla" placeholder="Sigla de la unidad" class="form-control"  autocomplete="off"/>
+                                <input type="text" name="txtUnidadSigla" placeholder="Sigla de la unidad" class="form-control"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3" id="divRolesUnidad">

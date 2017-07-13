@@ -232,8 +232,8 @@ public class CExpediente extends HttpServlet {
                     + "<td>" + rs.getString("expedienteNumero")+ " </td>"
                     + "<td>" + rs.getString("expedienteAsunto")+ " </td>"
                     + "<td>" + rs.getString("tramiteNombre")+ " </td>"
-                    + "<td>" + nombre+ " </td>"
-                    + "<td>" + rs.getString("restante")+ " </td>"
+                    + "<td>" + nombre+ "</td>"
+                    + "<td>" + rs.getString("restante")+ "  Dias.  </td>"
                     + "<td>" + rs.getString("estadoDescripcion")+ " </td>"
                     + "</tr>";
         }

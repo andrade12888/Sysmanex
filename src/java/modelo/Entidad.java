@@ -242,12 +242,13 @@ public class Entidad {
 
     //TODO: Borrar entidad. Discutir si se da de baja o se agrega la baja Logica
     public int BorrarEntidad(String id) {
-        Conecciones conDB = new Conecciones();
+//        Conecciones conDB = new Conecciones();
         int resultado = 0;
 
         return resultado;
     }
 
+    //TODO: Cambiar el ingreso de la variable a un prepared statement
     protected static ResultSet BuscarEntidad(String nombre) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
@@ -276,7 +277,7 @@ public class Entidad {
             }
             rs.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Entidad.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
 
     }

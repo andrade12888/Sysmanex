@@ -1,7 +1,4 @@
-$(document).ready(function () {
-      
-
-   // $('#divRolesUnidad').hide();  
+$(document).ready(function () {      
     
     $('input[type=radio][name=rdPetenece]').change(function () {
         if (this.value === 'armada') {
