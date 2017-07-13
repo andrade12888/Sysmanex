@@ -172,10 +172,10 @@ public class Entidad {
                                 + "</td></tr>";
                     }
                     rs2.close();
-                    if (tabla2 != "<td><button id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" class=\"btn glyphicon glyphicon-triangle-bottom\"></button>"
+                    if (!tabla2.equals("<td><button id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" class=\"btn glyphicon glyphicon-triangle-bottom\"></button>"
                             + "<button id=\"o" + exp + "\"  class=\" btn glyphicon glyphicon-triangle-top\" style=\"display: none;\" onclick=\"ocultar(" + exp + ");\"></button></td></tr>"
                             + "<tr><tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
-                            + "Origen</th><th>Enviado</th><th>Recibido</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>") {
+                            + "Origen</th><th>Enviado</th><th>Recibido</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>")) {
                         tabla2 += "</table>";
                         tabla += tabla2 + "</td></tr>";
                     }

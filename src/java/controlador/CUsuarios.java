@@ -134,7 +134,7 @@ public class CUsuarios extends HttpServlet {
         request.getSession().setAttribute("lstUnidades", unidadesOpt);
         request.getSession().setAttribute("lstEmpresa", empresaOpt);
         request.getSession().setAttribute("lstPersonas", personasOpt);
-        //request.getSession().setAttribute("lstUnidadesPersonas", unidadesOpt+personasOpt);
+        request.getSession().setAttribute("lstUnidadesPersonas", unidadesOpt+personasOpt);
         request.getSession().setAttribute("lstRoles", rolesOpt);
         
         
