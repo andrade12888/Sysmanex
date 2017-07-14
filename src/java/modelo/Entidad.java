@@ -84,7 +84,7 @@ public class Entidad {
         Rol unRol = new Rol();
 
         try {
-            Connection conect = conDB.getConnect();
+            Connection conect = conDB.getConnect();            
             PreparedStatement query = conect.prepareStatement("Select \"entidadId\",\"entidadNombre\",\"rolId\" FROM \"SysmanexSch1\".\"Entidad\""
                     + " WHERE \"entidadNombre\" = ? AND \"entidadPassword\" = ?;");
             query.setString(1, nombre);
@@ -172,10 +172,10 @@ public class Entidad {
                                 + "</td></tr>";
                     }
                     rs2.close();
-                    if (tabla2 != "<td><button id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" class=\"btn glyphicon glyphicon-triangle-bottom\"></button>"
+                    if (!tabla2.equals("<td><button id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" class=\"btn glyphicon glyphicon-triangle-bottom\"></button>"
                             + "<button id=\"o" + exp + "\"  class=\" btn glyphicon glyphicon-triangle-top\" style=\"display: none;\" onclick=\"ocultar(" + exp + ");\"></button></td></tr>"
                             + "<tr><tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
-                            + "Origen</th><th>Enviado</th><th>Recibido</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>") {
+                            + "Origen</th><th>Enviado</th><th>Recibido</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>")) {
                         tabla2 += "</table>";
                         tabla += tabla2 + "</td></tr>";
                     }
@@ -191,7 +191,7 @@ public class Entidad {
         tabla += "</table></form>";
 
         return tabla;
-    }
+    }        
 
     //TODO: Resultado 2 podria dar error o conflicto si estoy inrgesando el segundo user
     //PRE: El rol debe existir en la base de datos
@@ -199,13 +199,24 @@ public class Entidad {
         Conecciones conDB = new Conecciones();
         int resultado;
         if (!"".equals(this.nombreEntidad) && !"".equals(this.contrasenia) && this.rol != null) {
-            String query = "INSERT INTO \"SysmanexSch1\".\"Entidad\"(\n"
-                    + "\"entidadNombre\", \"entidadPassword\", \"rolId\")\n"
-                    + "   VALUES ('" + this.nombreEntidad + "', '" + this.contrasenia + "',"
-                    + " " + this.rol.getId() + ") RETURNING \"entidadId\";";
-            ResultSet rs = conDB.hacerConsulta(query);
+            
+            try{
+            Connection conect = conDB.getConnect();
+            PreparedStatement query =conect.prepareStatement ("INSERT INTO \"SysmanexSch1\".\"Entidad\"(\n"
+                    + "\"entidadNombre\", \"entidadPassword\", \"rolId\") VALUES (?, ? ,? ) RETURNING \"entidadId\";");
+            
+            query.setString(1,  this.nombreEntidad);
+            query.setString(2, this.contrasenia);
+            query.setInt(3, this.rol.getId());
+            
+            ResultSet rs= query.executeQuery();
             rs.next();
             resultado = rs.getInt(1);
+            } catch(SQLException sqlex)
+            {
+                resultado = Integer.parseInt(sqlex.getSQLState());
+            } catch (Exception ex)
+            {return -1;}
         } else {
             resultado = 2;
         }
@@ -231,12 +242,13 @@ public class Entidad {
 
     //TODO: Borrar entidad. Discutir si se da de baja o se agrega la baja Logica
     public int BorrarEntidad(String id) {
-        Conecciones conDB = new Conecciones();
+//        Conecciones conDB = new Conecciones();
         int resultado = 0;
 
         return resultado;
     }
 
+    //TODO: Cambiar el ingreso de la variable a un prepared statement
     protected static ResultSet BuscarEntidad(String nombre) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
@@ -265,7 +277,7 @@ public class Entidad {
             }
             rs.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Entidad.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
 
     }

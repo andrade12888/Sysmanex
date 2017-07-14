@@ -23,13 +23,19 @@
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <div class="form-group">
                             <label for="txtNombreUsuario">Usuario</label>
-                            <input type="text" name="txtNombreUsuario" placeholder="Usuario" class="form-control"  autocomplete="off"/>
+                            <input type="text" required="required" name="txtNombreUsuario" placeholder="Usuario" class="form-control"  autocomplete="off" />
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
                         <div class="form-group">
                             <label for="txtPass">Contraseña</label>
-                            <input type="password" name="txtPass" class="form-control" autocomplete="off"/>
+                            <input required="required" type="password" name="txtPass" class="form-control" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-3">
+                        <div class="form-group">
+                            <label for="txtMail">E-mail</label>
+                            <input required="required" type="email" name="txtEmail" class="form-control" autocomplete="off" />
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
@@ -49,19 +55,19 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="txtPersonaCi">CI</label>
-                                <input type="text" name="txtPersonaCi" placeholder="Ci" class="form-control"  autocomplete="off"/>
+                                <input required="required" type="text" name="txtPersonaCi" placeholder="Ci" class="form-control"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="txtPersonaNombre">Nombre</label>
-                                <input type="text" name="txtPersonaNombre" placeholder="Nombre" class="form-control"  autocomplete="off"/>
+                                <input required="required" type="text" name="txtPersonaNombre" placeholder="Nombre" class="form-control"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="txtPersonaApellido">Apellido</label>
-                                <input type="text" name="txtPersonaApellido" placeholder="Apellido" class="form-control"  autocomplete="off"/>
+                                <input required="required" type="text" name="txtPersonaApellido" placeholder="Apellido" class="form-control"  autocomplete="off"/>
                             </div>                            
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3"></div>
@@ -111,7 +117,7 @@
                     <div id="divSigla" class="row" style="display: none;">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
-                                <label for="txtUnidadSigla">Sigla</label>
+                                <label for="txtUnidadSigla">Sigla - Nombre de la unidad</label>
                                 <input type="text" name="txtUnidadSigla" placeholder="Sigla de la unidad" class="form-control"  autocomplete="off"/>
                             </div>
                         </div>
