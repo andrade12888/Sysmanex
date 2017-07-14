@@ -1,20 +1,28 @@
 $(document).ready(function () {
+      
+   // $('#divRolesUnidad').hide();  
+    
     $('input[type=radio][name=rdPetenece]').change(function () {
         if (this.value === 'armada') {
             $('#divUsuarioUnidad').show();
-            $('#divUsuarioEmpresa').hide();
+            $('#divUsuarioEmpresa').hide();              
         } else if (this.value === 'empresa') {
             $('#divUsuarioUnidad').hide();
-            $('#divUsuarioEmpresa').show();
+            $('#divUsuarioEmpresa').show();            
+            
         }
     });
     $('input[type=radio][name=rdTipo]').change(function () {
-        if (this.value === 'persona') {
-            $('#divTipoPersona').show();
-            $('#divTipoUnidad').hide();
+        if (this.value === 'persona') {  
+            $('#divTipoPersona').show();            
+            $('#divTipoUnidad').show();  
+            $('#divSigla').hide();
+      
         } else if (this.value === 'unidad') {
             $('#divTipoPersona').hide();
             $('#divTipoUnidad').show();
+            $('#divRolesUnidad').show();
+            $('#divSigla').show();
         }
     });
     $("#input-1a").fileinput({'showUpload': false, 'previewFileType': 'any'});
@@ -27,6 +35,13 @@ $(document).ready(function () {
         if (!$("#errorMotivo").empty())
             $("#errorMotivo").empty();
     });
+    
+
+    $("#lstRolesId").on('change',function(){
+    var getValue=$(this).val();
+    $("#defaultVal").val(getValue);
+    alert(getValue);
+  });
 });
 
 function errorTextoVacio(id)

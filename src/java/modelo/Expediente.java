@@ -245,6 +245,7 @@ public class Expediente {
         int resultado = -1;
         Connection conect = conDB.getConnect();
         ResultSet rs;
+       
         PreparedStatement queryInsertExpediente;
         try {
             queryInsertExpediente = conect.prepareStatement("INSERT INTO \"SysmanexSch1\".\"Expediente\"("
@@ -380,6 +381,27 @@ public class Expediente {
         } catch (SQLException ex) {
             return null;
         }
+    }
+    
+    public static int BuscarExpedientePorTramite(int tramiteId)
+    {
+         Conecciones conDB = new Conecciones();
+         ResultSet rs;
+         int resultado = 0;
+         
+          String query = "SELECT \"expedienteNumero\" FROM \"SysmanexSch1\".\"Expediente\" WHERE \"expedienteTramiteId\" = " + tramiteId+ "";                
+        try {
+            rs = conDB.hacerConsulta(query);
+            while(rs.next())
+            { 
+                if(!"".equals(rs.getString("expedienteNumero")))
+                    resultado = 2;
+            }
+        } catch (SQLException ex) {
+            return -1;
+        }
+        
+        return resultado;
     }
 
 }

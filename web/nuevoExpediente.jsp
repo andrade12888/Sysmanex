@@ -38,7 +38,7 @@
                         </div>
                         <div class="row">
                             <div class="col-lg-3">Tipo de tramite
-                                <select name="selTramite" id="selTramite" class="form-control" required="true">
+                                <select name="selTramite" id="selTramite" class="form-control" required="required">
                                     <option>Seleccione Tramite</option>
                                     <%= lstTramites%>
                                 </select></div>
@@ -59,11 +59,11 @@
                         <div class="row">
                             <div class="col-lg-9">
                                 <label class="control-label">Seleccionar archivo</label>
-                                <input id="input-1a" name="input-1a" type="file" class="file" multiple="true" data-show-preview="true">
+                                <input id="input-1a" name="input-1a" type="file" class="file" multiple="multiple" data-show-preview="true">
                             </div> 
                             <div class="col-lg-1">
                                 <br>
-                                <button type="submit" class="btn btn-primary">Enviar</button>
+                                
                             </div> 
                             <div class="col-lg-2">
                                 <br>

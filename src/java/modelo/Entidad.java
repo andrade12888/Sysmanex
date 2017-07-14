@@ -181,7 +181,8 @@ public class Entidad {
                     }
                 } else {
                     tabla += "<th></th></tr>";
-                    rs2.close();
+                    if(rs2 != null)
+                        rs2.close();
                 }
             }
         } catch (SQLException ex) {

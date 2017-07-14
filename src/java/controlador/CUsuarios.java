@@ -5,8 +5,8 @@
  */
 package controlador;
 
+import Utilidades.Mensajes;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Empresa;
 import modelo.Persona;
+import modelo.Rol;
 import modelo.UnidadArmada;
 
 /**
@@ -36,11 +37,42 @@ public class CUsuarios extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-//            String id = $("#selectId option:selected").attr("id");
-        }
+                
+        String usuario= request.getParameter("txtNombreUsuario");
+        String usrPass= request.getParameter("txtPass");
+        
+        String tipoUsuario = request.getParameter("rdTipo");
+                /***
+                 * // 2 si existe un Expediente con el tipo de tramite que trato de eliminar
+                 *   -1 si ocurrion un error del tipo Sql 
+                 *    0 si se puede eliminar
+                 */
+        if("persona".equalsIgnoreCase(tipoUsuario))
+        {
+            //Ingreso persona
+        } else if("unidad".equalsIgnoreCase(tipoUsuario))
+        {
+            String siglaUnidad = request.getParameter("txtUnidadSigla");
+            int usrRol = Integer.parseInt(request.getParameter("lstRoles"));
+            String [] usrRoles = request.getParameterValues("lstRoles");
+            //ingreso unidad        
+                
+                switch (1) {
+                    case 1:
+                        Mensajes.mensajeSuccessError("El usuario "+usuario+" ha sido ingresado con exito.", "gestionUsuarios.jsp","green", request, response);                                                                        
+                        break;
+                    case 0:                        
+                        Mensajes.mensajeSuccessError("El usuario "+usuario+" ya existe en la base de datos.", "gestionUsuarios.jsp","red", request, response);                                                                        
+                        break;
+                        
+                    case -1:
+                        Mensajes.mensajeSuccessError("Ha ocurrido un error al ingresar el usuario.", "gestionUsuarios.jsp","red", request, response);                                                                        
+                        break;
+                }
+              }
+        
     }
     
     public static void CargarDatos(HttpServletRequest request, HttpServletResponse response) 
@@ -52,6 +84,7 @@ public class CUsuarios extends HttpServlet {
         request.getSession().setAttribute("lstUnidadesPersonas", null);
         ResultSet rs = Empresa.BuscarEmpresas();
         String empresaOpt = "";
+       
         while (rs.next()) {
             empresaOpt += "<option value=\"selEmp" + rs.getString("empresaRut") 
                     + "\" id=\"selEmp" + rs.getString("empresaRut") + "\">" 
@@ -74,12 +107,21 @@ public class CUsuarios extends HttpServlet {
                     + rsp.getString("personaNombre")+" "+rsp.getString("personaApellido")+ " </option>";
         }
         
+        ResultSet rsr = Rol.BuscarRoles();
+        String rolesOpt = "";
+        while (rsr.next()) {
+            rolesOpt += "<option value=\"" + rsr.getInt("rolId") 
+                    + "\" id=\"" + rsr.getInt("rolId") + "\">"
+                    + rsr.getString("rolDescripcion")+" </option>";
+        }
+        
         
         
         request.getSession().setAttribute("lstUnidades", unidadesOpt);
         request.getSession().setAttribute("lstEmpresa", empresaOpt);
         request.getSession().setAttribute("lstPersonas", personasOpt);
-        request.getSession().setAttribute("lstUnidadesPersonas", unidadesOpt+personasOpt);
+        //request.getSession().setAttribute("lstUnidadesPersonas", unidadesOpt+personasOpt);
+        request.getSession().setAttribute("lstRoles", rolesOpt);
         
         
     }
