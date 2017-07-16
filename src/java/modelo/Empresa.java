@@ -121,26 +121,33 @@ public class Empresa {
         return rs;
     }
 
-    public static ResultSet BuscarEmpresaPorNombre(String nombre) throws SQLException {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;
-        String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\""
-                + " WHERE \"empresaNombre\" LIKE \'%" + nombre + "\'"
-                + " ORDER BY \"empresaNombre\" ASC;";
-        rs = conDB.hacerConsulta(query);
-
-        return rs;
+    public static ResultSet BuscarEmpresaPorNombre(String nombre) {
+        try {
+            Conecciones conDB = new Conecciones();
+            ResultSet rs;
+            String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\""
+                    + " WHERE \"empresaNombre\" LIKE \'%" + nombre + "\'"
+                    + " ORDER BY \"empresaNombre\" ASC;";
+            rs = conDB.hacerConsulta(query);            
+            return rs;
+        } catch (SQLException ex) {
+            return null;
+        }
     }
 
-    public static ResultSet BuscarEmpresaPorRUT(String rutEmpresa) throws SQLException {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;
-
-        String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\""
-                + " WHERE \"empresaRut\" = \'" + rutEmpresa + "\';";
-        rs = conDB.hacerConsulta(query);
-
-        return rs;
+    public static ResultSet BuscarEmpresaPorRUT(String rutEmpresa) {
+        try {
+            Conecciones conDB = new Conecciones();
+            ResultSet rs;
+            
+            String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\""
+                    + " WHERE \"empresaRut\" = \'" + rutEmpresa + "\';";
+            rs = conDB.hacerConsulta(query);
+            
+            return rs;
+        } catch (SQLException ex) {
+            return null;
+        }
     }
     
     //TODO: Discutir sobre el borrado de empresas
@@ -154,10 +161,24 @@ public class Empresa {
             resultado = conDB.hacerConsultaIUD(query);
         } catch (SQLException ex) {
             throw ex;
-        }
-
-        
+        }       
         return resultado;
+    }
+    
+     public String TablaEmpresas() throws SQLException {
+
+        ResultSet rs = Empresa.BuscarEmpresas();
+//        String tabla = "<form name=\"frmBorrar\" action=\"motivos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Motivos</th><th>Opciones</th>";
+//        while (rs.next()) {
+//            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("motivoId") + "\" value=\"" + rs.getInt("motivoId") + "\">"
+//                    + " <span id=\"tdd" + rs.getInt("motivoId") + "\">" + rs.getString("motivoDescripcion") + "</span></td>"
+//                    + "<td><button onclick=\"modalMotivos(" + rs.getInt("motivoId") + ")\" id=\"" + rs.getInt("motivoId") + "\" "
+//                    + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
+//                    + "</button><button name=\"btnMotivos\" value=\"" + rs.getInt("motivoId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+//        }
+//        tabla += "</table></form>";
+String tabla="";
+        return tabla;
     }
 
 }

@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public abstract class Mensajes {
     
-      public static void mensajeSuccessError(String mensaje, String paginaEnvio,String color,HttpServletRequest request, HttpServletResponse response)
+    public static void mensajeSuccessError(String mensaje, String paginaEnvio,String color,HttpServletRequest request, HttpServletResponse response)
     {
         request.setAttribute("errorMessage", mensaje);
         request.setAttribute("colorError", color);
@@ -33,4 +33,13 @@ public abstract class Mensajes {
             Logger.getLogger(CEnvio.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
+    
+    public static String GetNombreJSP(HttpServletRequest request)
+    {
+        String referrer = request.getHeader("referer");      
+        String jsp = referrer.substring(referrer.lastIndexOf("/")+1);
+        return jsp;
+    }
+    
+    
 }

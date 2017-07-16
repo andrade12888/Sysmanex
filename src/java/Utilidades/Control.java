@@ -1,7 +1,16 @@
 package Utilidades;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import modelo.Empresa;
+
 
 public abstract class Control {
 
@@ -84,4 +93,20 @@ public abstract class Control {
     
 
     // </editor-fold> 
+    
+    
+      // Metodo que reotorna al JSP gestionUsuario un mensaje de error correspondiente tanto como a User existente O Persona existente
+    // Controla que la persona y el usuario no existan
+    public static boolean ControlEmpresaExistente(Empresa e, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        try {
+            if(Empresa.BuscarEmpresaPorNombre(e.getNombreEmpresa()).next() ||
+                    Empresa.BuscarEmpresaPorRUT(e.getRutEmpresa()).next())
+                return true;
+            else return false;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
 }
