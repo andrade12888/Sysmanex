@@ -49,6 +49,8 @@ public class CUsuarios extends HttpServlet {
 
         Rol r = new Rol();
         r.setId(usrRol);
+        
+        //<editor-fold desc="Case Usuario Persona" defaultstate="collapsed">
         /**
          * *
          * // 2 si existe un Expediente con el tipo de tramite que trato de
@@ -90,8 +92,19 @@ public class CUsuarios extends HttpServlet {
                 }
 
             }
+            //</editor-fold>
+        
+            // Si se elige empresa en el form, se interpreta que se quiere ingresar un nuevo usuario 
+            // a una empresa existente, ya que se elige la empresa desde el dropdown menu
             if ("empresa".equalsIgnoreCase(perteneceA)) {
-                     MensajesUsuarios(-1, usuario, request, response);
+                 String RUT = request.getParameter("lstEmpresa");
+                //Controlo si el usuario Existe, si existe retorno al form con un error
+                ControlUsuarioExistente(nombre,usuario,request,response);
+               //Ingreso el usuario con: Usuario, Pass y Rol
+                Persona p = new Persona(CI, nombre, apellido, usuario, usrPass, r, email);
+                int reEmp = p.AgregarPersonaEnEmpresa(RUT);
+                //3 si alguno de los campos mandatorios es vacios
+                MensajesUsuarios(reEmp, usuario, request, response);
             }
 
         } else if ("unidad".equalsIgnoreCase(tipoUsuario)) {
@@ -167,8 +180,8 @@ public class CUsuarios extends HttpServlet {
         String empresaOpt = "";
 
         while (rs.next()) {
-            empresaOpt += "<option value=\"selEmp" + rs.getString("empresaRut")
-                    + "\" id=\"selEmp" + rs.getString("empresaRut") + "\">"
+            empresaOpt += "<option value=\"" + rs.getString("empresaRut")
+                    + "\" id=\"" + rs.getString("empresaRut") + "\">"
                     + rs.getString("empresaNombre") + " </option>";
         }
 

@@ -103,12 +103,10 @@ public class Empresa {
             try {
                 conDB.hacerConsultaIUD(queryInsertEmpresa);
             } catch (SQLException ex) {
-                Logger.getLogger(Empresa.class.getName()).log(Level.SEVERE, null, ex);
+                return -1;
             }
             resultado = 1;
-        } else {
-            System.err.print("El RUT no puede ser vacio.\n");
-            System.err.print("El nombre de la empresa no puede ser vacio.");
+        } else {           
             resultado = 2;
         }
         return resultado;
