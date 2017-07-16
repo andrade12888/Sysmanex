@@ -168,16 +168,16 @@ public class Empresa {
      public String TablaEmpresas() throws SQLException {
 
         ResultSet rs = Empresa.BuscarEmpresas();
-//        String tabla = "<form name=\"frmBorrar\" action=\"motivos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Motivos</th><th>Opciones</th>";
-//        while (rs.next()) {
-//            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("motivoId") + "\" value=\"" + rs.getInt("motivoId") + "\">"
-//                    + " <span id=\"tdd" + rs.getInt("motivoId") + "\">" + rs.getString("motivoDescripcion") + "</span></td>"
-//                    + "<td><button onclick=\"modalMotivos(" + rs.getInt("motivoId") + ")\" id=\"" + rs.getInt("motivoId") + "\" "
-//                    + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-//                    + "</button><button name=\"btnMotivos\" value=\"" + rs.getInt("motivoId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
-//        }
-//        tabla += "</table></form>";
-String tabla="";
+        String tabla = "<form name=\"frmBorrar\" action=\"motivos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Motivos</th><th>Opciones</th>";
+        while (rs.next()) {
+            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("empresaRut") + "\" value=\"" + rs.getString("empresaRut") + "\">"
+                    + " <span id=\"tdd" + rs.getString("empresaRut") + "\">" + rs.getString("empresaNombre") + "</span></td>"
+                    + "<td><button onclick=\"modalEmpresas(" + rs.getString("empresaRut") + ")\" id=\"" + rs.getString("empresaRut") + "\" "
+                    + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
+                    + "</button><button name=\"btnMotivos\" value=\"" + rs.getString("empresaRut") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+        }
+        tabla += "</table></form>";
+
         return tabla;
     }
 

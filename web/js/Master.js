@@ -99,6 +99,11 @@ function modalMotivos(id) {
     $("#txtActualizarId").val($("#id" + id).val());
 }
 
+function modalEmpresas(id) {
+    $("#txtActualizarNombre").val($("#tdd" + id).text());
+    $("#txtActualizarRUT").val($("#id" + id).val());
+}
+
 function agregarDestinatario() {
     var id = $("#selDestinatario").val();
     var destino = $("#selDestinatario option:selected").html();
