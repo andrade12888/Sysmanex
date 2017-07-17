@@ -144,7 +144,7 @@ public class Persona extends Entidad {
                   String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\","
                           + " \"personaApellido\", \"personaEntidadId\", \"personaEmail\")" 
                     + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', " +
-                     " '" + this.apellidoPersona + "', " + entidadId +"', " + this.emailPersona + ");";
+                     " '" + this.apellidoPersona + "', " + entidadId +", '" + this.emailPersona + "');";
                   
                 conDB.hacerConsultaIUD(queryPersona);
                 
@@ -259,7 +259,7 @@ public class Persona extends Entidad {
     }
     
     //Agrega la persona cuando la entidad es decir el Usuario ya esta creado
-    public int AgregarPersona(int entidadDePersona)
+    public int AgregarPersona(int entidadDePersona) throws SQLException
     {
         try {
             Conecciones conDB = new Conecciones();
@@ -267,11 +267,11 @@ public class Persona extends Entidad {
             String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\"," 
                     + " \"personaApellido\", \"personaEntidadId\", \"personaEmail\")"
                     + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', " +
-                    " '" + this.apellidoPersona + "', " + entidadDePersona +"', " + this.emailPersona + ");";
+                    " '" + this.apellidoPersona + "', " + entidadDePersona +", '" + this.emailPersona + "');";
             
             conDB.hacerConsultaIUD(queryPersona);
         } catch (SQLException ex) {
-            return -1;
+            throw ex;
         }
         return 1;
     }

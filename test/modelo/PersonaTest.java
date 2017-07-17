@@ -95,7 +95,7 @@ public class PersonaTest {
         String nombre = "Jorge";
         String expResult ="123456798";
         String rs="";
-        ResultSet result = Persona.BuscarPersona(nombre);
+        ResultSet result =null;
         while(result.next() && result.getString("personaNombre").equalsIgnoreCase(nombre))
         {
              rs= result.getString("personaCi");

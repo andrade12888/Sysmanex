@@ -118,7 +118,7 @@
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="txtUnidadSigla">Sigla - Nombre de la unidad</label>
-                                <input type="text" name="txtUnidadSigla" placeholder="Sigla de la unidad" class="form-control"  autocomplete="off"/>
+                               <input  type="text" name="txtUnidadSigla" placeholder="Sigla de la unidad" class="form-control"  autocomplete="off"/>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3" id="divRolesUnidad">

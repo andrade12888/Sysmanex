@@ -1,0 +1,16 @@
+--------------------------------------------------------------------------------------------------------------------------------------------
+06/18/14 17:42:29: Starting Logging
+EXE File = Setup
+06/18/14 17:42:29: Start Prerequisite Check ------------------------------------------------------
+Windows Installer at least 3.01 = Yes
+3GB Disk Space = Yes
+Reg.exe = Yes
+06/18/14 17:42:29: End Prerequisite Check ------------------------------------------------------
+06/18/14 17:42:33: Starting Microsoft Office Standard 2010 Installation
+06/18/14 17:47:34: Ending Setup
+-----------  The actual exit code from EXE is 0
+06/18/14 17:47:34: Ending Installation
+-----------  The final exit code from this script was 0
+06/18/14 17:47:34: Ending Logging
+---------------------------------------------------------------------------
+---------------------------------------------------------------------------

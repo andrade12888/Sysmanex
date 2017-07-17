@@ -67,7 +67,7 @@ public class CUsuarios extends HttpServlet {
             // si es una persona entonces pregunto a donde pertenece Armada o Empresa
             String perteneceA = request.getParameter("rdPetenece");
             int resultado = -1;
-            
+            // Si el usuario exsiste el sistema retorna al JSP rquester con un mensaje de error
             ControlUsuarioExistente(nombre,usuario,request,response);
 
             if ("armada".equalsIgnoreCase(perteneceA)) {
@@ -79,12 +79,13 @@ public class CUsuarios extends HttpServlet {
                         MensajesUsuarios(resultado, usuario, request, response);
                     } else {
 
-                        String siglaUnidad = request.getParameter("txtUnidadSigla");
+                        String siglaUnidad = request.getParameter("txtUnidadSigla");                                         
+                        UnidadArmada ua = new UnidadArmada();
+                        ua.setSigla(siglaUnidad);
                         //ingreso unidad 
-                        int resultadoIngresoUnidad= IngresarUnidad(siglaUnidad, e);
-                        //ingreso la persona a la unidad
-                        resultado = p.AgregarPersona(e.getEntidadId());
-                        MensajesUsuarios(resultado, usuario, request, response);
+                        int resultadoIngresoUnidadUser = ua.AgregarUnidadUserPersona(e, p);
+                      
+                        MensajesUsuarios(resultadoIngresoUnidadUser, usuario, request, response);
 
                     }
                 } catch (Exception x) {
@@ -110,26 +111,23 @@ public class CUsuarios extends HttpServlet {
         } else if ("unidad".equalsIgnoreCase(tipoUsuario)) {
             String siglaUnidad = request.getParameter("txtUnidadSigla");
             //ingreso unidad 
-            int resultadoIngresoUnidadUser = IngresarUnidad(siglaUnidad, e);
+             UnidadArmada ua = new UnidadArmada();
+             ua.setSigla(siglaUnidad);             
+             int resultadoIngresoUnidadUser = ua.AgregarUnidadUserPersona(e, null);
             MensajesUsuarios(resultadoIngresoUnidadUser, usuario, request, response);
         }
 
     }
 
-    private int IngresarUnidad(String sigla, Entidad e) {
-        UnidadArmada ua = new UnidadArmada();
-        ua.setSigla(sigla);
-        //ingreso unidad 
-        int resultadoIngresoUnidadUser = ua.AgregarUnidadUser(e);
-
-        return resultadoIngresoUnidadUser;
-    }
 
     private void MensajesUsuarios(int resultadoIngresoUnidadUser, String usuario, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         switch (resultadoIngresoUnidadUser) {
             case 1:
                 Mensajes.mensajeSuccessError("El usuario " + usuario + " ha sido ingresado con exito.", "gestionUsuarios.jsp", "green", request, response);
+                break;
+            case 2:
+                Mensajes.mensajeSuccessError("La unidad armada no puede ser vacio", "gestionUsuarios.jsp", "green", request, response);
                 break;
             case 0:
                 Mensajes.mensajeSuccessError("El usuario " + usuario + " ya existe en la base de datos.", "gestionUsuarios.jsp", "red", request, response);
@@ -188,8 +186,8 @@ public class CUsuarios extends HttpServlet {
         ResultSet rsu = UnidadArmada.BuscarUnidades();
         String unidadesOpt = "";
         while (rsu.next()) {
-            unidadesOpt += "<option value=\"selUni" + rsu.getInt("unidadId")
-                    + "\" id=\"selUni" + rsu.getInt("unidadId")
+            unidadesOpt += "<option value=\"" + rsu.getInt("unidadId")
+                    + "\" id=\"" + rsu.getInt("unidadId")
                     + "\">" + rsu.getString("unidadSigla") + " </option>";
         }
 
@@ -197,7 +195,7 @@ public class CUsuarios extends HttpServlet {
         String personasOpt = "";
         while (rsp.next()) {
             personasOpt += "<option value=\"selPer" + rsp.getInt("personaEntidadId")
-                    + "\" id=\"selPer" + rsp.getInt("personaEntidadId") + "\">"
+                    + "\" id=\"" + rsp.getInt("personaEntidadId") + "\">"
                     + rsp.getString("personaNombre") + " " + rsp.getString("personaApellido") + " </option>";
         }
 

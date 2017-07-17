@@ -14,6 +14,7 @@ $(document).ready(function () {
     });
     $('input[type=radio][name=rdTipo]').change(function () {
         if (this.value === 'persona') {  
+            $("#divTipoPersona :input").prop('required',true);         
             $('#divTipoPersona').show();            
             $('#divTipoUnidad').show();  
             if($('#divSigla').is(":visible"))
@@ -21,10 +22,11 @@ $(document).ready(function () {
             if($('#rdarmada').is(':checked')) {  $('#divSigla').show(); }
       
         } else if (this.value === 'unidad') {
+            $("#divTipoPersona :input").prop('required',null);         
             $('#divTipoPersona').hide();
             $('#divTipoUnidad').show();
             $('#divRolesUnidad').show();
-            $('#divSigla').show();
+            $('#divSigla').show();          
         }
     });
     $("#input-1a").fileinput({'showUpload': false, 'previewFileType': 'any'});

@@ -20,6 +20,7 @@ public class UnidadArmada extends Entidad {
 
     private ArrayList<Persona> personas;
     private String sigla;
+    private int unidadId;
 
     public UnidadArmada() {
     }
@@ -74,7 +75,9 @@ public class UnidadArmada extends Entidad {
     //TODO: Como llegan los valores, por parametros o por objetos?
     
     //PRE: La unidad existe dado que viene del Form
-    public int AgregarUnidadUser(Entidad e) {
+    //POST: Si lo que intento agregar es una persona en una nueva unidad ejecuta : Agregar Entidad, Agregar Persona, Agregar Unidad y Agregar UnidadTienePersona
+    
+    public int AgregarUnidadUserPersona(Entidad e, Persona p) {
     
     Conecciones conDB = new Conecciones();
     int resultado =-1;
@@ -92,15 +95,24 @@ public class UnidadArmada extends Entidad {
                 
                 if(entidadId == 23503)
                     return entidadId;
-
+//TODO: VERIFICAR VALOR DE RETORNO
                 if (entidadId >0)
-                {       
-                    // conDB.getConnect().commit();
-                    //Si se agrego correctamente la entidad, agrego la persona con el id de entidad guardado
-                      String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Unidad\"(\"unidadSigla\", \"unidadEntidadId\")" 
-                        + "   VALUES ('" + this.getSigla() + "', " + entidadId +");";                   
-                    conDB.hacerConsultaIUD(queryPersona);                                
+                {                          
+                   this.setEntidadId(entidadId);
+                   //Agrego la Unidad
+                   int unidad =AgregarUnidad();
+                   this.setUnidadId(unidad);                        
+                   //Ingreso la persona si es necesario
+                   if(p!=null && unidad >0)
+                   {
+                    //Ingreso la Persona asociada
+                     p.AgregarPersona(e.getEntidadId());
+                     //ingreso la persona a la unidad
+                     this.AgregarPersonaEnUnidad(p.getCiPersona());                     
+                   }
+                   
 
+                   //Una Vez que todo se ejecuta correctamente hago el commit                  
                     conDB.getConnect().commit();
                     resultado = 1;
                 }
@@ -109,7 +121,7 @@ public class UnidadArmada extends Entidad {
 
                 if (conDB.getConnect() != null) {
                     try {
-                        System.err.print("Ocurrio un error ingresando la Unidad");
+                        
                         conDB.getConnect().rollback();
                         return -1;
                     } catch (SQLException excep) {
@@ -126,22 +138,44 @@ public class UnidadArmada extends Entidad {
                     }
                 }
             }
-        } else {
-            System.err.print("Los campos Usuraio, Contrasena, Sigla y Rol no pueden ser vacios.\n");
+        } else {            
             resultado = 2;
         }
         return resultado;
 }
     //PRE: La entidad debe existir        
-    protected int AgregarUnidad() throws SQLException {
+    private int AgregarUnidad() throws SQLException {
         Conecciones conDB = new Conecciones();
-        int resultado = -1;
+        ResultSet rs;
+        int resultado =-1;
         String queryInsertUnidad = "INSERT INTO \"SysmanexSch1\".\"Unidad\"(\n"
                 + "\"unidadSigla\", \"unidadEntidadId\")\n"
-                + "   VALUES ('" + this.sigla + "', '" + this.getEntidadId() + "');";
+                + "   VALUES ('" + this.sigla + "', " + this.getEntidadId() + ") RETURNING \"unidadId\";";
 
         if (!"".equals(this.sigla) && !"".equals(this.getEntidadId())) {
-            resultado = conDB.hacerConsultaIUD(queryInsertUnidad);
+            rs = conDB.hacerConsulta(queryInsertUnidad);
+            rs.next();
+            resultado = Integer.parseInt(rs.getString("unidadId"));
+
+        } else {            
+            resultado = 2;
+        }
+        return resultado;
+    }
+    
+    private int AgregarPersonaEnUnidad(String ciPersona) throws SQLException {
+        Conecciones conDB = new Conecciones();
+        int resultado = -1;                       
+        String queryPersonaEnUnidad = "INSERT INTO \"SysmanexSch1\".\"UnidadTienePersona\"(\n"
+                    + "\"unidadId\", \"personaCi\")\n"
+                    + "   VALUES ('" + this.getUnidadId() + "', " +ciPersona+");";                     
+
+        if (!"".equals(this.sigla) && !"".equals(this.getEntidadId())) {
+            try {
+                resultado = conDB.hacerConsultaIUD(queryPersonaEnUnidad);
+            } catch (SQLException ex) {
+                throw ex;
+            }
 
         } else {            
             resultado = 2;
@@ -218,7 +252,7 @@ public class UnidadArmada extends Entidad {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UnidadArmada.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
         }
         return resultado;
     }
@@ -229,6 +263,20 @@ public class UnidadArmada extends Entidad {
         int resultado = 0;
 
         return resultado;
+    }
+
+    /**
+     * @return the unidadId
+     */
+    public int getUnidadId() {
+        return unidadId;
+    }
+
+    /**
+     * @param unidadId the unidadId to set
+     */
+    public void setUnidadId(int unidadId) {
+        this.unidadId = unidadId;
     }
 
 }
