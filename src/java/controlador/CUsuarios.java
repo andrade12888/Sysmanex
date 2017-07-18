@@ -186,7 +186,7 @@ public class CUsuarios extends HttpServlet {
         ResultSet rsu = UnidadArmada.BuscarUnidades();
         String unidadesOpt = "";
         while (rsu.next()) {
-            unidadesOpt += "<option value=\"" + rsu.getInt("unidadId")
+            unidadesOpt += "<option value=\"selUni" + rsu.getInt("unidadId")
                     + "\" id=\"" + rsu.getInt("unidadId")
                     + "\">" + rsu.getString("unidadSigla") + " </option>";
         }

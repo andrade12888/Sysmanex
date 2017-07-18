@@ -114,7 +114,7 @@
                     </div>
                 </div>
                 <div id="divTipoUnidad">
-                    <div id="divSigla" class="row" style="display: none;">
+                    <div id="divSigla" class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3">
                             <div class="form-group">
                                 <label for="txtUnidadSigla">Sigla - Nombre de la unidad</label>

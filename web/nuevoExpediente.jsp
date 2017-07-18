@@ -12,10 +12,10 @@
 <jsp:include page="master/header.jsp"/>
 <script>
     function maxLengthCheck(object) {
-    if (object.value.length > 5) {
-        object.value = object.value.slice(0,5); 
+        if (object.value.length > 5) {
+            object.value = object.value.slice(0, 5);
+        }
     }
-}
 </script>
 <div class="bodyContent">
     <div class="row">
@@ -59,11 +59,11 @@
                         <div class="row">
                             <div class="col-lg-9">
                                 <label class="control-label">Seleccionar archivo</label>
-                                <input id="input-1a" name="input-1a" type="file" class="file" multiple="multiple" data-show-preview="true">
+                                <input id="kv-explorer" type="file" multiple>
                             </div> 
                             <div class="col-lg-1">
                                 <br>
-                                
+
                             </div> 
                             <div class="col-lg-2">
                                 <br>

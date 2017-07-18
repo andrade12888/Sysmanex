@@ -473,7 +473,7 @@
                 '   <div class="input-group-btn">\n' +
                 '       {remove}\n' +
                 '       {cancel}\n' +
-                '       {upload}\n' +
+                //'       {upload}\n' +
                 '       {browse}\n' +
                 '   </div>\n' +
                 '</div>';
@@ -528,15 +528,16 @@
             tActions = '{drag}\n' +
                 '<div class="file-actions">\n' +
                 '    <div class="file-footer-buttons">\n' +
-                '        {upload} {delete} {zoom} {other}' +
+                //'        {upload} {delete} {zoom} {other}' +
+                '        {delete} {zoom}' +
                 '    </div>\n' +
                 '    <div class="clearfix"></div>\n' +
                 '</div>';
             //noinspection HtmlUnknownAttribute
             tActionDelete = '<button type="button" class="kv-file-remove {removeClass}" ' +
                 'title="{removeTitle}" {dataUrl}{dataKey}>{removeIcon}</button>\n';
-            tActionUpload = '<button type="button" class="kv-file-upload {uploadClass}" title="{uploadTitle}">' +
-                '{uploadIcon}</button>';
+//            tActionUpload = '<button type="button" class="kv-file-upload {uploadClass}" title="{uploadTitle}">' +
+//                '{uploadIcon}</button>';
             tActionZoom = '<button type="button" class="kv-file-zoom {zoomClass}" ' +
                 'title="{zoomTitle}">{zoomIcon}</button>';
             tActionDrag = '<span class="file-drag-handle {dragClass}" title="{dragTitle}">{dragIcon}</span>';
@@ -585,7 +586,7 @@
                     indicator: tIndicator,
                     actions: tActions,
                     actionDelete: tActionDelete,
-                    actionUpload: tActionUpload,
+                   // actionUpload: tActionUpload,
                     actionZoom: tActionZoom,
                     actionDrag: tActionDrag,
                     btnDefault: tBtnDefault,
@@ -668,15 +669,15 @@
                 },
                 fileActionSettings: {
                     showRemove: true,
-                    showUpload: true,
+//                    showUpload: true,
                     showZoom: true,
                     showDrag: true,
                     removeIcon: '<i class="glyphicon glyphicon-trash text-danger"></i>',
                     removeClass: 'btn btn-xs btn-default',
                     removeTitle: 'Remove file',
-                    uploadIcon: '<i class="glyphicon glyphicon-upload text-info"></i>',
-                    uploadClass: 'btn btn-xs btn-default',
-                    uploadTitle: 'Upload file',
+//                    uploadIcon: '<i class="glyphicon glyphicon-upload text-info"></i>',
+//                    uploadClass: 'btn btn-xs btn-default',
+//                    uploadTitle: 'Upload file',
                     zoomIcon: '<i class="glyphicon glyphicon-zoom-in"></i>',
                     zoomClass: 'btn btn-xs btn-default',
                     zoomTitle: 'View Details',
