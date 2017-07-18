@@ -144,7 +144,7 @@ public class Persona extends Entidad {
                   String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\","
                           + " \"personaApellido\", \"personaEntidadId\", \"personaEmail\")" 
                     + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', " +
-                     " '" + this.apellidoPersona + "', " + entidadId +"', " + this.emailPersona + ");";
+                     " '" + this.apellidoPersona + "', " + entidadId +", '" + this.emailPersona + "');";
                   
                 conDB.hacerConsultaIUD(queryPersona);
                 
@@ -194,13 +194,14 @@ public class Persona extends Entidad {
     //TODO: Se puede devolver un numero diferente para cada transsaccion que falle
     //TODO: Como llegan los valores, por parametros o por objetos?
     //PRE: La empresa existe dado que viene del Form
-    public int AgregarPersonaEnEmpresa(String rutEmpresa) throws SQLException {
+    public int AgregarPersonaEnEmpresa(String rutEmpresa){
         Conecciones conDB = new Conecciones();
         int resultado =-1;
 
         //Controlo que los valores necesario para inrgesar una persona no sean vacios
         if (!"".equals(this.ciPersona) && !"".equals(super.getNombreEntidad()) && 
-                !"".equals(this.apellidoPersona)&& 
+                !"".equals(this.apellidoPersona)&&
+                !"".equals(this.nombrePersona)&& 
                 !"".equals(super.getContrasenia())&& 
                 !"".equals(this.emailPersona) ) 
         {                     
@@ -218,15 +219,11 @@ public class Persona extends Entidad {
                   String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\","
                           + " \"personaApellido\", \"personaEntidadId\", \"personaEmail\")" 
                     + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', " +
-                     " '" + this.apellidoPersona + "', " + entidadId +"', " + this.emailPersona + ");";
+                     " '" + this.apellidoPersona + "', " + entidadId +", '" + this.emailPersona + "');";
                 conDB.hacerConsultaIUD(queryPersona);
-                
-//                ArrayList<Persona> listaAutorizados = new ArrayList<>();
-//                listaAutorizados.add(this);
-//                //Agrego la empresa con el nombre y rut que viene del Form
-//                Empresa emp = new Empresa(rutEmpresa,listaAutorizados, nombreEmpresa);
-                //Ahora agrego la persona a la unidad en la tabla UnidadTienePersona con el valor 
-                // de entidadId que viene del form
+                                                 
+                //Ahora agrego la persona a la tabla EmpresadTienePersona con el valor 
+                // la ci de la persona agregada y el RUT del form
                  String queryPersonaEnUnidad = "INSERT INTO \"SysmanexSch1\".\"EmpresaTienePersona\"(\n"
                     + "\"empresaRut\", \"personaCi\")\n"
                     + "   VALUES ('" + rutEmpresa + "', " +this.ciPersona+");";
@@ -239,7 +236,6 @@ public class Persona extends Entidad {
 
                 if (conDB.getConnect() != null) {
                     try {
-                        System.err.print("Ocurrio un error ingresando la persona a la Empresa");
                         conDB.getConnect().rollback();
                         return -1;
                     } catch (SQLException excep) {
@@ -252,19 +248,18 @@ public class Persona extends Entidad {
                     try {
                         conDB.getConnect().setAutoCommit(true);
                     } catch (SQLException ex) {
-                        throw ex;
+                        return -1;
                     }
                 }
             }
-        } else {
-            System.err.print("Los campos en Nombre, Apellido CI, Email no pueden ser vacios.\n");
-            resultado = 2;
+        } else {            
+            resultado = 3;
         }
         return resultado;
     }
     
     //Agrega la persona cuando la entidad es decir el Usuario ya esta creado
-    public int AgregarPersona(int entidadDePersona)
+    public int AgregarPersona(int entidadDePersona) throws SQLException
     {
         try {
             Conecciones conDB = new Conecciones();
@@ -272,11 +267,11 @@ public class Persona extends Entidad {
             String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\"," 
                     + " \"personaApellido\", \"personaEntidadId\", \"personaEmail\")"
                     + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', " +
-                    " '" + this.apellidoPersona + "', " + entidadDePersona +"', " + this.emailPersona + ");";
+                    " '" + this.apellidoPersona + "', " + entidadDePersona +", '" + this.emailPersona + "');";
             
             conDB.hacerConsultaIUD(queryPersona);
         } catch (SQLException ex) {
-            return -1;
+            throw ex;
         }
         return 1;
     }

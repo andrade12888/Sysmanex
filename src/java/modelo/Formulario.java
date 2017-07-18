@@ -8,6 +8,8 @@ package modelo;
 import accesoaDatos.Conecciones;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -132,11 +134,11 @@ public class Formulario {
         ResultSet rs = null;       
 
         try {
-            String query = "Select * FROM \"SysmanexSch1\".\"Formulario\" ORDER BY \"formularioNombre\" ASC;";
+            String query = "Select \"formularioId\",\"formularioNombre\", \"formularioRuta\",to_char(\"formularioFechaCreacion\" ,'DD/MM/YYYY') as formularioFechaCreacion FROM \"SysmanexSch1\".\"Formulario\" ORDER BY \"formularioNombre\" ASC;";
             rs = conDB.hacerConsulta(query);                       
-
+                                                                                           
         } catch (Exception ex) {
-            Logger.getLogger(Conecciones.class.getName()).log(Level.SEVERE, null, ex);
+          return null;
         }
 
         return rs;
@@ -150,7 +152,7 @@ public class Formulario {
                             "\"formularioNombre\", \"formularioRuta\","
                     + " \"formularioFechaCreacion\")\n" +
                             "VALUES ('" + this.nombreFormulario+ "', '" + this.rutaRormulario + "',"
-                    + " '" + this.fechaCreacionFormulario  +"');";
+                    + "to_timestamp('"+this.fechaCreacionFormulario+"' , 'dd/MM/yyyy'));";
             resultado = conDB.hacerConsultaIUD(query);
         } else {
             resultado = 2;
@@ -162,18 +164,28 @@ public class Formulario {
      public String TablaFormularios() throws SQLException {
 
         ResultSet rs = Formulario.BuscarFormularios();
-        String tabla = "<form name=\"frmSubirFrm\" action=\"formulario.do\" method=\"POST\">"
+        String tabla="";
+
+        if(rs!=null)
+        {
+         tabla = "<form name=\"frmSubirFrm\" action=\"formulario.do\" method=\"POST\">"
                 + "<table class=\"table table-striped\"><th>Formualrios Disponibles</th><th>Fecha de Creacion</th>"
                 + "<th></th><th>Descarga</th>";
         while (rs.next()) {
+            try{ 
+           
            tabla += "<tr>" + "<td> <span id=\"tdd" + rs.getInt("formularioId") + "\">" + rs.getString("formularioNombre") + "</span>"
-                   + "</td>" + "<td><span id=\"tdp" + rs.getInt("formularioId") + "\">" + rs.getDate("formularioFechaCreacion") + "</span></td>"
+                   + "</td>" + "<td><span id=\"tdp" + rs.getInt("formularioId") + "\">" + rs.getString("formularioFechaCreacion") + "</span></td>"
                     + "<td>&nbsp;</td><td><a href=\""+ rs.getString("formularioRuta") +"\" download id=\"btnBajarForm\" name=\"btnBajarFrm\" value=\"" + rs.getInt("formularioId") + "\"  class=\"glyphicon glyphicon-download\"></a</td>"
                    + " <input type=\"hidden\" id=\"id" + rs.getInt("formularioId")+ "\" value=\""+ rs.getInt("formularioId") + "\" name=\"formularioId" + "\">\n" 
                    + "<input type=\"hidden\"  id=\"id" + rs.getInt("formularioId") +"\" value=\""+ rs.getString("formularioRuta") +"\" name=\"formularioRuta" + "\">";
+            }catch(Exception ex)
+            {
+                ex.getMessage();
+            }
         }
         tabla += "</table></form>";
-
+        }  
         return tabla;
     }
      

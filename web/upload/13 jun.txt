@@ -1,0 +1,5 @@
+﻿Tramite(tramiteId, tramiteDescripcion, tramitePlazo, tramiteBaja)
+Empresa(empresaRut,empresaNombre,entidadId)
+EmpresaTienePersona(empresaRut,personaId,fecha)
+Persona(personaCi,personaNombre,personApellido,entidadId,unidadId)
+UnidadTienePersona(unidadId, personaCi)

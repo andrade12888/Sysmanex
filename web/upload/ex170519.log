@@ -1,0 +1,47 @@
+#Software: Microsoft Internet Information Services 8.0
+#Version: 1.0
+#Date: 2017-05-19 03:05:07
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-05-19 03:05:07 ::1 GET /Peliculas_Agregar.aspx - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 - 200 0 0 177996
+2017-05-19 03:05:07 ::1 GET /css/StyleSheet.css - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/Peliculas_Agregar.aspx 200 0 0 51
+2017-05-19 03:05:07 ::1 GET /images/bg_left.jpg - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/css/StyleSheet.css 404 0 2 5
+2017-05-19 03:05:07 ::1 GET /favicon.ico - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/Peliculas_Agregar.aspx 404 0 2 4
+2017-05-19 03:05:09 ::1 GET /__browserLink/requestData/3f174ff808344722b9a91704fd203f58 version=2 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/Peliculas_Agregar.aspx 200 0 0 226
+2017-05-19 03:07:02 ::1 GET /Default.aspx - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 - 200 0 0 270
+2017-05-19 03:07:02 ::1 GET /images/bg_left.jpg - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/css/StyleSheet.css 404 0 2 132
+2017-05-19 03:07:03 ::1 GET /favicon.ico - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/Default.aspx 404 0 2 0
+2017-05-19 03:07:05 ::1 GET /__browserLink/requestData/5c96d6e888624b1482ccd8c29525fc70 version=2 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/Default.aspx 200 0 0 15
+2017-05-19 03:11:10 ::1 GET /Peliculas_Agregar.aspx - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/Default.aspx 200 0 64 238671
+#Software: Microsoft Internet Information Services 8.0
+#Version: 1.0
+#Date: 2017-05-19 04:43:21
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-05-19 04:43:21 ::1 GET / - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 - 200 0 0 11716
+2017-05-19 04:43:21 ::1 GET /images/bg_left.jpg - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/css/StyleSheet.css 404 0 2 3
+2017-05-19 04:43:21 ::1 GET /favicon.ico - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/ 404 0 2 3
+2017-05-19 04:43:21 ::1 GET /__browserLink/requestData/9e09e25e347041098fbc1b2b9f6fca09 version=2 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/ 200 0 0 69
+2017-05-19 04:50:34 ::1 GET /Peliculas_Lista.aspx - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/ 200 0 64 429297
+2017-05-19 04:50:47 ::1 GET / - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 - 200 0 0 580
+2017-05-19 04:50:47 ::1 GET /images/bg_left.jpg - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/css/StyleSheet.css 404 0 2 2
+2017-05-19 04:50:47 ::1 GET /favicon.ico - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/ 404 0 2 2
+2017-05-19 04:50:47 ::1 GET /__browserLink/requestData/395483a3cfbe4fb5a07fae1c7f4bc503 version=2 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/ 200 0 0 5
+2017-05-19 05:03:36 ::1 GET /Peliculas_Lista.aspx - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/ 200 0 64 767061
+2017-05-19 05:03:50 ::1 GET / - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 - 200 0 0 784
+2017-05-19 05:03:50 ::1 GET /images/bg_left.jpg - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/css/StyleSheet.css 404 0 2 35
+2017-05-19 05:03:50 ::1 GET /favicon.ico - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/ 404 0 2 70
+2017-05-19 05:03:51 ::1 GET /__browserLink/requestData/3889d8816f1848558615100b1d4fab05 version=2 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/ 200 0 0 9
+2017-05-19 05:04:25 ::1 GET /Peliculas_Lista.aspx - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/ 200 0 0 32030
+2017-05-19 05:04:25 ::1 GET /images/bg_left.jpg - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/css/StyleSheet.css 404 0 2 97
+2017-05-19 05:04:25 ::1 GET /__browserLink/requestData/44fc9e61b48f44f1a18d9f0d89e8d917 version=2 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/Peliculas_Lista.aspx 200 0 0 37
+2017-05-19 05:06:06 ::1 GET / - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 - 200 0 0 1142
+2017-05-19 05:06:06 ::1 GET /images/bg_left.jpg - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/css/StyleSheet.css 404 0 2 9
+2017-05-19 05:06:06 ::1 GET /__browserLink/requestData/448415b7b265460f99a63cb676f7f64b version=2 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/ 200 0 0 5
+2017-05-19 05:06:09 ::1 GET /Peliculas_Lista.aspx - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/ 200 0 0 13
+2017-05-19 05:06:09 ::1 GET /images/bg_left.jpg - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/css/StyleSheet.css 404 0 2 9
+2017-05-19 05:06:09 ::1 GET /__browserLink/requestData/148cfbe85d0844ca989486a7a8049948 version=2 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/Peliculas_Lista.aspx 200 0 0 6
+2017-05-19 05:06:34 ::1 GET /Peliculas_Agregar.aspx - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/Peliculas_Lista.aspx 200 0 0 15730
+2017-05-19 05:06:34 ::1 GET /images/bg_left.jpg - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/css/StyleSheet.css 404 0 2 2
+2017-05-19 05:06:34 ::1 GET /__browserLink/requestData/892da3eb5cf84e5ab6725bd563fcf48c version=2 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/Peliculas_Agregar.aspx 200 0 0 7
+2017-05-19 05:06:38 ::1 GET /Peliculas_baja.aspx e=0 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/Peliculas_Agregar.aspx 200 0 0 63
+2017-05-19 05:06:38 ::1 GET /images/bg_left.jpg - 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/css/StyleSheet.css 404 0 2 6
+2017-05-19 05:06:38 ::1 GET /__browserLink/requestData/2ae721d0a3b44173b7803c54f16a0685 version=2 51100 - ::1 Mozilla/5.0+(Windows+NT+6.1;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/58.0.3029.110+Safari/537.36 http://localhost:51100/Peliculas_baja.aspx?e=0 200 0 0 6

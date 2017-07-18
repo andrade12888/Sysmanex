@@ -12,15 +12,17 @@ $(document).ready(function () {
     });
     $('input[type=radio][name=rdTipo]').change(function () {
         if (this.value === 'persona') {  
+            $("#divTipoPersona :input").prop('required',true);         
             $('#divTipoPersona').show();            
             $('#divTipoUnidad').show();  
             $('#divSigla').hide();
       
         } else if (this.value === 'unidad') {
+            $("#divTipoPersona :input").prop('required',null);         
             $('#divTipoPersona').hide();
             $('#divTipoUnidad').show();
             $('#divRolesUnidad').show();
-            $('#divSigla').show();
+            $('#divSigla').show();          
         }
     });
     $("#input-1a").fileinput({'showUpload': false, 'previewFileType': 'any'});
@@ -93,6 +95,11 @@ function controlTextoVacio(idForm,idTxt1,idTxt2,spanClass) {
 function modalMotivos(id) {
     $("#txtActualizarMotivo").val($("#tdd" + id).text());
     $("#txtActualizarId").val($("#id" + id).val());
+}
+
+function modalEmpresas(id) {
+    $("#txtActualizarNombre").val($("#tdd" + id).text());
+    $("#txtActualizarRUT").val($("#id" + id).val());
 }
 
 function agregarDestinatario() {

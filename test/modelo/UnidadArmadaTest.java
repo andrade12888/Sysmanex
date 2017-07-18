@@ -8,6 +8,8 @@ package modelo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -43,19 +45,7 @@ public class UnidadArmadaTest {
     /**
      * Test of AgregarUnidad method, of class UnidadArmada Agrega solo la unidad.
      */
-    @Test
-    public void testAgregarUnidad() throws SQLException {
-        System.out.println("AgregarUnidad");
-        UnidadArmada instance = new UnidadArmada("Unidad Naval",5);       
-        ArrayList<Persona> pers = new ArrayList<>();
-
-        instance.setPersonas(pers);
-        
-        int expResult = 1;
-        int result = instance.AgregarUnidad();
-        assertEquals(expResult, result);
-
-    }
+   
 
     /**
      Test of BuscarUnidades method, of class UnidadArmada.

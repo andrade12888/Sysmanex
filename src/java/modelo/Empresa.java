@@ -103,12 +103,10 @@ public class Empresa {
             try {
                 conDB.hacerConsultaIUD(queryInsertEmpresa);
             } catch (SQLException ex) {
-                Logger.getLogger(Empresa.class.getName()).log(Level.SEVERE, null, ex);
+                return -1;
             }
             resultado = 1;
-        } else {
-            System.err.print("El RUT no puede ser vacio.\n");
-            System.err.print("El nombre de la empresa no puede ser vacio.");
+        } else {           
             resultado = 2;
         }
         return resultado;
@@ -123,26 +121,33 @@ public class Empresa {
         return rs;
     }
 
-    public static ResultSet BuscarEmpresaPorNombre(String nombre) throws SQLException {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;
-        String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\""
-                + " WHERE \"empresaNombre\" LIKE \'%" + nombre + "\'"
-                + " ORDER BY \"empresaNombre\" ASC;";
-        rs = conDB.hacerConsulta(query);
-
-        return rs;
+    public static ResultSet BuscarEmpresaPorNombre(String nombre) {
+        try {
+            Conecciones conDB = new Conecciones();
+            ResultSet rs;
+            String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\""
+                    + " WHERE \"empresaNombre\" LIKE \'%" + nombre + "\'"
+                    + " ORDER BY \"empresaNombre\" ASC;";
+            rs = conDB.hacerConsulta(query);            
+            return rs;
+        } catch (SQLException ex) {
+            return null;
+        }
     }
 
-    public static ResultSet BuscarEmpresaPorRUT(String rutEmpresa) throws SQLException {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;
-
-        String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\""
-                + " WHERE \"empresaRut\" = \'" + rutEmpresa + "\';";
-        rs = conDB.hacerConsulta(query);
-
-        return rs;
+    public static ResultSet BuscarEmpresaPorRUT(String rutEmpresa) {
+        try {
+            Conecciones conDB = new Conecciones();
+            ResultSet rs;
+            
+            String query = "SELECT * FROM \"SysmanexSch1\".\"Empresa\""
+                    + " WHERE \"empresaRut\" = \'" + rutEmpresa + "\';";
+            rs = conDB.hacerConsulta(query);
+            
+            return rs;
+        } catch (SQLException ex) {
+            return null;
+        }
     }
     
     //TODO: Discutir sobre el borrado de empresas
@@ -156,10 +161,24 @@ public class Empresa {
             resultado = conDB.hacerConsultaIUD(query);
         } catch (SQLException ex) {
             throw ex;
-        }
-
-        
+        }       
         return resultado;
+    }
+    
+     public String TablaEmpresas() throws SQLException {
+
+        ResultSet rs = Empresa.BuscarEmpresas();
+        String tabla = "<form name=\"frmBorrar\" action=\"motivos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Motivos</th><th>Opciones</th>";
+        while (rs.next()) {
+            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("empresaRut") + "\" value=\"" + rs.getString("empresaRut") + "\">"
+                    + " <span id=\"tdd" + rs.getString("empresaRut") + "\">" + rs.getString("empresaNombre") + "</span></td>"
+                    + "<td><button onclick=\"modalEmpresas(" + rs.getString("empresaRut") + ")\" id=\"" + rs.getString("empresaRut") + "\" "
+                    + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
+                    + "</button><button name=\"btnMotivos\" value=\"" + rs.getString("empresaRut") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+        }
+        tabla += "</table></form>";
+
+        return tabla;
     }
 
 }
