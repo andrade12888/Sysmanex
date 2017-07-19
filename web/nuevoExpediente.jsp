@@ -59,7 +59,7 @@
                         <div class="row">
                             <div class="col-lg-9">
                                 <label class="control-label">Seleccionar archivo</label>
-                                <input id="kv-explorer" type="file" multiple>
+                                <input id="kv-explorer" name="kv-explorer" type="file" multiple>
                             </div> 
                             <div class="col-lg-1">
                                 <br>

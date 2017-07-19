@@ -63,9 +63,9 @@ public class CExpediente extends HttpServlet {
         unExpediente.setEntidadOrigien(logeado);
         int retorno = -1;
         if (isMultipart) {
-            List<FileItem> items;
+
             try {
-                items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+                List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
                 for (FileItem item : items) {
                     if (item.isFormField()) {
                         // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
