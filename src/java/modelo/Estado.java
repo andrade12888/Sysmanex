@@ -161,14 +161,32 @@ public class Estado {
                 + "WHERE \"estadoBaja\"=\'false\' AND \"estadoId\"=" + id + ";";
         try {
             rs = conDB.hacerConsulta(query);
-            try {
-                while (rs.next()) {                   
-                    this.setIdEstado(id);
-                    this.setDescripcionEstado(rs.getString("estadoDescripcion"));
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Estado.class.getName()).log(Level.SEVERE, null, ex);
+
+            while (rs.next()) {
+                this.setIdEstado(id);
+                this.setDescripcionEstado(rs.getString("estadoDescripcion"));
             }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Estado.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void BuscarEstadoDescripcion(String descripcion) {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Estado\""
+                + "WHERE \"estadoBaja\"=\'false\' AND \"estadoDescripcion\"='" + descripcion + "';";
+        try {
+            rs = conDB.hacerConsulta(query);
+
+            while (rs.next()) {
+                this.setIdEstado(rs.getInt("estadoId"));
+                this.setDescripcionEstado(descripcion);
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(Estado.class.getName()).log(Level.SEVERE, null, ex);
         }

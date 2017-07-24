@@ -117,16 +117,21 @@ public class Tramite {
         return resultado;
     }
 
-    public String BuscarTramite(String nombre) throws SQLException {
+  
+    public void BuscarTramiteNombre(String nombre) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
-
         String query = "SELECT * FROM \"SysmanexSch1\".\"Tramite\""
-                + " WHERE \"tramiteId\" LIKE \'%" + nombre + "\'"
+                + " WHERE \"tramiteNombre\" = \'" + nombre + "\'"
                 + " ORDER BY \"tramiteId\" ASC;";
         rs = conDB.hacerConsulta(query);
-
-        return this.TablaTramites(rs);
+        while (rs.next()) {
+                    this.setId(rs.getInt("tramiteId"));
+                    this.setNombre(nombre);
+                    this.setPlazo(rs.getInt("tramitePlazo"));
+                    this.setBaja(rs.getBoolean("tramiteBaja"));
+                }
+       
     }
 
     public void BuscarTramite(int id) {

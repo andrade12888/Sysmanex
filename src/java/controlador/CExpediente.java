@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Empresa;
 import modelo.Entidad;
+import modelo.Estado;
 import modelo.Expediente;
 import modelo.Persona;
 import modelo.Tramite;
@@ -73,25 +74,31 @@ public class CExpediente extends HttpServlet {
                         String fieldvalue = item.getString();
 
                         switch (fieldname) {
-                            case "txtNroExpediente":    
-                                if(!"".equals(fieldvalue))
-                                unExpediente.setNumeroExpediente(fieldvalue, logeado.getEntidadId());
-                                else{
-                                    Mensajes.mensajeSuccessError("El Nro de expediente no puede ser vacie", "misExpedientes.jsp","red", request, response);
+                            case "txtNroExpediente":
+                                if (!"".equals(fieldvalue)) {
+                                    unExpediente.setNumeroExpediente(fieldvalue, logeado.getEntidadId());
+                                } else {
+                                    Mensajes.mensajeSuccessError("El Nro de expediente no puede ser vacie", "nuevoExpediente.jsp", "red", request, response);
                                     return;
                                 }
                                 break;
                             case "txtAsunto":
-                              
-                             unExpediente.setAsuntoExpediente(fieldvalue);
+
+                                unExpediente.setAsuntoExpediente(fieldvalue);
                                 break;
                             case "publico":
                                 unExpediente.setExpedientePublico(Boolean.parseBoolean(fieldvalue));
                                 break;
                             case "selTramite":
-                                Tramite unTramite = new Tramite();
-                                unTramite.BuscarTramite(Integer.parseInt(fieldvalue));
-                                unExpediente.setTramiteExpediente(unTramite);
+                                if (!"0".equals(fieldvalue)) {
+                                    Tramite unTramite = new Tramite();
+                                    unTramite.BuscarTramite(Integer.parseInt(fieldvalue));
+                                    unExpediente.setTramiteExpediente(unTramite);
+                                }else {
+                                    Mensajes.mensajeSuccessError("Debe seleccionar un tramite", "nuevoExpediente.jsp", "red", request, response);
+                                    return;
+                                }
+
                                 break;
                         }
                     }
@@ -99,45 +106,54 @@ public class CExpediente extends HttpServlet {
                 if (retorno == -1) {
                     int resultado = unExpediente.AgregarExpediente();
                     request.getSession().setAttribute("expedienteEnviar", unExpediente.getNumeroExpediente());
-
+                    String nroExped = unExpediente.getNumeroExpediente();
+                    int iterador = 0;
                     if (resultado == 1) {
                         for (FileItem item : items) {
-                            if (!item.isFormField() && !"".equals(item.getName())) {                                                                
+                            if (!item.isFormField() && !"".equals(item.getName())) {
                                 String fieldName = item.getFieldName();
                                 String fileName = item.getName();
                                 String contentType = item.getContentType();
                                 boolean isInMemory = item.isInMemory();
                                 long sizeInBytes = item.getSize();
+                                String extension = "";
+                                int i = fileName.lastIndexOf('.');
+                                if (i > 0) {
+                                    extension = fileName.substring(i + 1);
+                                }
                                 // Write the file
                                 if (fileName.lastIndexOf("\\") >= 0) {
                                     file = new File(filePath
-                                            + fileName.substring(fileName.lastIndexOf("\\")));
+                                            + nroExped + iterador + '.' + extension);
                                 } else {
                                     file = new File(filePath
-                                            + fileName.substring(fileName.lastIndexOf("\\") + 1));
+                                            + nroExped + iterador + '.' + extension);
                                 }
                                 try {
                                     item.write(file);
+                                    iterador++;
+                                    String nombre = file.getName();
+                                    unExpediente.AgregarArchivoExpediente("\\Sysmanex\\upload\\"+nombre);
 
                                 } catch (Exception ex) {
-                                    errorMessage = "Error al escribir el archivo "+ file.getName()+" en disco " ;
+                                    errorMessage = "Error al escribir el archivo " + file.getName() + " en disco ";
                                     request.setAttribute("errorMessage", errorMessage);
                                     request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);
                                 }
                             }
                         }
-                    } else if(resultado ==23505)
-                        Mensajes.mensajeSuccessError("El expediente nro: "+unExpediente.getNumeroExpediente()+" ya fue ingresado", "nuevoExpediente.jsp", "red", request, response);
-                    else {
+                    } else if (resultado == 23505) {
+                        Mensajes.mensajeSuccessError("El expediente nro: " + unExpediente.getNumeroExpediente() + " ya fue ingresado", "nuevoExpediente.jsp", "red", request, response);
+                    } else {
                         errorMessage = "Error al subir archivo ";
                         request.setAttribute("errorMessage", errorMessage);
                         request.getRequestDispatcher("nuevoExpediente.jsp").forward(request, response);
                     }
 
-                    if (resultado == 1) {                        
+                    if (resultado == 1) {
                         errorMessage = "Expediente agregado correctamente.";
                         request.setAttribute("errorMessage", errorMessage);
-                        request.getRequestDispatcher("envioExpediente.jsp").forward(request, response);                        
+                        request.getRequestDispatcher("envioExpediente.jsp").forward(request, response);
                     }
                 } else {
                     if (retorno == 1) {
@@ -158,14 +174,14 @@ public class CExpediente extends HttpServlet {
         } else {
             String btn = request.getParameter("btnEliminarExpediente");
             int result = unExpediente.BorrarExpediente(btn);
-            if(result == 1){
+            if (result == 1) {
                 errorMessage = "Expediente borrado correctamente";
-            request.setAttribute("errorMessage", errorMessage);
-            request.getRequestDispatcher("misExpedientes.jsp").forward(request, response);
-            }else{            
-            errorMessage = "Error al borrar expediente";
-            request.setAttribute("errorMessage", errorMessage);
-            request.getRequestDispatcher("misExpedientes.jsp").forward(request, response);
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("misExpedientes.jsp").forward(request, response);
+            } else {
+                errorMessage = "Error al borrar expediente";
+                request.setAttribute("errorMessage", errorMessage);
+                request.getRequestDispatcher("misExpedientes.jsp").forward(request, response);
             }
         }
 
@@ -209,38 +225,49 @@ public class CExpediente extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-    
-     public static void CargarDatos(HttpServletRequest request, HttpServletResponse response) 
-            throws ServletException, IOException, SQLException{
-        
-        request.getSession().setAttribute("lstRecibidos", null); 
+
+    public static void CargarDatos(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+
+        request.getSession().setAttribute("lstRecibidos", null);
         Entidad u1 = (Entidad) request.getSession().getAttribute("usuarioLogeado");
         ResultSet rs = u1.ExpedientesRecibidos();
         String recibidos = "";
+        
         while (rs.next()) {
+            String estado=""; 
+            Estado unEstado = new Estado();
+            unEstado.BuscarEstadoDescripcion(rs.getString("estadoDescripcion"));
+            switch(unEstado.getIdEstado()){
+                case 1: estado = "class=\"enTramite\""; break;
+                case 2: estado = "class=\"noLeido\""; break;
+                case 3: estado = "class=\"archivado\""; break;
+                case 4: estado = "class=\"nagado\""; break;
+                case 5: estado = "class=\"enBandeja\""; break;
+            
+            }
             String nombre = "";
             Persona unaPersona = new Persona();
             int encontre = unaPersona.BuscarPersonaPorId(rs.getInt("expedienteEntidadId"));
-            if(encontre==1){
-                nombre = unaPersona.getNombrePersona() + " "+ unaPersona.getApellidoPersona();
-            }else{
+            if (encontre == 1) {
+                nombre = unaPersona.getNombrePersona() + " " + unaPersona.getApellidoPersona();
+            } else {
                 UnidadArmada unaUnidad = new UnidadArmada();
                 unaUnidad.BuscarUnidadEntidadId(rs.getInt("expedienteEntidadId"));
                 nombre = unaUnidad.getSigla();
-            }
-            recibidos += "<tr>"
-                    + "<td>" + rs.getString("expedienteNumero")+ " </td>"
-                    + "<td>" + rs.getString("expedienteAsunto")+ " </td>"
-                    + "<td>" + rs.getString("tramiteNombre")+ " </td>"
-                    + "<td>" + nombre+ "</td>"
-                    + "<td>" + rs.getString("restante")+ "  Dias.  </td>"
-                    + "<td>" + rs.getString("estadoDescripcion")+ " </td>"
+            }            
+            recibidos += "<tr "+estado+">"
+                    + "<td><a href='VisualizarExpediente.do?nroExped=" + rs.getString("expedienteNumero") + "'>" + rs.getString("expedienteNumero") + "</a> </td>"
+                    + "<td>" + rs.getString("expedienteAsunto") + " </td>"
+                    + "<td>" + rs.getString("tramiteNombre") + " </td>"
+                    + "<td>" + nombre + "</td>"
+                    + "<td>" + rs.getString("restante") + "  Dias.  </td>"
+                    + "<td>" + rs.getString("estadoDescripcion") + " </td>"
                     + "</tr>";
         }
 
-        
-        request.getSession().setAttribute("lstRecibidos", recibidos);      
-        
+        request.getSession().setAttribute("lstRecibidos", recibidos);
+
     }
 
 }

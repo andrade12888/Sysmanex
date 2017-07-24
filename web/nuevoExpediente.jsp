@@ -39,7 +39,7 @@
                         <div class="row">
                             <div class="col-lg-3">Tipo de tramite
                                 <select name="selTramite" id="selTramite" class="form-control" required="required">
-                                    <option>Seleccione Tramite</option>
+                                    <option value="0">Seleccione Tramite</option>
                                     <%= lstTramites%>
                                 </select></div>
                             <div class="col-lg-6">

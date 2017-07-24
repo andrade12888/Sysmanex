@@ -17,8 +17,6 @@ import org.apache.commons.fileupload.FileItem;
 public abstract class FileSettings {
 
     private static boolean isMultipart;
-    private static final String filePathWeb = "\\Sysmanex\\upload\\";
-    private static final String filePathLocal = "C:\\Users\\sg0891660\\Documents\\ORT\\Proyecto Integrador\\BkupSysmanexx\\SysmanexUpdated\\web\\upload\\";
     private static final int maxFileSize = 1 * 1024 * 1024; //1MB
     private static final int maxMemSize = 4 * 1024 * 1024; //1MB
 
@@ -83,8 +81,7 @@ public abstract class FileSettings {
     }
 
     
-    public static String GuardarArchivoEndDisco(Iterator items) throws Exception {
-        
+    public static String GuardarArchivoEndDisco(Iterator items, String url) throws Exception {
         String filename="";
         while ( items.hasNext () ) {
             FileItem fi = (FileItem)items.next();
@@ -97,10 +94,10 @@ public abstract class FileSettings {
             
                // Write the file
                if( fileName.lastIndexOf("\\") >= 0 ) {
-                  file = new File( filePathLocal + 
+                  file = new File( url + 
                   fileName.substring( fileName.lastIndexOf("\\"))) ;
                } else {
-                  file = new File( filePathLocal + 
+                  file = new File( url + 
                   fileName.substring(fileName.lastIndexOf("\\")+1)) ;
                }
                fi.write( file ) ;
@@ -111,18 +108,5 @@ public abstract class FileSettings {
      return filename;
     }
 
-    /**
-     * @return the filePathWeb
-     */
-    public static String getFilePathWeb() {
-        return filePathWeb;
-    }
-
-    /**
-     * @return the filePathLocal
-     */
-    public static String getFilePathLocal() {
-        return filePathLocal;
-    }
 
 }

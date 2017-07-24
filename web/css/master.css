@@ -42,6 +42,17 @@
     margin-left: -3%;
     text-align: right;
 }
+.noLeido{
+    background-color: antiquewhite;
+    font-weight: 600;
+}
+.enTramite{
+    background-color: #a8f3da;
+    color: forestgreen;
+}
+
+
+
 @media (min-width: 1000px) {
     .usuarioLogeado{
         position: absolute;
@@ -104,7 +115,15 @@
 }
 body{
     margin:0px;
-    background-color: #77797d;
+    background: #7b970e;
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(left, #7b970e 0%, #aeb366 31%, #bbc34d 47%, #7b970e 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#7b970e), color-stop(31%,#aeb366), color-stop(47%,#bbc34d), color-stop(100%,#7b970e));
+    background: -webkit-linear-gradient(left, #7b970e 0%,#aeb366 31%,#bbc34d 47%,#7b970e 100%);
+    background: -o-linear-gradient(left, #7b970e 0%,#aeb366 31%,#bbc34d 47%,#7b970e 100%);
+    background: -ms-linear-gradient(left, #7b970e 0%,#aeb366 31%,#bbc34d 47%,#7b970e 100%);
+    background: linear-gradient(to right, #7b970e 0%,#aeb366 31%,#bbc34d 47%,#7b970e 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7b970e', endColorstr='#7b970e',GradientType=1 );
 }
 .bodyContent{
     margin-left: 15px;

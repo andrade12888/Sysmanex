@@ -100,7 +100,8 @@ public class CFormularios extends HttpServlet {
 
      private void SubirArchivo(HttpServletRequest request, HttpServletResponse response)//TODO: Control de errores
             throws ServletException, IOException{  
-         
+        String relativeWebPath = "/upload/";
+        String filePath = getServletContext().getRealPath(relativeWebPath);
          String fileName="";
         try {
             // Verify the content type
@@ -123,7 +124,7 @@ public class CFormularios extends HttpServlet {
                     
                     // Process the uploaded file items
                     Iterator i = fileItems.iterator();
-                    fileName=FileSettings.GuardarArchivoEndDisco(i);
+                    fileName=FileSettings.GuardarArchivoEndDisco(i,filePath);
                     
                 } catch(SizeLimitExceededException fse) {
                     int tamano =(FileSettings.getMaxFileSize()/1024)/1024;
@@ -145,7 +146,7 @@ public class CFormularios extends HttpServlet {
             String part1 = parts[0];
             f.setNombreFormulario(part1);            
             // constructs the directory path to store upload file
-            f.setRutaRormulario(FileSettings.getFilePathWeb()+fileName);
+            f.setRutaRormulario("\\Sysmanex\\upload\\"+fileName);
             f.setFechaCreacionFormulario(Utilidades.ConvertionUtil.CurrentDate());
             f.AgregarFormulario();
             request.getRequestDispatcher("formularios.jsp").forward(request, response); 

@@ -116,7 +116,7 @@ public class Entidad {
         String query = "SELECT * FROM \"SysmanexSch1\".\"Expediente\""
                 + " WHERE \"expedienteEntidadId\" = " + this.getEntidadId()
                 + " AND \"expedienteBaja\" = false"
-                + " ORDER BY \"expedienteFecha\" ASC;";
+                + " ORDER BY \"expedienteNumero\" DESC;";
         try {
             rs = conDB.hacerConsulta(query);
             return rs;
@@ -129,7 +129,7 @@ public class Entidad {
 
         ResultSet rs = this.ExpedientesDB();
         String tabla = "<form name=\"frmMisExpedientes\" action=\"CExpediente.do\" "
-                + "method=\"POST\"><table class=\"table table-striped\"><tr><th>"
+                + "method=\"POST\"><table id=\"tableData\" class=\"table table-striped\"><tr><th>"
                 + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Tramite</th><th>Opciones</th><th></th></tr>";
         try {
             while (rs.next()) {
@@ -150,7 +150,7 @@ public class Entidad {
                 if (rs2 != null && rs2.next()) {
                     String tabla2 = "<td><input type=\"button\" id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" value=\"+\"/>"
                             + "<input type=\"button\" id=\"o" + exp + "\" style=\"display: none;\" onclick=\"ocultar(" + exp + ");\" value=\"-\"/></td></tr>"
-                            + "<tr><tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
+                            + "<tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
                             + "Destino Actual</th><th>Enviado</th><th>Recibido</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>";
                     rs2.beforeFirst();
                     while (rs2.next()) {
@@ -174,7 +174,7 @@ public class Entidad {
                     rs2.close();
                     if (!tabla2.equals("<td><button id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" class=\"btn glyphicon glyphicon-triangle-bottom\"></button>"
                             + "<button id=\"o" + exp + "\"  class=\" btn glyphicon glyphicon-triangle-top\" style=\"display: none;\" onclick=\"ocultar(" + exp + ");\"></button></td></tr>"
-                            + "<tr><tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
+                            + "<tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
                             + "Origen</th><th>Enviado</th><th>Recibido</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>")) {
                         tabla2 += "</table>";
                         tabla += tabla2 + "</td></tr>";
