@@ -34,7 +34,7 @@
                 <h4 class="modal-title" id="myModalLabel">Actualizar Motivo</h4>
             </div>
             <div class="modal-body">
-                <form name="frmActualizarMotivo" action="motivos.do">
+                <form name="frmActualizarMotivo" action="motivos.do" method="POST">
                     <div class="row">
                         <div class="col-lg-5">Ingrese el nuevo Motivo<input type="text" id="txtActualizarMotivo" name="txtActualizarMotivo" value="" class="form-control"/></div>                                            
                         <div class="col-lg-2"><input type="hidden" id="txtActualizarId" name="txtActualizarId"/></div>

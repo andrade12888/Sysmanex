@@ -36,26 +36,107 @@ public class CEmpresas extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String RUT = request.getParameter("txtRutEmp");
-        String nombre = request.getParameter("txtNomEmpresa");
+        String RUT = request.getParameter("txtActualizarEmpresaRUT");
+        String nombre = request.getParameter("txtActualizarEmpresa");
+         String rutViejo = request.getParameter("txtViejoRUT");
+        String btn = "";
 
-        if (!"".equalsIgnoreCase(nombre) && !"".equalsIgnoreCase(RUT)) {
-            Empresa empresa = new Empresa();
-
-            empresa.setNombreEmpresa(nombre);
-            empresa.setRutEmpresa(RUT);
-            boolean existe = Control.ControlEmpresaExistente(empresa, request, response);
-            if (!existe) {
-                try {
-                    empresa.AgregarEmpresa();
-                    Mensajes.mensajeSuccessError("La empresa " + empresa.getNombreEmpresa() + " se ingreso correctamente", Mensajes.GetNombreJSP(request), "green", request, response);
-                } catch (Exception ex) {
-                    Mensajes.mensajeSuccessError("Error al ingresar la empresa", Mensajes.GetNombreJSP(request), "red", request, response);
-                }
-            } else {
-                Mensajes.mensajeSuccessError("La empresa ya existe", Mensajes.GetNombreJSP(request), "red", request, response);
-            }
+        if (request.getParameter("btnEmpresas") != null) {
+            btn = request.getParameter("btnEmpresas");
         }
+        switch (btn) {
+            case "Guardar": {
+
+                Empresa empresa = ConstruirEmpresa(nombre, RUT);
+
+                if (empresa != null) {
+
+                    boolean existe = Control.ControlEmpresaExistente(empresa, request, response);
+
+                    if (!existe) {
+                        try {
+                            empresa.AgregarEmpresa();
+                            Mensajes.mensajeSuccessError("La empresa " + empresa.getNombreEmpresa() + " se ingreso correctamente", "empresas.jsp", "green", request, response);
+                        } catch (Exception ex) {
+                            Mensajes.mensajeSuccessError("Error al ingresar la empresa", "empresas.jsp", "red", request, response);
+                        }
+                    } else {
+                        Mensajes.mensajeSuccessError("La empresa ya existe", "empresas.jsp", "red", request, response);
+                    }
+                }
+            }
+            break;
+
+            case "Update": {
+                
+                Empresa empresa = ConstruirEmpresa(nombre, RUT);
+                //Si la empresa es nul, entonces los campos rut o nombre ingresados son vacios
+                if (empresa != null) {
+                    boolean existe = Control.ControlEmpresaExistente(empresa, request, response);
+
+                    if (!existe) {
+                        try {
+                                int re = Empresa.ModificarEmpresa(empresa, rutViejo);
+                            if (re == 1) {
+                                Mensajes.mensajeSuccessError("La empresa " + empresa.getNombreEmpresa() + " se modifico correctamente", "empresas.jsp", "green", request, response);
+                            }
+                            if (re == 23503) {
+                                Mensajes.mensajeSuccessError("La empresa " + empresa.getNombreEmpresa() + " tiene personas asociadas y no se puede cambiar el RUT", Mensajes.GetNombreJSP(request), "green", request, response);
+                            }
+
+                            Mensajes.mensajeSuccessError("Error al ingresar la empresa (Codigo:DBQ)", "empresas.jsp", "red", request, response);
+                        } catch (Exception ex) {
+                            Mensajes.mensajeSuccessError("Error al ingresar la empresa", "empresas.jsp", "red", request, response);
+                        }
+                    } else {
+                        Mensajes.mensajeSuccessError("La empresa ya existe", "empresas.jsp", "red", request, response);
+                    }
+                }
+                Mensajes.mensajeSuccessError("Los campos RUT y nombre empresa son mandatorios", "empresas.jsp", "red", request, response);
+
+            }
+            break;
+
+            case "Delete": {
+                 
+                String empresaRut = request.getParameter("empresaBorrar");
+                //Si la empresa es nul, entonces los campos rut o nombre ingresados son vacios
+                if (empresaRut != null) {
+                        try{
+                            int re = Empresa.BorrarEmpresa(empresaRut);
+                            if (re == 1) {
+                                Mensajes.mensajeSuccessError("La empresa se elimino correctamente", "empresas.jsp", "green", request, response);
+                            }
+                            if (re == 23503) {
+                                Mensajes.mensajeSuccessError("La empresa tiene personas asociadas y no se puede borrar", Mensajes.GetNombreJSP(request), "green", request, response);
+                            }
+
+                            Mensajes.mensajeSuccessError("Error al ingresar la empresa (Codigo:DBQ)", "empresas.jsp", "red", request, response);
+                        } catch (Exception ex) {
+                            Mensajes.mensajeSuccessError("Error al ingresar la empresa", "empresas.jsp", "red", request, response);
+                        }                    
+                } else
+                    Mensajes.mensajeSuccessError("Los campos RUT y nombre empresa son mandatorios", "empresas.jsp", "red", request, response);
+            }
+            break;
+
+            default:
+                Mensajes.mensajeSuccessError("Elija una opcion valida", "empresas.jsp", "red", request, response);
+
+        }
+    }
+
+    //Si los valores de el nombre y el rut no son vacios, entonces creo un objeto Empresa con dichos valores
+    private Empresa ConstruirEmpresa(String nombre, String rut) {
+        if (!"".equalsIgnoreCase(nombre) && !"".equalsIgnoreCase(rut)) {
+
+            Empresa empresa = new Empresa();
+            empresa.setNombreEmpresa(nombre);
+            empresa.setRutEmpresa(rut);
+
+            return empresa;
+        }
+        return null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -70,7 +151,7 @@ public class CEmpresas extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        //  processRequest(request, response);
     }
 
     /**

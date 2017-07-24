@@ -38,6 +38,9 @@ public abstract class Mensajes {
     {
         String referrer = request.getHeader("referer");      
         String jsp = referrer.substring(referrer.lastIndexOf("/")+1);
+//        String ext =jsp.substring(jsp.lastIndexOf(".")+1);
+//        if("do".equalsIgnoreCase(ext))
+//            jsp = jsp.replace("do", "jsp");
         return jsp;
     }
     

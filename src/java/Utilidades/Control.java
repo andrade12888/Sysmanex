@@ -95,13 +95,12 @@ public abstract class Control {
     // </editor-fold> 
     
     
-      // Metodo que reotorna al JSP gestionUsuario un mensaje de error correspondiente tanto como a User existente O Persona existente
-    // Controla que la persona y el usuario no existan
+      // Metodo que reotorna al JSP gestionUsuario true si la empresa con el rut y nombre ya se encuentran en el sistema, sino false    
     public static boolean ControlEmpresaExistente(Empresa e, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         try {
-            if(Empresa.BuscarEmpresaPorNombre(e.getNombreEmpresa()).next() ||
+            if(Empresa.BuscarEmpresaPorNombre(e.getNombreEmpresa()).next() &&
                     Empresa.BuscarEmpresaPorRUT(e.getRutEmpresa()).next())
                 return true;
             else return false;

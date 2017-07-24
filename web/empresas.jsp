@@ -22,7 +22,7 @@
         </div>
         <div class="row">
             <div class="col-lg-4"></div>
-            <div class="col-lg-4"><br><div id="errorEmpresas" style="color: ${colorError}; text-align: center;">${errorMessage}</div></div>
+            <div class="col-lg-4"><br><div id="errorMotivo" style="color: ${colorError}; text-align: center;">${errorMessage}</div></div>
             <div class="col-lg-4"></div>
         </div>
     </form>
@@ -41,7 +41,7 @@
                 <h4 class="modal-title" id="myModalLabel">Actualizar Empresa</h4>
             </div>
             <div class="modal-body">
-                <form name="frmActualizarEmpresa" action="CEmpresas.do">
+                <form name="frmActualizarEmpresa" action="CEmpresas.do" method="POST">
                     <div class="row">
                         <div class="col-lg-5">Ingrese el nuevo Nombre<input required="required" type="text" id="txtActualizarNombre" name="txtActualizarEmpresa" value="" class="form-control"/></div>                                            
                         <div class="col-lg-2"><input type="hidden" id="txtActualizarNombre" name="txtActualizarId"/></div>
@@ -51,6 +51,9 @@
                         <div class="col-lg-2"><input type="hidden" id="txtActualizarRUT" name="txtActualizarRUT"/></div>
                     </div>  
                     <br>
+                    <div class="row">                        
+                        <div class="col-lg-2"><input type="hidden" id="txtViejoRUT" name="txtViejoRUT" value=""/></div>
+                    </div>
                     <div class="modal-footer">                    
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                         <button type="submit" name="btnEmpresas" value="Update" class="btn-agregar">Guardar cambios</button>

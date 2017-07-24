@@ -106,6 +106,8 @@ function modalMotivos(id) {
 function modalEmpresas(id) {
     $("#txtActualizarNombre").val($("#tdd" + id).text());
     $("#txtActualizarRUT").val($("#id" + id).val());
+    $("#txtViejoRUT").attr("value",id);
+     
 }
 
 function agregarDestinatario() {

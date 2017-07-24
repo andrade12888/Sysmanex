@@ -150,17 +150,36 @@ public class Empresa {
         }
     }
     
-    //TODO: Discutir sobre el borrado de empresas
+
     public static int BorrarEmpresa(String RUT) throws SQLException {
         Conecciones conDB = new Conecciones();
-        int resultado=-1;
+        int resultado;
 
-        String query = "DELETE \"SysmanexSch1\".\"Empresa\"\n"              
-                + "	WHERE \"empresaRut\"='" + RUT + "\';";
+        String query = "DELETE FROM \"SysmanexSch1\".\"Empresa\"\n"              
+                + "	WHERE \"empresaRut\"='"+ RUT +"\';";
         try {
             resultado = conDB.hacerConsultaIUD(query);
         } catch (SQLException ex) {
-            throw ex;
+            if("23503".equalsIgnoreCase(ex.getSQLState()))
+                return Integer.parseInt(ex.getSQLState());
+            return -1;
+        }       
+        return resultado;
+    }
+        
+    public static int ModificarEmpresa(Empresa emp, String rut) throws SQLException {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+
+        String query = "UPDATE \"SysmanexSch1\".\"Empresa\""
+                + " SET \"empresaRut\" = '"+emp.rutEmpresa+"', \"empresaNombre\" = '"+emp.nombreEmpresa + "' "
+                + "WHERE \"empresaRut\" = '"+rut+"';";
+        try {
+            resultado = conDB.hacerConsultaIUD(query);
+        } catch (SQLException ex) {
+            if("23503".equalsIgnoreCase(ex.getSQLState()))
+                return Integer.parseInt(ex.getSQLState());
+            return -1;
         }       
         return resultado;
     }
@@ -168,13 +187,13 @@ public class Empresa {
      public String TablaEmpresas() throws SQLException {
 
         ResultSet rs = Empresa.BuscarEmpresas();
-        String tabla = "<form name=\"frmBorrar\" action=\"motivos.do\" method=\"POST\"><table class=\"table table-striped\"><th>Motivos</th><th>Opciones</th>";
+        String tabla = "<form name=\"frmBorrar\" action=\"CEmpresas.do\" method=\"POST\"><table class=\"table table-striped\"><th>Empresas</th><th>Opciones</th>";
         while (rs.next()) {
-            tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("empresaRut") + "\" value=\"" + rs.getString("empresaRut") + "\">"
+            tabla += "<tr><td><input name=\"empresaBorrar\" type=\"hidden\" id=\"id" + rs.getString("empresaRut") + "\" value=\"" + rs.getString("empresaRut") + "\">"
                     + " <span id=\"tdd" + rs.getString("empresaRut") + "\">" + rs.getString("empresaNombre") + "</span></td>"
                     + "<td><button onclick=\"modalEmpresas(" + rs.getString("empresaRut") + ")\" id=\"" + rs.getString("empresaRut") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnMotivos\" value=\"" + rs.getString("empresaRut") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                    + "</button><button name=\"btnEmpresas\" value=\"Delete\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }
         tabla += "</table></form>";
 
@@ -182,3 +201,4 @@ public class Empresa {
     }
 
 }
+ 
