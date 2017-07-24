@@ -81,7 +81,7 @@ public class CEmpresas extends HttpServlet {
                                 Mensajes.mensajeSuccessError("La empresa " + empresa.getNombreEmpresa() + " se modifico correctamente", "empresas.jsp", "green", request, response);
                             }
                             if (re == 23503) {
-                                Mensajes.mensajeSuccessError("La empresa " + empresa.getNombreEmpresa() + " tiene personas asociadas y no se puede cambiar el RUT", Mensajes.GetNombreJSP(request), "green", request, response);
+                                Mensajes.mensajeSuccessError("La empresa " + empresa.getNombreEmpresa() + " tiene personas asociadas y no se puede cambiar el RUT", "empresas.jsp", "green", request, response);
                             }
 
                             Mensajes.mensajeSuccessError("Error al ingresar la empresa (Codigo:DBQ)", "empresas.jsp", "red", request, response);
@@ -108,7 +108,7 @@ public class CEmpresas extends HttpServlet {
                                 Mensajes.mensajeSuccessError("La empresa se elimino correctamente", "empresas.jsp", "green", request, response);
                             }
                             if (re == 23503) {
-                                Mensajes.mensajeSuccessError("La empresa tiene personas asociadas y no se puede borrar", Mensajes.GetNombreJSP(request), "green", request, response);
+                                Mensajes.mensajeSuccessError("La empresa tiene personas asociadas y no se puede borrar", "empresas.jsp", "green", request, response);
                             }
 
                             Mensajes.mensajeSuccessError("Error al ingresar la empresa (Codigo:DBQ)", "empresas.jsp", "red", request, response);
