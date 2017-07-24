@@ -8,6 +8,7 @@
 <div class="bodyContent">
     <form name="frmMotivos" action="motivos.do" method="POST">
         <div class="row">
+            <div class="col-lg-2"></div>
             <div class="col-lg-4">Ingrese el Motivo del tramite<input type="text" name="txtMotivo" value="" class="form-control"/></div>         
             <div class="col-lg-2"></div>
             <div class="col-lg-2"><br><input type="submit" value="Guardar" name="btnMotivos" class="btn-agregar" /></div>
@@ -41,7 +42,7 @@
                     <br>
                     <div class="modal-footer">                    
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" name="btnMotivos" value="Update" class="btn btn-primary">Guardar cambios</button>
+                        <button type="submit" name="btnMotivos" value="Update" class="btn-agregar">Guardar cambios</button>
                     </div>
                 </form>
             </div>

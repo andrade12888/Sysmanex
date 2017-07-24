@@ -73,7 +73,7 @@
                     </div>
                     <div class="panel-footer text-right">
                         <div>
-                            <input type="submit" value="Siguiente" name="btnFinalizar" class="btn btn-primary"/>
+                            <input type="submit" value="Siguiente" name="btnFinalizar" class="btn btn-agregar"/>
                         </div>
                     </div>
                 </div>  

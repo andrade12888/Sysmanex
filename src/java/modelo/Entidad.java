@@ -353,7 +353,8 @@ public class Entidad {
                 + "WHERE e.\"expedienteNumero\" = ee.\"ExpedienteNumero\"\n"
                 + "AND es.\"estadoId\" = ee.\"ExpedienteEstadoId\"\n"
                 + "AND e.\"expedienteTramiteId\" = t.\"tramiteId\"\n"
-                + "AND ee.\"idEntidad\" =" + this.getEntidadId();
+                + "AND ee.\"idEntidad\" =" + this.getEntidadId()
+                + " ORDER BY es.\"estadoDescripcion\" DESC";
         rs = conDB.hacerConsulta(query);
 
         return rs;

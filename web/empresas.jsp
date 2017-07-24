@@ -53,7 +53,7 @@
                     <br>
                     <div class="modal-footer">                    
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        <button type="submit" name="btnEmpresas" value="Update" class="btn btn-primary">Guardar cambios</button>
+                        <button type="submit" name="btnEmpresas" value="Update" class="btn-agregar">Guardar cambios</button>
                     </div>
                 </form>
             </div>

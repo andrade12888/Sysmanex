@@ -42,8 +42,8 @@
                                 <div class="col-lg-9">
                                     <input id="input-1a" name="input-1a" type="file" class="file" multiple="true" data-show-preview="true">
                                 </div>  
-                                <div class="col-lg-3"><button value="2" name="btnSubirFrm" type="submit" class="btn btn-primary">Subir Fomulario</button></div> 
-                                <div class="col-lg-12"><button type="reset" class="btn file">Borrar archivos</button></div> 
+                                <div class="col-lg-3"><button value="2" name="btnSubirFrm" type="submit" class="btn btn-agregar">Subir Fomulario</button></div> 
+                                <div class="col-lg-12"><button type="reset" class="btn btn-agregar">Borrar archivos</button></div> 
                                 
                             </div>
                         </div>

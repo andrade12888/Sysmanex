@@ -39,7 +39,7 @@
 
                     <div class="row">
                         <div class="col-lg-4"></div>
-                        <div class="col-lg-4 text-right"><br><br><input type="submit" id="smtLogin" class="btn-agregar" value="Login"/></div>
+                        <div class="col-lg-4 text-right"><br><br><input type="submit" id="smtLogin" class="btn btn-agregar" value="Login"/></div>
                         <div class="col-lg-4"></div>
                     </div>   
                 </form>

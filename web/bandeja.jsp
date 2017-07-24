@@ -5,18 +5,24 @@
 %>
 <jsp:include page="master/header.jsp"/>
 <div class="bodyContent">
-    <h2 class="h2">Bandeja de entrada</h2>
     <div class="row">        
         <div class="col-lg-2"></div>
         <div class="col-lg-8">
             <br>
             <div id="errorMotivo" style="color: ${colorError}; text-align: center;">${errorMessage}</div>            
             <br>
-            <table class="table">
-                <tr><th>N Expediente</th><th>Asunto</th><th>Tramite</th>
-                    <th>Proviene de</th><th>Tiempo para tramitar</th><th>Estado</th></tr>
-                        <%= lstRecibidos%>
-            </table>            
+            <div class="panel panel-success" id="pnlBandeja">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Bandeja de entrada</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table">
+                        <tr><th>N Expediente</th><th>Asunto</th><th>Tramite</th>
+                            <th>Proviene de</th><th>Tiempo para tramitar</th><th>Estado</th></tr>
+                                <%= lstRecibidos%>
+                    </table> 
+                </div>
+            </div>
         </div>
         <div class="col-lg-2"></div>
     </div>

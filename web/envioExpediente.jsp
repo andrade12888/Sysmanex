@@ -57,7 +57,7 @@
                     </div> 
                     <div class="panel-footer">
                         <div>
-                            <input type="submit" value="Finalizar" name="btnFinalizar" class="btn btn-primary"/>
+                            <input type="submit" value="Finalizar" name="btnFinalizar" class="btn btn-agregar"/>
                         </div>
                     </div>
                 </div>
