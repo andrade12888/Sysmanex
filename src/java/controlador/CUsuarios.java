@@ -119,29 +119,94 @@ public class CUsuarios extends HttpServlet {
 
     }
 
-    protected void modificarUsuarios(HttpServletRequest request, HttpServletResponse response)
+    protected void modificarUsuarios(String tipoUser,HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String nombre = request.getParameter("txtActualizarNombre");
-        String apellido = request.getParameter("txtActualizarApellido");
-        String ci = request.getParameter("txtActualizarId");
-        String email = request.getParameter("txtActualizarEmail");
-        
-        Persona p = new Persona();
-        p.setNombrePersona(nombre);
-        p.setApellidoPersona(apellido);
-        p.setEmailPersona(email);
-        int resultadoIngresoUnidadUser = p.ModificarPersona(ci);
-        switch (resultadoIngresoUnidadUser)
+        switch(tipoUser)
         {
-            case 1: Mensajes.mensajeSuccessError("El ussuario se modifico correctamente", "personasModificar.jsp", "green", request, response);
+            case "persona":
+                    String nombre = request.getParameter("txtActualizarNombre");
+                    String apellido = request.getParameter("txtActualizarApellido");
+                    String ci = request.getParameter("txtActualizarId");
+                    String email = request.getParameter("txtActualizarEmail");
+
+                    Persona p = new Persona();
+                    p.setNombrePersona(nombre);
+                    p.setApellidoPersona(apellido);
+                    p.setEmailPersona(email);
+                    int resultadoModificacionUser = p.ModificarPersona(ci);
+                    switch (resultadoModificacionUser)
+                    {
+                        case 1: Mensajes.mensajeSuccessError("El ussuario se modifico correctamente", "personasModificar.jsp", "green", request, response);
+                            break;
+                        case -1: Mensajes.mensajeSuccessError("Error al modificar el ussuario", "personasModificar.jsp", "red", request, response);
+                            break;
+                        default: Mensajes.mensajeSuccessError("Ha ocurrido un error inesperado", "personasModificar.jsp", "red", request, response);
+                    }
                 break;
-            case -1: Mensajes.mensajeSuccessError("Error al modificar el ussuario", "personasModificar.jsp", "red", request, response);
+                
+            case "unidad":
+                String nombreUnidad = request.getParameter("txtActualizarNombre");
+                int unidadId = Integer.parseInt(request.getParameter("txtActualizarId"));
+                
+                int resultadoModificarUnidad = UnidadArmada.ModificarUnidadArmada(unidadId, nombreUnidad);
+                
+                switch (resultadoModificarUnidad)
+                    {
+                        case 1: Mensajes.mensajeSuccessError("La unidad se modifico correctamente", "unidadesModificar.jsp", "green", request, response);
+                            break;
+                        case -1: Mensajes.mensajeSuccessError("Error al modificar la unidad", "unidadesModificar.jsp", "red", request, response);
+                            break;
+                        default: Mensajes.mensajeSuccessError("Ha ocurrido un error inesperado", "unidadesModificar.jsp", "red", request, response);
+                    }
                 break;
-            default: Mensajes.mensajeSuccessError("Ha ocurrido un error inesperado", "personasModificar.jsp", "red", request, response);
         }
+         
+                   
+    }
+    
+    protected void borrarUsuarios(String tipoUser,HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {  
         
-        
+        switch(tipoUser)
+        {
+            case "persona":
+                    String ci = request.getParameter("txtIdPersona");
+
+                    int resultadoBorrarPersona = Persona.BorrarPersona(ci);
+
+                    switch (resultadoBorrarPersona)
+                    {
+                        case 1: Mensajes.mensajeSuccessError("El usuario se ha eliminado correctamente", "personasModificar.jsp", "green", request, response);
+                            break;
+                        case 23503: Mensajes.mensajeSuccessError("El usuario no se puede eliminar ya que se encuentra vinculado con una empresa o unidad ", "personasModificar.jsp", "red", request, response);
+                            break;
+                        case -1: Mensajes.mensajeSuccessError("Error al modificar el usuario", "personasModificar.jsp", "red", request, response);
+                            break;
+                        case 2: Mensajes.mensajeSuccessError("no se puede borrar el usuario. su cedula es nula", "personasModificar.jsp", "red", request, response);
+                            break;
+                        default: Mensajes.mensajeSuccessError("Ha ocurrido un error inesperado", "personasModificar.jsp", "red", request, response);
+                    }
+                break;
+            case "unidad":
+                    int unidadId = Integer.parseInt(request.getParameter("txtIdUnidad"));
+                    int resultadoBorrarUnidad = UnidadArmada.BorrarUnidadArmada(unidadId);
+                    
+                    switch (resultadoBorrarUnidad)
+                    {
+                        case 1: Mensajes.mensajeSuccessError("La unidad se ha eliminado correctamente", "unidadesModificar.jsp", "green", request, response);
+                            break;
+                        case 23503: Mensajes.mensajeSuccessError("La unidad no se puede eliminar ya que se encuentra vinculado con una persona ", "unidadesModificar.jsp", "red", request, response);
+                            break;
+                        case -1: Mensajes.mensajeSuccessError("Error al modificar la unidad", "unidadesModificar.jsp", "red", request, response);
+                            break;
+                        case 2: Mensajes.mensajeSuccessError("no se puede borrar la unidad. su id nula", "unidadesModificar.jsp", "red", request, response);
+                            break;
+                        default: Mensajes.mensajeSuccessError("Ha ocurrido un error inesperado", "unidadesModificar.jsp", "red", request, response);
+                    }
+                    
+                break;
+        }        
     }
 
     private void MensajesUsuarios(int resultadoIngresoUnidadUser, String usuario, HttpServletRequest request, HttpServletResponse response)
@@ -265,18 +330,32 @@ public class CUsuarios extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         String btn="";
+        String usr="";
+        
         if (request.getParameter("btnPersona") != null) {
             btn = request.getParameter("btnPersona");
+            usr ="persona";
         }
-        switch(btn)
+        
+        if (request.getParameter("btnUnidad") != null) {
+            btn = request.getParameter("btnUnidad"); 
+            usr="unidad";
+        }
+        
+         switch(btn)
         {
-            case "Update":  modificarUsuarios(request, response);
+            case "Update":  modificarUsuarios(usr,request, response);
             break;
             case "Agregar": processRequest(request, response);
             break;
+            case "Delete": borrarUsuarios(usr,request, response);
+            break;
            default:Mensajes.mensajeSuccessError("Elija una opcion valida", "personasModificar.jsp", "red", request, response);
         }
+        
+     Mensajes.mensajeSuccessError("Ha ocurrido un error (POST)", "personasModificar.jsp", "red", request, response);  
     }
 
     /**

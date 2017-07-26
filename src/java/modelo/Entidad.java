@@ -305,6 +305,24 @@ public class Entidad {
         }
 
     }
+    
+    public static String buscarEntidad(int id) {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;       
+        String nombreEntidad="";
+        String query = "SELECT \"entidadNombre\" FROM \"SysmanexSch1\".\"Entidad\""
+                + " WHERE \"entidadId\" = " + id;
+        try {
+            rs = conDB.hacerConsulta(query);
+            while (rs.next()) {             
+                nombreEntidad=rs.getString(1);
+            }
+            rs.close();
+        } catch (SQLException ex) {
+            return "";
+        }
+        return nombreEntidad;
+    }
 
     protected static ResultSet BuscarEntidades() throws SQLException {
         Conecciones conDB = new Conecciones();

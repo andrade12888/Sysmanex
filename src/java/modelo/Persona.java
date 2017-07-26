@@ -259,7 +259,7 @@ public class Persona extends Entidad {
     }
     
     //Agrega la persona cuando la entidad es decir el Usuario ya esta creado
-    public int AgregarPersona(int entidadDePersona) throws SQLException
+    public int AgregarPersona(int entidadDePersona)
     {
         try {
             Conecciones conDB = new Conecciones();
@@ -271,12 +271,11 @@ public class Persona extends Entidad {
             
             conDB.hacerConsultaIUD(queryPersona);
         } catch (SQLException ex) {
-            throw ex;
+           return -1;
         }
         return 1;
     }
 
-    //TODO: Definir que datos se tienen que modificar
     public int ModificarPersona(String ciPersona) {
         Conecciones conDB = new Conecciones();
         int resultado=-1;
@@ -298,11 +297,23 @@ public class Persona extends Entidad {
         return resultado;
     }
 
-    //TODO: Definir borrar persona. Otra vez, Delete o baja logica
+    
     public static int BorrarPersona(String ci) {
         Conecciones conDB = new Conecciones();
-        int resultado = 0;
+        int resultado = -1;
 
+         if (!"".equalsIgnoreCase(ci)) {
+            try {
+                String query = "DELETE FROM \"SysmanexSch1\".\"Persona\" WHERE \"personaCi\" = '"+ci+"';";
+                resultado = conDB.hacerConsultaIUD(query);
+            } catch (SQLException ex) {
+               if("23503".equalsIgnoreCase(ex.getSQLState()))
+                return Integer.parseInt(ex.getSQLState());
+            return -1;
+            }
+        } else {
+            resultado = 2;
+        }
         return resultado;
     } 
 
@@ -318,7 +329,7 @@ public class Persona extends Entidad {
             ConstruirPersona(rs);
           
         } catch (SQLException ex) {
-
+               
         }
          
     }
@@ -340,25 +351,18 @@ public class Persona extends Entidad {
 
     public int BuscarPersonaPorId(int id) {
         Conecciones conDB = new Conecciones();
-        ResultSet rs;
+
         int resultado = 0;
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""
                 + " WHERE \"personaEntidadId\" = " + id + ";";
-        try {
-            rs = conDB.hacerConsulta(query);
-            while (rs.next()) {
-                this.setEntidadId(id);
-                this.setNombrePersona(rs.getString("personaNombre"));
-                this.setApellidoPersona(rs.getString("personaApellido"));
-                this.setCiPersona(rs.getString("personaCi"));
-                this.setEmailPersona(rs.getString("personaEmail"));
-                resultado = 1;
-            }
-            
+      try {
+            resultado = conDB.hacerConsultaIUD(query);
         } catch (SQLException ex) {
-            Logger.getLogger(UnidadArmada.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            if("23503".equalsIgnoreCase(ex.getSQLState()))
+                return Integer.parseInt(ex.getSQLState());
+            return -1;
+        }       
         return resultado;
     }
     
@@ -381,7 +385,7 @@ public class Persona extends Entidad {
     {
         try {
             ResultSet rs = BuscarPersonas();
-            String tabla = "<form name=\"frmBorrar\" action=\"motivos.do\" method=\"POST\">"
+            String tabla = "<form name=\"frmBorrar\" action=\"CUsuarios.do\" method=\"POST\">"
                     + "<table class=\"table table-striped\">"
                     + "<th>Personas</th>"
                     + "<th> </th>"
@@ -390,13 +394,13 @@ public class Persona extends Entidad {
             if(rs!=null)
             {
                 while (rs.next()) {
-                    tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("personaCi") + "\" value=\"" + rs.getString("personaCi") + "\">"
-                            + " <span id=\"tdd" + rs.getString("personaCi") + "\">" + rs.getString("personaNombre") + "</span></td>"
+                    tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("personaCi") + "\" name=\"txtIdPersona\" value=\"" + rs.getString("personaCi") + "\">"
+                            + "<span id=\"tdd" + rs.getString("personaCi") + "\">" + rs.getString("personaNombre") + "</span></td>"
                             + "<td><span id=\"apellido"+ rs.getString("personaCi") +"\">" + rs.getString("personaApellido") + "</span></td>"
                             + "<td><span id=\"email" + rs.getString("personaCi") + "\">" + rs.getString("personaEmail") + "</span></td>"
                             + "<td><button onclick=\"modalPersonas(" + rs.getString("personaCi") + ")\" id=\"" + rs.getString("personaCi") + "\" "
                             + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                            + "</button><button name=\"btnMotivos\" value=\"" + rs.getString("personaCi") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                            + "</button><button name=\"btnPersona\" value=\"Delete\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
                 }                
             }    
             tabla += "</table></form>";

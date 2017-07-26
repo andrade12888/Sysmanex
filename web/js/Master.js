@@ -109,7 +109,11 @@ function modalPersonas(id) {
     $("#txtActualizarEmail").val($("#email"+id).text());
     $("#txtActualizarId").val($("#id" + id).val());
 }
-
+ 
+function modalUnidades(id) {
+    $("#txtActualizarNombre").val($("#tdd" + id).text());
+    $("#txtActualizarId").val($("#id" + id).val());
+}
 function modalEmpresas(id) {
     $("#txtActualizarNombre").val($("#tdd" + id).text());
     $("#txtActualizarRUT").val($("#id" + id).val());

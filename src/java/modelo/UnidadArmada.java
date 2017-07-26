@@ -183,13 +183,17 @@ public class UnidadArmada extends Entidad {
         return resultado;
     }
 
-    public static ResultSet BuscarUnidades() throws SQLException {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;
-        String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\" ORDER BY \"unidadSigla\" ASC;";
-        rs = conDB.hacerConsulta(query);
-
-        return rs;
+    public static ResultSet BuscarUnidades() {
+        try {
+            Conecciones conDB = new Conecciones();
+            ResultSet rs;
+            String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\" ORDER BY \"unidadSigla\" ASC;";
+            rs = conDB.hacerConsulta(query);
+            
+            return rs;
+        } catch (SQLException ex) {
+           return null;
+        }
     }
 
     public static ResultSet BuscarUnidadPorNombre(String nombre) throws SQLException {
@@ -256,13 +260,70 @@ public class UnidadArmada extends Entidad {
         }
         return resultado;
     }
+   
+    public static int BorrarUnidadArmada(int unidadId) {
+        Conecciones conDB = new Conecciones();
+        int resultado;
 
-    //TODO: Delete o baja logica
-    public static int BorrarUnidadArmada(String sigla) {
-//        Conecciones conDB = new Conecciones();
-        int resultado = 0;
-
+         if (unidadId>0) {
+            try {
+                String query = "DELETE FROM \"SysmanexSch1\".\"Unidad\" WHERE \"unidadId\" = "+unidadId+";";
+                resultado = conDB.hacerConsultaIUD(query);
+            } catch (SQLException ex) {
+               if("23503".equalsIgnoreCase(ex.getSQLState()))
+                return Integer.parseInt(ex.getSQLState());
+            return -1;
+            }
+        } else {
+            resultado = 2;
+        }
+        
         return resultado;
+    }
+    
+    public static int ModificarUnidadArmada(int unidadId, String unidadNombre) {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+
+        String query = "UPDATE \"SysmanexSch1\".\"Unidad\""
+                + " SET \"unidadSigla\" = '"+unidadNombre+"'"
+                + "WHERE \"unidadId\" = '"+unidadId+"';";
+        try {
+            resultado = conDB.hacerConsultaIUD(query);
+        } catch (SQLException ex) {
+            if("23503".equalsIgnoreCase(ex.getSQLState()))
+                return Integer.parseInt(ex.getSQLState());
+            return -1;
+        }       
+        return resultado;
+    }
+    
+    public String TablaUnidades() 
+    {
+        try {
+            ResultSet rs = BuscarUnidades();
+            
+            String tabla = "<form name=\"frmBorrar\" action=\"CUsuarios.do\" method=\"POST\">"
+                    + "<table class=\"table table-striped\">"
+                    + "<th>Unidades</th>" 
+                    + "<th>Entidad</th>" 
+                    + "<th>Opciones</th>";
+            if(rs!=null)
+            {
+                while (rs.next()) {
+                    tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("unidadId") + "\" name=\"txtIdUnidad\" value=\"" + rs.getInt("unidadId") + "\">"
+                            + "<span id=\"tdd" + rs.getInt("unidadId") + "\">" + rs.getString("unidadSigla") + "</span></td>"
+                            + "<td><span id=\"entidad"+ rs.getInt("unidadId") +"\">" + buscarEntidad(rs.getInt("unidadId")) + "</span></td>"                            
+                            + "<td><button onclick=\"modalUnidades(" + rs.getInt("unidadId") + ")\" id=\"" + rs.getInt("unidadId") + "\" "
+                            + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
+                            + "</button><button name=\"btnUnidad\" value=\"Delete\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                }                
+            }    
+            tabla += "</table></form>";
+            return tabla;
+        } catch (SQLException ex) {
+            return "";
+        }
     }
 
     /**

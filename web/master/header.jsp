@@ -57,14 +57,14 @@
                                 <ul class="dropdown-menu">
                                     <li><a href="motivos.jsp">Motivos</a></li>                                
                                     <li><a href="tramites.jsp">Tramites</a></li>
-                                    <li><a href="formularios.jsp">Formularios</a></li>
-                                     <li><a href="empresas.jsp">Empresas</a></li>   
+                                    <li><a href="formularios.jsp">Formularios</a></li>                                      
                                 </ul>
                             </li>
                             <li>
                                  <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" >Gestion Usuarios<span class="caret"></span></a>
                                  <ul class="dropdown-menu">
                                     <li><a href="gestionUsuarios.jsp">Agregar Usuarios</a></li> 
+                                     <li><a href="empresas.jsp">Empresas</a></li> 
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">Modificar Usuarios<span class="caret"></span></a>
                                       
