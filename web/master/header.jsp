@@ -32,7 +32,7 @@
         <script src="js/paging.js" type="text/javascript"></script>
     </head>
     <body>
-        <!--    --------------       Header inicio       -------------    -->
+    
         <div>
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
@@ -61,7 +61,22 @@
                                      <li><a href="empresas.jsp">Empresas</a></li>   
                                 </ul>
                             </li>
-                            <li><a href="gestionUsuarios.jsp">Gestion Usuarios</a></li>
+                            <li>
+                                 <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" >Gestion Usuarios<span class="caret"></span></a>
+                                 <ul class="dropdown-menu">
+                                    <li><a href="gestionUsuarios.jsp">Agregar Usuarios</a></li> 
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">Modificar Usuarios<span class="caret"></span></a>
+                                      
+                                        <ul>
+                                           <li><a href="personasModificar.jsp">Modificar Persona</a></li>                                     
+                                           <li><a href="unidadesModificar.jsp">Modificar Unidad</a></li>                                     
+                                       </ul>
+                                            
+                                    </li>
+                                </ul>                                                                      
+                            </li>                                                                         
+                            
                             <li class="ax"></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->

@@ -101,6 +101,13 @@ function controlTextoVacio(idForm, idTxt1, idTxt2, spanClass) {
 function modalMotivos(id) {
     $("#txtActualizarMotivo").val($("#tdd" + id).text());
     $("#txtActualizarId").val($("#id" + id).val());
+ }
+ 
+function modalPersonas(id) {
+    $("#txtActualizarNombre").val($("#tdd" + id).text());
+    $("#txtActualizarApellido").val($("#apellido"+id).text());     
+    $("#txtActualizarEmail").val($("#email"+id).text());
+    $("#txtActualizarId").val($("#id" + id).val());
 }
 
 function modalEmpresas(id) {
@@ -160,5 +167,3 @@ function ExpedAtras() {
     });
     return false;
 }
-
-

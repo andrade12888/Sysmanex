@@ -277,31 +277,34 @@ public class Persona extends Entidad {
     }
 
     //TODO: Definir que datos se tienen que modificar
-    protected int ModificarPersona(String ciPersona) throws SQLException {
+    public int ModificarPersona(String ciPersona) {
         Conecciones conDB = new Conecciones();
-        int resultado;
+        int resultado=-1;
 
-        if (!"".equals(super.getNombreEntidad()) && !"".equals(this.apellidoPersona) && this.getEntidadId() > 0) {
-            String query = "UPDATE \"SysmanexSch1\".\"Persona\"\n"
-                    + "	SET \"personaNombre\"=\'" + this.nombrePersona+ "\',"
-                    + " \"personaApellido\"='" + this.apellidoPersona + "\',\"personaEntidadId\"=" + this.getEntidadId() + "\\n"
-                    + "	WHERE \"entidadId\"=" + this.getEntidadId() + ";";
-            resultado = conDB.hacerConsultaIUD(query);
+        if (!"".equals(super.getNombreEntidad()) && !"".equals(this.apellidoPersona)) {
+            try {
+                String query = "UPDATE \"SysmanexSch1\".\"Persona\"\n"
+                        + "	SET \"personaNombre\"=\'" + this.nombrePersona+ "\',"
+                        + " \"personaApellido\"=\'" + this.apellidoPersona + "\',"
+                        + "\"personaEmail\"=\'" + this.emailPersona + "\'\n"
+                        + "	WHERE \"personaCi\"=\'" + ciPersona + "\';";
+                resultado = conDB.hacerConsultaIUD(query);
+            } catch (SQLException ex) {
+               return resultado;
+            }
         } else {
             resultado = 2;
         }
-
         return resultado;
     }
 
     //TODO: Definir borrar persona. Otra vez, Delete o baja logica
-    protected static int BorrarPersona(String ci) {
+    public static int BorrarPersona(String ci) {
         Conecciones conDB = new Conecciones();
         int resultado = 0;
 
         return resultado;
-    }
-
+    } 
 
     public void BuscarPersona(String nombre) {
         try {
@@ -320,15 +323,19 @@ public class Persona extends Entidad {
          
     }
 
-    public static ResultSet BuscarPersonas() throws SQLException {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;
-
-        String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""
-                + " ORDER BY \"personaNombre\" ASC;";
-        rs = conDB.hacerConsulta(query);
-
-        return rs;
+    public static ResultSet BuscarPersonas(){
+        try {
+            Conecciones conDB = new Conecciones();
+            ResultSet rs;
+            
+            String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""
+                    + " ORDER BY \"personaNombre\" ASC;";
+            rs = conDB.hacerConsulta(query);
+            
+            return rs;
+        } catch (SQLException ex) {
+            return null;
+        }
     }
 
     public int BuscarPersonaPorId(int id) {
@@ -369,5 +376,36 @@ public class Persona extends Entidad {
             
         }
     }
+    
+    public String TablaPersonas() //TODO: Le faltarian los cabezales Nombre Apellido y Email
+    {
+        try {
+            ResultSet rs = BuscarPersonas();
+            String tabla = "<form name=\"frmBorrar\" action=\"motivos.do\" method=\"POST\">"
+                    + "<table class=\"table table-striped\">"
+                    + "<th>Personas</th>"
+                    + "<th> </th>"
+                    + "<th> </th>"
+                    + "<th>Opciones</th>";
+            if(rs!=null)
+            {
+                while (rs.next()) {
+                    tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("personaCi") + "\" value=\"" + rs.getString("personaCi") + "\">"
+                            + " <span id=\"tdd" + rs.getString("personaCi") + "\">" + rs.getString("personaNombre") + "</span></td>"
+                            + "<td><span id=\"apellido"+ rs.getString("personaCi") +"\">" + rs.getString("personaApellido") + "</span></td>"
+                            + "<td><span id=\"email" + rs.getString("personaCi") + "\">" + rs.getString("personaEmail") + "</span></td>"
+                            + "<td><button onclick=\"modalPersonas(" + rs.getString("personaCi") + ")\" id=\"" + rs.getString("personaCi") + "\" "
+                            + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
+                            + "</button><button name=\"btnMotivos\" value=\"" + rs.getString("personaCi") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                }                
+            }    
+            tabla += "</table></form>";
+            return tabla;
+        } catch (SQLException ex) {
+            return "";
+        }
+    }
+    
+    
 
 }

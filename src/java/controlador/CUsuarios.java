@@ -119,6 +119,30 @@ public class CUsuarios extends HttpServlet {
 
     }
 
+    protected void modificarUsuarios(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        String nombre = request.getParameter("txtActualizarNombre");
+        String apellido = request.getParameter("txtActualizarApellido");
+        String ci = request.getParameter("txtActualizarId");
+        String email = request.getParameter("txtActualizarEmail");
+        
+        Persona p = new Persona();
+        p.setNombrePersona(nombre);
+        p.setApellidoPersona(apellido);
+        p.setEmailPersona(email);
+        int resultadoIngresoUnidadUser = p.ModificarPersona(ci);
+        switch (resultadoIngresoUnidadUser)
+        {
+            case 1: Mensajes.mensajeSuccessError("El ussuario se modifico correctamente", "personasModificar.jsp", "green", request, response);
+                break;
+            case -1: Mensajes.mensajeSuccessError("Error al modificar el ussuario", "personasModificar.jsp", "red", request, response);
+                break;
+            default: Mensajes.mensajeSuccessError("Ha ocurrido un error inesperado", "personasModificar.jsp", "red", request, response);
+        }
+        
+        
+    }
 
     private void MensajesUsuarios(int resultadoIngresoUnidadUser, String usuario, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -226,8 +250,8 @@ public class CUsuarios extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+            throws ServletException, IOException {        
+        
     }
 
     /**
@@ -241,7 +265,18 @@ public class CUsuarios extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String btn="";
+        if (request.getParameter("btnPersona") != null) {
+            btn = request.getParameter("btnPersona");
+        }
+        switch(btn)
+        {
+            case "Update":  modificarUsuarios(request, response);
+            break;
+            case "Agregar": processRequest(request, response);
+            break;
+           default:Mensajes.mensajeSuccessError("Elija una opcion valida", "personasModificar.jsp", "red", request, response);
+        }
     }
 
     /**
