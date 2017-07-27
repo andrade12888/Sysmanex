@@ -17,7 +17,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import modelo.Empresa;
 import modelo.Entidad;
 import modelo.Estado;
 import modelo.Expediente;
@@ -69,7 +68,6 @@ public class CExpediente extends HttpServlet {
                 List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
                 for (FileItem item : items) {
                     if (item.isFormField()) {
-                        // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
                         String fieldname = item.getFieldName();
                         String fieldvalue = item.getString();
 

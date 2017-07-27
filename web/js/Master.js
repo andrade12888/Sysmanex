@@ -1,5 +1,17 @@
 $(document).ready(function () {
 
+    $(".doc").fancybox({
+        openEffect: 'none',
+        closeEffect: 'none',
+        iframe: {
+            preload: false
+        }
+    });
+    $('.dropdown-submenu a.test').on("click", function (e) {
+        $(this).next('ul').toggle();
+        e.stopPropagation();
+        e.preventDefault();
+    });
     $('input[type=radio][name=rdPetenece]').change(function () {
         if (this.value === 'armada') {
             $('#divUsuarioUnidad').show();
@@ -69,7 +81,6 @@ function modalEnvio(nroExp) {
     $("#txtExpedienteEnvio").val(nroExp);
     $("#modalExpedienteLabel").html("Expediente N:" + nroExp);
     $("#modalExpediente").modal("show");
-
 }
 
 function controlTextoVacio(idForm, idTxt1, idTxt2, spanClass) {
@@ -101,15 +112,15 @@ function controlTextoVacio(idForm, idTxt1, idTxt2, spanClass) {
 function modalMotivos(id) {
     $("#txtActualizarMotivo").val($("#tdd" + id).text());
     $("#txtActualizarId").val($("#id" + id).val());
- }
- 
+}
+
 function modalPersonas(id) {
     $("#txtActualizarNombre").val($("#tdd" + id).text());
-    $("#txtActualizarApellido").val($("#apellido"+id).text());     
-    $("#txtActualizarEmail").val($("#email"+id).text());
+    $("#txtActualizarApellido").val($("#apellido" + id).text());
+    $("#txtActualizarEmail").val($("#email" + id).text());
     $("#txtActualizarId").val($("#id" + id).val());
 }
- 
+
 function modalUnidades(id) {
     $("#txtActualizarNombre").val($("#tdd" + id).text());
     $("#txtActualizarId").val($("#id" + id).val());
@@ -117,8 +128,8 @@ function modalUnidades(id) {
 function modalEmpresas(id) {
     $("#txtActualizarNombre").val($("#tdd" + id).text());
     $("#txtActualizarRUT").val($("#id" + id).val());
-    $("#txtViejoRUT").attr("value",id);
-     
+    $("#txtViejoRUT").attr("value", id);
+
 }
 
 function agregarDestinatario() {

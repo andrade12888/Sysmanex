@@ -21,8 +21,8 @@ import modelo.UnidadArmada;
  *
  * @author andra
  */
-@WebServlet(name = "CEnvio", urlPatterns = {"/CEnvio.do"})
-public class CEnvio extends HttpServlet {
+@WebServlet(name = "CReEnvio", urlPatterns = {"/CReEnvio.do"})
+public class CReEnvio extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -65,7 +65,7 @@ public class CEnvio extends HttpServlet {
                             Persona unaEntidad = new Persona();
                             int encontre = unaEntidad.BuscarPersonaPorId(id);
                             if (encontre > 0) {
-                                u1.enviarExpediente(nroExped, unaEntidad, motivo, obser);
+                                u1.reEnviarExpediente(nroExped, unaEntidad, motivo, obser);
                             }
                         } catch (Exception ex) {
                             Mensajes.mensajeSuccessError("Error al agregar destinatarios", "misExpedientes.jsp", "red", request, response);
@@ -76,7 +76,7 @@ public class CEnvio extends HttpServlet {
                         try {
                             UnidadArmada unaEntidad = new UnidadArmada();
                             unaEntidad.BuscarUnidadPorId(id);
-                            u1.enviarExpediente(nroExped, unaEntidad, motivo, obser);
+                            u1.reEnviarExpediente(nroExped, unaEntidad, motivo, obser);
 
                         } catch (Exception ex) {
                             Mensajes.mensajeSuccessError("Error al agregar unidades destinatarias", "misExpedientes.jsp", "red", request, response);

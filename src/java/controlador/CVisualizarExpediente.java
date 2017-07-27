@@ -6,7 +6,6 @@
 package controlador;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,13 +42,15 @@ public class CVisualizarExpediente extends HttpServlet {
         if (unExpediente.getListaArchivosExpediente().size() > 0) {
             String tabla = "<table class=\"table table-striped\"><tr><th>Archivo</th></tr>";
             for (String archivo : unExpediente.getListaArchivosExpediente()) {
-                tabla = tabla + "<tr><td><a href=\"" + archivo + "\">" + nroExped + iterador + "</a></td></tr>";
+                tabla = tabla + "<tr><td><a class=\"doc\" data-fancybox-type=\"iframe\" href=\"" + archivo + "\">" + nroExped + iterador + "</a></td></tr>";
                 iterador++;
             }
             tabla = tabla + "</table>";
             request.setAttribute("tablaArchivos", tabla);
         }
-
+        
+        
+request.setAttribute("tablaTramitados", u1.tablaTramitados(nroExped));
         request.setAttribute("numeroExpediente", nroExped);
         request.setAttribute("asuntoExpediente", unExpediente.getAsuntoExpediente());
         request.setAttribute("fechaExpediente", unExpediente.getFechaExpediente());

@@ -1,3 +1,11 @@
+<%@page import="controlador.CUsuarios"%>
+<%@page import="controlador.CMotivos"%>
+<%
+    CUsuarios.CargarDatos(request, response);
+    CMotivos.CargarDatos(request, response);
+    String lstUnidadesPersonas = request.getSession().getAttribute("lstUnidadesPersonas").toString();
+    String lstMotivos = request.getSession().getAttribute("lstMotivos").toString();
+%>
 <jsp:include page="master/header.jsp"/>
 <div class="bodyContent">
     <div class="row">        
@@ -11,8 +19,13 @@
                     <h3 class="panel-title">Datos de Expediente N°: ${numeroExpediente}</h3>
                 </div>
                 <div class="panel-body">  
+                    <div class="right" style="text-align: right;">
+                        <button onclick="modalEnvio('${numeroExpediente}')" id="${numeroExpediente}" type="button" class="btn glyphicon glyphicon-send">  Enviar</button>
+                      <!--  <button name="btnEliminarExpediente" value="${numeroExpediente}" type="submit" class="btn glyphicon glyphicon-trash"></button> -->
+                    </div>
                     <div class="row">
                         <div class="col-lg-6">
+
                             Numero de Expediente: <label>${numeroExpediente}</label>
                             <br>
                             Asunto: <label>${asuntoExpediente}</label>
@@ -26,11 +39,77 @@
                         <div class="col-lg-6">
                             ${tablaArchivos}
                         </div>
+
                     </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                ${tablaTramitados}
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
         <div class="col-lg-2"></div>
+    </div>
+</div>
+<div class="modal fade" id="modalExpediente" tabindex="-1" role="dialog" aria-labelledby="modalExpedientelLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalExpedienteLabel"></h4>
+            </div>
+            <div class="modal-body">
+                <form action="CReEnvio.do" method="post" name="formEnvio" id="fromEnvio">
+                    <div class="panel panel-success" id="pnlDestinatarios">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Datos de envio del expediente</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <input type="hidden" id="txtExpedienteEnvio" name="txtExpedienteEnvio">
+                                </div>
+                                <div class="col-lg-3">Posibles Destinatarios
+                                    <select name="selDestinatario" id="selDestinatario" class="form-control">
+                                        <option value="0">Seleccione Destinatarios</option>
+                                        <%= lstUnidadesPersonas%>
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 text-center">
+                                    <br>
+                                    <button type="button" class="btn glyphicon glyphicon-chevron-right" onclick="agregarDestinatario();"></button>
+                                    <br>
+                                    <br>
+                                    <button type="button" class="btn glyphicon glyphicon-chevron-left" onclick="quitarDestinatario();"></button>
+                                </div>
+                                <div class="col-lg-4">Destinos
+                                    <select required="required" name="selDestinos" id="selDestinos" class="form-control" multiple>
+
+                                    </select>
+                                </div> 
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">Motivo de pase
+                                    <select required="required" name="selMotivos" id="selMotivos" class="form-control">
+                                        <option value="0">Seleccione Motivo</option>
+                                        <%= lstMotivos%>
+                                    </select>
+                                </div>
+                                <div class="col-lg-8">
+                                    Descripcion del motivo<input type="text" name="txtMotivoObs" class="form-control" id="txtMotivoObs">
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="panel-footer">
+                            <div>
+                                <input type="submit" value="Finalizar" name="btnFinalizar" class="btn btn-agregar"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 <div id="resp"></div>

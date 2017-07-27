@@ -377,7 +377,8 @@ public class Expediente {
                 + "FROM \"SysmanexSch1\".\"ExpedienteEntidad\" ee, \"SysmanexSch1\".\"Motivo\" m, \"SysmanexSch1\".\"Estado\" e\n"
                 + "WHERE ee.\"ExpedienteNumero\" = '" + this.getNumeroExpediente() + "'"
                 + "AND ee.\"ExpedienteMotivoId\" = m.\"motivoId\"\n"
-                + "AND ee.\"ExpedienteEstadoId\" = e.\"estadoId\"";
+                + "AND ee.\"ExpedienteEstadoId\" = e.\"estadoId\""
+                + "AND ee.\"ExpedienteEntidadFechaEnvio\" is null";
         try {
             rs = conDB.hacerConsulta(query);
             return rs;

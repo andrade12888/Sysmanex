@@ -19,7 +19,9 @@
         <link href="css/master.css" rel="stylesheet" type="text/css"/>
         <link href="css/fileinput.css" rel="stylesheet" type="text/css"/>
         <link href="css/theme.css"  media="all" rel="stylesheet" type="text/css"/>
+        <link href="css/jquery.fancybox.min.css" rel="stylesheet" type="text/css"/>
         
+
         <script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
         <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>   
         <script src="js/jquery-ui.js" type="text/javascript"></script>
@@ -30,9 +32,10 @@
         <script src="js/theme.js" type="text/javascript"></script>
         <script src="js/bootstrap.js" type="text/javascript"></script>  
         <script src="js/paging.js" type="text/javascript"></script>
+        <script src="js/jquery.fancybox.min.js" type="text/javascript"></script>
     </head>
     <body>
-    
+
         <div>
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
@@ -60,23 +63,22 @@
                                     <li><a href="formularios.jsp">Formularios</a></li>                                      
                                 </ul>
                             </li>
-                            <li>
-                                 <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" >Gestion Usuarios<span class="caret"></span></a>
-                                 <ul class="dropdown-menu">
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" >Gestion Usuarios<span class="caret"></span></a>
+                                <ul class="dropdown-menu">
                                     <li><a href="gestionUsuarios.jsp">Agregar Usuarios</a></li> 
-                                     <li><a href="empresas.jsp">Empresas</a></li> 
-                                    <li class="dropdown">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">Modificar Usuarios<span class="caret"></span></a>
-                                      
-                                        <ul>
-                                           <li><a href="personasModificar.jsp">Modificar Persona</a></li>                                     
-                                           <li><a href="unidadesModificar.jsp">Modificar Unidad</a></li>                                     
-                                       </ul>
-                                            
+                                    <li><a href="empresas.jsp">Empresas</a></li> 
+                                    <li class="dropdown-submenu">
+                                        <a class="test" tabindex="-1" href="#">Modificar Usuarios<span class="caret"></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="personasModificar.jsp">Modificar Persona</a></li>                                     
+                                            <li><a href="unidadesModificar.jsp">Modificar Unidad</a></li>                                     
+                                        </ul>
+
                                     </li>
                                 </ul>                                                                      
                             </li>                                                                         
-                            
+
                             <li class="ax"></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
