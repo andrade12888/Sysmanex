@@ -239,9 +239,9 @@ public class CExpediente extends HttpServlet {
             switch(unEstado.getIdEstado()){
                 case 1: estado = "class=\"enTramite\""; break;
                 case 2: estado = "class=\"noLeido\""; break;
-                case 3: estado = "class=\"archivado\""; break;
+                case 3: estado = "class=\"finalizado\""; break;
                 case 4: estado = "class=\"nagado\""; break;
-                case 5: estado = "class=\"enBandeja\""; break;
+                case 5: estado = "class=\"tramitado\""; break;
             
             }
             String nombre = "";

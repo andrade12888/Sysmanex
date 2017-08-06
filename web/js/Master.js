@@ -71,6 +71,34 @@ function errorTextoVacio(id)
     });
 }
 
+function doSearch()
+{
+    var tablaDatos = document.getElementById('datos');
+    var textoBuscado = document.getElementById('txtBuscar').value.toLowerCase();
+    var celdasDelRow = "";
+    var encontro = false;
+    var comparCon = "";
+    for (var i = 1; i < tablaDatos.rows.length; i++)
+    {
+        celdasDelRow = tablaDatos.rows[i].getElementsByTagName('td');
+        encontro = false;
+        for (var j = 0; j < celdasDelRow.length && !encontro; j++)
+        {
+            comparCon = celdasDelRow[j].innerHTML.toLowerCase();
+            if (textoBuscado.length === 0 || (comparCon.indexOf(textoBuscado) > -1))
+            {
+                encontro = true;
+            }
+        }
+        if (encontro)
+        {
+            tablaDatos.rows[i].style.display = '';
+        } else {
+            tablaDatos.rows[i].style.display = 'none';
+        }
+    }
+}
+
 function modalTramite(id) {
     $("#txtActualizarTramite").val($("#tdd" + id).text());
     $("#txtActualizarPlazo").val($("#tdp" + id).text());

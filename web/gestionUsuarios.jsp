@@ -136,7 +136,7 @@
 
                 <div class="row">
                     <div class="col-lg-offset-10 col-md-offset-10 col-sm-offset-10 col-lg-2 col-md-2 col-sm-2">
-                        <input type="submit" value="Agregar" class="btn-agregar"/>
+                        <input type="submit" value="Agregar" class="btn-agregar" name="Agregar"/>
                     </div>
                 </div>
             </form>

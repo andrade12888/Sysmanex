@@ -399,7 +399,13 @@ public class Entidad {
                 + "AND es.\"estadoId\" = ee.\"ExpedienteEstadoId\"\n"
                 + "AND e.\"expedienteTramiteId\" = t.\"tramiteId\"\n"
                 + "AND ee.\"idEntidad\" =" + this.getEntidadId()
-                + " ORDER BY es.\"estadoDescripcion\" DESC";
+                + " ORDER BY CASE es.\"estadoId\" WHEN 1 THEN 2\n"
+                + "WHEN 2 THEN 1\n"
+                + "WHEN 3 THEN 5\n"
+                + "WHEN 4 THEN 4\n"
+                + "WHEN 5 THEN 3\n"
+                + "END\n"
+                + "ASC";
         rs = conDB.hacerConsulta(query);
 
         return rs;
@@ -436,9 +442,9 @@ public class Entidad {
                 rs2.close();
                 if (!tabla.equals("<td><button id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" class=\"btn glyphicon glyphicon-triangle-bottom\"></button>"
                         + "<button id=\"o" + exp + "\"  class=\" btn glyphicon glyphicon-triangle-top\" style=\"display: none;\" onclick=\"ocultar(" + exp + ");\"></button></td></tr>"
-                                + "<tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
-                                        + "Origen</th><th>Fecha de Envio</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>")) {
-                    tabla += "</table>";              
+                        + "<tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
+                        + "Origen</th><th>Fecha de Envio</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>")) {
+                    tabla += "</table>";
                 }
             }
         } catch (SQLException ex) {
