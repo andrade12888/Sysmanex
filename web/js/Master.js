@@ -16,11 +16,9 @@ $(document).ready(function () {
         if (this.value === 'armada') {
             $('#divUsuarioUnidad').show();
             $('#divUsuarioEmpresa').hide();
-            $('#divSigla').show();
         } else if (this.value === 'empresa') {
             $('#divUsuarioUnidad').hide();
             $('#divUsuarioEmpresa').show();
-            $('#divSigla').hide();
 
         }
     });
@@ -28,19 +26,13 @@ $(document).ready(function () {
         if (this.value === 'persona') {
             $("#divTipoPersona :input").prop('required', true);
             $('#divTipoPersona').show();
-            $('#divTipoUnidad').show();
-            if ($('#divSigla').is(":visible"))
-                $('#divSigla').hide();
-            if ($('#rdarmada').is(':checked')) {
-                $('#divSigla').show();
-            }
+            $('#divTipoUnidad').hide();
 
         } else if (this.value === 'unidad') {
             $("#divTipoPersona :input").prop('required', null);
             $('#divTipoPersona').hide();
             $('#divTipoUnidad').show();
-            $('#divRolesUnidad').show();
-            $('#divSigla').show();
+
         }
     });
     $("#input-1a").fileinput({'showUpload': false, 'previewFileType': 'any'});

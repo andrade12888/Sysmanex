@@ -22,9 +22,6 @@ public class Persona extends Entidad {
     private String apellidoPersona;
     private String emailPersona;
 
-    
-    
-
     //<editor-fold defaultstate="collapsed" desc="Getters y Setters">
     /**
      * Get the value of ciPersona
@@ -43,8 +40,8 @@ public class Persona extends Entidad {
     public void setCiPersona(String ciPersona) {
         this.ciPersona = ciPersona;
     }
-    
-     /**
+
+    /**
      * @return the apellidoPersona
      */
     public String getApellidoPersona() {
@@ -57,6 +54,7 @@ public class Persona extends Entidad {
     public void setApellidoPersona(String apellidoPersona) {
         this.apellidoPersona = apellidoPersona;
     }
+
     /**
      * @return the nombrePersona
      */
@@ -70,8 +68,8 @@ public class Persona extends Entidad {
     public void setNombrePersona(String nombrePersona) {
         this.nombrePersona = nombrePersona;
     }
-    
-        /**
+
+    /**
      * @return the emailPersona
      */
     public String getEmailPersona() {
@@ -86,10 +84,10 @@ public class Persona extends Entidad {
     }
 
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Constructores">
-    
-    public Persona() {}
+    public Persona() {
+    }
+
     public Persona(String ciPersona, String nombrePerona, String apellidoPersona) {
         this.nombrePersona = nombrePerona;
         this.ciPersona = ciPersona;
@@ -98,36 +96,33 @@ public class Persona extends Entidad {
 
     public Persona(String ciPersona, String personaNombre, String apellidoPersona, String userId, String contrasenia, Rol rol, String personaEmail) {
         super(userId, contrasenia, rol);
-        this.ciPersona = ciPersona; 
-        this.nombrePersona= personaNombre;
+        this.ciPersona = ciPersona;
+        this.nombrePersona = personaNombre;
         this.apellidoPersona = apellidoPersona;
-        this.emailPersona=personaEmail;
+        this.emailPersona = personaEmail;
     }
 
     //</editor-fold>
-   
 //TODO: Ver refactor de los metods de Agregar PersonaEnUnidad y Empresa
     //Segun lo enviado desde el form, persona debe :
     //1: Agregar entidad(user)
     //2: Agregar persona con el id de Entiad que capturo del insert anterior
     //3: Agregar en UnidadArmada dicha persona 
-    
     //TODO: Se puede devolver un numero diferente para cada transsaccion que falle
     //TODO: Como llegan los valores, por parametros o por objetos?
-    
     //PRE: La unidad existe dado que viene del Form
     public int AgregarPersonaEnUnidad(int unidadId) {
         Conecciones conDB = new Conecciones();
-        int resultado =-1;
+        int resultado = -1;
 
         //Controlo que los valores necesario para inrgesar una persona y el usuario no sean vacios
-        if (!"".equals(this.ciPersona) &&
-                !"".equals(super.getNombreEntidad()) && // Nombre de Usuario para loggearse
-                !"".equals(this.apellidoPersona)&&
-                !"".equals(super.getContrasenia())&&
-                !"".equals(this.nombrePersona)&&            
-                !"".equals(this.emailPersona) )          
-        {                     
+        if (!"".equals(this.ciPersona)
+                && !"".equals(super.getNombreEntidad())
+                && // Nombre de Usuario para loggearse
+                !"".equals(this.apellidoPersona)
+                && !"".equals(super.getContrasenia())
+                && !"".equals(this.nombrePersona)
+                && !"".equals(this.emailPersona)) {
             try {
                 //Seteo autocommit false para que todo se ejecute como una transaccion
                 conDB.getConnect().setAutoCommit(false);
@@ -139,22 +134,22 @@ public class Persona extends Entidad {
                 //Me quedo con el id de entidad si se ejecuto correctamente
                 int entidadId = e.AgregarEntidad();
                 e.setEntidadId(entidadId);
-                
+
                 //Si se agrego correctamente la entidad, agrego la persona con el id de entidad guardado
-                  String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\","
-                          + " \"personaApellido\", \"personaEntidadId\", \"personaEmail\")" 
-                    + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', " +
-                     " '" + this.apellidoPersona + "', " + entidadId +", '" + this.emailPersona + "');";
-                  
+                String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\","
+                        + " \"personaApellido\", \"personaEntidadId\", \"personaEmail\")"
+                        + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', "
+                        + " '" + this.apellidoPersona + "', " + entidadId + ", '" + this.emailPersona + "');";
+
                 conDB.hacerConsultaIUD(queryPersona);
-                
+
                 //Ahora agrego la persona a la unidad en la tabla UnidadTienePersona con el valor 
                 // de unidad que viene del form
-                 String queryPersonaEnUnidad = "INSERT INTO \"SysmanexSch1\".\"UnidadTienePersona\"(\n"
-                    + "\"unidadId\", \"personaCi\")\n"
-                    + "   VALUES ('" + unidadId + "', " +this.ciPersona+");";
+                String queryPersonaEnUnidad = "INSERT INTO \"SysmanexSch1\".\"UnidadTienePersona\"(\n"
+                        + "\"unidadId\", \"personaCi\")\n"
+                        + "   VALUES ('" + unidadId + "', " + this.ciPersona + ");";
                 conDB.hacerConsultaIUD(queryPersonaEnUnidad);
-                
+
                 conDB.getConnect().commit();
                 resultado = 1;
 
@@ -175,7 +170,7 @@ public class Persona extends Entidad {
                     try {
                         conDB.getConnect().setAutoCommit(true);
                     } catch (SQLException ex) {
-                       return -1;
+                        return -1;
                     }
                 }
             }
@@ -185,50 +180,48 @@ public class Persona extends Entidad {
         }
         return resultado;
     }
-    
+
     //Segun lo enviado desde el form, persona debe :
     //1: Agregar entidad(user)
     //2: Agregar persona con el id de Entiad que capturo del insert anterior
     //3: Agregar en  Empresa dicha persona 
-    
     //TODO: Se puede devolver un numero diferente para cada transsaccion que falle
     //TODO: Como llegan los valores, por parametros o por objetos?
     //PRE: La empresa existe dado que viene del Form
-    public int AgregarPersonaEnEmpresa(String rutEmpresa){
+    public int AgregarPersonaEnEmpresa(String rutEmpresa) {
         Conecciones conDB = new Conecciones();
-        int resultado =-1;
+        int resultado = -1;
 
         //Controlo que los valores necesario para inrgesar una persona no sean vacios
-        if (!"".equals(this.ciPersona) && !"".equals(super.getNombreEntidad()) && 
-                !"".equals(this.apellidoPersona)&&
-                !"".equals(this.nombrePersona)&& 
-                !"".equals(super.getContrasenia())&& 
-                !"".equals(this.emailPersona) ) 
-        {                     
+        if (!"".equals(this.ciPersona) && !"".equals(super.getNombreEntidad())
+                && !"".equals(this.apellidoPersona)
+                && !"".equals(this.nombrePersona)
+                && !"".equals(super.getContrasenia())
+                && !"".equals(this.emailPersona)) {
             try {
                 //Seteo autocommit false para que todo se ejecute como una transaccion
-                conDB.getConnect().setAutoCommit(false);           
+                conDB.getConnect().setAutoCommit(false);
                 //Me quedo con el id de entidad si se ejecuto correctamente
                 //Agrego la entidad con la contrasena, username y rol que viene del form
                 Entidad e = new Entidad(super.getNombreEntidad(),
                         super.getContrasenia(),
                         super.getRol());
                 int entidadId = e.AgregarEntidad();
-                
+
                 //Si se agrego correctamente la entidad, agrego la persona con el id de entidad guardado
-                  String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\","
-                          + " \"personaApellido\", \"personaEntidadId\", \"personaEmail\")" 
-                    + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', " +
-                     " '" + this.apellidoPersona + "', " + entidadId +", '" + this.emailPersona + "');";
+                String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\","
+                        + " \"personaApellido\", \"personaEntidadId\", \"personaEmail\")"
+                        + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', "
+                        + " '" + this.apellidoPersona + "', " + entidadId + ", '" + this.emailPersona + "');";
                 conDB.hacerConsultaIUD(queryPersona);
-                                                 
+
                 //Ahora agrego la persona a la tabla EmpresadTienePersona con el valor 
                 // la ci de la persona agregada y el RUT del form
-                 String queryPersonaEnUnidad = "INSERT INTO \"SysmanexSch1\".\"EmpresaTienePersona\"(\n"
-                    + "\"empresaRut\", \"personaCi\")\n"
-                    + "   VALUES ('" + rutEmpresa + "', " +this.ciPersona+");";
+                String queryPersonaEnUnidad = "INSERT INTO \"SysmanexSch1\".\"EmpresaTienePersona\"(\n"
+                        + "\"empresaRut\", \"personaCi\")\n"
+                        + "   VALUES ('" + rutEmpresa + "', " + this.ciPersona + ");";
                 conDB.hacerConsultaIUD(queryPersonaEnUnidad);
-                
+
                 conDB.getConnect().commit();
                 resultado = 1;
 
@@ -252,44 +245,43 @@ public class Persona extends Entidad {
                     }
                 }
             }
-        } else {            
+        } else {
             resultado = 3;
         }
         return resultado;
     }
-    
+
     //Agrega la persona cuando la entidad es decir el Usuario ya esta creado
-    public int AgregarPersona(int entidadDePersona)
-    {
+    public int AgregarPersona(int entidadDePersona) {
         try {
             Conecciones conDB = new Conecciones();
-            
-            String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\"," 
+
+            String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\","
                     + " \"personaApellido\", \"personaEntidadId\", \"personaEmail\")"
-                    + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', " +
-                    " '" + this.apellidoPersona + "', " + entidadDePersona +", '" + this.emailPersona + "');";
-            
+                    + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', "
+                    + " '" + this.apellidoPersona + "', " + entidadDePersona + ", '" + this.emailPersona + "');";
+
             conDB.hacerConsultaIUD(queryPersona);
         } catch (SQLException ex) {
-           return -1;
+            return -1;
         }
         return 1;
     }
 
     public int ModificarPersona(String ciPersona) {
         Conecciones conDB = new Conecciones();
-        int resultado=-1;
+        int resultado = -1;
 
         if (!"".equals(super.getNombreEntidad()) && !"".equals(this.apellidoPersona)) {
             try {
                 String query = "UPDATE \"SysmanexSch1\".\"Persona\"\n"
-                        + "	SET \"personaNombre\"=\'" + this.nombrePersona+ "\',"
+                        + "	SET \"personaNombre\"=\'" + this.nombrePersona + "\',"
                         + " \"personaApellido\"=\'" + this.apellidoPersona + "\',"
                         + "\"personaEmail\"=\'" + this.emailPersona + "\'\n"
                         + "	WHERE \"personaCi\"=\'" + ciPersona + "\';";
                 resultado = conDB.hacerConsultaIUD(query);
             } catch (SQLException ex) {
-               return resultado;
+                return resultado;
             }
         } else {
             resultado = 2;
@@ -297,52 +289,62 @@ public class Persona extends Entidad {
         return resultado;
     }
 
-    
     public static int BorrarPersona(String ci) {
         Conecciones conDB = new Conecciones();
         int resultado = -1;
 
-         if (!"".equalsIgnoreCase(ci)) {
+        if (!"".equalsIgnoreCase(ci)) {
             try {
-                String query = "DELETE FROM \"SysmanexSch1\".\"Persona\" WHERE \"personaCi\" = '"+ci+"';";
-                resultado = conDB.hacerConsultaIUD(query);
+                conDB.getConnect().setAutoCommit(false);
+                String query1 = "DELETE FROM \"SysmanexSch1\".\"UnidadTienePersona\" WHERE \"personaCi\" = '" + ci + "';";
+                resultado = conDB.hacerConsultaIUD(query1);
+                if (resultado == 1) {
+                    String query = "DELETE FROM \"SysmanexSch1\".\"Persona\" WHERE \"personaCi\" = '" + ci + "';";
+                    resultado = conDB.hacerConsultaIUD(query);
+                }
+                if (resultado == 1) {
+                    conDB.getConnect().commit();
+                } else {
+                    conDB.getConnect().rollback();
+                }
             } catch (SQLException ex) {
-               if("23503".equalsIgnoreCase(ex.getSQLState()))
-                return Integer.parseInt(ex.getSQLState());
-            return -1;
+                if ("23503".equalsIgnoreCase(ex.getSQLState())) {
+                    return Integer.parseInt(ex.getSQLState());
+                }
+                return -1;
             }
         } else {
             resultado = 2;
         }
         return resultado;
-    } 
+    }
 
     public void BuscarPersona(String nombre) {
         try {
             Conecciones conDB = new Conecciones();
             ResultSet rs;
-            
+
             String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""
                     + " WHERE \"personaNombre\" LIKE \'%" + nombre + "\'"
                     + " ORDER BY \"personaNombre\" ASC;";
             rs = conDB.hacerConsulta(query);
             ConstruirPersona(rs);
-          
+
         } catch (SQLException ex) {
-               
+
         }
-         
+
     }
 
-    public static ResultSet BuscarPersonas(){
+    public static ResultSet BuscarPersonas() {
         try {
             Conecciones conDB = new Conecciones();
             ResultSet rs;
-            
+
             String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""
                     + " ORDER BY \"personaNombre\" ASC;";
             rs = conDB.hacerConsulta(query);
-            
+
             return rs;
         } catch (SQLException ex) {
             return null;
@@ -356,18 +358,18 @@ public class Persona extends Entidad {
 
         String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""
                 + " WHERE \"personaEntidadId\" = " + id + ";";
-      try {
+        try {
             resultado = conDB.hacerConsultaIUD(query);
         } catch (SQLException ex) {
-            if("23503".equalsIgnoreCase(ex.getSQLState()))
+            if ("23503".equalsIgnoreCase(ex.getSQLState())) {
                 return Integer.parseInt(ex.getSQLState());
+            }
             return -1;
-        }       
+        }
         return resultado;
     }
-    
-    private void ConstruirPersona(ResultSet rs)
-    {
+
+    private void ConstruirPersona(ResultSet rs) {
         try {
             while (rs.next()) {
                 this.setEntidadId(rs.getInt("entidadId"));
@@ -377,10 +379,10 @@ public class Persona extends Entidad {
                 this.setEmailPersona(rs.getString("personaEmail"));
             }
         } catch (SQLException ex) {
-            
+
         }
     }
-    
+
     public String TablaPersonas() //TODO: Le faltarian los cabezales Nombre Apellido y Email
     {
         try {
@@ -391,25 +393,22 @@ public class Persona extends Entidad {
                     + "<th> </th>"
                     + "<th> </th>"
                     + "<th>Opciones</th>";
-            if(rs!=null)
-            {
+            if (rs != null) {
                 while (rs.next()) {
                     tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("personaCi") + "\" name=\"txtIdPersona\" value=\"" + rs.getString("personaCi") + "\">"
                             + "<span id=\"tdd" + rs.getString("personaCi") + "\">" + rs.getString("personaNombre") + "</span></td>"
-                            + "<td><span id=\"apellido"+ rs.getString("personaCi") +"\">" + rs.getString("personaApellido") + "</span></td>"
+                            + "<td><span id=\"apellido" + rs.getString("personaCi") + "\">" + rs.getString("personaApellido") + "</span></td>"
                             + "<td><span id=\"email" + rs.getString("personaCi") + "\">" + rs.getString("personaEmail") + "</span></td>"
                             + "<td><button onclick=\"modalPersonas(" + rs.getString("personaCi") + ")\" id=\"" + rs.getString("personaCi") + "\" "
                             + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                            + "</button><button name=\"btnPersona\" value=\"Delete\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
-                }                
-            }    
+                            + "</button><button name=\"btnPersona\" value=\"Delete" + rs.getString("personaCi") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                }
+            }
             tabla += "</table></form>";
             return tabla;
         } catch (SQLException ex) {
             return "";
         }
     }
-    
-    
 
 }
