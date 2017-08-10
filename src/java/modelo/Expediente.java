@@ -311,6 +311,21 @@ public class Expediente {
         }
     }
 
+    public void AgregarDetalle(String detalle, int entidadId) {
+        Conecciones conDB = new Conecciones();
+
+        String query = "INSERT INTO \"SysmanexSch1\".\"ExpedienteDetalle\"("
+                + " \"expedienteDetalleNumero\", \"expedienteDetalleDescripcion\", \"expedienteDetalleEntidadId\", \"expedienteDetalleFecha\")"
+                + " VALUES ('" + this.numeroExpediente + "', '" + detalle + "', " + entidadId + ", CURRENT_DATE);";
+        try {
+            
+            int resultado = conDB.hacerConsultaIUD(query);
+
+        } catch (SQLException ex) {
+
+        }
+    }
+
     public void traerExpediente(String numeroExpediente) {
         try {
             ResultSet rs;
@@ -422,24 +437,20 @@ public class Expediente {
             Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void leerExpediente(int entidadId){
+
+    public void leerExpediente(int entidadId) {
         Conecciones conDB = new Conecciones();
         int resultado = 0;
         String query = "UPDATE \"SysmanexSch1\".\"ExpedienteEntidad\" SET \"ExpedienteEstadoId\"=1"
                 + " WHERE \"ExpedienteNumero\" = '" + this.getNumeroExpediente() + "'"
-                + " AND \"idEntidad\"="+entidadId;
+                + " AND \"idEntidad\"=" + entidadId;
         try {
             resultado = conDB.hacerConsultaIUD(query);
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
-    
-    
-    
-    
+
     }
 
 }
