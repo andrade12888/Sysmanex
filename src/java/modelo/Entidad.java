@@ -48,6 +48,18 @@ public class Entidad {
     public int getEntidadId() {
         return entidadId;
     }
+    
+    public String getEntidadIdLargo(){
+        if(entidadId>999){
+            return Integer.toString(entidadId);
+        }else if(entidadId>99){
+            return "0"+entidadId;
+        }else if(entidadId>9){
+            return "00"+entidadId;
+        }else{
+            return "000"+entidadId;
+        }
+    }
 
     public void setEntidadId(int entidadId) {
         this.entidadId = entidadId;
@@ -451,6 +463,34 @@ public class Entidad {
             return tabla;
         }
         return tabla;
+    }
+
+    public String getLastExpediente() {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+
+        String query = "SELECT \"expedienteNumero\" \n"
+                + "FROM \"SysmanexSch1\".\"Expediente\"\n"
+                + "WHERE \"expedienteNumero\" LIKE concat(EXTRACT(YEAR FROM now()),'"+this.getEntidadIdLargo()+"%')\n"
+                + "ORDER BY \"expedienteNumero\" DESC\n"
+                + "LIMIT 1";
+        try {
+            rs = conDB.hacerConsulta(query);
+            int numeroInt = -1;
+            while(rs.next()){
+                String numero = rs.getString("expedienteNumero");
+                String numeroSub = numero.substring(numero.length() - 5);
+                numeroInt = Integer.parseInt(numeroSub);
+                numeroInt++;
+            }
+            if(numeroInt != -1)
+                return Integer.toString(numeroInt);
+            else
+                return "";            
+        } catch (SQLException ex) {
+            return "";
+        }
+
     }
 
 }

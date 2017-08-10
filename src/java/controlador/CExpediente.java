@@ -263,8 +263,11 @@ public class CExpediente extends HttpServlet {
                     + "<td>" + rs.getString("estadoDescripcion") + " </td>"
                     + "</tr>";
         }
-
+        
         request.getSession().setAttribute("lstRecibidos", recibidos);
+        
+        
+        
 
     }
 

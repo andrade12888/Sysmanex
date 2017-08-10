@@ -1,3 +1,4 @@
+<%@page import="modelo.Entidad"%>
 <%@page import="modelo.Expediente"%>
 <%@page import="controlador.CUsuarios"%>
 <%@page import="controlador.CMotivos"%>
@@ -6,7 +7,8 @@
     CMotivos.CargarDatos(request, response);
     String lstUnidadesPersonas = request.getSession().getAttribute("lstUnidadesPersonas").toString();
     String lstMotivos = request.getSession().getAttribute("lstMotivos").toString();
-    String exp = request.getSession().getAttribute("expedienteEnviar").toString();                          
+    String exp = request.getSession().getAttribute("expedienteEnviar").toString();  
+    
 %>
 
 <%@page contentType="text/html; charset=UTF-8" %>

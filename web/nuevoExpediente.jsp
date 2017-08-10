@@ -1,3 +1,4 @@
+<%@page import="modelo.Entidad"%>
 <%@page import="controlador.CUsuarios"%>
 <%@page import="controlador.CTramites"%>
 <%@page import="controlador.CMotivos"%>
@@ -5,6 +6,9 @@
     CUsuarios.CargarDatos(request, response);
     CTramites.CargarDatos(request, response);
     String lstTramites = request.getSession().getAttribute("lstTramites").toString();
+    Entidad u1 = (Entidad) request.getSession().getAttribute("usuarioLogeado");
+    String numero = u1.getLastExpediente();
+    request.getSession().setAttribute("numeroExped", numero);
 
 %>
 <%@page contentType="text/html; charset=UTF-8" %>
@@ -30,7 +34,8 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-3">
-                                <span>Nº Expediente</span> <input required="required" type="number" id="idExpediente" name="txtNroExpediente" min="1" max="99999" class="form-control" oninput="maxLengthCheck(this)">
+                                <span>Nº Expediente</span>
+                                <input required="required" type="number" id="idExpediente" name="txtNroExpediente" min="1" max="99999" class="form-control" oninput="maxLengthCheck(this)" value="<%=numero %>">
                             </div>
                             <div class="col-lg-9">
                                 Asunto <input required="required" type="text" name="txtAsunto" class="form-control" id="idAsunto">

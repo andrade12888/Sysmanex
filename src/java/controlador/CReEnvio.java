@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -93,7 +93,7 @@ public class CReEnvio extends HttpServlet {
         } else {
             Mensajes.mensajeSuccessError("Error al enviar el Expediente.Elija destinatarios", "misExpedientes.jsp", "red", request, response);
         }
-        Mensajes.mensajeSuccessError("Envio Exitoso", "misExpedientes.jsp", "green", request, response);
+        Mensajes.mensajeSuccessError("Envio Exitoso", "bandeja.jsp", "green", request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
