@@ -33,6 +33,7 @@ public class Expediente {
     private Motivo motivoExpediente;
     private ArrayList<String> listaArchivosExpediente;
     private ArrayList<Entidad> listaDestinariosExpediente;
+    private ArrayList<String> listaDetalle;
     private boolean expedienteBaja;
     //</editor-fold>
 
@@ -126,6 +127,14 @@ public class Expediente {
 
     public void setListaDestinariosExpediente(ArrayList<Entidad> listaDestinariosExpediente) {
         this.listaDestinariosExpediente = listaDestinariosExpediente;
+    }
+    
+    public ArrayList<String> getListaDetalle() {
+        return listaDetalle;
+    }
+
+    public void setListaDetalle(ArrayList<String> listaDetalle) {
+        this.listaDetalle = listaDetalle;
     }
 
     /**
@@ -451,6 +460,22 @@ public class Expediente {
             Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    public void traerDetalle() {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+        String query = "SELECT * FROM \"SysmanexSch1\".\"ExpedienteDetalle\"" 
+                + " WHERE \"expedienteDetalleNumero\" = '" + this.getNumeroExpediente() + "'"
+                + " ORDER BY \"expedienteDetalleNumero\" ASC ";
+        try {
+            rs = conDB.hacerConsulta(query);
+            while (rs.next()) {
+                this.getListaDetalle().add(rs.getString("expedienteDetalleNumero"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }
