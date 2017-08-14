@@ -248,7 +248,7 @@ public class CUsuarios extends HttpServlet {
         eTemp.BuscarEntidadNombre(nombre);
 
         Persona pTemp = new Persona();
-        pTemp.BuscarPersona(nombre);
+        pTemp.BuscarPersonaPorNombre(nombre);
 
         //Verifico que la persona no exista
         if ("".equals(pTemp.getCiPersona())) {

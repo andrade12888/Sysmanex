@@ -87,7 +87,7 @@ public class PersonaTest {
     }
 
     /**
-     Test of BuscarPersona method, of class Persona.
+     Test of BuscarPersonaPorNombre method, of class Persona.
      */
     @Test
     public void testBuscarPersona() throws Exception {

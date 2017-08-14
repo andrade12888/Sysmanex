@@ -103,7 +103,23 @@ public class Persona extends Entidad {
     }
 
     //</editor-fold>
-//TODO: Ver refactor de los metods de Agregar PersonaEnUnidad y Empresa
+    public int AgregarPersona(int entidadDePersona) {
+        try {
+            Conecciones conDB = new Conecciones();
+
+            String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\","
+                    + " \"personaApellido\", \"personaEntidadId\", \"personaEmail\")"
+                    + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', "
+                    + " '" + this.apellidoPersona + "', " + entidadDePersona + ", '" + this.emailPersona + "');";
+
+            conDB.hacerConsultaIUD(queryPersona);
+        } catch (SQLException ex) {
+            return -1;
+        }
+        return 1;
+    }
+
+    //TODO: Ver refactor de los metods de Agregar PersonaEnUnidad y Empresa
     //Segun lo enviado desde el form, persona debe :
     //1: Agregar entidad(user)
     //2: Agregar persona con el id de Entiad que capturo del insert anterior
@@ -251,44 +267,6 @@ public class Persona extends Entidad {
         return resultado;
     }
 
-    //Agrega la persona cuando la entidad es decir el Usuario ya esta creado
-    public int AgregarPersona(int entidadDePersona) {
-        try {
-            Conecciones conDB = new Conecciones();
-
-            String queryPersona = "INSERT INTO \"SysmanexSch1\".\"Persona\"(\"personaCi\", \"personaNombre\","
-                    + " \"personaApellido\", \"personaEntidadId\", \"personaEmail\")"
-                    + "   VALUES ('" + this.ciPersona + "', '" + this.nombrePersona + "', "
-                    + " '" + this.apellidoPersona + "', " + entidadDePersona + ", '" + this.emailPersona + "');";
-
-            conDB.hacerConsultaIUD(queryPersona);
-        } catch (SQLException ex) {
-            return -1;
-        }
-        return 1;
-    }
-
-    public int ModificarPersona(String ciPersona) {
-        Conecciones conDB = new Conecciones();
-        int resultado = -1;
-
-        if (!"".equals(super.getNombreEntidad()) && !"".equals(this.apellidoPersona)) {
-            try {
-                String query = "UPDATE \"SysmanexSch1\".\"Persona\"\n"
-                        + "	SET \"personaNombre\"=\'" + this.nombrePersona + "\',"
-                        + " \"personaApellido\"=\'" + this.apellidoPersona + "\',"
-                        + "\"personaEmail\"=\'" + this.emailPersona + "\'\n"
-                        + "	WHERE \"personaCi\"=\'" + ciPersona + "\';";
-                resultado = conDB.hacerConsultaIUD(query);
-            } catch (SQLException ex) {
-                return resultado;
-            }
-        } else {
-            resultado = 2;
-        }
-        return resultado;
-    }
-
     public static int BorrarPersona(String ci) {
         Conecciones conDB = new Conecciones();
         int resultado = -1;
@@ -319,7 +297,28 @@ public class Persona extends Entidad {
         return resultado;
     }
 
-    public void BuscarPersona(String nombre) {
+    public int ModificarPersona(String ciPersona) {
+        Conecciones conDB = new Conecciones();
+        int resultado = -1;
+
+        if (!"".equals(super.getNombreEntidad()) && !"".equals(this.apellidoPersona)) {
+            try {
+                String query = "UPDATE \"SysmanexSch1\".\"Persona\"\n"
+                        + "	SET \"personaNombre\"=\'" + this.nombrePersona + "\',"
+                        + " \"personaApellido\"=\'" + this.apellidoPersona + "\',"
+                        + "\"personaEmail\"=\'" + this.emailPersona + "\'\n"
+                        + "	WHERE \"personaCi\"=\'" + ciPersona + "\';";
+                resultado = conDB.hacerConsultaIUD(query);
+            } catch (SQLException ex) {
+                return resultado;
+            }
+        } else {
+            resultado = 2;
+        }
+        return resultado;
+    }
+
+    public void BuscarPersonaPorNombre(String nombre) {
         try {
             Conecciones conDB = new Conecciones();
             ResultSet rs;
@@ -328,12 +327,40 @@ public class Persona extends Entidad {
                     + " WHERE \"personaNombre\" LIKE \'%" + nombre + "\'"
                     + " ORDER BY \"personaNombre\" ASC;";
             rs = conDB.hacerConsulta(query);
-            ConstruirPersona(rs);
+            while (rs.next()) {
+                this.setEntidadId(rs.getInt("entidadId"));
+                this.setNombrePersona(rs.getString("personaNombre"));
+                this.setApellidoPersona(rs.getString("personaApellido"));
+                this.setCiPersona(rs.getString("personaCi"));
+                this.setEmailPersona(rs.getString("personaEmail"));
+            }
 
         } catch (SQLException ex) {
 
         }
 
+    }
+
+    public void BuscarPersonaPorId(int id) {
+        Conecciones conDB = new Conecciones();
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""
+                + " WHERE \"personaEntidadId\" = " + id + ";";
+        try {
+            ResultSet rs = conDB.hacerConsulta(query);
+            while (rs.next()) {
+                this.setEntidadId(rs.getInt("personaEntidadId"));
+                this.setNombrePersona(rs.getString("personaNombre"));
+                this.setApellidoPersona(rs.getString("personaApellido"));
+                this.setCiPersona(rs.getString("personaCi"));
+                this.setEmailPersona(rs.getString("personaEmail"));
+            }
+        } catch (SQLException ex) {
+            if ("23503".equalsIgnoreCase(ex.getSQLState())) {
+
+            }
+
+        }
     }
 
     public static ResultSet BuscarPersonas() {
@@ -348,38 +375,6 @@ public class Persona extends Entidad {
             return rs;
         } catch (SQLException ex) {
             return null;
-        }
-    }
-
-    public int BuscarPersonaPorId(int id) {
-        Conecciones conDB = new Conecciones();
-
-        int resultado = 0;
-
-        String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""
-                + " WHERE \"personaEntidadId\" = " + id + ";";
-        try {
-            resultado = conDB.hacerConsultaIUD(query);
-        } catch (SQLException ex) {
-            if ("23503".equalsIgnoreCase(ex.getSQLState())) {
-                return Integer.parseInt(ex.getSQLState());
-            }
-            return -1;
-        }
-        return resultado;
-    }
-
-    private void ConstruirPersona(ResultSet rs) {
-        try {
-            while (rs.next()) {
-                this.setEntidadId(rs.getInt("entidadId"));
-                this.setNombrePersona(rs.getString("personaNombre"));
-                this.setApellidoPersona(rs.getString("personaApellido"));
-                this.setCiPersona(rs.getString("personaCi"));
-                this.setEmailPersona(rs.getString("personaEmail"));
-            }
-        } catch (SQLException ex) {
-
         }
     }
 

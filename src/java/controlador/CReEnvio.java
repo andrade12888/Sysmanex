@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -63,10 +63,8 @@ public class CReEnvio extends HttpServlet {
                     if (tipo.equalsIgnoreCase("selPer")) {
                         try {
                             Persona unaEntidad = new Persona();
-                            int encontre = unaEntidad.BuscarPersonaPorId(id);
-                            if (encontre > 0) {
-                                u1.reEnviarExpediente(nroExped, unaEntidad, motivo, obser);
-                            }
+                            unaEntidad.BuscarPersonaPorId(id);
+                            u1.reEnviarExpediente(nroExped, unaEntidad, motivo, obser);
                         } catch (Exception ex) {
                             Mensajes.mensajeSuccessError("Error al agregar destinatarios", "misExpedientes.jsp", "red", request, response);
                             return;

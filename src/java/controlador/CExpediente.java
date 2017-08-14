@@ -246,8 +246,8 @@ public class CExpediente extends HttpServlet {
             }
             String nombre = "";
             Persona unaPersona = new Persona();
-            int encontre = unaPersona.BuscarPersonaPorId(rs.getInt("expedienteEntidadId"));
-            if (encontre == 1) {
+            unaPersona.BuscarPersonaPorId(rs.getInt("expedienteEntidadId"));
+            if (unaPersona.getCiPersona() != null) {
                 nombre = unaPersona.getNombrePersona() + " " + unaPersona.getApellidoPersona();
             } else {
                 UnidadArmada unaUnidad = new UnidadArmada();

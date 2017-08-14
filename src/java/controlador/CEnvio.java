@@ -63,10 +63,9 @@ public class CEnvio extends HttpServlet {
                     if (tipo.equalsIgnoreCase("selPer")) {
                         try {
                             Persona unaEntidad = new Persona();
-                            int encontre = unaEntidad.BuscarPersonaPorId(id);
-                            if (encontre > 0) {
-                                u1.enviarExpediente(nroExped, unaEntidad, motivo, obser);
-                            }
+                            unaEntidad.BuscarPersonaPorId(id);
+                            u1.enviarExpediente(nroExped, unaEntidad, motivo, obser);
+             
                         } catch (Exception ex) {
                             Mensajes.mensajeSuccessError("Error al agregar destinatarios", "misExpedientes.jsp", "red", request, response);
                             return;
