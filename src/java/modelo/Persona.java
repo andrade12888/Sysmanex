@@ -401,7 +401,7 @@ public class Persona extends Entidad {
                             + "<td><span id=\"email" + rs.getString("personaCi") + "\">" + rs.getString("personaEmail") + "</span></td>"
                             + "<td><button onclick=\"modalPersonas(" + rs.getString("personaCi") + ")\" id=\"" + rs.getString("personaCi") + "\" "
                             + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                            + "</button><button name=\"btnPersona\" value=\"Delete" + rs.getString("personaCi") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                            + "</button><button onclick=\"modalEliminarPersona(" + rs.getString("personaCi") + ")\" name=\"btnPersona\" value=\"Delete" + rs.getString("personaCi") + "\" type=\"button\" class=\"btn glyphicon glyphicon-trash\" data-toggle=\"modal\" data-target=\"#modalPersonaEliminar\"></button></td>";
                 }
             }
             tabla += "</table></form>";

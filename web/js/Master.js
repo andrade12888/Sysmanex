@@ -103,6 +103,30 @@ function modalEnvio(nroExp) {
     $("#modalExpediente").modal("show");
 }
 
+function modalEliminarTramite(id) {
+    
+    $("#btnEliTramite").val(id);
+}
+
+function modalEliminarExpediente(id) {
+    
+    $("#btnEliExp").val(id);
+}
+
+function modalEliminarMotivo(id) {
+    
+    $("#btnEliMotivo").val(id);
+}
+
+function modalEliminarPersona(id) {
+    
+    $("#btnEliPer").val("Delete"+id);
+}
+
+function modalEliminarUnidad(id) {    
+    $("#btnEliUni").val("Delete"+id);
+}
+
 function controlTextoVacio(idForm, idTxt1, idTxt2, spanClass) {
 
     if ($("#" + idTxt1).val() && $("#" + idTxt2).val())

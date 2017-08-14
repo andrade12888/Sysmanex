@@ -155,7 +155,7 @@ public class Entidad {
                         + "<td><span id=\"edoc" + unDoc.getId() + "\">" + unDoc.getNombre() + "</span></td>"
                         + "<td><button onclick=\"modalEnvio('" + exp + "')\" id=\"" + exp + "\" "
                         + "type=\"button\" class=\"btn glyphicon glyphicon-send\">"
-                        + "</button><button name=\"btnEliminarExpediente\" value=\"" + exp + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                        + "</button><button onclick=\"modalEliminarExpediente(" + rs.getString("expedienteNumero") + ")\" name=\"btnEliminarExpediente\" value=\"" + exp + "\" type=\"button\" class=\"btn glyphicon glyphicon-trash\" data-toggle=\"modal\" data-target=\"#modalExpedienteEliminar\"></button></td>";
                 Expediente unExpediente = new Expediente();
                 unExpediente.traerExpediente(exp);
                 ResultSet rs2 = unExpediente.ExpedienteTramitado();

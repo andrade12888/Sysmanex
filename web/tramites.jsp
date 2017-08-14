@@ -59,6 +59,24 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="modalTramite" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirme la eliminacion del Tramite</h4>
+            </div>
+            <div class="modal-body">
+                <form name="frmActualizarTramite" action="tramites.do" method="POST">                    
+                    <div class="modal-footer">                    
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" id="btnEliTramite" name="btnTramite" value="" class="btn-agregar" >Confirmar</button>   
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <jsp:include page="master/footer.jsp"/>
 
