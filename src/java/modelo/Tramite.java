@@ -177,7 +177,7 @@ public class Tramite {
                     + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
                     + "<td><button onclick=\"modalTramite(" + rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                   + "</button><button onclick=\"modalEliminarTramite(" + rs.getInt("tramiteId") + ")\" name=\"btnTramite\" value=\"" + rs.getInt("tramiteId") + "\" type=\"button\" name=\" \"class=\"btn glyphicon glyphicon-trash\"data-toggle=\"modal\" data-target=\"#modalTramite\"></button></td>";
+                    + "</button><button name=\"btnTramite\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
         }
         tabla += "</table></form>";
 
@@ -194,7 +194,7 @@ public class Tramite {
                     + "<td><span id=\"tdp" + rs.getInt("tramiteId") + "\">" + rs.getInt("tramitePlazo") + "</span></td>"
                     + "<td><button onclick=\"modalTramite(" + rs.getInt("tramiteId") + ")\" id=\"" + rs.getInt("tramiteId") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnTramite\" value=\"" + rs.getInt("tramiteId") + "\" type=\"submit\" name=\" \"class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                    + "</button><button onclick=\"modalEliminarTramite(" + rs.getInt("tramiteId") + ")\" name=\"btnTramite\" value=\"" + rs.getInt("tramiteId") + "\" type=\"button\" name=\" \"class=\"btn glyphicon glyphicon-trash\"data-toggle=\"modal\" data-target=\"#modalTramite\"></button></td>";
         }
         tabla += "</table></form>";
 
