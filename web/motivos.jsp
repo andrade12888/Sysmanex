@@ -49,5 +49,24 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalMotivo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirme la eliminacion del Motivo</h4>
+            </div>
+            <div class="modal-body">
+                <form name="frmBorrarMotivo" action="motivos.do" method="POST">                    
+                    <div class="modal-footer">                    
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" id="btnEliMotivo" name="btnMotivos" value="" class="btn-agregar" >Confirmar</button>   
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 <jsp:include page="master/footer.jsp"/>
 

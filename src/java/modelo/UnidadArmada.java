@@ -317,7 +317,7 @@ public class UnidadArmada extends Entidad {
                             + "<td><span id=\"entidad" + rs.getInt("unidadId") + "\">" + buscarEntidad(rs.getInt("unidadEntidadId")) + "</span></td>"
                             + "<td><button onclick=\"modalUnidades(" + rs.getInt("unidadId") + ")\" id=\"" + rs.getInt("unidadId") + "\" "
                             + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                            + "</button><button name=\"btnUnidad\" value=\"Delete" + rs.getInt("unidadEntidadId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                            + "</button><button onclick=\"modalEliminarUnidad(" + rs.getInt("unidadId") + ")\" name=\"btnUnidad\" value=\"Delete" + rs.getInt("unidadEntidadId") + "\" type=\"button\" class=\"btn glyphicon glyphicon-trash\" data-toggle=\"modal\" data-target=\"#modalUnidad\"></button></td>";
                 }
             }
             tabla += "</table></form>";

@@ -145,7 +145,7 @@ public class Motivo {
                     + " <span id=\"tdd" + rs.getInt("motivoId") + "\">" + rs.getString("motivoDescripcion") + "</span></td>"
                     + "<td><button onclick=\"modalMotivos(" + rs.getInt("motivoId") + ")\" id=\"" + rs.getInt("motivoId") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnMotivos\" value=\"" + rs.getInt("motivoId") + "\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                    + "</button><button onclick=\"modalEliminarMotivo(" + rs.getInt("motivoId") + ")\" name=\"btnMotivos\" value=\"" + rs.getInt("motivoId") + "\" type=\"button\" class=\"btn glyphicon glyphicon-trash\" data-toggle=\"modal\" data-target=\"#modalMotivo\"></button></td>";
         }
         tabla += "</table></form>";
 
