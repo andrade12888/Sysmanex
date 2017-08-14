@@ -368,7 +368,7 @@ public class Entidad {
         Conecciones conDB = new Conecciones();
         int resultado;
         String query1 = "UPDATE \"SysmanexSch1\".\"ExpedienteEntidad\"\n"
-                + "SET \"ExpedienteEntidadFechaEnvio\" = CURRENT_DATE, \"ExpedienteEstadoId\"=6\n"
+                + "SET \"ExpedienteEntidadFechaEnvio\" = CURRENT_DATE, \"ExpedienteEstadoId\"=5\n"
                 + "WHERE \"ExpedienteNumero\" = '" + expedienteNumero + "'\n"
                 + "AND \"idEntidad\" = " + this.getEntidadId() + "\n"
                 + "AND \"ExpedienteEntidadFechaRecibido\" = (SELECT MIN(\"ExpedienteEntidadFechaRecibido\")\n"
