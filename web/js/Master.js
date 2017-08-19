@@ -83,11 +83,7 @@ $(document).ready(function () {
     $("select").on('change', function () {
         var getValue = $(this).val();
         $("#defaultVal").val(getValue);
-    });
-
-    $("#borrarButton").click(function () {        
-            $("#uploadButton").prop('disabled',null);        
-    });
+    });   
 
 });
 
