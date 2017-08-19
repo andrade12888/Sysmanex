@@ -1,5 +1,39 @@
 $(document).ready(function () {
 
+    $('INPUT[type="file"]').change(function (){
+        $("span[class='hidden-xs']").click(function(){              
+              $("#uploadButton").prop('disabled',null);        
+    });
+});
+    
+    $('INPUT[type="file"]').change(function () {
+    var ext = this.value.match(/\.(.+)$/)[1];
+    switch (ext) {
+        case 'jpg':$('#uploadButton').attr('disabled', true);
+            break;
+        case 'jpeg':$('#uploadButton').attr('disabled', true);
+            break;
+        case 'png':$('#uploadButton').attr('disabled', true);
+            break;
+        case 'exe':
+            $('#uploadButton').attr('disabled', true);
+            break;
+        case '':$('#uploadButton').attr('disabled', true);
+            break;
+        case 'txt':
+        break;
+        case 'pdf':
+        break;
+        case 'docx':
+        break;
+        case 'doc':
+        break;        
+        default:
+            alert('This is not an allowed file type.');
+            this.value = '';
+    }
+});
+    
     $(".doc").fancybox({
         openEffect: 'none',
         closeEffect: 'none',
@@ -51,7 +85,12 @@ $(document).ready(function () {
         $("#defaultVal").val(getValue);
     });
 
+    $("#borrarButton").click(function () {        
+            $("#uploadButton").prop('disabled',null);        
+    });
+
 });
+
 
 function errorTextoVacio(id)
 {

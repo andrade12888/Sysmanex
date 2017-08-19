@@ -362,6 +362,7 @@ public class CUsuarios extends HttpServlet {
                 break;
             default:
                 Mensajes.mensajeSuccessError("Elija una opcion valida", "personasModificar.jsp", "red", request, response);
+                break;
         }
 
         Mensajes.mensajeSuccessError("Ha ocurrido un error (POST)", "personasModificar.jsp", "red", request, response);

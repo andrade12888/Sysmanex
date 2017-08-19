@@ -25,7 +25,7 @@
                             <div class="row">
                                 <div class="row">
                                     <div class="col-lg-4"></div>
-                                    <div class="col-lg-4"><br><div style="color: ${colorError}; text-align: center;">${errorMessage}</div></div>
+                                    <div class="col-lg-4"><br><div id="errorMotivo" style="color: ${colorError}; text-align: center;">${errorMessage}</div></div>
                                     <div class="col-lg-4"></div>
                                 </div>
                                 </form>
@@ -42,8 +42,8 @@
                                 <div class="col-lg-9">
                                     <input id="input-1a" name="input-1a" type="file" class="file" multiple="true" data-show-preview="true">
                                 </div>  
-                                <div class="col-lg-3"><button value="2" name="btnSubirFrm" type="submit" class="btn btn-agregar">Subir Fomulario</button></div> 
-                                <div class="col-lg-12"><button type="reset" class="btn btn-agregar">Borrar archivos</button></div> 
+                                <div class="col-lg-3"><button id="uploadButton" value="2" name="btnSubirFrm" type="submit" class="btn btn-agregar">Subir Fomulario</button></div> 
+                                <div class="col-lg-12"><button id="borrarButton" type="reset" class="btn btn-agregar">Borrar archivos</button></div> 
                                 
                             </div>
                         </div>
