@@ -105,16 +105,13 @@ public abstract class FileSettings {
                   fileName.substring(fileName.lastIndexOf("\\")+1)) ;
                }
               
-            }else
-            {
-                 // Process regular form field (input type="text|radio|checkbox|etc", select, etc).
-             
+            }
+            if("txtNuevoTexto".equals(fi.getFieldName()) && !"".equals(fi.getString()))
+            {                 
                 String fieldName = fi.getString();
                 String[] parts = fileName.split("[.]");
                 String part1 = parts[1];
-                
-                if(!"".equals(fieldName))
-                    fileName=fieldName+"."+part1;  
+                fileName=fieldName+"."+part1;  
                 // Write the file
                if( fileName.lastIndexOf("\\") >= 0 ) {
                   file = new File( url + 

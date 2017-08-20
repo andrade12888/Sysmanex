@@ -100,7 +100,7 @@ public class CFormularios extends HttpServlet {
                     }
     }
 
-     private void SubirArchivo(HttpServletRequest request, HttpServletResponse response)//TODO: Control de errores
+     private void SubirArchivo(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{  
         String relativeWebPath = "/upload/";
         String filePath = getServletContext().getRealPath(relativeWebPath);     
@@ -152,13 +152,20 @@ public class CFormularios extends HttpServlet {
             // constructs the directory path to store upload file
             f.setRutaRormulario("\\Sysmanex\\upload\\"+fileName);
             f.setFechaCreacionFormulario(Utilidades.ConvertionUtil.CurrentDate());
-            f.AgregarFormulario();
+            f.AgregarFormulario();                                           
             request.getRequestDispatcher("formularios.jsp").forward(request, response); 
+            
         } catch (SQLException ex) {
+            if("23505".equals(ex.getMessage()))
+            {
+                request.setAttribute("errorMessage", "Ya existe un archivo con ese nombre");
+                request.setAttribute("colorError", "red");
+                request.getRequestDispatcher("formularios.jsp").forward(request, response);
+            }
+                        
             request.setAttribute("errorMessage", "Ocurrio un error al subir el archivo");
             request.setAttribute("colorError", "red");
             request.getRequestDispatcher("formularios.jsp").forward(request, response); 
-       
         }
      
      }
