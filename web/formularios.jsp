@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
-                <form  action="formulario.do" method="post" id="frmFormulario">
+                <form  action="formulario.do" method="POST" id="frmFormulario">
                     <div class="panel panel-success" id="pnlFormulario">
                         <div class="panel-heading">
                             <h3 class="panel-title">Formularios</h3>
@@ -42,9 +42,14 @@
                                 <div class="col-lg-9">
                                     <input id="input-1a" name="input-1a" type="file" class="file" multiple="true" data-show-preview="true">
                                 </div>  
-                                <div class="col-lg-3"><button id="uploadButton" value="2" name="btnSubirFrm" type="submit" class="btn btn-agregar">Subir Fomulario</button></div> 
-                                
-                                
+                                <div class="col-lg-3">
+                                    <button id="uploadButton" value="2" name="btnSubirFrm" type="submit" class="btn btn-agregar">Subir Fomulario</button>
+                                </div> 
+                                <div class="col-lg-9">
+                                    <label>Ingrese el nuevo nombre del formulario si lo desea. No incluya la extension del archivo</label>
+                                    <br>
+                                    <input type="text" id="inputNuevoTexto" value="" name="txtNuevoTexto"></input>                                     
+                                </div>                                 
                             </div>
                         </div>
                         

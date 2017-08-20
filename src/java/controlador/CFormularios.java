@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import modelo.Formulario;
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 
 /**
@@ -64,7 +65,7 @@ public class CFormularios extends HttpServlet {
         File downloadFile = new File(filePath);
         FileInputStream inStream = new FileInputStream(downloadFile);            
 
-        ServletContext context = getServletContext();         
+        ServletContext context = getServletContext();        
         // gets MIME type of the file
         String mimeType = context.getMimeType(filePath);
         if (mimeType == null) {        
@@ -102,10 +103,12 @@ public class CFormularios extends HttpServlet {
      private void SubirArchivo(HttpServletRequest request, HttpServletResponse response)//TODO: Control de errores
             throws ServletException, IOException{  
         String relativeWebPath = "/upload/";
-        String filePath = getServletContext().getRealPath(relativeWebPath);
-         String fileName="";
+        String filePath = getServletContext().getRealPath(relativeWebPath);     
+        
+        String fileName="";
+        
         try {
-            // Verify the content type
+                // Verify the content type
             String contentType = request.getContentType();
             
             if ((contentType.contains("multipart/form-data"))) {
@@ -121,11 +124,11 @@ public class CFormularios extends HttpServlet {
                 
                 try {                    
                     // Parse the request to get file items.
-                    List fileItems = upload.parseRequest(request);
+                    List fileItems = upload.parseRequest(request);                    
                     
                     // Process the uploaded file items
-                    Iterator i = fileItems.iterator();
-                    fileName=FileSettings.GuardarArchivoEndDisco(i,filePath);
+                    Iterator i = fileItems.iterator();                    
+                    fileName=FileSettings.GuardarArchivoEndDisco(i,filePath+"\\");
                     
                 } catch(SizeLimitExceededException fse) {
                     int tamano =(FileSettings.getMaxFileSize()/1024)/1024;
@@ -171,8 +174,7 @@ public class CFormularios extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+            throws ServletException, IOException {       
     }
 
     /**

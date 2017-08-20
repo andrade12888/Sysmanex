@@ -20,16 +20,16 @@ $(document).ready(function () {
             break;
         case '':$('#uploadButton').attr('disabled', true);
             break;
-        case 'txt':
+        case 'txt' || 'TXT':
         break;
-        case 'pdf':
+        case 'pdf' || 'PDF':
         break;
-        case 'docx':
+        case 'docx' || 'DOCX':
         break;
-        case 'doc':
+        case 'doc' || 'DOC':
         break;        
         default:
-            alert('This is not an allowed file type.');
+            alert('Tipo de archivo no reconocido.');
             this.value = '';
     }
 });
