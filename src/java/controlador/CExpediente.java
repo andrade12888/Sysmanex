@@ -81,7 +81,6 @@ public class CExpediente extends HttpServlet {
                                 }
                                 break;
                             case "txtAsunto":
-
                                 unExpediente.setAsuntoExpediente(fieldvalue);
                                 break;
                             case "publico":
@@ -244,21 +243,30 @@ public class CExpediente extends HttpServlet {
                 case 5: estado = "class=\"tramitado\""; break;
             
             }
-            String nombre = "";
+            String originador = "", proviene = "";
             Persona unaPersona = new Persona();
             unaPersona.BuscarPersonaPorId(rs.getInt("expedienteEntidadId"));
             if (unaPersona.getCiPersona() != null) {
-                nombre = unaPersona.getNombrePersona() + " " + unaPersona.getApellidoPersona();
+                originador = unaPersona.getNombrePersona() + " " + unaPersona.getApellidoPersona();
             } else {
                 UnidadArmada unaUnidad = new UnidadArmada();
                 unaUnidad.BuscarUnidadEntidadId(rs.getInt("expedienteEntidadId"));
-                nombre = unaUnidad.getSigla();
-            }            
+                originador = unaUnidad.getSigla();
+            } 
+            unaPersona.BuscarPersonaPorId(rs.getInt("EnviadoEntidadId"));
+            if (unaPersona.getCiPersona() != null) {
+                proviene = unaPersona.getNombrePersona() + " " + unaPersona.getApellidoPersona();
+            } else {
+                UnidadArmada unaUnidad = new UnidadArmada();
+                unaUnidad.BuscarUnidadEntidadId(rs.getInt("expedienteEntidadId"));
+                proviene = unaUnidad.getSigla();
+            }  
             recibidos += "<tr "+estado+">"
                     + "<td><a href='VisualizarExpediente.do?nroExped=" + rs.getString("expedienteNumero") + "'>" + rs.getString("expedienteNumero") + "</a> </td>"
                     + "<td>" + rs.getString("expedienteAsunto") + " </td>"
                     + "<td>" + rs.getString("tramiteNombre") + " </td>"
-                    + "<td>" + nombre + "</td>"
+                    + "<td>" + originador + "</td>"
+                    + "<td>" + proviene + "</td>"
                     + "<td>" + rs.getString("restante") + "  Dias.  </td>"
                     + "<td>" + rs.getString("estadoDescripcion") + " </td>"
                     + "</tr>";

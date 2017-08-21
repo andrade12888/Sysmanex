@@ -66,7 +66,7 @@ public class CReEnvio extends HttpServlet {
                             unaEntidad.BuscarPersonaPorId(id);
                             u1.reEnviarExpediente(nroExped, unaEntidad, motivo, obser);
                         } catch (Exception ex) {
-                            Mensajes.mensajeSuccessError("Error al agregar destinatarios", "misExpedientes.jsp", "red", request, response);
+                            Mensajes.mensajeSuccessError("Error al agregar destinatarios", "VisualizarExpediente.do?nroExped="+nroExped, "red", request, response);
                             return;
                         }
 
@@ -87,7 +87,7 @@ public class CReEnvio extends HttpServlet {
 
                 }
             }
-            Mensajes.mensajeSuccessError("Envio Exitoso", "misExpedientes.jsp", "green", request, response);
+            Mensajes.mensajeSuccessError("Envio Exitoso","bandeja.jsp", "green", request, response);
         } else {
             Mensajes.mensajeSuccessError("Error al enviar el Expediente.Elija destinatarios", "misExpedientes.jsp", "red", request, response);
         }

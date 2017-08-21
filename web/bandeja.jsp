@@ -18,7 +18,7 @@
                 <div class="panel-body">
                     <table class="table">
                         <tr><th>N Expediente</th><th>Asunto</th><th>Tramite</th>
-                            <th>Proviene de</th><th>Tiempo para tramitar</th><th>Estado</th></tr>
+                            <th>Originador</th><th>Proviene de</th><th>Tiempo para tramitar</th><th>Estado</th></tr>
                                 <%= lstRecibidos%>
                     </table> 
                 </div>

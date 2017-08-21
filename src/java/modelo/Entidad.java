@@ -48,16 +48,16 @@ public class Entidad {
     public int getEntidadId() {
         return entidadId;
     }
-    
-    public String getEntidadIdLargo(){
-        if(entidadId>999){
+
+    public String getEntidadIdLargo() {
+        if (entidadId > 999) {
             return Integer.toString(entidadId);
-        }else if(entidadId>99){
-            return "0"+entidadId;
-        }else if(entidadId>9){
-            return "00"+entidadId;
-        }else{
-            return "000"+entidadId;
+        } else if (entidadId > 99) {
+            return "0" + entidadId;
+        } else if (entidadId > 9) {
+            return "00" + entidadId;
+        } else {
+            return "000" + entidadId;
         }
     }
 
@@ -155,46 +155,16 @@ public class Entidad {
                         + "<td><span id=\"edoc" + unDoc.getId() + "\">" + unDoc.getNombre() + "</span></td>"
                         + "<td><button onclick=\"modalEnvio('" + exp + "')\" id=\"" + exp + "\" "
                         + "type=\"button\" class=\"btn glyphicon glyphicon-send\">"
-                        + "</button><button onclick=\"modalEliminarExpediente(" + rs.getString("expedienteNumero") + ")\" name=\"btnEliminarExpediente\" value=\"" + exp + "\" type=\"button\" class=\"btn glyphicon glyphicon-trash\" data-toggle=\"modal\" data-target=\"#modalExpedienteEliminar\"></button></td>";
+                        + "</button><button onclick=\"modalEliminarExpediente(" + rs.getString("expedienteNumero") + ")\" name=\"btnEliminarExpediente\" value=\"" + exp
+                        + "\" type=\"button\" class=\"btn glyphicon glyphicon-trash\" data-toggle=\"modal\" data-target=\"#modalExpedienteEliminar\"></button></td>";
                 Expediente unExpediente = new Expediente();
                 unExpediente.traerExpediente(exp);
                 ResultSet rs2 = unExpediente.ExpedienteTramitado();
                 if (rs2 != null && rs2.next()) {
-                    String tabla2 = "<td><input type=\"button\" id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" value=\"+\"/>"
-                            + "<input type=\"button\" id=\"o" + exp + "\" style=\"display: none;\" onclick=\"ocultar(" + exp + ");\" value=\"-\"/></td></tr>"
-                            + "<tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
-                            + "Destino Actual</th><th>Fecha de Envio</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>";
-                    rs2.beforeFirst();
-                    while (rs2.next()) {
-                        String destinatario = "";
-                        Entidad unaEntidad = new Entidad();
-                        unaEntidad.buscarEntidadId(rs2.getInt("idEntidad"));
-                        if (unaEntidad.queSoy() == 2) {
-                            Persona unaPersona = new Persona();
-                            unaPersona.BuscarPersonaPorId(unaEntidad.getEntidadId());
-                            destinatario = unaPersona.getNombrePersona() + " " + unaPersona.getApellidoPersona();
-                        } else {
-                            UnidadArmada unaUnidad = new UnidadArmada();
-                            unaUnidad.BuscarUnidadEntidadId(unaEntidad.getEntidadId());
-                            destinatario = unaUnidad.getSigla();
-                        }
-                        tabla2 += "<tr><td>" + destinatario + "</td><td>" + rs2.getString("ExpedienteEntidadFechaRecibido") + "</td><td>" + rs2.getString("motivoDescripcion")
-                                + "</td><td>" + rs2.getString("ExpedienteEntidadObservacion") + "</td><td>" + rs2.getString("estadoDescripcion")
-                                + "</td></tr>";
-                    }
-                    rs2.close();
-                    if (!tabla2.equals("<td><button id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" class=\"btn glyphicon glyphicon-triangle-bottom\"></button>"
-                            + "<button id=\"o" + exp + "\"  class=\" btn glyphicon glyphicon-triangle-top\" style=\"display: none;\" onclick=\"ocultar(" + exp + ");\"></button></td></tr>"
-                            + "<tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"
-                            + "Origen</th><th>Fecha de Envio</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>")) {
-                        tabla2 += "</table>";
-                        tabla += tabla2 + "</td></tr>";
-                    }
+                    tabla += "<td><input type=\"button\" id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" value=\"+\"/>"
+                            + "<input type=\"button\" id=\"o" + exp + "\" style=\"display: none;\" onclick=\"ocultar(" + exp + ");\" value=\"-\"/></td></tr>";
                 } else {
-                    tabla += "<th></th></tr>";
-                    if (rs2 != null) {
-                        rs2.close();
-                    }
+                    tabla += "<td></td></tr>";
                 }
             }
         } catch (SQLException ex) {
@@ -205,6 +175,7 @@ public class Entidad {
         return tabla;
     }
 
+   
     //TODO: Resultado 2 podria dar error o conflicto si estoy inrgesando el segundo user
     //PRE: El rol debe existir en la base de datos
     protected int AgregarEntidad() throws SQLException {
@@ -351,10 +322,12 @@ public class Entidad {
         Conecciones conDB = new Conecciones();
         int resultado;
 
-        String query = "INSERT INTO \"SysmanexSch1\".\"ExpedienteEntidad\""
-                + "(\"ExpedienteNumero\",\"idEntidad\", \"ExpedienteEntidadFechaEnvio\", \"ExpedienteEntidadFechaRecibido\", \"ExpedienteMotivoId\",\"ExpedienteEntidadObservacion\",\"ExpedienteEstadoId\")"
-                + "	VALUES"
-                + "('" + expedienteNumero + "'," + destino.getEntidadId() + ",null,CURRENT_DATE," + idMotivo + ",'" + obs + "',2)";
+        String query = "INSERT INTO \"SysmanexSch1\".\"ExpedienteEntidad\"("
+                + " \"ExpedienteNumero\", \"EnviadoEntidadId\", \"ExpedienteEntidadFechaEnvio\", \"DestinatarioEntidadId\",\"ExpedienteEntidadFechaRecibido\","
+                + " \"ExpedienteMotivoId\", \"ExpedienteEntidadObservacion\", \"ExpedienteEstadoId\")"
+                + " VALUES "
+                + "('" + expedienteNumero + "'," + this.getEntidadId() + ", CURRENT_DATE," + destino.getEntidadId() + ", null,"
+                + idMotivo + ",'" + obs + "',2)";
         try {
             resultado = conDB.hacerConsultaIUD(query);
         } catch (SQLException ex) {
@@ -367,18 +340,21 @@ public class Entidad {
     public int reEnviarExpediente(String expedienteNumero, Entidad destino, int idMotivo, String obs) {
         Conecciones conDB = new Conecciones();
         int resultado;
-        String query1 = "UPDATE \"SysmanexSch1\".\"ExpedienteEntidad\"\n"
-                + "SET \"ExpedienteEntidadFechaEnvio\" = CURRENT_DATE, \"ExpedienteEstadoId\"=5\n"
-                + "WHERE \"ExpedienteNumero\" = '" + expedienteNumero + "'\n"
-                + "AND \"idEntidad\" = " + this.getEntidadId() + "\n"
-                + "AND \"ExpedienteEntidadFechaRecibido\" = (SELECT MIN(\"ExpedienteEntidadFechaRecibido\")\n"
-                + "	FROM \"SysmanexSch1\".\"ExpedienteEntidad\"\n"
-                + "    WHERE \"ExpedienteNumero\" = '" + expedienteNumero + "'\n"
-                + "	AND \"idEntidad\" = " + this.getEntidadId() + ")";
-        String query = "INSERT INTO \"SysmanexSch1\".\"ExpedienteEntidad\""
-                + "(\"ExpedienteNumero\",\"idEntidad\", \"ExpedienteEntidadFechaEnvio\", \"ExpedienteEntidadFechaRecibido\", \"ExpedienteMotivoId\",\"ExpedienteEntidadObservacion\",\"ExpedienteEstadoId\")"
-                + "	VALUES"
-                + "('" + expedienteNumero + "'," + destino.getEntidadId() + ",null,CURRENT_DATE," + idMotivo + ",'" + obs + "',2)";
+        String query1 = "UPDATE \"SysmanexSch1\".\"ExpedienteEntidad\" "
+                + "SET \"ExpedienteEstadoId\"=5 "
+                + "WHERE \"ExpedienteNumero\" = '" + expedienteNumero + "'"
+                + "AND \"DestinatarioEntidadId\" = " + this.getEntidadId() + ""
+                + "AND \"ExpedienteEntidadFechaEnvio\" = (SELECT MIN(\"ExpedienteEntidadFechaEnvio\")\n"
+                + "FROM \"SysmanexSch1\".\"ExpedienteEntidad\"\n"
+                + "WHERE \"ExpedienteNumero\" = '" + expedienteNumero + "'"
+                + " AND \"DestinatarioEntidadId\" = " + this.getEntidadId() + ")";
+
+        String query = "INSERT INTO \"SysmanexSch1\".\"ExpedienteEntidad\"("
+                + " \"ExpedienteNumero\", \"EnviadoEntidadId\", \"ExpedienteEntidadFechaEnvio\", \"DestinatarioEntidadId\",\"ExpedienteEntidadFechaRecibido\","
+                + " \"ExpedienteMotivoId\", \"ExpedienteEntidadObservacion\", \"ExpedienteEstadoId\")"
+                + " VALUES "
+                + "('" + expedienteNumero + "'," + this.getEntidadId() + ", CURRENT_DATE," + destino.getEntidadId() + ", null,"
+                + idMotivo + ",'" + obs + "',2)";
         try {
             resultado = conDB.hacerConsultaIUD(query1);
             if (resultado == 1) {
@@ -405,12 +381,13 @@ public class Entidad {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
 
-        String query = "SELECT e.\"expedienteNumero\",e.\"expedienteAsunto\", t.\"tramiteNombre\", e.\"expedienteEntidadId\", t.\"tramitePlazo\"-(CURRENT_DATE - ee.\"ExpedienteEntidadFechaRecibido\") as restante, es.\"estadoDescripcion\"\n"
+        String query = "SELECT e.\"expedienteNumero\",e.\"expedienteAsunto\", t.\"tramiteNombre\", e.\"expedienteEntidadId\", ee.\"EnviadoEntidadId\",\n"
+                + "		t.\"tramitePlazo\"-(CURRENT_DATE - ee.\"ExpedienteEntidadFechaEnvio\") as restante, es.\"estadoDescripcion\"\n"
                 + "FROM \"SysmanexSch1\".\"Expediente\" e, \"SysmanexSch1\".\"Tramite\" t, \"SysmanexSch1\".\"ExpedienteEntidad\" ee, \"SysmanexSch1\".\"Estado\" es\n"
                 + "WHERE e.\"expedienteNumero\" = ee.\"ExpedienteNumero\"\n"
                 + "AND es.\"estadoId\" = ee.\"ExpedienteEstadoId\"\n"
                 + "AND e.\"expedienteTramiteId\" = t.\"tramiteId\"\n"
-                + "AND ee.\"idEntidad\" =" + this.getEntidadId()
+                + "AND ee.\"DestinatarioEntidadId\"=" + this.getEntidadId()
                 + " ORDER BY CASE es.\"estadoId\" WHEN 1 THEN 2\n"
                 + "WHEN 2 THEN 1\n"
                 + "WHEN 3 THEN 5\n"
@@ -471,22 +448,23 @@ public class Entidad {
 
         String query = "SELECT \"expedienteNumero\" \n"
                 + "FROM \"SysmanexSch1\".\"Expediente\"\n"
-                + "WHERE \"expedienteNumero\" LIKE concat(EXTRACT(YEAR FROM now()),'"+this.getEntidadIdLargo()+"%')\n"
+                + "WHERE \"expedienteNumero\" LIKE concat(EXTRACT(YEAR FROM now()),'" + this.getEntidadIdLargo() + "%')\n"
                 + "ORDER BY \"expedienteNumero\" DESC\n"
                 + "LIMIT 1";
         try {
             rs = conDB.hacerConsulta(query);
             int numeroInt = -1;
-            while(rs.next()){
+            while (rs.next()) {
                 String numero = rs.getString("expedienteNumero");
                 String numeroSub = numero.substring(numero.length() - 5);
                 numeroInt = Integer.parseInt(numeroSub);
                 numeroInt++;
             }
-            if(numeroInt != -1)
+            if (numeroInt != -1) {
                 return Integer.toString(numeroInt);
-            else
-                return "";            
+            } else {
+                return "";
+            }
         } catch (SQLException ex) {
             return "";
         }
