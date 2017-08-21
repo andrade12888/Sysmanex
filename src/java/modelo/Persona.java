@@ -119,13 +119,12 @@ public class Persona extends Entidad {
         return 1;
     }
 
-    //TODO: Ver refactor de los metods de Agregar PersonaEnUnidad y Empresa
+
     //Segun lo enviado desde el form, persona debe :
     //1: Agregar entidad(user)
     //2: Agregar persona con el id de Entiad que capturo del insert anterior
     //3: Agregar en UnidadArmada dicha persona 
     //TODO: Se puede devolver un numero diferente para cada transsaccion que falle
-    //TODO: Como llegan los valores, por parametros o por objetos?
     //PRE: La unidad existe dado que viene del Form
     public int AgregarPersonaEnUnidad(int unidadId) {
         Conecciones conDB = new Conecciones();
@@ -173,7 +172,6 @@ public class Persona extends Entidad {
 
                 if (conDB.getConnect() != null) {
                     try {
-                        System.err.print("Ocurrio un error ingresando la persona a la Unidad");
                         conDB.getConnect().rollback();
                         return -1;
                     } catch (SQLException excep) {
@@ -191,7 +189,6 @@ public class Persona extends Entidad {
                 }
             }
         } else {
-            System.err.print("Los campos en Nombre, Apellido CI, Email no pueden ser vacios.\n");
             resultado = 2;
         }
         return resultado;
@@ -202,7 +199,6 @@ public class Persona extends Entidad {
     //2: Agregar persona con el id de Entiad que capturo del insert anterior
     //3: Agregar en  Empresa dicha persona 
     //TODO: Se puede devolver un numero diferente para cada transsaccion que falle
-    //TODO: Como llegan los valores, por parametros o por objetos?
     //PRE: La empresa existe dado que viene del Form
     public int AgregarPersonaEnEmpresa(String rutEmpresa) {
         Conecciones conDB = new Conecciones();
@@ -378,7 +374,7 @@ public class Persona extends Entidad {
         }
     }
 
-    public String TablaPersonas() //TODO: Le faltarian los cabezales Nombre Apellido y Email
+    public String TablaPersonas()
     {
         try {
             ResultSet rs = BuscarPersonas();
@@ -387,7 +383,11 @@ public class Persona extends Entidad {
                     + "<th>Personas</th>"
                     + "<th> </th>"
                     + "<th> </th>"
-                    + "<th>Opciones</th>";
+                    + "<th>Opciones</th>"                   
+                    + "<tr><td><b>Nombre</td>"
+                    + "<td><b>Apellido</td>"
+                    + "<td><b>Email</td></tr>";
+                    
             if (rs != null) {
                 while (rs.next()) {
                     tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("personaCi") + "\" name=\"txtIdPersona\" value=\"" + rs.getString("personaCi") + "\">"

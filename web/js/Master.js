@@ -162,6 +162,10 @@ function modalEliminarUnidad(id) {
     $("#btnEliUni").val("Delete"+id);
 }
 
+function modalEliminarEmpresa(id) {    
+    $("#btnEliEmp").val(id);
+}
+
 function controlTextoVacio(idForm, idTxt1, idTxt2, spanClass) {
 
     if ($("#" + idTxt1).val() && $("#" + idTxt2).val())
@@ -208,7 +212,6 @@ function modalEmpresas(id) {
     $("#txtActualizarNombre").val($("#tdd" + id).text());
     $("#txtActualizarRUT").val($("#id" + id).val());
     $("#txtViejoRUT").attr("value", id);
-
 }
 
 function agregarDestinatario() {

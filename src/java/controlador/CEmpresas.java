@@ -36,10 +36,13 @@ public class CEmpresas extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        String RUT = request.getParameter("txtActualizarEmpresaRUT");
-        String nombre = request.getParameter("txtActualizarEmpresa");
-         String rutViejo = request.getParameter("txtViejoRUT");
+        String RUTnuevo = request.getParameter("txtActualizarEmpresaRUT");        
+        String nombreNuevo = request.getParameter("txtActualizarEmpresa");
+        String RUT = request.getParameter("txtRutEmp");
+        String nombre = request.getParameter("txtNomEmpresa");
+        String rutViejo = request.getParameter("txtViejoRUT");
         String btn = "";
+        boolean existe=false;
 
         if (request.getParameter("btnEmpresas") != null) {
             btn = request.getParameter("btnEmpresas");
@@ -50,8 +53,7 @@ public class CEmpresas extends HttpServlet {
                 Empresa empresa = ConstruirEmpresa(nombre, RUT);
 
                 if (empresa != null) {
-
-                    boolean existe = Control.ControlEmpresaExistente(empresa, request, response);
+                    existe = Control.ControlEmpresaExistente(empresa, request, response);
 
                     if (!existe) {
                         try {
@@ -69,10 +71,11 @@ public class CEmpresas extends HttpServlet {
 
             case "Update": {
                 
-                Empresa empresa = ConstruirEmpresa(nombre, RUT);
+                Empresa empresa = ConstruirEmpresa(nombreNuevo, RUTnuevo);
                 //Si la empresa es nul, entonces los campos rut o nombre ingresados son vacios
                 if (empresa != null) {
-                    boolean existe = Control.ControlEmpresaExistente(empresa, request, response);
+                    if(!rutViejo.equals(RUT))
+                        existe = Control.ControlEmpresaExistente(empresa, request, response);
 
                     if (!existe) {
                         try {
@@ -99,9 +102,9 @@ public class CEmpresas extends HttpServlet {
 
             case "Delete": {
                  
-                String empresaRut = request.getParameter("empresaBorrar");
-                //Si la empresa es nul, entonces los campos rut o nombre ingresados son vacios
-                if (empresaRut != null) {
+                String empresaRut = request.getParameter("btnEliEmp");
+                
+                if (!"".equals(empresaRut)) {
                         try{
                             int re = Empresa.BorrarEmpresa(empresaRut);
                             if (re == 1) {

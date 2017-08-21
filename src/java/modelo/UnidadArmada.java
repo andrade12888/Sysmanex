@@ -70,7 +70,6 @@ public class UnidadArmada extends Entidad {
     //2: Agregar unidad con el id de Entiad que capturo del insert anterior
     //3: Agregar en UnidadArmada dicho user 
     //TODO: Se puede devolver un numero diferente para cada transsaccion que falle
-    //TODO: Como llegan los valores, por parametros o por objetos?
     //PRE: La unidad existe dado que viene del Form
     //POST: Si lo que intento agregar es una persona en una nueva unidad ejecuta : Agregar Entidad, Agregar Persona, Agregar Unidad y Agregar UnidadTienePersona
     public int AgregarUnidadUserPersona(Entidad e, Persona p) {
@@ -91,7 +90,6 @@ public class UnidadArmada extends Entidad {
                 if (entidadId == 23503) {
                     return entidadId;
                 }
-//TODO: VERIFICAR VALOR DE RETORNO
                 if (entidadId > 0) {
                     this.setEntidadId(entidadId);
                     //Agrego la Unidad si persona == null
@@ -192,15 +190,19 @@ public class UnidadArmada extends Entidad {
         }
     }
 
-    public static ResultSet BuscarUnidadPorNombre(String nombre) throws SQLException {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;
-        String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\""
-                + " WHERE \"unidadSigla\" LIKE \'%" + nombre + "\'"
-                + " ORDER BY \"unidadSigla\" ASC;";
-        rs = conDB.hacerConsulta(query);
+    public static ResultSet BuscarUnidadPorNombre(String nombre) {
+        try {
+            Conecciones conDB = new Conecciones();
+            ResultSet rs;
+            String query = "SELECT * FROM \"SysmanexSch1\".\"Unidad\""
+                    + " WHERE \"unidadSigla\" LIKE \'%" + nombre + "\'"
+                    + " ORDER BY \"unidadSigla\" ASC;";
+            rs = conDB.hacerConsulta(query);
 
-        return rs;
+            return rs;
+        } catch (SQLException ex) {
+            return null;
+        }
     }
 
     public static ResultSet BuscarUnidadPorEntidadId(int entidad) {
@@ -232,7 +234,7 @@ public class UnidadArmada extends Entidad {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(UnidadArmada.class.getName()).log(Level.SEVERE, null, ex);
+           return -1;
         }
         return resultado;
     }
@@ -258,23 +260,56 @@ public class UnidadArmada extends Entidad {
         return resultado;
     }
 
-    public static int BorrarUnidadArmada(int unidadId) {
+    public static int BorrarUnidadArmada(int unidadEntidadId) {
         Conecciones conDB = new Conecciones();
-        int resultado;
+        int resultado =-1;
 
-        if (unidadId > 0) {
+        if (unidadEntidadId > 0) {
             try {
-                String query = "DELETE FROM \"SysmanexSch1\".\"Unidad\" WHERE \"unidadEntidadId\" = " + unidadId + ";";
+                //Seteo autocommit false para que todo se ejecute como una transaccion
+                conDB.getConnect().setAutoCommit(false);
+
+                String query = "DELETE FROM \"SysmanexSch1\".\"Unidad\" WHERE \"unidadEntidadId\" = " + unidadEntidadId + ";";
                 resultado = conDB.hacerConsultaIUD(query);
+
                 if (resultado == 1) {
-                    String query1 = "DELETE FROM \"SysmanexSch1\".\"Entidad\" WHERE \"entidadId\" = " + unidadId + ";";
+                    String query1 = "DELETE FROM \"SysmanexSch1\".\"Entidad\" WHERE \"entidadId\" = " + unidadEntidadId + ";";
                     resultado = conDB.hacerConsultaIUD(query1);
+                    if (resultado == 1) {
+                        conDB.getConnect().commit();
+                    }
                 }
+
             } catch (SQLException ex) {
                 if ("23503".equalsIgnoreCase(ex.getSQLState())) {
-                    return Integer.parseInt(ex.getSQLState());
+                    if (conDB.getConnect() != null) {
+                        try {
+                            conDB.getConnect().rollback();
+                            return Integer.parseInt(ex.getSQLState());
+                        } catch (SQLException excep) {
+                            return -1;
+                        }
+                    }
+
                 }
-                return -1;
+
+                if (conDB.getConnect() != null) {
+                    try {
+                        conDB.getConnect().rollback();
+                        return -1;
+                    } catch (SQLException excep) {
+                        return -1;
+                    }
+                }           
+            }
+              finally {
+                if (conDB.getConnect() != null) {
+                    try {
+                        conDB.getConnect().setAutoCommit(true);
+                    } catch (SQLException ex) {
+                        return -1;
+                    }
+                }
             }
         } else {
             resultado = 2;
@@ -312,9 +347,9 @@ public class UnidadArmada extends Entidad {
                     + "<th>Opciones</th>";
             if (rs != null) {
                 while (rs.next()) {
-                    tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("unidadId") + "\" name=\"txtIdUnidad\" value=\"" + rs.getInt("unidadEntidadId") + "\">"
+                    tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getInt("unidadId") + "\" name=\"txtIdUnidad\" value=\"" + rs.getInt("unidadId") + "\">"
                             + "<span id=\"tdd" + rs.getInt("unidadId") + "\">" + rs.getString("unidadSigla") + "</span></td>"
-                            + "<td><span id=\"entidad" + rs.getInt("unidadId") + "\">" + buscarEntidad(rs.getInt("unidadEntidadId")) + "</span></td>"
+                            + "<td><span id=\"entidad" + rs.getInt("unidadEntidadId") + "\">" + buscarEntidad(rs.getInt("unidadEntidadId")) + "</span></td>"
                             + "<td><button onclick=\"modalUnidades(" + rs.getInt("unidadId") + ")\" id=\"" + rs.getInt("unidadId") + "\" "
                             + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
                             + "</button><button onclick=\"modalEliminarUnidad(" + rs.getInt("unidadEntidadId") + ")\" name=\"btnUnidad\" value=\"Delete" + rs.getInt("unidadEntidadId") + "\" type=\"button\" class=\"btn glyphicon glyphicon-trash\" data-toggle=\"modal\" data-target=\"#modalUnidad\"></button></td>";
