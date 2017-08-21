@@ -8,6 +8,7 @@ package Utilidades;
 
 import java.io.File;
 import java.util.Iterator;
+import modelo.Formulario;
 import org.apache.commons.fileupload.FileItem;
 
 /**
@@ -82,13 +83,16 @@ public abstract class FileSettings {
 
     
     public static String GuardarArchivoEndDisco(Iterator items, String url) throws Exception {
-        String filename="";
+        String filename=""; 
+        String fileName="";
+        FileItem fi=null;
         while ( items.hasNext () ) {
-            FileItem fi = (FileItem)items.next();
+            fi = (FileItem)items.next();
             if ( !fi.isFormField () ) {
                // Get the uploaded file parameters
                String fieldName = fi.getFieldName();
-               String fileName = fi.getName();
+               fileName= fi.getName();
+               String newName =  fi.getString();
                boolean isInMemory = fi.isInMemory();
                long sizeInBytes = fi.getSize();
             
@@ -100,13 +104,33 @@ public abstract class FileSettings {
                   file = new File( url + 
                   fileName.substring(fileName.lastIndexOf("\\")+1)) ;
                }
-               fi.write( file ) ;
               
-              filename= fileName ;
             }
+            if("txtNuevoTexto".equals(fi.getFieldName()) && !"".equals(fi.getString()))
+            {                 
+                String fieldName = fi.getString();
+                String[] parts = fileName.split("[.]");
+                String part1 = parts[1];
+                fileName=fieldName+"."+part1;  
+                // Write the file
+               if( fileName.lastIndexOf("\\") >= 0 ) {
+                  file = new File( url + 
+                  fileName.substring( fileName.lastIndexOf("\\"))) ;
+               } else {
+                  file = new File( url + 
+                  fileName.substring(fileName.lastIndexOf("\\")+1)) ;
+               }
+              
+            }
+                        
          } 
+        if(fi!=null)
+         fi.write( file ) ;              
+        filename= fileName ;
+        
      return filename;
     }
 
 
 }
+    

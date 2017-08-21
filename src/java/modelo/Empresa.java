@@ -193,7 +193,7 @@ public class Empresa {
                     + " <span id=\"tdd" + rs.getString("empresaRut") + "\">" + rs.getString("empresaNombre") + "</span></td>"
                     + "<td><button onclick=\"modalEmpresas(" + rs.getString("empresaRut") + ")\" id=\"" + rs.getString("empresaRut") + "\" "
                     + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                    + "</button><button name=\"btnEmpresas\" value=\"Delete\" type=\"submit\" class=\"btn glyphicon glyphicon-trash\"></button></td>";
+                    + "</button><button onclick=\"modalEliminarEmpresa(" + rs.getString("empresaRut") + ")\" name=\"btnEmpresas\" value=\"Delete\" type=\"button\" class=\"btn glyphicon glyphicon-trash\" data-toggle=\"modal\" data-target=\"#modalEliminarEmpresa\"></button></td>";
         }
         tabla += "</table></form>";
 

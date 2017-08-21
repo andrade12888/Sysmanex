@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import modelo.Formulario;
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 
 /**
@@ -32,6 +33,7 @@ import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 @WebServlet(name= "CFormularios", urlPatterns = {"/formulario.do"})
 @MultipartConfig(location = "/tmp", fileSizeThreshold = 1024 * 1024,
         maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
+
 public class CFormularios extends HttpServlet {
 
     /**
@@ -63,7 +65,7 @@ public class CFormularios extends HttpServlet {
         File downloadFile = new File(filePath);
         FileInputStream inStream = new FileInputStream(downloadFile);            
 
-        ServletContext context = getServletContext();         
+        ServletContext context = getServletContext();        
         // gets MIME type of the file
         String mimeType = context.getMimeType(filePath);
         if (mimeType == null) {        
@@ -98,13 +100,15 @@ public class CFormularios extends HttpServlet {
                     }
     }
 
-     private void SubirArchivo(HttpServletRequest request, HttpServletResponse response)//TODO: Control de errores
+     private void SubirArchivo(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{  
         String relativeWebPath = "/upload/";
-        String filePath = getServletContext().getRealPath(relativeWebPath);
-         String fileName="";
+        String filePath = getServletContext().getRealPath(relativeWebPath);     
+        
+        String fileName="";
+        
         try {
-            // Verify the content type
+                // Verify the content type
             String contentType = request.getContentType();
             
             if ((contentType.contains("multipart/form-data"))) {
@@ -118,13 +122,13 @@ public class CFormularios extends HttpServlet {
                 // maximum file size to be uploaded.
                 upload.setSizeMax( FileSettings.getMaxFileSize() );
                 
-                try {
+                try {                    
                     // Parse the request to get file items.
-                    List fileItems = upload.parseRequest(request);
+                    List fileItems = upload.parseRequest(request);                    
                     
                     // Process the uploaded file items
-                    Iterator i = fileItems.iterator();
-                    fileName=FileSettings.GuardarArchivoEndDisco(i,filePath);
+                    Iterator i = fileItems.iterator();                    
+                    fileName=FileSettings.GuardarArchivoEndDisco(i,filePath+"\\");
                     
                 } catch(SizeLimitExceededException fse) {
                     int tamano =(FileSettings.getMaxFileSize()/1024)/1024;
@@ -148,13 +152,20 @@ public class CFormularios extends HttpServlet {
             // constructs the directory path to store upload file
             f.setRutaRormulario("\\Sysmanex\\upload\\"+fileName);
             f.setFechaCreacionFormulario(Utilidades.ConvertionUtil.CurrentDate());
-            f.AgregarFormulario();
+            f.AgregarFormulario();                                           
             request.getRequestDispatcher("formularios.jsp").forward(request, response); 
+            
         } catch (SQLException ex) {
+            if("23505".equals(ex.getMessage()))
+            {
+                request.setAttribute("errorMessage", "Ya existe un archivo con ese nombre");
+                request.setAttribute("colorError", "red");
+                request.getRequestDispatcher("formularios.jsp").forward(request, response);
+            }
+                        
             request.setAttribute("errorMessage", "Ocurrio un error al subir el archivo");
             request.setAttribute("colorError", "red");
             request.getRequestDispatcher("formularios.jsp").forward(request, response); 
-       
         }
      
      }
@@ -170,8 +181,7 @@ public class CFormularios extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
+            throws ServletException, IOException {       
     }
 
     /**

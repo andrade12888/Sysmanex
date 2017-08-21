@@ -174,9 +174,7 @@ public class Entidad {
 
         return tabla;
     }
-
-   
-    //TODO: Resultado 2 podria dar error o conflicto si estoy inrgesando el segundo user
+    
     //PRE: El rol debe existir en la base de datos
     protected int AgregarEntidad() throws SQLException {
         Conecciones conDB = new Conecciones();
@@ -219,14 +217,6 @@ public class Entidad {
         } else {
             resultado = 2;
         }
-
-        return resultado;
-    }
-
-    //TODO: Borrar entidad. Discutir si se da de baja o se agrega la baja Logica
-    public int BorrarEntidad(String id) {
-//        Conecciones conDB = new Conecciones();
-        int resultado = 0;
 
         return resultado;
     }

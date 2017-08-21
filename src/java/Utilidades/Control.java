@@ -100,7 +100,7 @@ public abstract class Control {
             throws ServletException, IOException {
 
         try {
-            if(Empresa.BuscarEmpresaPorNombre(e.getNombreEmpresa()).next() &&
+            if(Empresa.BuscarEmpresaPorNombre(e.getNombreEmpresa()).next() ||
                     Empresa.BuscarEmpresaPorRUT(e.getRutEmpresa()).next())
                 return true;
             else return false;
