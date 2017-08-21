@@ -9,6 +9,8 @@ import Utilidades.Mensajes;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -104,11 +106,20 @@ public class CUsuarios extends HttpServlet {
             }
 
         } else if ("unidad".equalsIgnoreCase(tipoUsuario)) {
+            int resultadoIngresoUnidadUser=-1;
             String siglaUnidad = request.getParameter("txtUnidadSigla");
             //ingreso unidad 
             UnidadArmada ua = new UnidadArmada();
             ua.setSigla(siglaUnidad);
-            int resultadoIngresoUnidadUser = ua.AgregarUnidadUserPersona(e, null);
+            ResultSet rs=UnidadArmada.BuscarUnidadPorNombre(siglaUnidad);
+            try {
+                if(!rs.next())
+                    resultadoIngresoUnidadUser = ua.AgregarUnidadUserPersona(e, null);
+                else MensajesUsuarios(0, usuario, request, response);
+            } catch (SQLException ex) {
+                MensajesUsuarios(-1000, usuario, request, response);
+            }
+            
             MensajesUsuarios(resultadoIngresoUnidadUser, usuario, request, response);
         }
 
@@ -144,15 +155,25 @@ public class CUsuarios extends HttpServlet {
             case "unidad":
                 String nombreUnidad = request.getParameter("txtActualizarNombre");
                 int unidadId = Integer.parseInt(request.getParameter("txtActualizarId"));
-
-                int resultadoModificarUnidad = UnidadArmada.ModificarUnidadArmada(unidadId, nombreUnidad);
-
+                int resultadoModificarUnidad=-100;
+                 ResultSet rs=UnidadArmada.BuscarUnidadPorNombre(nombreUnidad);
+            try {
+                if(!rs.next())
+                    resultadoModificarUnidad = UnidadArmada.ModificarUnidadArmada(unidadId, nombreUnidad);
+                else resultadoModificarUnidad =3;
+             
+            } catch (SQLException ex) {
+                resultadoModificarUnidad=-1;
+            }                
                 switch (resultadoModificarUnidad) {
                     case 1:
                         Mensajes.mensajeSuccessError("La unidad se modifico correctamente", "unidadesModificar.jsp", "green", request, response);
                         break;
                     case -1:
                         Mensajes.mensajeSuccessError("Error al modificar la unidad", "unidadesModificar.jsp", "red", request, response);
+                        break;
+                    case 3:
+                        Mensajes.mensajeSuccessError("Ya existe una unidad con ese nombre", "unidadesModificar.jsp", "red", request, response);
                         break;
                     default:
                         Mensajes.mensajeSuccessError("Ha ocurrido un error inesperado", "unidadesModificar.jsp", "red", request, response);
@@ -190,16 +211,16 @@ public class CUsuarios extends HttpServlet {
                 break;
             case "unidad":
                 String code1 = request.getParameter("btnUnidad");
-                int unidadId = Integer.parseInt(code1.substring(6, code1.length()));
+                int unidadEntId = Integer.parseInt(code1.substring(6, code1.length()));
 
-                int resultadoBorrarUnidad = UnidadArmada.BorrarUnidadArmada(unidadId);
+                int resultadoBorrarUnidad = UnidadArmada.BorrarUnidadArmada(unidadEntId);
 
                 switch (resultadoBorrarUnidad) {
                     case 1:
                         Mensajes.mensajeSuccessError("La unidad se ha eliminado correctamente", "unidadesModificar.jsp", "green", request, response);
                         break;
                     case 23503:
-                        Mensajes.mensajeSuccessError("La unidad no se puede eliminar ya que se encuentra vinculado con una persona ", "unidadesModificar.jsp", "red", request, response);
+                            Mensajes.mensajeSuccessError("La unidad no se puede eliminar ya que se encuentra vinculado con una persona ", "unidadesModificar.jsp", "red", request, response);
                         break;
                     case -1:
                         Mensajes.mensajeSuccessError("Error al modificar la unidad", "unidadesModificar.jsp", "red", request, response);
