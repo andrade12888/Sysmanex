@@ -171,5 +171,25 @@ public class Motivo {
 
         return resultado;
     }
+    
+    public void BuscarMotivo(int id) {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Motivo\""
+                + "WHERE \"motivoId\"=" + id + ";";
+        try {
+            rs = conDB.hacerConsulta(query);
+
+            while (rs.next()) {
+                this.setMotivoId(id);
+                this.setMotivoDescripcion(rs.getString("motivoDescripcion"));
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Motivo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
 }

@@ -3,14 +3,14 @@ package modelo;
 public class NodoAG {
 	private int id;
         private String dato;
-	private NodoAG pH;
-	private NodoAG sH;
+	private NodoAG hijo;
+	private NodoAG hermano;
 
-	public NodoAG(int id, String dato,NodoAG pH, NodoAG sH) {
+	public NodoAG(int id, String dato,NodoAG hijo, NodoAG hermano) {
 		this.id = id;
                 this.dato = dato;
-		this.pH = pH;
-		this.sH = sH;
+		this.hijo = hijo;
+		this.hermano = hermano;
 	}
 	
 	public NodoAG(int id) {
@@ -33,25 +33,25 @@ public class NodoAG {
 		this.id = id;
 	}
 
-	public NodoAG getPH() {
-		return pH;
+	public NodoAG getHijo() {
+		return hijo;
 	}
 
-	public void setPH(NodoAG pH) {
-		this.pH = pH;
+	public void setHijo(NodoAG hijo) {
+		this.hijo = hijo;
 	}
 
-	public NodoAG getSH() {
-		return sH;
+	public NodoAG getHermano() {
+		return hermano;
 	}
 
-	public void setsH(NodoAG sH) {
-		this.sH = sH;
+	public void setHermano(NodoAG hermano) {
+		this.hermano = hermano;
 	}
 
 	@Override
 	public String toString() {
-		return "NodoAG [id=" + id + ", pH=" + pH + ", sH=" + sH + "]";
+		return "NodoAG [id=" + id + ", hijo=" + hijo + ", hermano=" + hermano + "]";
 	}
 
 }

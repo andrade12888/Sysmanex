@@ -278,5 +278,14 @@ public class CExpediente extends HttpServlet {
         
 
     }
+    
+    public static void cargarSeguimiento(){
+    
+    
+    
+    
+    
+    
+    }
 
 }

@@ -409,70 +409,40 @@ public class Expediente {
             return null;
         }
     }
-    
-    
-    
-    
-    
 
-    public String seguimientoExpedientes(String nume) {
-        String tabla = "";
-        ResultSet rs = null;
-        boolean entro = false;
-//        AG arbol = new AG();
-        
-        tabla = seguimientoExpedientesRec(nume, this.getEntidadOrigien().getEntidadId(), tabla, rs,entro);
-
-        return tabla;
+    public String mostrarSeguimiento(String nume) {
+        if (nume == "") {
+            return "huvo un error";
+        } else {
+            return seguimientoExpedientes(nume).mostrar();
+        }
     }
 
-    public String seguimientoExpedientesRec(String nume, int enviadoEntidadId, String tabla, ResultSet rs, boolean entro) {
+    public AG seguimientoExpedientes(String nume) {
+        ResultSet rs = null;
+        AG arbol = new AG(new NodoAG(this.getEntidadOrigien().getEntidadId(),"Expediente Nº "+ nume, null, null));
         try {
-            if (rs != null) {
-                if (entro == false) {
-                    rs.beforeFirst();
-                    entro = true;
-                }
-                while (rs.next()) {
-                    String originador = "";
-                    Persona unaPersona = new Persona();
-                    unaPersona.BuscarPersonaPorId(rs.getInt("EnviadoEntidadId"));
-                    if (unaPersona.getCiPersona() != null) {
-                        originador = unaPersona.getNombrePersona() + " " + unaPersona.getApellidoPersona();
-                    } else {
-                        UnidadArmada unaUnidad = new UnidadArmada();
-                        unaUnidad.BuscarUnidadEntidadId(rs.getInt("EnviadoEntidadId"));
-                        originador = unaUnidad.getSigla();
-                    }
-                    tabla += "<ul><li>" + originador;
-                    return seguimientoExpedientesRec(nume, rs.getInt("DestinatarioEntidadId"), tabla, rs, entro);
-                }
-                rs = null;
-                entro = false;
-                return seguimientoExpedientesRec(nume, 0, tabla, rs, entro);
-            } else {
-                Conecciones conDB = new Conecciones();
-                String query = "SELECT * FROM \"SysmanexSch1\".\"ExpedienteEntidad\" "
-                        + "WHERE \"ExpedienteNumero\"='" + nume + "' "
-                        + "AND \"EnviadoEntidadId\"=" + enviadoEntidadId;      
-                rs = conDB.hacerConsulta(query);
-                while (rs.next()) {
-                    return seguimientoExpedientesRec(nume, rs.getInt("DestinatarioEntidadId"), tabla, rs, entro);
-                }
+            Conecciones conDB = new Conecciones();
+            String query = "SELECT * FROM \"SysmanexSch1\".\"ExpedienteEntidad\" "
+                    + "WHERE \"ExpedienteNumero\"='" + nume + "'";
+            rs = conDB.hacerConsulta(query);
+            while (rs.next()) {
+                arbol.insertar(rs.getInt(
+                        "EnviadoEntidadId"), 
+                        rs.getInt("DestinatarioEntidadId"), 
+                        " Enviado: "+rs.getString("ExpedienteEntidadFechaEnvio") + " - Motivo:" +motivoDescripcion(rs.getInt("ExpedienteMotivoId"))+ " - Descripcion:" + rs.getString("ExpedienteEntidadObservacion"));
             }
         } catch (SQLException ex) {
-            return tabla += "<ul><li> No se encontraron resultados o hubo un error. </li></ul>";
+
         }
-        return tabla += "</li></ul>";
+        return arbol;
     }
-    
-    
-    
-    
-    
-    
-    
-    
+       
+    private String motivoDescripcion(int id){
+        Motivo unMotivo = new Motivo();
+        unMotivo.BuscarMotivo(id);
+        return unMotivo.getMotivoDescripcion();
+    }
 
     public static int BuscarExpedientePorTramite(int tramiteId) {
         Conecciones conDB = new Conecciones();

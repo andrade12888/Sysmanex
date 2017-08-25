@@ -6,7 +6,6 @@
     CUsuarios.CargarDatos(request, response);
     CMotivos.CargarDatos(request, response);
     String lstUnidadesPersonas = request.getSession().getAttribute("lstUnidadesPersonas").toString();
-    String lstMotivos = request.getSession().getAttribute("lstMotivos").toString();
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="master/header.jsp"/>
@@ -15,45 +14,12 @@
         $("td[name*='oculto']").hide();
 
     });
-    function ocultar(id) {
-        $("#oculto" + id).slideUp();
-        $("#m" + id).show();
-        $("#o" + id).hide();
-    }
     function mostrar(id) {
         $("#oculto" + id).slideDown();
         $("#o" + id).show();
         $("#m" + id).hide();
     }
 </script>
-<style type="text/css">
-
-    .paging-nav {
-        text-align: right;
-        padding-top: 2px;
-    }
-
-    .paging-nav a {
-        margin: auto 1px;
-        text-decoration: none;
-        display: inline-block;
-        padding: 1px 7px;
-        background: #91b9e6;
-        color: white;
-        border-radius: 3px;
-    }
-
-    .paging-nav .selected-page {
-        background: #187ed5;
-        font-weight: bold;
-    }
-
-    .paging-nav,
-    #tableData {
-        margin: 0 auto;
-        font-family: Arial, sans-serif;
-    }
-</style>
 <div class="bodyContent">
     <h2 class="h2">Mis expedientes</h2>
     <div class="row">        
@@ -135,9 +101,41 @@
                     <div class="modal-footer">                    
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                         <button type="submit" id="btnEliExp" name="btnEliminarExpediente" value="" class="btn-agregar" >Confirmar</button>   
-                        
+
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modalExpedienteSegimiento" tabindex="-1" role="dialog" aria-labelledby="modalExpedienteSegimientoLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Seguimiento de expediente Nº <span id="nroExpedienteSeguimiento"></span></h4>
+            </div>
+            <div class="modal-body">
+
+
+
+
+
+
+                <script>
+                    $(function () {
+                        // 6 create an instance when the DOM is ready
+                        $('#jstree').jstree();
+                        // 7 bind to events triggered on the tree
+                        //         $('#jstree').on("changed.jstree", function (e, data) {
+                        //            console.log(data.selected);
+                        //         });
+
+                    });
+                </script>
+                <div class="modal-footer">                    
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
