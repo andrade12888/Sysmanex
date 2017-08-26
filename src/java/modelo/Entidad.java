@@ -161,7 +161,7 @@ public class Entidad {
                 unExpediente.traerExpediente(exp);
                 ResultSet rs2 = unExpediente.ExpedienteTramitado();
                 if (rs2 != null && rs2.next()) {
-                    tabla += "<td><input type=\"button\" id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" value=\"+\"/></td></tr>";
+                    tabla += "<td><input type=\"button\" id=\"m" + exp + "\"  onclick=\"ModalSeguimiento(" + exp + ");\" value=\"+\"/></td></tr>";
                 } else {
                     tabla += "<td></td></tr>";
                 }

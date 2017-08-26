@@ -1,39 +1,43 @@
 $(document).ready(function () {
 
-    $('INPUT[type="file"]').change(function (){
-        $("span[class='hidden-xs']").click(function(){              
-              $("#uploadButton").prop('disabled',null);        
-    });
-});
-    
     $('INPUT[type="file"]').change(function () {
-    var ext = this.value.match(/\.(.+)$/)[1];
-    switch (ext) {
-        case 'jpg':$('#uploadButton').attr('disabled', true);
-            break;
-        case 'jpeg':$('#uploadButton').attr('disabled', true);
-            break;
-        case 'png':$('#uploadButton').attr('disabled', true);
-            break;
-        case 'exe':
-            $('#uploadButton').attr('disabled', true);
-            break;
-        case '':$('#uploadButton').attr('disabled', true);
-            break;
-        case 'txt' || 'TXT':
-        break;
-        case 'pdf' || 'PDF':
-        break;
-        case 'docx' || 'DOCX':
-        break;
-        case 'doc' || 'DOC':
-        break;        
-        default:
-            alert('Tipo de archivo no reconocido.');
-            this.value = '';
-    }
-});
-    
+        $("span[class='hidden-xs']").click(function () {
+            $("#uploadButton").prop('disabled', null);
+        });
+    });
+
+    $('INPUT[type="file"]').change(function () {
+        var ext = this.value.match(/\.(.+)$/)[1];
+        switch (ext) {
+            case 'jpg':
+                $('#uploadButton').attr('disabled', true);
+                break;
+            case 'jpeg':
+                $('#uploadButton').attr('disabled', true);
+                break;
+            case 'png':
+                $('#uploadButton').attr('disabled', true);
+                break;
+            case 'exe':
+                $('#uploadButton').attr('disabled', true);
+                break;
+            case '':
+                $('#uploadButton').attr('disabled', true);
+                break;
+            case 'txt' || 'TXT':
+                break;
+            case 'pdf' || 'PDF':
+                break;
+            case 'docx' || 'DOCX':
+                break;
+            case 'doc' || 'DOC':
+                break;
+            default:
+                alert('Tipo de archivo no reconocido.');
+                this.value = '';
+        }
+    });
+
     $(".doc").fancybox({
         openEffect: 'none',
         closeEffect: 'none',
@@ -83,7 +87,7 @@ $(document).ready(function () {
     $("select").on('change', function () {
         var getValue = $(this).val();
         $("#defaultVal").val(getValue);
-    });   
+    });
 
 });
 
@@ -139,30 +143,30 @@ function modalEnvio(nroExp) {
 }
 
 function modalEliminarTramite(id) {
-    
+
     $("#btnEliTramite").val(id);
 }
 
 function modalEliminarExpediente(id) {
-    
+
     $("#btnEliExp").val(id);
 }
 
 function modalEliminarMotivo(id) {
-    
+
     $("#btnEliMotivo").val(id);
 }
 
 function modalEliminarPersona(id) {
-    
-    $("#btnEliPer").val("Delete"+id);
+
+    $("#btnEliPer").val("Delete" + id);
 }
 
-function modalEliminarUnidad(id) {    
-    $("#btnEliUni").val("Delete"+id);
+function modalEliminarUnidad(id) {
+    $("#btnEliUni").val("Delete" + id);
 }
 
-function modalEliminarEmpresa(id) {    
+function modalEliminarEmpresa(id) {
     $("#btnEliEmp").val(id);
 }
 
@@ -263,4 +267,20 @@ function ExpedAtras() {
         $("#pnlExpediente").fadeIn(300);
     });
     return false;
+}
+
+function ModalSeguimiento(nro) {
+
+    $.get('CExpediente.do', {
+        idExpediente: nro
+    }, function (responseText) {
+        
+        $('#jstree').html(responseText);
+        $('#jstree').jstree();
+    });
+
+
+  
+    $("#modalExpedienteSegimiento").modal("show");
+      
 }

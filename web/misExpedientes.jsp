@@ -6,20 +6,10 @@
     CUsuarios.CargarDatos(request, response);
     CMotivos.CargarDatos(request, response);
     String lstUnidadesPersonas = request.getSession().getAttribute("lstUnidadesPersonas").toString();
+    String lstMotivos = request.getSession().getAttribute("lstMotivos").toString();
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="master/header.jsp"/>
-<script>
-    $(document).ready(function () {
-        $("td[name*='oculto']").hide();
-
-    });
-    function mostrar(id) {
-        $("#oculto" + id).slideDown();
-        $("#o" + id).show();
-        $("#m" + id).hide();
-    }
-</script>
 <div class="bodyContent">
     <h2 class="h2">Mis expedientes</h2>
     <div class="row">        
@@ -109,7 +99,7 @@
     </div>
 </div>
 <div class="modal fade" id="modalExpedienteSegimiento" tabindex="-1" role="dialog" aria-labelledby="modalExpedienteSegimientoLabel">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -117,22 +107,9 @@
             </div>
             <div class="modal-body">
 
+                <div id="jstree">
 
-
-
-
-
-                <script>
-                    $(function () {
-                        // 6 create an instance when the DOM is ready
-                        $('#jstree').jstree();
-                        // 7 bind to events triggered on the tree
-                        //         $('#jstree').on("changed.jstree", function (e, data) {
-                        //            console.log(data.selected);
-                        //         });
-
-                    });
-                </script>
+                </div>
                 <div class="modal-footer">                    
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 </div>

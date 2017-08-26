@@ -20,7 +20,7 @@
         <link href="css/fileinput.css" rel="stylesheet" type="text/css"/>
         <link href="css/theme.css"  media="all" rel="stylesheet" type="text/css"/>
         <link href="css/jquery.fancybox.min.css" rel="stylesheet" type="text/css"/>
-        
+        <link href="css/style.min.css" rel="stylesheet" type="text/css"/>
 
         <script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
         <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>   
@@ -33,6 +33,7 @@
         <script src="js/bootstrap.js" type="text/javascript"></script>  
         <script src="js/paging.js" type="text/javascript"></script>
         <script src="js/jquery.fancybox.min.js" type="text/javascript"></script>
+        <script src="js/jstree.js" type="text/javascript"></script>
     </head>
     <body>
 

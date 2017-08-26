@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -53,6 +55,14 @@ public class CExpediente extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if (request.getParameter("idExpediente") != null) {
+            try {
+                this.cargarSeguimiento(request, response);
+                return;
+            } catch (SQLException ex) {
+                Logger.getLogger(CExpediente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         String relativeWebPath = "/upload/";
         String filePath = getServletContext().getRealPath(relativeWebPath);
         isMultipart = ServletFileUpload.isMultipartContent(request);
@@ -91,7 +101,7 @@ public class CExpediente extends HttpServlet {
                                     Tramite unTramite = new Tramite();
                                     unTramite.BuscarTramite(Integer.parseInt(fieldvalue));
                                     unExpediente.setTramiteExpediente(unTramite);
-                                }else {
+                                } else {
                                     Mensajes.mensajeSuccessError("Debe seleccionar un tramite", "nuevoExpediente.jsp", "red", request, response);
                                     return;
                                 }
@@ -130,7 +140,7 @@ public class CExpediente extends HttpServlet {
                                     item.write(file);
                                     iterador++;
                                     String nombre = file.getName();
-                                    unExpediente.AgregarArchivoExpediente("\\Sysmanex\\upload\\"+nombre);
+                                    unExpediente.AgregarArchivoExpediente("\\Sysmanex\\upload\\" + nombre);
 
                                 } catch (Exception ex) {
                                     errorMessage = "Error al escribir el archivo " + file.getName() + " en disco ";
@@ -230,18 +240,28 @@ public class CExpediente extends HttpServlet {
         Entidad u1 = (Entidad) request.getSession().getAttribute("usuarioLogeado");
         ResultSet rs = u1.ExpedientesRecibidos();
         String recibidos = "";
-        
+
         while (rs.next()) {
-            String estado=""; 
+            String estado = "";
             Estado unEstado = new Estado();
             unEstado.BuscarEstadoDescripcion(rs.getString("estadoDescripcion"));
-            switch(unEstado.getIdEstado()){
-                case 1: estado = "class=\"enTramite\""; break;
-                case 2: estado = "class=\"noLeido\""; break;
-                case 3: estado = "class=\"finalizado\""; break;
-                case 4: estado = "class=\"nagado\""; break;
-                case 5: estado = "class=\"tramitado\""; break;
-            
+            switch (unEstado.getIdEstado()) {
+                case 1:
+                    estado = "class=\"enTramite\"";
+                    break;
+                case 2:
+                    estado = "class=\"noLeido\"";
+                    break;
+                case 3:
+                    estado = "class=\"finalizado\"";
+                    break;
+                case 4:
+                    estado = "class=\"nagado\"";
+                    break;
+                case 5:
+                    estado = "class=\"tramitado\"";
+                    break;
+
             }
             String originador = "", proviene = "";
             Persona unaPersona = new Persona();
@@ -252,7 +272,7 @@ public class CExpediente extends HttpServlet {
                 UnidadArmada unaUnidad = new UnidadArmada();
                 unaUnidad.BuscarUnidadEntidadId(rs.getInt("expedienteEntidadId"));
                 originador = unaUnidad.getSigla();
-            } 
+            }
             unaPersona.BuscarPersonaPorId(rs.getInt("EnviadoEntidadId"));
             if (unaPersona.getCiPersona() != null) {
                 proviene = unaPersona.getNombrePersona() + " " + unaPersona.getApellidoPersona();
@@ -260,8 +280,8 @@ public class CExpediente extends HttpServlet {
                 UnidadArmada unaUnidad = new UnidadArmada();
                 unaUnidad.BuscarUnidadEntidadId(rs.getInt("expedienteEntidadId"));
                 proviene = unaUnidad.getSigla();
-            }  
-            recibidos += "<tr "+estado+">"
+            }
+            recibidos += "<tr " + estado + ">"
                     + "<td><a href='VisualizarExpediente.do?nroExped=" + rs.getString("expedienteNumero") + "'>" + rs.getString("expedienteNumero") + "</a> </td>"
                     + "<td>" + rs.getString("expedienteAsunto") + " </td>"
                     + "<td>" + rs.getString("tramiteNombre") + " </td>"
@@ -271,21 +291,22 @@ public class CExpediente extends HttpServlet {
                     + "<td>" + rs.getString("estadoDescripcion") + " </td>"
                     + "</tr>";
         }
-        
+
         request.getSession().setAttribute("lstRecibidos", recibidos);
-        
-        
-        
 
     }
-    
-    public static void cargarSeguimiento(){
-    
-    
-    
-    
-    
-    
+
+    protected void cargarSeguimiento(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+
+        Expediente unExpediente = new Expediente();
+        String numero = request.getParameter("idExpediente");
+        unExpediente.traerExpediente(numero);
+        String seguimiento = unExpediente.mostrarSeguimiento(numero);
+
+        response.setContentType("text/plain");
+        response.getWriter().write(seguimiento);        
+
     }
 
 }
