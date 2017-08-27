@@ -7,22 +7,18 @@
     String lstMotivos = request.getSession().getAttribute("lstMotivos").toString();
 %>
 <jsp:include page="master/header.jsp"/>
+
 <div class="bodyContent">
     <div class="row">        
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8">
-            <br>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
             <div id="errorMotivo" style="color: ${colorError}; text-align: center;">${errorMessage}</div>            
             <br>
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Datos de Expediente N°: ${numeroExpediente}</h3>
                 </div>
-                <div class="panel-body">  
-                    <div class="right" style="text-align: right;">
-                        <button onclick="modalEnvio('${numeroExpediente}')" id="${numeroExpediente}" type="button" class="btn glyphicon glyphicon-send">  Enviar</button>
-                      <!--  <button name="btnEliminarExpediente" value="${numeroExpediente}" type="submit" class="btn glyphicon glyphicon-trash"></button> -->
-                    </div>
+                <div class="panel-body"> 
                     <div class="row">
                         <div class="col-lg-6">
 
@@ -36,20 +32,52 @@
                             <br>
                             Tipo de tramite: <label>${tramiteExpediete}</label>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-6">                            
                             ${tablaArchivos}
+                            <input id="kv-explorer" name="kv-explorer" type="file" multiple>
                         </div>
 
                     </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                ${tablaTramitados}
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <br>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Seguimiento</h3>
+                                </div>
+                                <div class="panel-body"> 
+                                    <div id="jstree">
+                                        ${tablaTramitados}
+                                    </div>
+                                    <script>
+                                        $('#jstree').jstree();
+                                    </script>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">Observaciones</h3>
+                                    <div><button class="btn" style="position: absolute;right: 25px;margin-top: -25px;">
+                                            <span style="color: #337ab7;font-weight: bold;">+</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="panel-body"> 
+                                    <div id="jstree">
+                            
+                                    </div>                           
+                                </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
+            <div class="right" style="text-align: right;">
+                <button onclick="modalEnvio('${numeroExpediente}')" id="${numeroExpediente}" type="button" class="btn btn-agregar glyphicon glyphicon-send">  Enviar</button>
+            </div>
         </div>
-        <div class="col-lg-2"></div>
+        <div class="col-lg-1"></div>
     </div>
 </div>
 <div class="modal fade" id="modalExpediente" tabindex="-1" role="dialog" aria-labelledby="modalExpedientelLabel">

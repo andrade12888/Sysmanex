@@ -140,16 +140,15 @@ public class Entidad {
     public String TablaExpedientes() {
 
         ResultSet rs = this.ExpedientesDB();
-        String tabla = "<form style=\"height: 400px;overflow: scroll;\" name=\"frmMisExpedientes\" action=\"CExpediente.do\" "
-                + "method=\"POST\"><table id=\"tableData\" class=\"table table-striped\"><tr><th>"
-                + "Numero</th><th>Asunto</th><th>Fecha</th><th>Tipo de Tramite</th><th>Opciones</th><th></th></tr>";
+        String tabla = "";
         try {
             while (rs.next()) {
                 String exp = rs.getString("expedienteNumero");
                 Tramite unDoc = new Tramite();
                 unDoc.BuscarTramite(rs.getInt("expedienteTramiteId"));
-                tabla += "<tr><td><input type=\"hidden\" id=\"id" + exp + "\" value=\"" + rs.getString("expedienteNumero") + "\">"
-                        + " <span id=\"enum" + exp + "\">" + rs.getString("expedienteNumero") + "</span></td>"
+                tabla += "<tr>"
+                            + "<td><input type=\"hidden\" id=\"id" + exp + "\" value=\"" + rs.getString("expedienteNumero") + "\">"
+                                    + " <span id=\"enum" + exp + "\">" + rs.getString("expedienteNumero") + "</span></td>"
                         + "<td><span id=\"easu" + rs.getString("expedienteAsunto") + "\">" + rs.getString("expedienteAsunto") + "</span></td>"
                         + "<td><span id=\"efec" + rs.getDate("expedienteFecha") + "\">" + rs.getDate("expedienteFecha") + "</span></td>"
                         + "<td><span id=\"edoc" + unDoc.getId() + "\">" + unDoc.getNombre() + "</span></td>"
@@ -169,11 +168,10 @@ public class Entidad {
         } catch (SQLException ex) {
             tabla += "<tr><td> No se encontraron resultados o hubo un error. </td></tr>";
         }
-        tabla += "</table></form>";
 
         return tabla;
     }
-    
+
     //PRE: El rol debe existir en la base de datos
     protected int AgregarEntidad() throws SQLException {
         Conecciones conDB = new Conecciones();
@@ -393,17 +391,24 @@ public class Entidad {
 
         Expediente unExpediente = new Expediente();
         unExpediente.traerExpediente(exp);
-        ResultSet rs2 = unExpediente.ExpedienteTramitado();
+        ResultSet rs = unExpediente.ExpedienteTramitado();
         String tabla = "";
         try {
-            if (rs2 != null && rs2.next()) {
-                tabla += "<table class=\"table table-striped\"><tr><th>"
-                        + "Destino Actual</th><th>Fecha de Envio</th><th>Motivo</th><th>Observacion</th><th>Estado</th></tr>";
-                rs2.beforeFirst();
-                while (rs2.next()) {
+            if (rs != null && rs.next()) {
+                tabla += "<table id=\"tablaTramitados\" >"
+                        + "<tr>"
+                        + "<th>Destino Actual</th>"
+                        + "<th>Fecha de Envio</th>"
+                        + "<th>Motivo</th>"
+                        + "<th>Observacion</th>"
+                        + "<th>Estado</th>"
+                        + "<th></th>"
+                        + "</tr>";
+                rs.beforeFirst();
+                while (rs.next()) {
                     String destinatario = "";
                     Entidad unaEntidad = new Entidad();
-                    unaEntidad.buscarEntidadId(rs2.getInt("idEntidad"));
+                    unaEntidad.buscarEntidadId(rs.getInt("DestinatarioEntidadId"));
                     if (unaEntidad.queSoy() == 2) {
                         Persona unaPersona = new Persona();
                         unaPersona.BuscarPersonaPorId(unaEntidad.getEntidadId());
@@ -413,11 +418,20 @@ public class Entidad {
                         unaUnidad.BuscarUnidadEntidadId(unaEntidad.getEntidadId());
                         destinatario = unaUnidad.getSigla();
                     }
-                    tabla += "<tr><td>" + destinatario + "</td><td>" + rs2.getString("ExpedienteEntidadFechaRecibido") + "</td><td>" + rs2.getString("motivoDescripcion")
-                            + "</td><td>" + rs2.getString("ExpedienteEntidadObservacion") + "</td><td>" + rs2.getString("estadoDescripcion")
-                            + "</td></tr>";
+                    tabla += "<tr>"
+                            + "<td>" + destinatario + "</td>"
+                            + "<td>" + rs.getString("ExpedienteEntidadFechaEnvio") + "</td>"
+                            + "<td>" + rs.getString("motivoDescripcion") + "</td>"
+                            + "<td>" + rs.getString("ExpedienteEntidadObservacion") + "</td>"
+                            + "<td>" + rs.getString("estadoDescripcion") + "</td>";
+                    ResultSet rs2 = unExpediente.ExpedienteTramitado();
+                    if (rs2 != null && rs2.next()) {
+                        tabla += "<td><input type=\"button\" id=\"m" + exp + "\"  onclick=\"ModalSeguimiento(" + exp + ");\" value=\"+\"/></td></tr>";
+                    } else {
+                        tabla += "<td></td></tr>";
+                    }
                 }
-                rs2.close();
+                rs.close();
                 if (!tabla.equals("<td><button id=\"m" + exp + "\"  onclick=\"mostrar(" + exp + ");\" class=\"btn glyphicon glyphicon-triangle-bottom\"></button>"
                         + "<button id=\"o" + exp + "\"  class=\" btn glyphicon glyphicon-triangle-top\" style=\"display: none;\" onclick=\"ocultar(" + exp + ");\"></button></td></tr>"
                         + "<tr><td colspan=\"5\" id=\"oculto" + exp + "\" name=\"oculto\"><table class=\"table table-striped\"><tr><th>"

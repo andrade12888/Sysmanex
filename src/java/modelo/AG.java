@@ -131,14 +131,14 @@ public class AG {
         } else {
             if (nodo.getHijo() != null && nodo.getHermano() != null) {
                 String entidad = entidadDescripcionTipo(nodo.getId());
-                return "<li>" + entidad + " - " + nodo.getId() + "<ul>" + mostrarRec(nodo.getHijo()) + "</ul>" + mostrarRec(nodo.getHermano()) + "</li>";
+                return "<li>" + entidad + " - " + nodo.getDato() + "<ul>" + mostrarRec(nodo.getHijo()) + "</ul>" + mostrarRec(nodo.getHermano()) + "</li>";
             } else {
                 if (nodo.getHijo() != null) {
                     String entidad = entidadDescripcionTipo(nodo.getId());
-                    return "<ul><li>" + entidad + " - " + nodo.getId() + "<ul>" + mostrarRec(nodo.getHijo()) + "</ul>";
+                    return "<ul><li>" + entidad + " - " + nodo.getDato() + "<ul>" + mostrarRec(nodo.getHijo()) + "</ul>";
                 } else {
                     String entidad = entidadDescripcionTipo(nodo.getId());
-                    return "<li>" + entidad + " - " + nodo.getId() + "</li>" + mostrarRec(nodo.getHermano());
+                    return "<li>" + entidad + " - " + nodo.getDato() + "</li>" + mostrarRec(nodo.getHermano());
                 }
 
             }

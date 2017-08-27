@@ -11,14 +11,43 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:include page="master/header.jsp"/>
 <div class="bodyContent">
-    <h2 class="h2">Mis expedientes</h2>
     <div class="row">        
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8">
-            <br>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10">
             <div id="errorMotivo" style="color: ${colorError}; text-align: center;">${errorMessage}</div>            
-            <br> <%= u1.TablaExpedientes()%></div>
-        <div class="col-lg-2"></div>
+            <br>
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Mis Expedientes</h3>
+                </div>
+                <div class="panel-body">
+                    <form name="frmMisExpedientes" action="CExpediente.do" method="POST">
+                        <table id="tableData">
+                            <thead>
+                                <tr>
+                                    <th>Numero</th>
+                                    <th>Asunto</th>
+                                    <th>Fecha</th>
+                                    <th>Tipo de Tramite</th>
+                                    <th>Opciones</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%= u1.TablaExpedientes()%>
+                            </tbody>
+                        </table>
+                    </form>
+                    <script>
+
+                        $('#tableData').DataTable();
+
+                    </script>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-1"></div>
     </div>
 </div>
 <div class="modal fade" id="modalExpediente" tabindex="-1" role="dialog" aria-labelledby="modalExpedientelLabel">

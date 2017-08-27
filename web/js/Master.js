@@ -270,17 +270,14 @@ function ExpedAtras() {
 }
 
 function ModalSeguimiento(nro) {
-
+    arbolSeguimiento(nro);  
+    $("#modalExpedienteSegimiento").modal("show");
+}
+function arbolSeguimiento(nro){    
     $.get('CExpediente.do', {
         idExpediente: nro
-    }, function (responseText) {
-        
+    }, function (responseText) {        
         $('#jstree').html(responseText);
         $('#jstree').jstree();
     });
-
-
-  
-    $("#modalExpedienteSegimiento").modal("show");
-      
 }

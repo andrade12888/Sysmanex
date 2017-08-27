@@ -48,15 +48,13 @@ public class CVisualizarExpediente extends HttpServlet {
             tabla = tabla + "</table>";
             request.setAttribute("tablaArchivos", tabla);
         }
-        
-        
-request.setAttribute("tablaTramitados", u1.tablaTramitados(nroExped));
+
+        request.setAttribute("tablaTramitados", unExpediente.mostrarSeguimiento(nroExped));
         request.setAttribute("numeroExpediente", nroExped);
         request.setAttribute("asuntoExpediente", unExpediente.getAsuntoExpediente());
         request.setAttribute("fechaExpediente", unExpediente.getFechaExpediente());
         request.setAttribute("entidadExpediete", unExpediente.getEntidadOrigien().getNombreEntidad());
         request.setAttribute("tramiteExpediete", unExpediente.getTramiteExpediente().getNombre());
-        
 
         String errorMessage = "";
         request.setAttribute("errorMessage", errorMessage);

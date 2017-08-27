@@ -430,7 +430,7 @@ public class Expediente {
                 arbol.insertar(rs.getInt(
                         "EnviadoEntidadId"), 
                         rs.getInt("DestinatarioEntidadId"), 
-                        " Enviado: "+rs.getString("ExpedienteEntidadFechaEnvio") + " - Motivo:" +motivoDescripcion(rs.getInt("ExpedienteMotivoId"))+ " - Descripcion:" + rs.getString("ExpedienteEntidadObservacion"));
+                        " Enviado: "+rs.getString("ExpedienteEntidadFechaEnvio") + " - Motivo:" +motivoDescripcion(rs.getInt("ExpedienteMotivoId")));
             }
         } catch (SQLException ex) {
 

@@ -21,7 +21,8 @@
         <link href="css/theme.css"  media="all" rel="stylesheet" type="text/css"/>
         <link href="css/jquery.fancybox.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/style.min.css" rel="stylesheet" type="text/css"/>
-
+        <link href="css/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
+        
         <script src="js/jquery-1.8.3.min.js" type="text/javascript"></script>
         <script src="js/jquery-3.1.1.min.js" type="text/javascript"></script>   
         <script src="js/jquery-ui.js" type="text/javascript"></script>
@@ -34,6 +35,7 @@
         <script src="js/paging.js" type="text/javascript"></script>
         <script src="js/jquery.fancybox.min.js" type="text/javascript"></script>
         <script src="js/jstree.js" type="text/javascript"></script>
+        <script src="js/jquery.dataTables.min.js" type="text/javascript"></script>
     </head>
     <body>
 
@@ -53,7 +55,7 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="bandeja.jsp">Bandeja de Entrada <span class="sr-only">(current)</span></a></li>
+                            <li><a href="bandeja.jsp">Bandeja de Entrada <span class="sr-only">(current)</span></a></li>
                             <li><a href="nuevoExpediente.jsp">Nuevo Expediente</a></li>
                             <li><a href="misExpedientes.jsp">Mis Expedientes</a></li>
                             <li class="dropdown">
