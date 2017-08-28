@@ -1,6 +1,7 @@
 <%@page import="modelo.Persona" %>
+<%@page import="modelo.Entidad" %>
 <% Persona per = new Persona();
-
+Entidad u1 = (Entidad) request.getSession().getAttribute("usuarioLogeado");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -15,7 +16,7 @@
     </form>
     <div class="row">
         <div class="col-lg-2"></div>
-        <div class="col-lg-8"><br> <%= per.TablaPersonas() %></div>
+        <div class="col-lg-8"><br> <%= per.TablaPersonas(u1.getEntidadId()) %></div>
         <div class="col-lg-2"></div>
     </div>
 </div>
