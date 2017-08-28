@@ -102,7 +102,7 @@ public class AG {
     public String mostrar() {
         String lista = "";
         if (raiz == null) {
-            lista = "<ul><li>Huvo un error</li></ul>";
+            lista = "<ul><li>Hubo un error</li></ul>";
         } else {
             lista = mostrarRec(raiz);
         }

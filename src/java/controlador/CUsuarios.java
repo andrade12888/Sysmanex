@@ -70,8 +70,8 @@ public class CUsuarios extends HttpServlet {
             String perteneceA = request.getParameter("rdPetenece");
             int resultado = -1;
             // Si el usuario exsiste el sistema retorna al JSP rquester con un mensaje de error
-            ControlUsuarioExistente(nombre, usuario, request, response);
-
+            if(!ControlUsuarioExistente(CI, usuario, request, response))
+            {
             if ("armada".equalsIgnoreCase(perteneceA)) {
                 Persona p = new Persona(CI, nombre, apellido, usuario, usrPass, r, email);
 
@@ -104,6 +104,7 @@ public class CUsuarios extends HttpServlet {
                 //3 si alguno de los campos mandatorios es vacios
                 MensajesUsuarios(reEmp, usuario, request, response);
             }
+            } 
 
         } else if ("unidad".equalsIgnoreCase(tipoUsuario)) {
             int resultadoIngresoUnidadUser=-1;
@@ -247,6 +248,13 @@ public class CUsuarios extends HttpServlet {
             case 0:
                 Mensajes.mensajeSuccessError("El usuario " + usuario + " ya existe en la base de datos.", "gestionUsuarios.jsp", "red", request, response);
                 break;
+            case -25:
+                Mensajes.mensajeSuccessError("El usuario " + usuario + " ya existe en la base de datos.", "gestionUsuarios.jsp", "red", request, response);
+                break;
+                
+             case -30:
+                Mensajes.mensajeSuccessError("El usuario con cedula " + usuario + " ya existe en la base de datos.", "gestionUsuarios.jsp", "red", request, response);
+                break; 
 
             case -1:
                 Mensajes.mensajeSuccessError("Ha ocurrido un error al ingresar el usuario.", "gestionUsuarios.jsp", "red", request, response);
@@ -262,24 +270,27 @@ public class CUsuarios extends HttpServlet {
 
     // Metodo que reotorna al JSP gestionUsuario un mensaje de error correspondiente tanto como a User existente O Persona existente
     // Controla que la persona y el usuario no existan
-    private void ControlUsuarioExistente(String nombre, String usuario, HttpServletRequest request, HttpServletResponse response)
+    private boolean ControlUsuarioExistente(String cedula, String usuario, HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
+        boolean encontre=false;
         Entidad eTemp = new Entidad();
-        eTemp.BuscarEntidadNombre(nombre);
-
-        Persona pTemp = new Persona();
-        pTemp.BuscarPersonaPorNombre(nombre);
+        eTemp.BuscarEntidadNombre(usuario);
+        
+        Persona pTemp =  Persona.BuscarPersonaPorCedula(cedula);
 
         //Verifico que la persona no exista
-        if ("".equals(pTemp.getCiPersona())) {
-            MensajesUsuarios(-30, usuario, request, response);
+        if (pTemp.getCiPersona()!=null) {
+            encontre=true;
+            MensajesUsuarios(-30, cedula, request, response);
         }
 
         //Verifico qeel nombre de usuario no exista
-        if ("".equals(eTemp.getNombreEntidad())) {
+        if (eTemp.getEntidadId()>0) {
+            encontre=true;
             MensajesUsuarios(-25, usuario, request, response);
         }
+        return encontre;
     }
 
     public static void CargarDatos(HttpServletRequest request, HttpServletResponse response)

@@ -219,16 +219,19 @@ public class Entidad {
     }
 
     //TODO: Cambiar el ingreso de la variable a un prepared statement
-    protected static ResultSet BuscarEntidad(String nombre) throws SQLException {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;
-
-        String query = "SELECT * FROM \"SysmanexSch1\".\"Entidad\""
-                + " WHERE \"entidadNombre\" LIKE \'%" + nombre + "\'"
-                + " ORDER BY \"entidadNombre\" ASC;";
-        rs = conDB.hacerConsulta(query);
-
-        return rs;
+    protected static ResultSet BuscarEntidad(String nombre)  {
+        try {
+            Conecciones conDB = new Conecciones();
+            ResultSet rs;
+            
+            String query = "SELECT * FROM \"SysmanexSch1\".\"Entidad\""
+                    + " WHERE \"entidadNombre\" LIKE \'%" + nombre + "\'";
+            rs = conDB.hacerConsulta(query);
+            
+            return rs;
+        } catch (SQLException ex) {
+           return null;
+        }
     }
 
     public void BuscarEntidadNombre(String nombre) {
@@ -239,7 +242,7 @@ public class Entidad {
             ResultSet rs = BuscarEntidad(nombre);
             while (rs.next()) {
                 unRol.setDescripcion(unRol.getRolDB(rs.getInt("rolId")));
-                unRol.setId(rs.getInt(3));
+                //unRol.setId(rs.getInt(3));
                 this.setRol(unRol);
                 this.setEntidadId(rs.getInt("entidadId"));
                 this.setContrasenia(rs.getString(3));
@@ -266,12 +269,12 @@ public class Entidad {
                 unRol.setId(rs.getInt("rolId"));
                 this.setRol(unRol);
                 this.setEntidadId(rs.getInt("entidadId"));
-                this.setContrasenia(rs.getString(3));
-                this.setNombreEntidad(rs.getString(2));
+                this.setContrasenia(rs.getString("entidadPassword"));
+                this.setNombreEntidad(rs.getString("entidadNombre"));
             }
             rs.close();
         } catch (SQLException ex) {
-            Logger.getLogger(Entidad.class.getName()).log(Level.SEVERE, null, ex);
+        
         }
 
     }
