@@ -7,7 +7,6 @@
     String lstMotivos = request.getSession().getAttribute("lstMotivos").toString();
 %>
 <jsp:include page="master/header.jsp"/>
-
 <div class="bodyContent">
     <div class="row">        
         <div class="col-lg-1"></div>
@@ -21,7 +20,6 @@
                 <div class="panel-body"> 
                     <div class="row">
                         <div class="col-lg-6">
-
                             Numero de Expediente: <label>${numeroExpediente}</label>
                             <br>
                             Asunto: <label>${asuntoExpediente}</label>
@@ -36,7 +34,6 @@
                             ${tablaArchivos}
                             <input id="kv-explorer" name="kv-explorer" type="file" multiple>
                         </div>
-
                     </div>
                     <div class="row">
                         <div class="col-lg-12">

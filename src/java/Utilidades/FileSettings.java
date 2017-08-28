@@ -7,8 +7,8 @@ package Utilidades;
 
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Iterator;
-import modelo.Formulario;
 import org.apache.commons.fileupload.FileItem;
 
 /**
@@ -82,20 +82,27 @@ public abstract class FileSettings {
     }
 
     
-    public static String GuardarArchivoEndDisco(Iterator items, String url) throws Exception {
+public static String GuardarArchivoEndDisco(Iterator items, String url) throws Exception {
         String filename=""; 
         String fileName="";
-        FileItem fi=null;
-        while ( items.hasNext () ) {
-            fi = (FileItem)items.next();
+        int cont=0;
+        FileItem fi2=null;
+        FileItem  fi=null;
+        boolean flag=false;
+        
+        while ( items.hasNext () ) {            
+          if(cont==0)
+            fi  = (FileItem)items.next();
+          else fi2 = (FileItem)items.next();
+          cont++;
             if ( !fi.isFormField () ) {
                // Get the uploaded file parameters
                String fieldName = fi.getFieldName();
                fileName= fi.getName();
-               String newName =  fi.getString();
                boolean isInMemory = fi.isInMemory();
                long sizeInBytes = fi.getSize();
-            
+               InputStream fileContent = fi.getInputStream();
+                       
                // Write the file
                if( fileName.lastIndexOf("\\") >= 0 ) {
                   file = new File( url + 
@@ -104,14 +111,15 @@ public abstract class FileSettings {
                   file = new File( url + 
                   fileName.substring(fileName.lastIndexOf("\\")+1)) ;
                }
-              
+                    
             }
-            if("txtNuevoTexto".equals(fi.getFieldName()) && !"".equals(fi.getString()))
+            if(fi2!=null && "txtNuevoTexto".equals(fi2.getFieldName()) && !"".equals(fi2.getString()))
             {                 
-                String fieldName = fi.getString();
+                String fieldName = fi2.getString();
                 String[] parts = fileName.split("[.]");
                 String part1 = parts[1];
-                fileName=fieldName+"."+part1;  
+                fileName=fieldName+"."+part1;                  
+                
                 // Write the file
                if( fileName.lastIndexOf("\\") >= 0 ) {
                   file = new File( url + 
@@ -119,15 +127,16 @@ public abstract class FileSettings {
                } else {
                   file = new File( url + 
                   fileName.substring(fileName.lastIndexOf("\\")+1)) ;
-               }
-              
+               } 
+                    fi2=fi;
+                    fi2.write( file ) ;                                     
+                    flag = true;
             }
                         
          } 
-        if(fi!=null)
-         fi.write( file ) ;              
-        filename= fileName ;
-        
+        if(!flag && fi!=null)
+            fi.write( file ) ;
+     filename= fileName ;
      return filename;
     }
 

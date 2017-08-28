@@ -119,7 +119,6 @@ public class Persona extends Entidad {
         return 1;
     }
 
-
     //Segun lo enviado desde el form, persona debe :
     //1: Agregar entidad(user)
     //2: Agregar persona con el id de Entiad que capturo del insert anterior
@@ -263,19 +262,41 @@ public class Persona extends Entidad {
         return resultado;
     }
 
-    public static int BorrarPersona(String ci) {
+   public static int BorrarPersona(String ci) {
         Conecciones conDB = new Conecciones();
         int resultado = -1;
 
         if (!"".equalsIgnoreCase(ci)) {
             try {
+                //Seteo AutoComit False para que todo sea una transaccion
                 conDB.getConnect().setAutoCommit(false);
-                String query1 = "DELETE FROM \"SysmanexSch1\".\"UnidadTienePersona\" WHERE \"personaCi\" = '" + ci + "';";
-                resultado = conDB.hacerConsultaIUD(query1);
+                //Verifico si la persona pertenece a una Empresa o Unidad
+                int ver =VerificarPersona(ci);
+                if(ver==1)
+                {
+                    String query1 = "DELETE FROM \"SysmanexSch1\".\"UnidadTienePersona\" WHERE \"personaCi\" = '" + ci + "';";
+                    resultado = conDB.hacerConsultaIUD(query1);
+                }
+                if(ver==2)
+                    {
+                        String query1 = "DELETE FROM \"SysmanexSch1\".\"EmpresaTienePersona\" WHERE \"personaCi\" = '" + ci + "';";
+                        resultado = conDB.hacerConsultaIUD(query1);
+                    }
+                
+                //Si resultado es 1 entonces se borro tanto de empresa o de Unidad
+                //Intento borrar a la peronsa ahora pero primero me quedo con su Entidad ID
+                Persona p = BuscarPersonaPorCedula(ci);
                 if (resultado == 1) {
                     String query = "DELETE FROM \"SysmanexSch1\".\"Persona\" WHERE \"personaCi\" = '" + ci + "';";
                     resultado = conDB.hacerConsultaIUD(query);
                 }
+
+                //Ahora borro su User                
+                if (resultado == 1) {
+                    String query ="DELETE FROM \"SysmanexSch1\".\"Entidad\" WHERE \"entidadId\" = '" + p.getEntidadId() + "';";                    
+                    resultado = conDB.hacerConsultaIUD(query);
+                }
+                
                 if (resultado == 1) {
                     conDB.getConnect().commit();
                 } else {
@@ -283,9 +304,26 @@ public class Persona extends Entidad {
                 }
             } catch (SQLException ex) {
                 if ("23503".equalsIgnoreCase(ex.getSQLState())) {
-                    return Integer.parseInt(ex.getSQLState());
+                    try {
+                        conDB.getConnect().rollback();
+                        return Integer.parseInt(ex.getSQLState());
+                    } catch (SQLException ex1) {
+                        return -100;
+                    }
                 }
                 return -1;
+            }catch (Exception e) {                
+                return -1;
+            }
+            
+             finally {
+                if (conDB.getConnect() != null) {
+                    try {
+                        conDB.getConnect().setAutoCommit(true);
+                    } catch (SQLException ex) {
+                        return -1;
+                    }
+                }
             }
         } else {
             resultado = 2;
@@ -359,6 +397,54 @@ public class Persona extends Entidad {
         }
     }
 
+	public static Persona BuscarPersonaPorCedula(String ci) {
+        Conecciones conDB = new Conecciones();
+        Persona p= new Persona();
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Persona\""
+                + " WHERE \"personaCi\" = '" + ci + "';";
+        try {                             
+            ResultSet rs = conDB.hacerConsulta(query);
+            while (rs.next()) {
+                p.setEntidadId(rs.getInt("personaEntidadId"));
+                p.setNombrePersona(rs.getString("personaNombre"));
+                p.setApellidoPersona(rs.getString("personaApellido"));
+                p.setCiPersona(rs.getString("personaCi"));
+                p.setEmailPersona(rs.getString("personaEmail"));
+            }
+        } catch (SQLException ex) {
+            if ("23503".equalsIgnoreCase(ex.getSQLState())) {
+
+            }
+
+        }
+        return p;
+    }
+	
+   //Metodo que me dice si la persona pertenece a una empresa o a una unidad armada
+    private static int VerificarPersona(String ci) {
+         int unidadOempresa=0;
+        try {
+            Conecciones conDB = new Conecciones();
+            ResultSet rs,rs2;
+
+            String query = "SELECT * FROM \"SysmanexSch1\".\"UnidadTienePersona\" WHERE \"personaCi\"='"+ ci +"';";
+            rs = conDB.hacerConsulta(query);                                              
+
+            if(rs.next())
+              return 1;
+
+            String query2 = "SELECT * FROM \"SysmanexSch1\".\"EmpresaTienePersona\" WHERE \"personaCi\"='"+ ci + "';";
+            rs2 = conDB.hacerConsulta(query2);
+
+            if(rs2.next())
+              return 2;
+            
+            return unidadOempresa;
+        } catch (SQLException ex) {
+            return unidadOempresa;
+        }
+    }
+
     public static ResultSet BuscarPersonas() {
         try {
             Conecciones conDB = new Conecciones();
@@ -374,8 +460,7 @@ public class Persona extends Entidad {
         }
     }
 
-    public String TablaPersonas()
-    {
+    public String TablaPersonas() {
         try {
             ResultSet rs = BuscarPersonas();
             String tabla = "<form name=\"frmBorrar\" action=\"CUsuarios.do\" method=\"POST\">"
@@ -383,11 +468,11 @@ public class Persona extends Entidad {
                     + "<th>Personas</th>"
                     + "<th> </th>"
                     + "<th> </th>"
-                    + "<th>Opciones</th>"                   
+                    + "<th>Opciones</th>"
                     + "<tr><td><b>Nombre</td>"
                     + "<td><b>Apellido</td>"
                     + "<td><b>Email</td></tr>";
-                    
+
             if (rs != null) {
                 while (rs.next()) {
                     tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("personaCi") + "\" name=\"txtIdPersona\" value=\"" + rs.getString("personaCi") + "\">"
