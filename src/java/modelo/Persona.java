@@ -103,6 +103,7 @@ public class Persona extends Entidad {
     }
 
     //</editor-fold>
+    
     public int AgregarPersona(int entidadDePersona) {
         try {
             Conecciones conDB = new Conecciones();
@@ -460,7 +461,7 @@ public class Persona extends Entidad {
         }
     }
 
-    public String TablaPersonas() {
+    public String TablaPersonas(int Id) {
         try {
             ResultSet rs = BuscarPersonas();
             String tabla = "<form name=\"frmBorrar\" action=\"CUsuarios.do\" method=\"POST\">"
@@ -475,13 +476,16 @@ public class Persona extends Entidad {
 
             if (rs != null) {
                 while (rs.next()) {
-                    tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("personaCi") + "\" name=\"txtIdPersona\" value=\"" + rs.getString("personaCi") + "\">"
-                            + "<span id=\"tdd" + rs.getString("personaCi") + "\">" + rs.getString("personaNombre") + "</span></td>"
-                            + "<td><span id=\"apellido" + rs.getString("personaCi") + "\">" + rs.getString("personaApellido") + "</span></td>"
-                            + "<td><span id=\"email" + rs.getString("personaCi") + "\">" + rs.getString("personaEmail") + "</span></td>"
-                            + "<td><button onclick=\"modalPersonas(" + rs.getString("personaCi") + ")\" id=\"" + rs.getString("personaCi") + "\" "
-                            + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
-                            + "</button><button onclick=\"modalEliminarPersona(" + rs.getString("personaCi") + ")\" name=\"btnPersona\" value=\"Delete" + rs.getString("personaCi") + "\" type=\"button\" class=\"btn glyphicon glyphicon-trash\" data-toggle=\"modal\" data-target=\"#modalPersonaEliminar\"></button></td>";
+                    if (rs.getInt("personaEntidadId")!=Id)
+                    {
+                        tabla += "<tr><td><input type=\"hidden\" id=\"id" + rs.getString("personaCi") + "\" name=\"txtIdPersona\" value=\"" + rs.getString("personaCi") + "\">"
+                                + "<span id=\"tdd" + rs.getString("personaCi") + "\">" + rs.getString("personaNombre") + "</span></td>"
+                                + "<td><span id=\"apellido" + rs.getString("personaCi") + "\">" + rs.getString("personaApellido") + "</span></td>"
+                                + "<td><span id=\"email" + rs.getString("personaCi") + "\">" + rs.getString("personaEmail") + "</span></td>"
+                                + "<td><button onclick=\"modalPersonas(" + rs.getString("personaCi") + ")\" id=\"" + rs.getString("personaCi") + "\" "
+                                + "type=\"button\" class=\"btn glyphicon glyphicon-pencil\" data-toggle=\"modal\" data-target=\"#myModal\">\n"
+                                + "</button><button onclick=\"modalEliminarPersona(" + rs.getString("personaCi") + ")\" name=\"btnPersona\" value=\"Delete" + rs.getString("personaCi") + "\" type=\"button\" class=\"btn glyphicon glyphicon-trash\" data-toggle=\"modal\" data-target=\"#modalPersonaEliminar\"></button></td>";
+                    }
                 }
             }
             tabla += "</table></form>";
