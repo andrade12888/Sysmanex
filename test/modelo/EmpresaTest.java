@@ -39,25 +39,99 @@ public class EmpresaTest {
     public void tearDown() {
     }
 
-     /**
+    /**
      * Test of getRutEmpresa method, of class Empresa.
-     PRE:La persona ya debe existir en la base de datos
-     POST: Retorna 1 si se ejecuta con exito, 0 si no reotorna nada, 2 si alguna de las variables
-    //      es nula (Rut o persona autorizada) o -1 si existe algun error en la secuancia SQL
      */
     @Test
-    public void testAgregarEmpresaSuccess() {
-        System.out.println("AgregarEmpresayPersonasSuccess");
-        ArrayList<Persona> ap = new ArrayList<>();
-        Persona p = new Persona("11223344", "", null);
-        ap.add(p);
-        p = new Persona("321654987", "", null);
-        ap.add(p);
-        Empresa instance = new Empresa("9876654",ap ,"LUGRA");
-        int expResult = 1;
+    public void testGetRutEmpresa() {
+        System.out.println("getRutEmpresa");
+        Empresa instance = new Empresa();
+        String expResult = "";
+        String result = instance.getRutEmpresa();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setRutEmpresa method, of class Empresa.
+     */
+    @Test
+    public void testSetRutEmpresa() {
+        System.out.println("setRutEmpresa");
+        String rutEmpresa = "";
+        Empresa instance = new Empresa();
+        instance.setRutEmpresa(rutEmpresa);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getListaPersonasAutorizadas method, of class Empresa.
+     */
+    @Test
+    public void testGetListaPersonasAutorizadas() {
+        System.out.println("getListaPersonasAutorizadas");
+        Empresa instance = new Empresa();
+        ArrayList<Persona> expResult = null;
+        ArrayList<Persona> result = instance.getListaPersonasAutorizadas();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setListaPersonasAutorizadas method, of class Empresa.
+     */
+    @Test
+    public void testSetListaPersonasAutorizadas() {
+        System.out.println("setListaPersonasAutorizadas");
+        ArrayList<Persona> listaPersonasAutorizadas = null;
+        Empresa instance = new Empresa();
+        instance.setListaPersonasAutorizadas(listaPersonasAutorizadas);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getNombreEmpresa method, of class Empresa.
+     */
+    @Test
+    public void testGetNombreEmpresa() {
+        System.out.println("getNombreEmpresa");
+        Empresa instance = new Empresa();
+        String expResult = "";
+        String result = instance.getNombreEmpresa();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setNombreEmpresa method, of class Empresa.
+     */
+    @Test
+    public void testSetNombreEmpresa() {
+        System.out.println("setNombreEmpresa");
+        String nombreEmpresa = "";
+        Empresa instance = new Empresa();
+        instance.setNombreEmpresa(nombreEmpresa);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of AgregarEmpresa method, of class Empresa.
+     */
+    @Test
+    public void testAgregarEmpresa() {
+        System.out.println("AgregarEmpresa");
+        Empresa instance = new Empresa();
+        int expResult = 0;
         int result = instance.AgregarEmpresa();
         assertEquals(expResult, result);
-
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
@@ -66,61 +140,82 @@ public class EmpresaTest {
     @Test
     public void testBuscarEmpresas() throws Exception {
         System.out.println("BuscarEmpresas");
-        String expResult = "CYMACO";
-        Empresa unaEmpresa = new Empresa();
-        ResultSet result = unaEmpresa.BuscarEmpresas();
-        result.next();
-        String rs = result.getString("empresaNombre");      
-        
-        assertEquals(expResult, rs);
-
+        ResultSet expResult = null;
+        ResultSet result = Empresa.BuscarEmpresas();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
      * Test of BuscarEmpresaPorNombre method, of class Empresa.
      */
     @Test
-    public void testBuscarEmpresaPorNombre() throws Exception {
+    public void testBuscarEmpresaPorNombre() {
         System.out.println("BuscarEmpresaPorNombre");
-        String nombre = "CYMACO";
-        String expResult = "5678";
-        Empresa unaEmpresa = new Empresa();
-        ResultSet result = unaEmpresa.BuscarEmpresaPorNombre(nombre);
-        result.next();
-        String rs = result.getString("empresaRut");
-        assertEquals(expResult, rs);
-
+        String nombre = "";
+        ResultSet expResult = null;
+        ResultSet result = Empresa.BuscarEmpresaPorNombre(nombre);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
      * Test of BuscarEmpresaPorRUT method, of class Empresa.
      */
     @Test
-    public void testBuscarEmpresaPorRUT() throws Exception {
+    public void testBuscarEmpresaPorRUT() {
         System.out.println("BuscarEmpresaPorRUT");
-        String rutEmpresa = "12345678";
-        String expResult = "Primer Empresa";
-        Empresa unaEmpresa = new Empresa();
-        ResultSet result = unaEmpresa.BuscarEmpresaPorRUT(rutEmpresa);
-         result.next();
-        String rs = result.getString("empresaNombre");
-        assertEquals(expResult, rs);
-
+        String rutEmpresa = "";
+        ResultSet expResult = null;
+        ResultSet result = Empresa.BuscarEmpresaPorRUT(rutEmpresa);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
      * Test of BorrarEmpresa method, of class Empresa.
      */
-    // TODO: testBorrarEmpresa.
     @Test
-    public void testBorrarEmpresa() {
-//        System.out.println("BorrarEmpresa");
-//        String RUT = "";
-//        int expResult = 0;
-//        int result = Empresa.BorrarEmpresa(RUT);
-//        assertEquals(expResult, result);        
+    public void testBorrarEmpresa() throws Exception {
+        System.out.println("BorrarEmpresa");
+        String RUT = "";
+        int expResult = 0;
+        int result = Empresa.BorrarEmpresa(RUT);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
+    /**
+     * Test of ModificarEmpresa method, of class Empresa.
+     */
+    @Test
+    public void testModificarEmpresa() throws Exception {
+        System.out.println("ModificarEmpresa");
+        Empresa emp = null;
+        String rut = "";
+        int expResult = 0;
+        int result = Empresa.ModificarEmpresa(emp, rut);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of TablaEmpresas method, of class Empresa.
+     */
+    @Test
+    public void testTablaEmpresas() throws Exception {
+        System.out.println("TablaEmpresas");
+        Empresa instance = new Empresa();
+        String expResult = "";
+        String result = instance.TablaEmpresas();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
     
 }

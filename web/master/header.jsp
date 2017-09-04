@@ -81,7 +81,7 @@
                                     </li>
                                 </ul>                                                                      
                             </li>                                                                         
-
+                            <li><a href="customReports.jsp">Reportes</a></li>
                             <li class="ax"></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
