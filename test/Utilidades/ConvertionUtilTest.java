@@ -5,11 +5,9 @@
  */
 package Utilidades;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -19,37 +17,33 @@ import static org.junit.Assert.*;
  */
 public class ConvertionUtilTest {
     
-    public ConvertionUtilTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of StringToInteger method, of class ConvertionUtil.
      */
     @Test
     public void testStringToInteger() {
-        System.out.println("StringToInteger");
-        String valor = "";
-        int expResult = 0;
+        System.out.println("StringToInteger TEST OK");
+        String valor = "161";
+        int expResult = 161;
         int result = ConvertionUtil.StringToInteger(valor);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+    
+    @Test
+    public void testStringToInteger2() {
+        System.out.println("StringToInteger TEST ERROR");
+        String valor = "hola";
+        String result="";
+        String expResult = "NumberFormatException";
+
+        try{
+       ConvertionUtil.StringToInteger(valor);
+        } catch (NumberFormatException nfe)
+        {
+            result="NumberFormatException";
+            assertEquals(expResult, result);
+        }
+      
     }
 
     /**
@@ -57,13 +51,28 @@ public class ConvertionUtilTest {
      */
     @Test
     public void testStringToDate() throws Exception {
-        System.out.println("StringToDate");
-        String fecha = "";
-        Date expResult = null;
+        System.out.println("StringToDate TEST ERROR");
+        String fecha = Date.from(Instant.now()).toString();
+        String expResult = "Unparseable date";
+        String result="";
+        try{
+            ConvertionUtil.StringToDate(fecha);   
+           
+               result="TODO OK";
+        }catch(Exception  ex)
+           { 
+             result="Unparseable date";
+             assertEquals(expResult, result);            
+           } 
+    }
+    
+    @Test
+    public void testStringToDate2() throws Exception {
+        System.out.println("StringToDate TEST OK");
+        String fecha = "04/05/2017/";
+        Date expResult = new SimpleDateFormat("dd/mm/yyyy").parse(fecha);
         Date result = ConvertionUtil.StringToDate(fecha);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -72,11 +81,9 @@ public class ConvertionUtilTest {
     @Test
     public void testCurrentDate() {
         System.out.println("CurrentDate");
-        String expResult = "";
+        String expResult = "06/09/2017";
         String result = ConvertionUtil.CurrentDate();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

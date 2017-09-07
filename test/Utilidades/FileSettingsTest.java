@@ -5,155 +5,69 @@
  */
 package Utilidades;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import java.util.List;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  *
  * @author SG0891660
  */
 public class FileSettingsTest {
-    
-    public FileSettingsTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
 
-    /**
-     * Test of isIsMultipart method, of class FileSettings.
-     */
-    @Test
-    public void testIsIsMultipart() {
-        System.out.println("isIsMultipart");
-        boolean expResult = false;
-        boolean result = FileSettings.isIsMultipart();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+//    /**
+//     * Test of GuardarArchivoEndDisco method, of class FileSettings.//     */
+//    @Test
+//    public void testGuardarArchivoEndDisco() throws Exception {
+//        System.out.println("GuardarArchivoEndDisco");
+//        DiskFileItemFactory factory = new DiskFileItemFactory();
+//        factory.setSizeThreshold(FileSettings.getMaxMemSize());
+//        ServletFileUpload upload = new ServletFileUpload(factory);
+//        HttpServletRequest request = null;
+//
+//        List fileItems = upload.parseRequest(request);
+//        Iterator i = fileItems.iterator();
+//        String url = "c:\\";
+//        String expResult = "";
+//        String result = FileSettings.GuardarArchivoEndDisco(i, url);
+//        assertEquals(expResult, result);
+//    }
 
-    /**
-     * Test of setIsMultipart method, of class FileSettings.
-     */
     @Test
-    public void testSetIsMultipart() {
-        System.out.println("setIsMultipart");
-        boolean ismultipart = false;
-        FileSettings.setIsMultipart(ismultipart);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+    public void testDoPost() throws Exception {
 
-    /**
-     * Test of getMaxFileSize method, of class FileSettings.
-     */
-    @Test
-    public void testGetMaxFileSize() {
-        System.out.println("getMaxFileSize");
-        int expResult = 0;
-        int result = FileSettings.getMaxFileSize();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getMaxMemSize method, of class FileSettings.
-     */
-    @Test
-    public void testGetMaxMemSize() {
-        System.out.println("getMaxMemSize");
-        int expResult = 0;
-        int result = FileSettings.getMaxMemSize();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getMultipartConfiglocation method, of class FileSettings.
-     */
-    @Test
-    public void testGetMultipartConfiglocation() {
-        System.out.println("getMultipartConfiglocation");
-        String expResult = "";
-        String result = FileSettings.getMultipartConfiglocation();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getMultipartConfigfileSizeThreshold method, of class FileSettings.
-     */
-    @Test
-    public void testGetMultipartConfigfileSizeThreshold() {
-        System.out.println("getMultipartConfigfileSizeThreshold");
-        int expResult = 0;
-        int result = FileSettings.getMultipartConfigfileSizeThreshold();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getMultipartConfigmaxFileSize method, of class FileSettings.
-     */
-    @Test
-    public void testGetMultipartConfigmaxFileSize() {
-        System.out.println("getMultipartConfigmaxFileSize");
-        int expResult = 0;
-        int result = FileSettings.getMultipartConfigmaxFileSize();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getMultipartConfigmaxRequestSize method, of class FileSettings.
-     */
-    @Test
-    public void testGetMultipartConfigmaxRequestSize() {
-        System.out.println("getMultipartConfigmaxRequestSize");
-        int expResult = 0;
-        int result = FileSettings.getMultipartConfigmaxRequestSize();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of GuardarArchivoEndDisco method, of class FileSettings.
-     */
-    @Test
-    public void testGuardarArchivoEndDisco() throws Exception {
         System.out.println("GuardarArchivoEndDisco");
-        Iterator items = null;
-        String url = "";
-        String expResult = "";
-        String result = FileSettings.GuardarArchivoEndDisco(items, url);
+        String result="";
+        String filePath = "c:";
+       
+             
+        DiskFileItemFactory factory = new DiskFileItemFactory();               
+        factory.setSizeThreshold(FileSettings.getMaxMemSize());                                
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        upload.setSizeMax( FileSettings.getMaxFileSize() );       
+        List fileItems =  new ArrayList<>();        
+        FileItem fi = factory.createItem("formFieldName", "application/text", false, "c:\\eula3052.txt");                             
+        fi.getOutputStream();
+        fileItems.add(fi);
+        Iterator i = fileItems.iterator();   
+        
+       // final File TEST_FILE = new File("src/test/resources/test.jpg");
+        //final DiskFileItem diskFileItem = new DiskFileItem("file", "image/jpeg", true, TEST_FILE.getName(), 100000000, TEST_FILE.getParentFile());
+        
+        
+        result=FileSettings.GuardarArchivoEndDisco(i,filePath+"\\");                
+        String url = "c:\\";
+        String expResult = "c:\\eula3052.txt";
+        
+
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
+    
+
 }

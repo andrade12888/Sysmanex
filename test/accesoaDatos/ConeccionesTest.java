@@ -18,52 +18,7 @@ import static org.junit.Assert.*;
  *
  * @author SG0891660
  */
-public class ConeccionesTest {
-    
-    public ConeccionesTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of Disconnet method, of class Conecciones.
-     */
-    @Test
-    public void testDisconnet() {
-        System.out.println("Disconnet");
-        Conecciones instance = new Conecciones();
-        instance.Disconnet();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getConnect method, of class Conecciones.
-     */
-    @Test
-    public void testGetConnect() {
-        System.out.println("getConnect");
-        Conecciones instance = new Conecciones();
-        Connection expResult = null;
-        Connection result = instance.getConnect();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+public class ConeccionesTest {             
 
     /**
      * Test of hacerConsulta method, of class Conecciones.
@@ -71,13 +26,14 @@ public class ConeccionesTest {
     @Test
     public void testHacerConsulta() throws Exception {
         System.out.println("hacerConsulta");
-        String query = "";
+        String query = "select * from \"SysmanexSch1\".\"Empresa\" where \"empresaNombre\" ='LUGRA';";
         Conecciones instance = new Conecciones();
-        ResultSet expResult = null;
-        ResultSet result = instance.hacerConsulta(query);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String expResult = "LUGRA";
+        ResultSet results = instance.hacerConsulta(query);
+        String result="";
+        while(results.next())
+        {result =results.getString("empresaNombre");}
+        assertEquals(expResult, result);        
     }
 
     /**
@@ -86,13 +42,12 @@ public class ConeccionesTest {
     @Test
     public void testHacerConsultaIUD() throws Exception {
         System.out.println("hacerConsultaIUD");
-        String query = "";
+        String query = "INSERT INTO \"SysmanexSch1\".\"Empresa\" (\"empresaRut\", \"empresaNombre\") \n" +
+"	VALUES ('1234567', 'TEST')";
         Conecciones instance = new Conecciones();
-        int expResult = 0;
+        int expResult = 1;
         int result = instance.hacerConsultaIUD(query);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
     
 }

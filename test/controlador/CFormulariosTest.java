@@ -5,6 +5,9 @@
  */
 package controlador;
 
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.junit.After;
@@ -18,7 +21,7 @@ import static org.junit.Assert.*;
  *
  * @author SG0891660
  */
-public class CFormulariosTest {
+public class CFormulariosTest extends HttpServlet  {
     
     public CFormulariosTest() {
     }
@@ -95,4 +98,13 @@ public class CFormulariosTest {
         fail("The test case is a prototype.");
     }
     
+     @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {       
+    }
+    
+     @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {       
+    }
 }

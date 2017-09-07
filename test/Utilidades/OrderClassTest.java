@@ -5,12 +5,8 @@
  */
 package Utilidades;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -18,35 +14,18 @@ import static org.junit.Assert.*;
  */
 public class OrderClassTest {
     
-    public OrderClassTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    /**
-     * Test of QSort method, of class OrderClass.
-     */
     @Test
     public void testQSort() {
         System.out.println("QSort");
-        int[] inputArr = null;
-        OrderClass.QSort(inputArr);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int[] inputArr = new int[]{1,7,3,5,0};       
+        OrderClass.QSort(inputArr);    
+        String result="";
+        for(int x=0; x<inputArr.length;x++)
+            result += inputArr[x]+"";
+        String expResult = "01357";
+        
+
+        assertEquals(expResult, result);
     }
     
 }
