@@ -50,7 +50,26 @@
     background-color: #e9f5f1;
     color: forestgreen;
 }
-
+.ulObservacion{
+    border: 1px solid #337ab7;
+    border-radius: 15px;
+    list-style-type: none;
+}
+.liFechaEntidadObservacion{
+    font-style: italic;
+    font-size: small;
+}
+.liDetalleObservacion{
+    background-color: #fbf6c8;
+    margin-right: 40px;
+    margin-bottom: 10px;
+    padding: 5px 15px 5px 15px;
+    border-radius: 5px;
+}
+#divObservaciones{
+        overflow: scroll;
+    height: 300px;
+}
 
 
 @media (min-width: 1000px) {

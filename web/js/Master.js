@@ -141,6 +141,11 @@ function modalEnvio(nroExp) {
     $("#modalExpedienteLabel").html("Expediente N:" + nroExp);
     $("#modalExpediente").modal("show");
 }
+function modalObservacion(nroExp) {
+    $("#txtExpedienteEnvio").val(nroExp);
+    $("#modalObservacionLabel").html("Expediente N:" + nroExp);
+    $("#modalObservacion").modal("show");
+}
 
 function modalEliminarTramite(id) {
 
@@ -270,14 +275,47 @@ function ExpedAtras() {
 }
 
 function ModalSeguimiento(nro) {
-    arbolSeguimiento(nro);  
+    arbolSeguimiento(nro);
     $("#modalExpedienteSegimiento").modal("show");
 }
-function arbolSeguimiento(nro){    
+function arbolSeguimiento(nro) {
     $.get('CExpediente.do', {
         idExpediente: nro
-    }, function (responseText) {        
+    }, function (responseText) {
         $('#jstree').html(responseText);
         $('#jstree').jstree();
     });
+}
+
+function modalAgregarObservacion() {
+    $("#modalExpedienteObsevacion").modal("show");
+}
+
+function agregarObservacionExpediente() {
+    var params = {
+        txtObservacion: $("#txtObservacion").val(),
+        txtExpedienteEnvio: $("#txtExpedienteEnvio").val()
+    };
+    var d = new Date();
+    $.ajax({
+        url: "CEditarExpediente",
+        data: params,
+        type: "POST",
+        success: function () {
+            $('#divObservaciones').append(
+                    "<div class=\"listaDetalle\">"+
+                    "<ul class='ulObservacion'>"
+                        + "<li class='liFechaEntidadObservacion'>" + $("#conectadoNombre").html() + "  -  " +d.getFullYear()+"-" + d.getMonth()+"-"+d.getDate()+"</li>"
+                        + "<li class='liDetalleObservacion'><span>" + $("#txtObservacion").val() + "</span></li>"                        
+                        + "</ul></div>"
+                    );
+        }
+        , error: function (e) {
+            alert(JSON.stringify(e));
+        }
+    });
+    $("#txtObservacion").empty();
+    $("#modalExpedienteObsevacion").modal("toggle");
+
+
 }

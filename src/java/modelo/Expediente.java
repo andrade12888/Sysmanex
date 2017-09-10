@@ -230,11 +230,13 @@ public class Expediente {
         this.entidadOrigien = entidadOrigien;
         this.listaArchivosExpediente = new ArrayList<String>();
         this.listaDestinariosExpediente = new ArrayList<Entidad>();
+        this.listaDetalle = new ArrayList<String>();
     }
 
     public Expediente() {
         this.listaArchivosExpediente = new ArrayList<String>();
         this.listaDestinariosExpediente = new ArrayList<Entidad>();
+        this.listaDetalle = new ArrayList<String>();
     }
 
     public Expediente(String numeroExpediente, String fechaExpediente, String asuntoExpediente, boolean expedientePublico, Tramite TramiteExpediente, Entidad entidadOrigien, Estado estadoExpediente, Motivo motivoExpediente) {
@@ -248,6 +250,7 @@ public class Expediente {
         this.motivoExpediente = motivoExpediente;
         this.listaArchivosExpediente = new ArrayList<String>();
         this.listaDestinariosExpediente = new ArrayList<Entidad>();
+        this.listaDetalle = new ArrayList<String>();
     }
 
 //</editor-fold>
@@ -287,83 +290,7 @@ public class Expediente {
         }
         return resultado;
     }
-
-    public int AgregarArchivoExpediente(String url) {
-        Conecciones conDB = new Conecciones();
-        int resultado;
-        String query = "INSERT INTO \"SysmanexSch1\".\"Archivo\" VALUES ('" + url + "','" + this.getNumeroExpediente() + "');";
-        try {
-            resultado = conDB.hacerConsultaIUD(query);
-        } catch (SQLException ex) {
-            resultado = 2;
-        }
-        return resultado;
-    }
-
-    public ResultSet BuscarExpedientePorNumero(String numeroExpediente) {
-        Conecciones conDB = new Conecciones();
-
-        ResultSet rs;
-        String query = "SELECT ex.\"expedienteEntidadId\",ex.\"expedienteNumero\",tra.\"tramiteNombre\", ex.\"expedienteAsunto\",en.\"entidadNombre\", ex.\"expedienteFecha\",\n"
-                + "mo.\"motivoDescripcion\",ex.\"expedientePublico\""
-                + "FROM \"SysmanexSch1\".\"Expediente\" as ex, \"SysmanexSch1\".\"Tramite\" as tra, \"SysmanexSch1\".\"Entidad\" as en, \n"
-                + "\"SysmanexSch1\".\"Motivo\" as mo, \"SysmanexSch1\".\"Estado\" as es\n"
-                + "WHERE tra.\"tramiteId\" = ex.\"expedienteTramiteId\"\n"
-                + "AND ex.\"expedienteEntidadId\" = en.\"entidadId\"\n"
-                + "AND ex.\"expedienteBaja\" = false\n"
-                + "AND ex.\"expedienteNumero\" LIKE '%" + numeroExpediente + "%'";
-        try {
-            rs = conDB.hacerConsulta(query);
-            return rs;
-        } catch (SQLException ex) {
-            return null;
-        }
-    }
-
-    public void AgregarDetalle(String detalle, int entidadId) {
-        Conecciones conDB = new Conecciones();
-
-        String query = "INSERT INTO \"SysmanexSch1\".\"ExpedienteDetalle\"("
-                + " \"expedienteDetalleNumero\", \"expedienteDetalleDescripcion\", \"expedienteDetalleEntidadId\", \"expedienteDetalleFecha\")"
-                + " VALUES ('" + this.numeroExpediente + "', '" + detalle + "', " + entidadId + ", CURRENT_DATE);";
-        try {
-
-            int resultado = conDB.hacerConsultaIUD(query);
-
-        } catch (SQLException ex) {
-
-        }
-    }
-
-    public void traerExpediente(String numeroExpediente) {
-        try {
-            ResultSet rs;
-            if (BuscarExpedientePorNumero(numeroExpediente) != null) {
-                rs = BuscarExpedientePorNumero(numeroExpediente);
-                while (rs.next()) {
-                    Entidad originador = new Entidad();
-                    originador.buscarEntidadId(rs.getInt("expedienteEntidadId"));
-
-                    this.setEntidadOrigien(originador);
-                    if (numeroExpediente.length() > 5) {
-                        this.numeroExpediente = numeroExpediente;
-                    } else {
-                        this.setNumeroExpediente(numeroExpediente, originador.getEntidadId());
-                    }
-
-                    this.setAsuntoExpediente(rs.getString("expedienteAsunto"));
-                    this.setFechaExpediente(rs.getString("expedienteFecha"));
-                    this.setExpedientePublico(rs.getBoolean("expedientePublico"));
-                    Tramite unTramite = new Tramite();
-                    unTramite.BuscarTramiteNombre(rs.getString("tramiteNombre"));
-                    this.setTramiteExpediente(unTramite);
-                }
-            }
-        } catch (SQLException ex) {
-
-        }
-    }
-
+    
     protected static ResultSet Destinos(String numeroExpediente) throws SQLException {
         Conecciones conDB = new Conecciones();
         ResultSet rs;
@@ -410,6 +337,157 @@ public class Expediente {
         }
     }
 
+    
+
+    // Funciones de busqueda
+    public static int BuscarExpedientePorTramite(int tramiteId) {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+        int resultado = 0;
+
+        String query = "SELECT \"expedienteNumero\" FROM \"SysmanexSch1\".\"Expediente\" WHERE \"expedienteTramiteId\" = " + tramiteId + "";
+        try {
+            rs = conDB.hacerConsulta(query);
+            while (rs.next()) {
+                if (!"".equals(rs.getString("expedienteNumero"))) {
+                    resultado = 2;
+                }
+            }
+        } catch (SQLException ex) {
+            return -1;
+        }
+
+        return resultado;
+    }
+    public ResultSet BuscarExpedientePorNumero(String numeroExpediente) {
+        Conecciones conDB = new Conecciones();
+
+        ResultSet rs;
+        String query = "SELECT ex.\"expedienteEntidadId\",ex.\"expedienteNumero\",tra.\"tramiteNombre\", ex.\"expedienteAsunto\",en.\"entidadNombre\", ex.\"expedienteFecha\",\n"
+                + "mo.\"motivoDescripcion\",ex.\"expedientePublico\""
+                + "FROM \"SysmanexSch1\".\"Expediente\" as ex, \"SysmanexSch1\".\"Tramite\" as tra, \"SysmanexSch1\".\"Entidad\" as en, \n"
+                + "\"SysmanexSch1\".\"Motivo\" as mo, \"SysmanexSch1\".\"Estado\" as es\n"
+                + "WHERE tra.\"tramiteId\" = ex.\"expedienteTramiteId\"\n"
+                + "AND ex.\"expedienteEntidadId\" = en.\"entidadId\"\n"
+                + "AND ex.\"expedienteBaja\" = false\n"
+                + "AND ex.\"expedienteNumero\" LIKE '%" + numeroExpediente + "%'";
+        try {
+            rs = conDB.hacerConsulta(query);
+            return rs;
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+    public void traerExpediente(String numeroExpediente) {
+        try {
+            ResultSet rs;
+            if (BuscarExpedientePorNumero(numeroExpediente) != null) {
+                rs = BuscarExpedientePorNumero(numeroExpediente);
+                while (rs.next()) {
+                    Entidad originador = new Entidad();
+                    originador.buscarEntidadId(rs.getInt("expedienteEntidadId"));
+
+                    this.setEntidadOrigien(originador);
+                    if (numeroExpediente.length() > 5) {
+                        this.numeroExpediente = numeroExpediente;
+                    } else {
+                        this.setNumeroExpediente(numeroExpediente, originador.getEntidadId());
+                    }
+
+                    this.setAsuntoExpediente(rs.getString("expedienteAsunto"));
+                    this.setFechaExpediente(rs.getString("expedienteFecha"));
+                    this.setExpedientePublico(rs.getBoolean("expedientePublico"));
+                    Tramite unTramite = new Tramite();
+                    unTramite.BuscarTramiteNombre(rs.getString("tramiteNombre"));
+                    this.setTramiteExpediente(unTramite);
+                }
+            }
+        } catch (SQLException ex) {
+
+        }
+    }
+    
+    // Funciones de Archivos
+    public void traerArchivos() {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+        String query = "SELECT * FROM \"SysmanexSch1\".\"Archivo\"\n"
+                + " WHERE \"ExpedienteNumero\" = '" + this.getNumeroExpediente() + "'"
+                + " ORDER BY \"ArchivoURL\" ASC, \"ExpedienteNumero\" ASC";
+        try {
+            rs = conDB.hacerConsulta(query);
+            while (rs.next()) {
+                this.getListaArchivosExpediente().add(rs.getString("ArchivoURL"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public int AgregarArchivoExpediente(String url) {
+        Conecciones conDB = new Conecciones();
+        int resultado;
+        String query = "INSERT INTO \"SysmanexSch1\".\"Archivo\" VALUES ('" + url + "','" + this.getNumeroExpediente() + "');";
+        try {
+            resultado = conDB.hacerConsultaIUD(query);
+        } catch (SQLException ex) {
+            resultado = 2;
+        }
+        return resultado;
+    }
+
+    // Funciones de Cambio de estado
+    public void leerExpediente(int entidadId) {
+        Conecciones conDB = new Conecciones();
+
+        String query = "UPDATE \"SysmanexSch1\".\"ExpedienteEntidad\" "
+                + "SET \"ExpedienteEstadoId\"=1, \"ExpedienteEntidadFechaRecibido\" = CURRENT_DATE "
+                + "WHERE \"ExpedienteNumero\" = '" + this.getNumeroExpediente() + "' "
+                + "AND \"DestinatarioEntidadId\"=" + entidadId
+                + " AND \"ExpedienteEstadoId\" = 2 ";
+        try {
+            int resultado = conDB.hacerConsultaIUD(query);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    
+    //  Funciones de Detalles
+    public void traerDetalle() {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+        String query = "SELECT * FROM \"SysmanexSch1\".\"ExpedienteDetalle\""
+                + " WHERE \"expedienteDetalleNumero\" = '" + this.getNumeroExpediente() + "'"
+                + " ORDER BY \"expedienteDetalleNumero\" ASC ";
+        try {
+            rs = conDB.hacerConsulta(query);
+            while (rs.next()) {
+                this.getListaDetalle().add(rs.getString("expedienteDetalleNumero")+"-"+rs.getString("expedienteDetalleDescripcion")
+                        +"-"+rs.getInt("expedienteDetalleEntidadId")+"-"+rs.getString("expedienteDetalleFecha"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void AgregarDetalle(String detalle, int entidadId) {
+        Conecciones conDB = new Conecciones();
+
+        String query = "INSERT INTO \"SysmanexSch1\".\"ExpedienteDetalle\"("
+                + " \"expedienteDetalleNumero\", \"expedienteDetalleDescripcion\", \"expedienteDetalleEntidadId\", \"expedienteDetalleFecha\")"
+                + " VALUES ('" + this.numeroExpediente + "', '" + detalle + "', " + entidadId + ", CURRENT_DATE);";
+        try {
+
+            int resultado = conDB.hacerConsultaIUD(query);
+
+        } catch (SQLException ex) {
+
+        }
+    }
+    
+    
+    // Funciones de Seguimiento
     public String mostrarSeguimiento(String nume) {
         if (nume == "") {
             return "huvo un error";
@@ -442,151 +520,6 @@ public class Expediente {
         Motivo unMotivo = new Motivo();
         unMotivo.BuscarMotivo(id);
         return unMotivo.getMotivoDescripcion();
-    }
-
-    public static int BuscarExpedientePorTramite(int tramiteId) {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;
-        int resultado = 0;
-
-        String query = "SELECT \"expedienteNumero\" FROM \"SysmanexSch1\".\"Expediente\" WHERE \"expedienteTramiteId\" = " + tramiteId + "";
-        try {
-            rs = conDB.hacerConsulta(query);
-            while (rs.next()) {
-                if (!"".equals(rs.getString("expedienteNumero"))) {
-                    resultado = 2;
-                }
-            }
-        } catch (SQLException ex) {
-            return -1;
-        }
-
-        return resultado;
-    }
-
-    public void traerArchivos() {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;
-        String query = "SELECT * FROM \"SysmanexSch1\".\"Archivo\"\n"
-                + " WHERE \"ExpedienteNumero\" = '" + this.getNumeroExpediente() + "'"
-                + " ORDER BY \"ArchivoURL\" ASC, \"ExpedienteNumero\" ASC";
-        try {
-            rs = conDB.hacerConsulta(query);
-            while (rs.next()) {
-                this.getListaArchivosExpediente().add(rs.getString("ArchivoURL"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void leerExpediente(int entidadId) {
-        Conecciones conDB = new Conecciones();
-
-        String query = "UPDATE \"SysmanexSch1\".\"ExpedienteEntidad\" "
-                + "SET \"ExpedienteEstadoId\"=1, \"ExpedienteEntidadFechaRecibido\" = CURRENT_DATE "
-                + "WHERE \"ExpedienteNumero\" = '" + this.getNumeroExpediente() + "' "
-                + "AND \"DestinatarioEntidadId\"=" + entidadId
-                + " AND \"ExpedienteEstadoId\" = 2 ";
-        try {
-            int resultado = conDB.hacerConsultaIUD(query);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
-    public void traerDetalle() {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;
-        String query = "SELECT * FROM \"SysmanexSch1\".\"ExpedienteDetalle\""
-                + " WHERE \"expedienteDetalleNumero\" = '" + this.getNumeroExpediente() + "'"
-                + " ORDER BY \"expedienteDetalleNumero\" ASC ";
-        try {
-            rs = conDB.hacerConsulta(query);
-            while (rs.next()) {
-                this.getListaDetalle().add(rs.getString("expedienteDetalleNumero"));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-     private static ResultSet ExpedientesVencidos(int idMotivo) {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;
-        String query = "SELECT * FROM \"SysmanexSch1\".\"ExpedienteEntidad\""
-                + " WHERE \"ExpedienteEstadoId\" = " + idMotivo;
-        try {
-            rs = conDB.hacerConsulta(query);          
-        } catch (SQLException ex) {
-           return null;
-        }        
-        return  rs;
-    }
-
-    public static String TablaReportesVencidos()
-    {
-        String tabla = "";
-        try {
-            ResultSet rs = ExpedientesVencidos(8);
-            while (rs.next()) {
-                tabla += "<thead>\n" +
-"                        <tr>\n" +
-"                            <th>Numero Expediente</th>\n" +
-"                            <th>Fecha Envio</th>\n" +
-"                            <th>Fecha ibido</th>\n" +
-"                            <th>Observacion</th>\n" +
-"                        </tr>\n" +
-"                    </thead>\n" +
-"                    <tbody>\n" +
-"                        <tr>\n" +
-"                            <td>"+ rs.getString("ExpedienteNumero") +"</td>\n" +
-"                            <td>"+ rs.getString("ExpedienteEntidadFechaEnvio") +"</td>\n" +
-"                            <td>"+ rs.getString("ExpedienteEntidadFechaRecibido") +"</td>\n" +
-"                            <td>"+ rs.getString("ExpedienteEntidadObservacion") +"</td>\n" +
-"                        </tr>\n" +
-"                             \n" +
-"                    </tbody>";
-            }
-            tabla += "";
-            
-            return tabla;
-        } catch (SQLException ex) {
-            return tabla;
-        }
-
-    }
-    
-    public static ResultSet ExpedientesVencidosPorAno(String year)
-    {
-        Conecciones conDB = new Conecciones();
-        ResultSet rs;  
-        Estado e = new Estado();
-                
-        e.BuscarEstadoDescripcion("Vencido");
-        
-        String query ="SELECT EE.\"ExpedienteNumero\",\n" +
-                "             EE.\"ExpedienteEntidadFechaEnvio\" AS \"Fecha De Envio\",\n" +
-              "             COUNT(EE.\"ExpedienteEntidadFechaEnvio\") AS \"Cantidad de Expedientes Vencidos\"\n" +
-                "      FROM \"SysmanexSch1\".\"ExpedienteEntidad\" EE\n" +
-
-                "      WHERE \n" + "EE.\"ExpedienteEstadoId\"=8"+
-                "           AND EE.\"ExpedienteEntidadFechaEnvio\" BETWEEN  date_trunc('year', date '"+year+"') AND (SELECT date_trunc('year', date '"+year+"') + INTERVAL '12 MONTH -1 DAY')   \n" +
-                "      GROUP BY EE.\"ExpedienteNumero\",\n" +
-                "               EE.\"ExpedienteEntidadFechaEnvio\"\n" +
-
-                "      ORDER BY EE.\"ExpedienteEntidadFechaEnvio\" ASC";
-        
-        try {
-             rs = conDB.hacerConsulta(query);
-
-        } catch (SQLException ex) {
-           return null;
-        }
-        
-        return rs;
     }
 
 }

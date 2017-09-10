@@ -6,6 +6,7 @@
 package controlador;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import modelo.Entidad;
 import modelo.Expediente;
+import modelo.Persona;
+import modelo.UnidadArmada;
 
 /**
  *
@@ -33,13 +36,25 @@ public class CVisualizarExpediente extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Entidad u1 = (Entidad) request.getSession().getAttribute("usuarioLogeado");
+        String conectado = "";
+        Persona unPersona = new Persona();
+        unPersona.BuscarPersonaPorId(u1.getEntidadId());
+        if (unPersona.getCiPersona() != null) {
+            conectado = unPersona.getNombrePersona() + " " + unPersona.getApellidoPersona();
+        } else {
+            UnidadArmada unaUnidad = new UnidadArmada();
+            unaUnidad.BuscarUnidadEntidadId(u1.getEntidadId());
+            conectado = unaUnidad.getSigla();
+        }
+
         String nroExped = request.getParameter("nroExped");
         Expediente unExpediente = new Expediente();
         unExpediente.traerExpediente(nroExped);
         unExpediente.traerArchivos();
+        unExpediente.traerDetalle();
         unExpediente.leerExpediente(u1.getEntidadId());
         int iterador = 0;
-        if (unExpediente.getListaArchivosExpediente().size() > 0) {
+        if (unExpediente.getListaArchivosExpediente() != null) {
             String tabla = "<table class=\"table table-striped\"><tr><th>Archivo</th></tr>";
             for (String archivo : unExpediente.getListaArchivosExpediente()) {
                 tabla = tabla + "<tr><td><a class=\"doc\" data-fancybox-type=\"iframe\" href=\"" + archivo + "\">" + nroExped + iterador + "</a></td></tr>";
@@ -47,6 +62,31 @@ public class CVisualizarExpediente extends HttpServlet {
             }
             tabla = tabla + "</table>";
             request.setAttribute("tablaArchivos", tabla);
+        }
+        if (unExpediente.getListaDetalle() != null) {
+            String tabla = "<div class=\"listaDetalle\">";
+            for (String detalle : unExpediente.getListaDetalle()) {
+                String string = detalle;
+                String[] partes = string.split("#");
+                String originador = "";
+                Persona unaPersona = new Persona();
+                unaPersona.BuscarPersonaPorId(Integer.parseInt(partes[2]));
+                if (unaPersona.getCiPersona() != null) {
+                    originador = unaPersona.getNombrePersona() + " " + unaPersona.getApellidoPersona();
+                } else {
+                    UnidadArmada unaUnidad = new UnidadArmada();
+                    unaUnidad.BuscarUnidadEntidadId(Integer.parseInt(partes[2]));
+                    originador = unaUnidad.getSigla();
+                }
+
+                tabla = tabla + "<ul class='ulObservacion'>"
+                        + "<li class='liFechaEntidadObservacion'>" + originador + "  -  " + partes[3] + "</li>"
+                        + "<li class='liDetalleObservacion'><span>" + partes[1] + "</span></li>"
+                        + "</ul>";
+                iterador++;
+            }
+            tabla = tabla + "</div>";
+            request.setAttribute("listaDetalle", tabla);
         }
 
         request.setAttribute("tablaTramitados", unExpediente.mostrarSeguimiento(nroExped));
