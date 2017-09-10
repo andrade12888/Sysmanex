@@ -91,6 +91,7 @@ public class CVisualizarExpediente extends HttpServlet {
 
         request.setAttribute("tablaTramitados", unExpediente.mostrarSeguimiento(nroExped));
         request.setAttribute("numeroExpediente", nroExped);
+                request.setAttribute("conecadoNombre", conectado);
         request.setAttribute("asuntoExpediente", unExpediente.getAsuntoExpediente());
         request.setAttribute("fechaExpediente", unExpediente.getFechaExpediente());
         request.setAttribute("entidadExpediete", unExpediente.getEntidadOrigien().getNombreEntidad());

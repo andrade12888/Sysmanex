@@ -81,7 +81,7 @@
                                     </li>
                                 </ul>                                                                      
                             </li>                                                                         
-
+                            <li><a href="customReports.jsp">Reportes</a></li>
                             <li class="ax"></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
@@ -90,5 +90,5 @@
 
             </nav>
             <div class="usuarioLogeado"><label class="lblUsuarioLogeado">Bienvenido! 
-                    <span id="conectadoNombre" value="<%= u1.getNombreEntidad()%>"><%= u1.getNombreEntidad()%>  </span></label>(<a href="logout.jsp">salir</a>)</div>
+                    <%= u1.getNombreEntidad()%></label>(<a href="logout.jsp">salir</a>)</div>
         </div>

@@ -305,7 +305,7 @@ function agregarObservacionExpediente() {
             $('#divObservaciones').append(
                     "<div class=\"listaDetalle\">"+
                     "<ul class='ulObservacion'>"
-                        + "<li class='liFechaEntidadObservacion'>" + $("#conectadoNombre").html() + "  -  " +d.getFullYear()+"-" + d.getMonth()+"-"+d.getDate()+"</li>"
+                        + "<li class='liFechaEntidadObservacion'>" + $("#conectadoNombre").val() + "  -  " +d.getFullYear()+"-" + d.getMonth()+"-"+d.getDate()+"</li>"
                         + "<li class='liDetalleObservacion'><span>" + $("#txtObservacion").val() + "</span></li>"                        
                         + "</ul></div>"
                     );

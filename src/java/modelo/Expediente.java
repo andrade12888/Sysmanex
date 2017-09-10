@@ -464,8 +464,8 @@ public class Expediente {
         try {
             rs = conDB.hacerConsulta(query);
             while (rs.next()) {
-                this.getListaDetalle().add(rs.getString("expedienteDetalleNumero")+"-"+rs.getString("expedienteDetalleDescripcion")
-                        +"-"+rs.getInt("expedienteDetalleEntidadId")+"-"+rs.getString("expedienteDetalleFecha"));
+                this.getListaDetalle().add(rs.getString("expedienteDetalleNumero")+"#"+rs.getString("expedienteDetalleDescripcion")
+                        +"#"+rs.getInt("expedienteDetalleEntidadId")+"#"+rs.getString("expedienteDetalleFecha"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Expediente.class.getName()).log(Level.SEVERE, null, ex);
@@ -522,4 +522,79 @@ public class Expediente {
         return unMotivo.getMotivoDescripcion();
     }
 
+    private static ResultSet ExpedientesVencidos(int idMotivo) {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;
+        String query = "SELECT * FROM \"SysmanexSch1\".\"ExpedienteEntidad\""
+                + " WHERE \"ExpedienteEstadoId\" = " + idMotivo;
+        try {
+            rs = conDB.hacerConsulta(query);          
+        } catch (SQLException ex) {
+           return null;
+        }        
+        return  rs;
+    }
+
+    public static String TablaReportesVencidos()
+    {
+        String tabla = "";
+        try {
+            ResultSet rs = ExpedientesVencidos(8);
+            while (rs.next()) {
+                tabla += "<thead>\n" +
+"                        <tr>\n" +
+"                            <th>Numero Expediente</th>\n" +
+"                            <th>Fecha Envio</th>\n" +
+"                            <th>Fecha ibido</th>\n" +
+"                            <th>Observacion</th>\n" +
+"                        </tr>\n" +
+"                    </thead>\n" +
+"                    <tbody>\n" +
+"                        <tr>\n" +
+"                            <td>"+ rs.getString("ExpedienteNumero") +"</td>\n" +
+"                            <td>"+ rs.getString("ExpedienteEntidadFechaEnvio") +"</td>\n" +
+"                            <td>"+ rs.getString("ExpedienteEntidadFechaRecibido") +"</td>\n" +
+"                            <td>"+ rs.getString("ExpedienteEntidadObservacion") +"</td>\n" +
+"                        </tr>\n" +
+"                             \n" +
+"                    </tbody>";
+            }
+            tabla += "";
+            
+            return tabla;
+        } catch (SQLException ex) {
+            return tabla;
+        }
+
+    }
+    
+    public static ResultSet ExpedientesVencidosPorAno(String year)
+    {
+        Conecciones conDB = new Conecciones();
+        ResultSet rs;  
+        Estado e = new Estado();
+                
+        e.BuscarEstadoDescripcion("Vencido");
+        
+        String query ="SELECT EE.\"ExpedienteNumero\",\n" +
+                "             EE.\"ExpedienteEntidadFechaEnvio\" AS \"Fecha De Envio\",\n" +
+              "             COUNT(EE.\"ExpedienteEntidadFechaEnvio\") AS \"Cantidad de Expedientes Vencidos\"\n" +
+                "      FROM \"SysmanexSch1\".\"ExpedienteEntidad\" EE\n" +
+
+                "      WHERE \n" + "EE.\"ExpedienteEstadoId\"=8"+
+                "           AND EE.\"ExpedienteEntidadFechaEnvio\" BETWEEN  date_trunc('year', date '"+year+"') AND (SELECT date_trunc('year', date '"+year+"') + INTERVAL '12 MONTH -1 DAY')   \n" +
+                "      GROUP BY EE.\"ExpedienteNumero\",\n" +
+                "               EE.\"ExpedienteEntidadFechaEnvio\"\n" +
+
+                "      ORDER BY EE.\"ExpedienteEntidadFechaEnvio\" ASC";
+        
+        try {
+             rs = conDB.hacerConsulta(query);
+
+        } catch (SQLException ex) {
+           return null;
+        }
+        
+        return rs;
+    }
 }

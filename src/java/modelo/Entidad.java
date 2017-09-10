@@ -372,7 +372,7 @@ public class Entidad {
         ResultSet rs;
 
         String query = "SELECT e.\"expedienteNumero\",e.\"expedienteAsunto\", t.\"tramiteNombre\", e.\"expedienteEntidadId\", ee.\"EnviadoEntidadId\",\n"
-                + "		t.\"tramitePlazo\"-(CURRENT_DATE - ee.\"ExpedienteEntidadFechaEnvio\") as restante, es.\"estadoDescripcion\"\n"
+                + "		t.\"tramitePlazo\"-(CURRENT_DATE - e.\"expedienteFecha\") as restante, es.\"estadoDescripcion\"\n"
                 + "FROM \"SysmanexSch1\".\"Expediente\" e, \"SysmanexSch1\".\"Tramite\" t, \"SysmanexSch1\".\"ExpedienteEntidad\" ee, \"SysmanexSch1\".\"Estado\" es\n"
                 + "WHERE e.\"expedienteNumero\" = ee.\"ExpedienteNumero\"\n"
                 + "AND es.\"estadoId\" = ee.\"ExpedienteEstadoId\"\n"
